@@ -1,5 +1,6 @@
 '''          
   My Monopoly
+  TODO : payPlaer(), Property exchange, CC card, buyHotel (menu and attemptPurchase option)
 '''
 
 from Squares import *
@@ -152,6 +153,13 @@ class Board:
     def getSquare(self, loc, fvTot):
         return self.squares[loc]
         
+    def listProperties(self):
+        print(' *** Properties')
+        i = 0
+        for s in self.squares:
+            print(f'i : {i}, {s}')
+            i += 1
+        
 class Piece:
     def __init__(self):
         self.loc = 0
@@ -273,7 +281,7 @@ class Player:
         else:
             if m.cup.double():
                 if self.nbDoubles == 3:
-                    print('Third consecutive double, goto Jail!')
+                    print('  Third consecutive double, goto Jail!')
                     self.inJail = True
                     self.piece.loc = 30
                     self.nbDoubles = 0
@@ -333,15 +341,24 @@ class Player:
             p.owner = None
         pass
     
-    def attemptPurchase(self, s: Square):
+    def attemptPurchase(self, s: Square, board):
         print(f'    Purchase {s.getPrice()}')
         pr = s.getPrice()
         if self.cash >= pr:
             self.reduceCash(pr)
             s.owner = self
             self.properties.append(s)
+            c = self.getCollection(s, board)
+            color = c.color
+            if self.ownCollection(color, board.collections):
+                print('  ** Got whole collection')
+                answer = input('      Buy houses ? ')
+                answer = answer.upper()
+                if answer == 'Y':
+                  menu(game, self)
+        
         else:
-            print('Not enough cash for purchase!')
+            print('  ** Not enough cash for purchase!')
             
     def ownProperty(self, s):
         return s.owner == self
@@ -350,27 +367,12 @@ class Player:
         for c in collections:
             if c.color == color:
                 break
-        print(f'collection color: {c.color}')
-        print(f'collection 1: {c.properties[1].address}')
-
-        print('c.p[0]: ', c.properties[0].address)
-        print('c.p[1]: ', c.properties[1].address)
-        print('c.p[2]: ', c.properties[2].address)
-        '''
-        print('c.p[0]: ', c.properties[0].owner.name)
-        print('c.p[1]: ', c.properties[1].owner.name)
-        print('c.p[2]: ', c.properties[2].owner.name)
-        '''
-#        print(f'collection 2: {c.properties[2].address}')
-#        print(f'collection 3: {c.properties[3].address}')
-        print(f'len(c.properties) = {len(c.properties)}')
-
+                
         for i in range(3):
             p = c.properties[i]
             if not p.owner:
                 return False
-            print(f'p = {p.address}')
-            print(f'c.properties[i] owner: {p.owner.name}')
+                
             if not self.ownProperty(c.properties[i]):
                 return False
                 
@@ -397,15 +399,12 @@ class Player:
     def buyHouse(self, board, s):
          
 #        print(' ownCollection : {ownCollection(color, board.collections)}')
-        c = self.getCollection(s, board)
-        color = c.color
-        
         if not self.ownCollection(color, board.collections):
-            print('You do not own collection')
+            print('  ** You do not own collection')
             return False
             
         if s.nbHouses == 4:
-            print('You have 4 houses, you should buy a hotel!')
+            print('  ** You have 4 houses, you should buy a hotel!')
             return False
             
         if self.cash >= s.price[s.nbHouses]:
@@ -416,18 +415,18 @@ class Player:
             self.printProperties()
             return True
         else:
-            print('Attempted to buy a house but not enough cash!')
+            print('  ** Attempted to buy a house but not enough cash!')
             return False
        
     def payRent(self, p, r):
         if ( r > self.cash):
-            print('I have no more money!!!')
+            print('  *** I have no more money!!!')
             if self.haveHouses():
                 self.cash += self.sellHouses(r - self.cash)
                 if ( r > self.cash):
                     self.cash += self.doMortgage(r - self.cash)
             else:
-                print('I have no houses to sell, trying mortgage')
+                print('  * I have no houses to sell, trying mortgage')
                 self.cash += self.doMortgage(r - self.cash)
         if ( r <= self.cash):
             print(f'    Paying rent: {r}')
@@ -456,7 +455,7 @@ class Player:
                 print(f'  UtilitySquare: rent = {rent}')
             elif square.canPurchase():
                 print('  Can purchase')
-                self.attemptPurchase(square)
+                self.attemptPurchase(square, game.board)
                 return True
             else:
                 if self != square.owner:
@@ -476,16 +475,13 @@ class Player:
         else:
             if square.canPurchase():
                 print('  Can purchase')
-                self.attemptPurchase(square)
+                self.attemptPurchase(square, game.board)
                 if isinstance(square, RRSquare):
                     self.RRCount += 1
                     square.rent = 50 * self.RRCount
                 return True
             else:
-                if isinstance(square, PropertySquare) and square.owner == self:
-                    self.buyHouse(game.board, square)
-                    return True
-                else:
+                if isinstance(square, PropertySquare) and not square.owner == self:
                     rent = square.getRent()
                 
             if rent != 0:
@@ -652,39 +648,32 @@ def menu(game, p):
     choice=''
     while choice != 'C':
         print('    **** Menu')
-        print('         P: Properties')
+        print('         L: List all properties')
+        print('         P: Own properties')
         print('         B: Buy house')
+        print('         E: Exchange properties')
         print('         C: Continue')
         choice = input('      Choice: ')
         choice = choice.upper()
         print('    You chose: ', choice)
         
         match choice:
+            case 'L':
+                game.board.listProperties()
             case 'P':
                 p.printProperties()
             case 'B':
                 print('  ** TODO!')
-                '''
-                game.board.squares[1].owner = p
-                game.board.squares[3].owner = p
-                game.board.squares[4].owner = p
-                print('Owner: ',game.board.squares[1].owner.name)
-                print('p[0]: ', game.board.collections[0].properties[0].address)
-                print('p[1]: ', game.board.collections[0].properties[1].address)
-                print('p[2]: ', game.board.collections[0].properties[2].address)
-                '''
-                print(p.ownCollection('Red', game.board.collections))
-                p.buyHouse(game.board, game.board.squares[1])
+                i = int(input("  Property's index: "))
+                p.buyHouse(game.board, game.board.squares[i])
 #                p.ownCollection('Yellow', game.board.collections)
-    
+            case 'E':
+                print('  ** TODO!')
+   
 def main():
     
     game = MonopolyGame()
     
-    i = 0
-    for s in game.board.squares:
-        print(f'i : {i}, {s}')
-        i += 1
     '''
     print(f'{game.board.collections[0].color} {game.board.collections[0].properties[0]}')
     square = game.board.squares[1]
