@@ -1,6 +1,6 @@
 '''          
   My Monopoly
-  TODO : payPlaer(), Property exchange, CC card, buyHotel (menu and attemptPurchase option)
+  TODO : payPlayer(), listOtherProperties, Property exchange, CC card, buyHotel (menu and attemptPurchase option)
 '''
 
 from Squares import *
@@ -297,9 +297,9 @@ class Player:
     def reduceCash(self, pr):
         self.cash -= pr
         
-    def printProperties(self):
+    def printProperties(self, board):
         for p in self.properties:
-            print(f'    Property[{self.properties.index(p)}]: {p}')
+            print(f'    Property[{board.squares.index(p)}]: {p}')
             if isinstance(p, PropertySquare):
                 print(f'      Houses: {p.nbHouses}')
 
@@ -311,7 +311,6 @@ class Player:
       
     def sellHouses(self, missedAmount):
         print('  ** Selling houses')
-        self.printProperties()
         props = [p for p in self.properties if isinstance(p, PropertySquare)]
         if props:
             props.sort(key=cmp_to_key(cmpHouses), reverse=True)
@@ -326,8 +325,7 @@ class Player:
                     props[i].setRent(props[i].getRent() - 100)
                 i += 1
                 
-            print(f'Sold for {saleAmount}')
-            self.printProperties()
+            print(f'  *** Sold for {saleAmount}.')
         
             return saleAmount
         else:
@@ -411,11 +409,10 @@ class Player:
             s.addHouse()
             self.reduceCash(s.priceProperty)
             s.setRent(s.getRent() + 100)
-            print('Bought a house!')
-            self.printProperties()
+            print('  *** Bought a house on {s}!')
             return True
         else:
-            print('  ** Attempted to buy a house but not enough cash!')
+            print('  *** Attempted to buy a house but not enough cash!')
             return False
        
     def payRent(self, p, r):
@@ -661,7 +658,7 @@ def menu(game, p):
             case 'L':
                 game.board.listProperties()
             case 'P':
-                p.printProperties()
+                p.printProperties(game.board)
             case 'B':
                 print('  ** TODO!')
                 i = int(input("  Property's index: "))
