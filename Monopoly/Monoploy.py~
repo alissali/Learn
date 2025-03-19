@@ -1,0 +1,101 @@
+from Squares import *
+import random
+'''          
+  MyMonopoly
+'''
+
+class Die:
+    faceValue = 6
+    
+    def roll(self):
+        return(6)
+
+class Cup:
+    dice = [Die for d in range(2)]
+         
+    def roll(self):
+        return round(random.random()*6 + 1)
+    
+    def getTotal():
+        return tot * 4
+                 
+class MonopolyGame:
+    def PlayedWith(d: Die):
+          pass
+
+class Square:
+    name = ''
+                
+class Board:
+    '''
+        Singleton
+    '''
+    squares = [Square for s in range(40) ]
+    
+    def getSquare():
+        pass
+    
+class Piece:             
+    location = Square()
+    
+    def isOn(s: Square):
+        pass
+    
+class Player:
+    name = ''
+    cash = 0
+    RRCount = 0
+    piece = Piece()
+    board = Board()
+    cup = Cup()   
+    
+    def plays(m: MonopolyGame):
+        pass               
+    
+    def takeTurn(self):
+        nonlocal cup
+        
+        fvTot = cup.roll()
+        loc = board.getSquare(loc, fvTot)
+        loc.landedOn(self)
+        print(f'loc = {loc}')
+                                     
+    def attemptPurchase(s: Square):
+        pr = s.getPrice()
+        if cash >= pr:
+            reduceCash(pr)
+    
+    def reduceCash(pr):
+        pass
+    
+    def addCash(pr):
+        pass         
+     
+     
+    def getRRCount(): 
+        return 25
+           
+class MGame: 
+    board = Board()
+    dice = [Die for d in range(2)]
+    roundCount = 0  
+    
+    def playGame():   
+        pass
+    
+    def playRound():
+        pass
+
+def main():
+ 
+        c = Cup()
+        v = c.roll() 
+        print(f'v = {v}')   
+        
+        p= Player()
+        p.takeTurn()
+
+if __name__ == '__main__':
+    main()
+    
+           

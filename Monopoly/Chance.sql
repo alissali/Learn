@@ -1,0 +1,15 @@
+INSERT INTO chanceCards Values ("Advance to Boardwalk.");
+INSERT INTO chanceCards Values ("Advance to Go (Collect $200).");
+INSERT INTO chanceCards Values ("Advance to Illinois Avenue. If you pass Go, collect $200.");
+INSERT INTO chanceCards Values ("Advance to St. Charles Place. If you pass Go, collect $200.");
+INSERT INTO chanceCards Values ("Advance to the nearest Railroad.");
+INSERT INTO chanceCards Values ("Advance token to nearest Utility.");
+INSERT INTO chanceCards Values ("Bank pays you dividend of $50.");
+INSERT INTO chanceCards Values ("Get Out of Jail Free.");
+INSERT INTO chanceCards Values ("Go Back 3 Spaces.");
+INSERT INTO chanceCards Values ("Go to Jail. Go directly to Jail, do not pass Go, do not collect $200.");
+INSERT INTO chanceCards Values ("Make general repairs on all your property. For each house pay $For each hotel pay $100.");
+INSERT INTO chanceCards Values ("Speeding fine $15.");
+INSERT INTO chanceCards Values ("Take a trip to Reading Railroad. If you pass Go, collect $200.");
+INSERT INTO chanceCards Values ("You have been elected Chairman of the Board. Pay each player $50.");
+INSERT INTO chanceCards Values ("Your building loan matures. Collect $150");

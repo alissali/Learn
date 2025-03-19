@@ -1,0 +1,286 @@
+'''          
+  My Monopoly
+'''
+
+from Squares import *
+from mmysql import get_squares, wait_for_mysql_to_come_up
+
+import random
+import os
+
+from flask import Flask, render_template, request, session, url_for, redirect
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+from sqlalchemy.sql import text
+
+
+class Die:
+    faceValue = 6
+    
+    def roll(self):
+        r = round(round(random.random()*5) + 1)
+        print (f'roll : {r}')
+        return(r)
+
+class Cup:
+    '''
+        Singleton
+    '''
+    dice = [Die for d in range(2)]
+         
+    def roll(self):
+        r = self.dice[0].roll(self.dice[0]) + self.dice[1].roll(self.dice[1])
+        return r
+    
+    def getTotal():
+        return tot * 4
+        
+def get_mysql_uri():
+    host = os.environ.get("DB_HOST", "localhost")
+    port = 3306 if host == "localhost" else 5432
+    password = os.environ.get("DB_PASSWORD", "Allocation_123")
+    user, db_name ="allocation", "monopoly" 
+    return f"mysql://{user}:{password}@{host}:{port}/{db_name}"
+  
+        
+def _get_squares(squares):
+     get_session = sessionmaker(bind=create_engine(get_mysql_uri()))
+     session = get_session()
+     squares = get_squares(session, squares)
+#     for s in squares:
+#         print(f's.address  = {s.address}')
+     return squares
+ 
+                 
+class Board:
+    '''
+        Singleton
+    '''
+    def build(self):
+        print('build')
+        self.squares[3] = RRSquare('Mahattet Elhijaz', 5)
+        self.squares[15] = Square('Electricity Company', 5)
+        self.squares = _get_squares(self.squares)
+        
+    def __init__(self):
+        self.squares = [Square() for s in range(40) ]
+#        self._init_from_file(self.squares)
+        self.build()
+        print(f'build n squares {len(self.squares)}')
+    
+    def _read_next(self):
+        yield 0
+    
+    def _init_from_file(self, squares):
+        return [s for s in self._read_next()]
+        
+    def getSquare(self, loc, fvTot):
+        return self.squares[loc]
+        
+class Piece:
+    def __init__(self):
+        self.loc = 0
+   
+    def isOn(s: Square):
+        pass
+        
+class MonopolyGame:
+    def __init__(self):
+        nbPlayers = 4
+        
+        print('Creating MonopolyGame')
+        self.board = Board()
+        self.cup = Cup()
+        self.players = []
+        self.players.append(Player('Hassan', 2000))
+        self.players.append(Player('Yaseen', 2000))
+        self.players.append(Player('Rima', 2000))
+        self.players.append(Player('Saleem', 2000))
+        
+        self.currentPlayer = 0
+       
+        self.positions = [0 for p in self.players]
+
+    def nextPlayer(self):
+        self.currentPlayer = (self.currentPlayer + 1) % 4
+        return self.players[self.currentPlayer]
+        
+    def PlayedWith(d: Die):
+        pass
+    
+    def getPosition(self, i):
+        return self.positions[i]
+    
+    
+    def advance(self, p, loc, distance):
+        if round((p.piece.loc + distance) / 40):
+            print(f'New position-rel : {round((p.piece.loc + distance) / 40)}')
+            print('Passing departure')
+            p.addCash(500)
+        p.piece.loc = (p.piece.loc + distance) % 40
+        print(f'loc = {loc}, positions = {p.piece.loc}')
+        return p.piece.loc
+                                     
+
+class Player:
+    def __init__(self, name, cash):
+        self.name = name
+        self.cash = cash
+        loc = 0
+        RRCount = 0
+        self.piece = Piece()
+        
+    def plays(m: MonopolyGame):
+        pass               
+    
+    def takeTurn(self, m, loc):
+        '''
+        loc par bricolage obligé, le suivant ne pasee pas.
+#        nonlocal cup
+#        nonlocal loc
+      '''
+        fvTot = m.cup.roll()
+        location = m.board.getSquare(loc, fvTot)
+#        location.landedOn(loc)
+        
+        return location, fvTot
+        
+    def reduceCash(self, pr):
+        self.cash -= pr
+
+    def attemptPurchase(self, s: Square):
+        print(f'Purchase {s.getPrice()}')
+        pr = s.getPrice()
+        if self.cash >= pr:
+            self.reduceCash(pr)
+            s.owner = self
+        else:
+            print('Not enough cash for purchase')
+            
+        print(f'Cash rest {self.cash}')
+    
+    def payRent(self, p, r):
+        if ( r > self.cash):
+            print('I have no more money')
+        else:
+            self.reduceCash(r)
+            p.addCash(r)
+   
+    def addCash(self, pr):
+        self.cash += pr         
+     
+     
+    def getRRCount(): 
+        return 25
+           
+def DBconnect():
+   print('trying connection')
+   app.run(host='127.0.0.1', port=5001, debug=True)
+
+global ms_url
+
+''' 
+def _get_squares():
+    address = []
+    filename='classicmodels_customers.sql'
+    with open(filename, 'r') as f:
+        value = f.readline()
+        value = value.split(",")
+        while(value):
+#            print(value)
+            address.append(value[0] + ' ' + value[1])
+            value = f.readline()
+            if (value): value = value.split(",")
+#        print(f'address = {address}')
+
+    squares = [address[i] for i in range(24)]
+    squares = [s.replace('"', '') for s in squares]
+
+    squares[0] =  '__86__'
+    for s in squares:
+        print(f's = {s}, {s[0]}, {s[1]}')
+
+    ms_url = get_mysql_uri()
+    engine = create_engine(ms_url)
+    print("Created engine : ", ms_url)
+    wait_for_mysql_to_come_up(engine)
+    DBconnect()
+ 
+
+    get_session = sessionmaker(bind=create_engine(ms_url))
+    session = get_session()
+     
+    with open('squares.sql', 'w') as f:
+        for s in squares:
+            print(f's = {s}')
+            instr =f'INSERT INTO squares Values ("Property", "{s}");'
+            instr.strip('\n')
+            f.write(instr)
+            print(f'instr = {instr}')
+            session.execute(text(instr))
+
+    squares = [(PropertySquare(), s) for s in squares]
+
+    r = 0
+    for s in squares:
+        s[0].setRent(r)
+        r += 5
+        
+    squares.insert(4, (RailRoadSquare(), 'Mahattet Elhijaz'))
+     
+    print(f'squares = {squares}')
+     
+    return squares
+'''
+
+def menu():
+    input('Next')
+
+def main():
+    print('Start')
+    loc = 0
+
+    c = Cup()
+    
+    v = c.roll() 
+    print(f'v = {v}')
+    
+    game = MonopolyGame()
+    
+#    print(f'n squares {len(game.board.squares)}')
+#    print(game.board.squares[0].address)
+
+    p = game.players[0]
+   
+    while(True):
+        location, adv = p.takeTurn(game, loc)
+        loc = game.advance(p, loc, adv)
+        print(f'Player ; {p.name}, Square, loc : {game.board.squares[loc].address} {loc}')
+        rent = game.board.squares[loc].getRent()
+        print(f'rent = {rent}')
+        
+        if game.board.squares[loc].canPurchase():
+            print('Can purchase')
+            p.attemptPurchase(game.board.squares[loc])
+        else:
+            p.payRent(game.board.squares[loc].owner, rent)
+         
+        print(f'Cash = {p.cash}')
+        
+        p = game.nextPlayer()
+        menu()
+        
+    
+    print(f'loc : {loc}')
+    print(f'location : {location}')
+#    for s in game.board.squares:
+#        print (f's = {s}')
+'''    
+    print(f'positions[0] : {game.positions[0]}')
+    print(game.board.squares[game.positions[0]])
+    print(f' address = {game.board.squares[game.positions[0]].address}')
+'''     
+if __name__ == '__main__':
+    main()
+    
+           
