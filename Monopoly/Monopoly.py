@@ -1,6 +1,7 @@
 '''          
   My Monopoly
-  TODO : payPlayer(), listOtherProperties, Property exchange, CC card, buyHotel (menu and attemptPurchase option)
+  TODO: Player knows game (players out of game?)
+  TODO: payPlayer(), listOtherProperties, Property exchange, CC card, buyHotel (menu and attemptPurchase option)
 '''
 
 from Squares import *
@@ -339,16 +340,16 @@ class Player:
             p.owner = None
         pass
     
-    def attemptPurchase(self, s: Square, board):
+    def attemptPurchase(self, game, s: Square):
         print(f'    Purchase {s.getPrice()}')
         pr = s.getPrice()
         if self.cash >= pr:
             self.reduceCash(pr)
             s.owner = self
             self.properties.append(s)
-            c = self.getCollection(s, board)
+            c = self.getCollection(s, game.board)
             color = c.color
-            if self.ownCollection(color, board.collections):
+            if self.ownCollection(color, game.board.collections):
                 print('  ** Got whole collection')
                 answer = input('      Buy houses ? ')
                 answer = answer.upper()
@@ -397,6 +398,8 @@ class Player:
     def buyHouse(self, board, s):
          
 #        print(' ownCollection : {ownCollection(color, board.collections)}')
+        c = self.getCollection(s, board)
+        color = c.color
         if not self.ownCollection(color, board.collections):
             print('  ** You do not own collection')
             return False
@@ -409,7 +412,7 @@ class Player:
             s.addHouse()
             self.reduceCash(s.priceProperty)
             s.setRent(s.getRent() + 100)
-            print('  *** Bought a house on {s}!')
+            print(f'  *** Bought a house on {s}!')
             return True
         else:
             print('  *** Attempted to buy a house but not enough cash!')
@@ -452,7 +455,7 @@ class Player:
                 print(f'  UtilitySquare: rent = {rent}')
             elif square.canPurchase():
                 print('  Can purchase')
-                self.attemptPurchase(square, game.board)
+                self.attemptPurchase(game, square)
                 return True
             else:
                 if self != square.owner:
@@ -472,7 +475,7 @@ class Player:
         else:
             if square.canPurchase():
                 print('  Can purchase')
-                self.attemptPurchase(square, game.board)
+                self.attemptPurchase(game, square)
                 if isinstance(square, RRSquare):
                     self.RRCount += 1
                     square.rent = 50 * self.RRCount
@@ -660,7 +663,6 @@ def menu(game, p):
             case 'P':
                 p.printProperties(game.board)
             case 'B':
-                print('  ** TODO!')
                 i = int(input("  Property's index: "))
                 p.buyHouse(game.board, game.board.squares[i])
 #                p.ownCollection('Yellow', game.board.collections)
