@@ -1,7 +1,8 @@
 '''          
   My Monopoly
   TODO: Player knows game (players out of game?)
-  TODO: payPlayer(), listOtherProperties, Property exchange, CC card, buyHotel (menu and attemptPurchase option)
+  TODO: payPlayer(), listOtherProperties, Property exchange,
+        CC card, buyHotel (menu and attemptPurchase option), Parking
 '''
 
 from Squares import *
@@ -411,7 +412,7 @@ class Player:
         if self.cash >= s.price[s.nbHouses]:
             s.addHouse()
             self.reduceCash(s.priceProperty)
-            s.setRent(s.getRent() + 100)
+            s.setRent(s.getRent() + 50)
             print(f'  *** Bought a house on {s}!')
             return True
         else:
@@ -652,6 +653,7 @@ def menu(game, p):
         print('         P: Own properties')
         print('         B: Buy house')
         print('         E: Exchange properties')
+        print('         F: Free properties')
         print('         C: Continue')
         choice = input('      Choice: ')
         choice = choice.upper()
@@ -668,6 +670,10 @@ def menu(game, p):
 #                p.ownCollection('Yellow', game.board.collections)
             case 'E':
                 print('  ** TODO!')
+            case 'F':
+                for s in game.board.squares:
+                    if isinstance(s, Square) and not s.owner:
+                        print(f'squares[{game.board.squares.index(s)}]: {s.address}')
    
 def main():
     
