@@ -1,8 +1,9 @@
 '''          
   My Monopoly
   TODO: Player knows game (players out of game?)
-  TODO: payPlayer(), listOtherProperties, Property exchange,
+  TODO: payPlayer(), listOtherProperties, Property exchange (Done),
         CC card, buyHotel (menu and attemptPurchase option), Parking
+        Adresses in Cards
 '''
 
 from Squares import *
@@ -399,6 +400,10 @@ class Player:
     def buyHouse(self, board, s):
          
 #        print(' ownCollection : {ownCollection(color, board.collections)}')
+        if not isinstance(s, Square):
+            print(f"  ** Can't buy houses on non property square {s.address}")
+            return False
+            
         c = self.getCollection(s, board)
         color = c.color
         if not self.ownCollection(color, board.collections):
@@ -418,7 +423,27 @@ class Player:
         else:
             print('  *** Attempted to buy a house but not enough cash!')
             return False
-       
+
+    def exchangeProperties(self, squares):
+        i = int(input('  * Property to exchange : '))
+        j = int(input('  * Against : '))
+        
+        p = squares[i]
+        q = squares[j]
+        
+        o = q.owner
+        q.owner = self
+        p.owner = o
+        
+        self.properties.append(q)
+        o.properties.append(p)
+        self.properties.remove(p)
+        o.properties.remove(q)
+        
+        pd = int(input('  * Price difference : '))
+        self.cash -= pd
+        o.cash += pd
+           
     def payRent(self, p, r):
         if ( r > self.cash):
             print('  *** I have no more money!!!')
@@ -654,6 +679,7 @@ def menu(game, p):
         print('         B: Buy house')
         print('         E: Exchange properties')
         print('         F: Free properties')
+        print('         M: Money')
         print('         C: Continue')
         choice = input('      Choice: ')
         choice = choice.upper()
@@ -667,13 +693,14 @@ def menu(game, p):
             case 'B':
                 i = int(input("  Property's index: "))
                 p.buyHouse(game.board, game.board.squares[i])
-#                p.ownCollection('Yellow', game.board.collections)
             case 'E':
-                print('  ** TODO!')
+                p.exchangeProperties(game.board.squares)
             case 'F':
                 for s in game.board.squares:
                     if isinstance(s, Square) and not s.owner:
                         print(f'squares[{game.board.squares.index(s)}]: {s.address}')
+            case 'M':
+                print(f'  ** Cash = {p.cash}')
    
 def main():
     
