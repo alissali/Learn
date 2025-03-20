@@ -304,7 +304,7 @@ class Player:
         for p in self.properties:
             print(f'    Property[{board.squares.index(p)}]: {p}')
             if isinstance(p, PropertySquare):
-                print(f'      Houses: {p.nbHouses}')
+                print(f'      Houses: {p.nbHouses} ({self.getCollection(p, board).color})')
 
     def haveHouses(self):
         for p in self.properties:
@@ -349,14 +349,15 @@ class Player:
             self.reduceCash(pr)
             s.owner = self
             self.properties.append(s)
-            c = self.getCollection(s, game.board)
-            color = c.color
-            if self.ownCollection(color, game.board.collections):
-                print('  ** Got whole collection')
-                answer = input('      Buy houses ? ')
-                answer = answer.upper()
-                if answer == 'Y':
-                  menu(game, self)
+            if isinstance(s, PropertySquare):
+                c = self.getCollection(s, game.board)
+                color = c.color
+                if self.ownCollection(color, game.board.collections):
+                    print('  ** Got whole collection')
+                    answer = input('      Buy houses ? ')
+                    answer = answer.upper()
+                    if answer == 'Y':
+                      menu(game, self)
         
         else:
             print('  ** Not enough cash for purchase!')
@@ -382,16 +383,14 @@ class Player:
     def getCollection(self, p, board):
         color = None
         for c in board.collections:
-            i = 0
-            for p in c.properties:
-                if p == c.properties[i]:
-                    color = c.color
-                    return c
-                else:
-                    i += 1
-            if color:
-                break
+             for q in c.properties:
+                 if isinstance (q, PropertySquare):
+                    if p == q:
+                        color = c.color
+                        return c
                 
+        print(f'Color = {color}') 
+        
         if not color:
             print('Color Error!')
             return None
@@ -401,7 +400,7 @@ class Player:
          
 #        print(' ownCollection : {ownCollection(color, board.collections)}')
         if not isinstance(s, Square):
-            print(f"  ** Can't buy houses on non property square {s.address}")
+            print(f"  ** Can't buy houses on non property square {s}")
             return False
             
         c = self.getCollection(s, board)
@@ -441,8 +440,8 @@ class Player:
         o.properties.remove(q)
         
         pd = int(input('  * Price difference : '))
-        self.cash -= pd
-        o.cash += pd
+        self.reduceCash(pd)
+        o.addCash(pd)
            
     def payRent(self, p, r):
         if ( r > self.cash):
@@ -507,15 +506,15 @@ class Player:
                     square.rent = 50 * self.RRCount
                 return True
             else:
-                if isinstance(square, PropertySquare) and not square.owner == self:
+                if isinstance(square, Square) and not square.owner == self:
                     rent = square.getRent()
                 
-            if rent != 0:
-                if self != square.owner:
-                    print(f'  rent = {rent}')
-                    if not self.payRent(square.owner, rent):
-                        game.quit(self)
-                        return False
+        if rent != 0:
+            if self != square.owner:
+                print(f'  rent = {rent}')
+                if not self.payRent(square.owner, rent):
+                    game.quit(self)
+                    return False
         return True
 
     def playCard(self, m, card, adv):
@@ -564,12 +563,17 @@ class Player:
                 m.advance(self, self.piece.loc, -3)
                 square = m.board.squares[self.piece.loc]
                 if isinstance(square, PropertySquare) or isinstance(square, RRSquare) or isinstance(square, UtilitySquare):
+                    print(f' Landed on {square.address}')
                     self.playSquare(m, self.piece.loc, square, adv)
                 elif isinstance(square, ChanceSquare):
+                    print(f' Landed on chance square')
                     card = m.board.chanceCards.pop()
+                    m.board.usedChanceCards.append(card)
                     self.playCard(m, card, adv)
                 elif isinstance(square, CCSquare):
+                    print(f' Landed on CC square')
                     card = m.board.chanceCards.pop()
+                    m.board.usedChanceCards.append(card)
                     self.playCard(m, card, adv)
             case 9:
                 self.piece.loc = 30
@@ -680,6 +684,7 @@ def menu(game, p):
         print('         E: Exchange properties')
         print('         F: Free properties')
         print('         M: Money')
+        print('         T: Test')
         print('         C: Continue')
         choice = input('      Choice: ')
         choice = choice.upper()
@@ -701,6 +706,10 @@ def menu(game, p):
                         print(f'squares[{game.board.squares.index(s)}]: {s.address}')
             case 'M':
                 print(f'  ** Cash = {p.cash}')
+            case 'T':
+                for c in game.board.chanceCards:
+                    print(f'Card[{c.ind}]: {c.content}')
+                p.playCard(game, game.board.chanceCards[8], 0)
    
 def main():
     
