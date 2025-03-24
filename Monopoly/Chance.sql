@@ -1,6 +1,6 @@
-INSERT INTO chanceCards Values ("Advance to Boardwalk.");
+INSERT INTO chanceCards Values ("Advance to Vinbæltet Kobenhavn.");
 INSERT INTO chanceCards Values ("Advance to Go (Collect $200).");
-INSERT INTO chanceCards Values ("Advance to Illinois Avenue. If you pass Go, collect $200.");
+INSERT INTO chanceCards Values ("Advance to rue des Cinquante Otages. If you pass Go, collect $200.");
 INSERT INTO chanceCards Values ("Advance to North Pendale Street San Fran. If you pass Go, collect $200.");
 INSERT INTO chanceCards Values ("Advance to the nearest Railroad.");
 INSERT INTO chanceCards Values ("Advance token to nearest Utility.");

@@ -3,16 +3,18 @@
 class Square:
     address = ''
     
-    def __init__(self, address = "", rent = 0):
+    def __init__(self, ind = 0, address = "", priceProperty = 0, rent = 0):
+        self.ind = ind
         self.address = address
         self.rent = rent
+        self.priceProperty = priceProperty
         self.owner = None
         
     def __str__(self):
         return(self.address)
 
     def getPrice(self):
-        return 200
+        return self.priceProperty
         
     def landedOn(self, loc):
         pass
@@ -46,11 +48,10 @@ class InComeTaxSquare(Square):
         pass
     
 class PropertySquare(Square):
-    def __init__(self, address = '', rent = 0, price = 0, priceProperty = 0, mortgage = 0):
-        super().__init__(address, rent)
+    def __init__(self, ind = 0, address = '', rent = 0, price = [], priceProperty = 0, mortgage = 0):
+        super().__init__(ind, address,priceProperty, rent)
         
         self.price = price
-        self.priceProperty = priceProperty
         self.mortgage = mortgage
         self.nbHouses = 0
         
@@ -77,9 +78,9 @@ class LotSquare(Square):
           return index
 
 class RRSquare(Square):
-    def __init__(self, address = '', rent = 50):
-        super().__init__(address, rent)
-
+    def __init__(self, ind = 0, address = '', rent = 50):
+        super().__init__(ind, address, 100, rent)
+        
 
 class RailRoadSquare(Square):
 #      owner = Player()
@@ -88,8 +89,8 @@ class RailRoadSquare(Square):
 #          c = owner.getRRCount()
 
 class UtilitySquare(Square):
-      def __init__(self, address = '', rent = 10):
-          super().__init__(address, rent)
+      def __init__(self, ind = 0, address = '', rent = 10):
+          super().__init__(ind, address, 150, rent)
         
       def getRent(self, r):
           return self.rent * r

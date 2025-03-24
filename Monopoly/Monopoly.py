@@ -4,6 +4,12 @@
   TODO: payPlayer(), listOtherProperties, Property exchange (Done),
         CC card, buyHotel (menu and attemptPurchase option), Parking
         Adresses in Cards
+        Property price
+        rent in DB and initialisation
+        Player.attemptPurchase : replace insert + sort with insertInSorted
+        Use Square.ind instead of board.index()
+        List Collection
+        Register Playersc
 '''
 
 from Squares import *
@@ -83,13 +89,13 @@ class Board:
     def build(self):
         print('build')
         
-        self.squares[5]  = RRSquare('Mahattet Elhijaz', 50)
-        self.squares[15] = RRSquare('NY RRS', 50)
-        self.squares[25] = RRSquare('Gare du Nord', 50)
-        self.squares[35] = RRSquare('Trafelgar RRS', 50)
+        self.squares[5]  = RRSquare(5, 'Mahattet Elhijaz', 50)
+        self.squares[15] = RRSquare(15, 'NY RRS', 50)
+        self.squares[25] = RRSquare(25, 'Gare du Nord', 50)
+        self.squares[35] = RRSquare(35, 'Trafelgar RRS', 50)
         
-        self.squares[8]  = UtilitySquare('Water Company')        
-        self.squares[31] = UtilitySquare('Electricity Company')
+        self.squares[8]  = UtilitySquare(8, 'Water Company')        
+        self.squares[31] = UtilitySquare(3, 'Electricity Company')
         
         self.squares[2]  = ChanceSquare()        
         self.squares[16] = ChanceSquare()        
@@ -156,11 +162,14 @@ class Board:
     def getSquare(self, loc, fvTot):
         return self.squares[loc]
         
-    def listProperties(self):
+    def listProperties(self, player):
         print(' *** Properties')
         i = 0
         for s in self.squares:
             print(f'i : {i}, {s}')
+            if isinstance(s, PropertySquare):
+                if s.owner:
+                    print(f' ({s.owner.name}) --- {player.getCollection(s, self).color}')
             i += 1
         
 class Piece:
@@ -210,13 +219,23 @@ class MonopolyGame:
         p.sellAll()
         self.players.remove(p)
         self.playerCount -= 1
-        
+
+def cmpProperties(p1, p2):
+    ind1 = p1.ind
+    ind2 = p2.ind
+    
+    if ind1 > ind2:
+      return 1
+    elif ind1 < ind2:
+      return -1
+    return 0
+    
 def cmpHouses(p1, p2):
     nh1 = p1.getnbHouses()
     nh2 = p2.getnbHouses()
     if nh1 > nh2:
       return 1
-    if nh1 < nh2:
+    elif nh1 < nh2:
       return -1
     return 0
       
@@ -304,7 +323,7 @@ class Player:
         for p in self.properties:
             print(f'    Property[{board.squares.index(p)}]: {p}')
             if isinstance(p, PropertySquare):
-                print(f'      Houses: {p.nbHouses} ({self.getCollection(p, board).color})')
+                print(f'      Houses: {p.nbHouses}. Rent: {p.rent} ({self.getCollection(p, board).color})')
 
     def haveHouses(self):
         for p in self.properties:
@@ -323,9 +342,9 @@ class Player:
                 if i == len(props) and self.haveHouses():
                     i = 0
                 if props[i].nbHouses > 0:
-                    saleAmount += int(props[i].priceProperty / 2)
+                    saleAmount += int(props[i].price[props[i].nbHouses] - 1 / 2)
                     props[i].nbHouses -= 1
-                    props[i].setRent(props[i].getRent() - 100)
+                    props[i].setRent(props[i].getRent() - 50)
                 i += 1
                 
             print(f'  *** Sold for {saleAmount}.')
@@ -349,6 +368,7 @@ class Player:
             self.reduceCash(pr)
             s.owner = self
             self.properties.append(s)
+            self.properties.sort(key=cmp_to_key(cmpProperties))
             if isinstance(s, PropertySquare):
                 c = self.getCollection(s, game.board)
                 color = c.color
@@ -415,7 +435,7 @@ class Player:
             
         if self.cash >= s.price[s.nbHouses]:
             s.addHouse()
-            self.reduceCash(s.priceProperty)
+            self.reduceCash(s.price[s.nbHouses])
             s.setRent(s.getRent() + 50)
             print(f'  *** Bought a house on {s}!')
             return True
@@ -438,6 +458,9 @@ class Player:
         o.properties.append(p)
         self.properties.remove(p)
         o.properties.remove(q)
+        self.properties.sort(key=cmp_to_key(cmpProperties))
+        o.properties.sort(key=cmp_to_key(cmpProperties))
+      
         
         pd = int(input('  * Price difference : '))
         self.reduceCash(pd)
@@ -502,8 +525,8 @@ class Player:
                 print('  Can purchase')
                 self.attemptPurchase(game, square)
                 if isinstance(square, RRSquare):
-                    self.RRCount += 1
-                    square.rent = 50 * self.RRCount
+                    self.setRRCount(self.getRRCount() + 1)
+                    square.rent = 50 * self.getRRCount()
                 return True
             else:
                 if isinstance(square, Square) and not square.owner == self:
@@ -611,9 +634,13 @@ class Player:
             self.piece.loc = 30
             self.inJail = True
         
-    def getRRCount(): 
-        return 25
+    def getRRCount(self): 
+        return self.RRCount
+        
+    def setRRCount(self, rrc): 
+        self.RRCount = rrc
            
+          
 def DBconnect():
    print('trying connection')
    app.run(host='127.0.0.1', port=5001, debug=True)
@@ -692,7 +719,7 @@ def menu(game, p):
         
         match choice:
             case 'L':
-                game.board.listProperties()
+                game.board.listProperties(p)
             case 'P':
                 p.printProperties(game.board)
             case 'B':
@@ -703,7 +730,9 @@ def menu(game, p):
             case 'F':
                 for s in game.board.squares:
                     if isinstance(s, Square) and not s.owner:
-                        print(f'squares[{game.board.squares.index(s)}]: {s.address}')
+                        print(f'squares[{game.board.squares.index(s)}] : {s.address}')
+                        if isinstance(s, PropertySquare):
+                            print(f'  ({p.getCollection(s, game.board).color})')
             case 'M':
                 print(f'  ** Cash = {p.cash}')
             case 'T':

@@ -18,7 +18,7 @@ INSERT INTO squares Values ("Furth Circle NYC", 0, 0, 0, 0, 0, 0, 0, 0, 17);
 INSERT INTO squares Values ("Pompton St. Allentown", 0, 0, 0, 0, 0, 0, 0, 0, 18);
 INSERT INTO squares Values ("Furth Circle Burlingame", 0, 0, 0, 0, 0, 0, 0, 0, 19);
 INSERT INTO squares Values ("Linden Road Sandown Singapore", 0, 0, 0, 0, 0, 0, 0, 0, 20);
-INSERT INTO squares Values ("Brehmen St. Bergen", 0, 0, 0, 0, 0, 0, 0, 0, 71);
+INSERT INTO squares Values ("Brehmen St. Bergen", 0, 0, 0, 0, 0, 0, 0, 0, 21);
 INSERT INTO squares Values ("Spinnaker Dr. New Haven", 0, 0, 0, 0, 0, 0, 0, 0, 22);
 INSERT INTO squares Values ("Estrada da saúde n. Lisboa", 0, 0, 0, 0, 0, 0, 0, 0, 23);
 INSERT INTO squares Values ("Mazzeh Villat", 0, 0, 0, 0, 0, 0, 0, 0, 24);

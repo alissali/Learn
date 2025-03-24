@@ -53,11 +53,13 @@ def get_squares(session, squares):
     rent = 0
     p = 0
     price = [0 for i in range(5)]
-    print(f'n = {n}')
+
     incRent = 0
+    
     for r in rows:
         address = r[0]
-        rent = r[1] + incRent
+        incRent += 5
+        rent = r[1] + incRent #rent == 0 in DB
         price[0] = r[2]
         price[1] = r[3]
         price[2] = r[4]
@@ -66,12 +68,11 @@ def get_squares(session, squares):
         priceProperty = r[7]
         mortgage = r[8]
         res = str(f'{r[0]}').strip('[0-9]')
-        incRent += 5
 
         while not isinstance(squares[p], Square) or isinstance(squares[p], RRSquare) or isinstance(squares[p], UtilitySquare):
             p += 1
             
-        squares[p] = PropertySquare(res, rent, price, priceProperty, mortgage)
+        squares[p] = PropertySquare(p, res, rent, price, priceProperty, mortgage)
                
         p += 1
             
