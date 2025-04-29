@@ -1,20 +1,236 @@
 '''          
   My Monopoly
+  TODO: test (Continuous)
   TODO: Player knows game (players out of game?)
+  TODO: exchangeProprty UnitOfWork (technical feature)
   TODO: payPlayer(), listOtherProperties, Property exchange (Done),
-        CC card, buyHotel (menu and attemptPurchase option), Parking
-        Adresses in Cards
+        CC card, buyHotel (menu and attemptPurchase option), Parking,
+        attemptPurchase option:use sellHouses and mortgage if not enough cash
+        mortgage (Done)
+          TODO: mortgage value from DB
+        Adresses in Cards (+mySql -- Done)
         Property price
-        rent in DB and initialisation
+        rent in DB and initialisation : (Done after infinite parties.)
         Player.attemptPurchase : replace insert + sort with insertInSorted
         Use Square.ind instead of board.index()
         List Collection
         Register Playersc
+        Defensive Programming:
+        Collection methods
+            colorname = game.board.color[game.board.collections.index(game.players[game.currentPlayer].getCollection(s, game.board))]
+        payRent --- feature: payOwner(allIveGot) when defect (Done)
+        tax square
+        check mortgage amounts (Done ; double addition)
+        buyHouses(): 2 by default
+        addHouse() and rent
+        priceHotel instead of price[4] (mini-feature)
+        
+        quit() after:
+        (Card)
+        ...
+          ** Not enough cash [TODO]
+    reduceCash 50
+    
+Cash = -75
+
+        U.I. After attemptPurchase propose menu() (micro-feature)
+        also after : (Extension)
+          *** I have no more money!!!
+          and:
+            quitting jail
+          and:
+            passing departure
+  * I have no houses to sell, trying mortgage
+    Paying rent: 615
+    reduceCash 615
+    and:
+ ** Three turns in jail
+    Forced out of Jail, Out-of-jail card used!
+    also after:
+      ** Got whole collection
+      Buy houses ? y
+    reduceCash 50
+  *** Bought a house on C/ Moralzarzal!
+  Buy another? n
+
+    
+    U.I.    Using out-of-jail card : not auto
+
+        sell and/or exchange out-of-jail card (mini-feature)
+        Operation -mini-feature)
+        None  Square 36 : Spinnaker Dr. New Haven (F_White)
+        
+   U.I. feature (Urgent): adapt principal menu(player | player.properties)
+   
+  Can purchase
+    Purchase 300
+  ** Not enough cash for purchase!
+Cash = 10
+
+          Chance card: Make general repairs on all your property. For each house pay $For each hotel pay $100.
+    reduceCash 600
+Cash = -55
+    also ib buyHouses()
+        BUG:
+line 727, in menu
+    p.buyHouse(game.board, game.board.squares[i])
+    refactored: buyHouses()
+IndexError: list index out of range
+
+micro-feauture: buyHouse : check
+
+        Parking -- Go, see: /home/allocation/Dev/Monopoly-game-master/images/go.png
+        (Done) Nothing to do according to standard rules
+
+mini-feature: (Done: no more occurences)
+       *** Sold for 99. (Priority : U)
+       
+       BUG: double addition mortgage amount (Done)
+       
+       BUG:
+602, in playCard
+    square = m.board.squares[self.piece.loc]
+IndexError: pop from empty list
+       BUG: (Solved Tue Mar 25 17:13:46 CET 2025 @717 /Internet Time/)
+341, in printProperties
+    print(f'    Property[{board.squares.index(p)}]: {p}')
+246, in cmpHouses
+    elif ind1 < ind2:
+AttributeError: 'UtilitySquare' object has no attribute 'getnbHouses'
+
+TODO: code smell:
+unmortgageProperty(self):
+        self.mortgagedList = ...
+        
+      BUG: (Solved)
+  Chance card: Go Back 3 Spaces.
+Cash = 1075
+  Not executed.
+  also:
+Chance card: Advance to Athinon Str. Rhodes. If you pass Go, collect $200.
+
+      BUG (Scenario):
+    Roll : 3
+    Roll : 3
+    Forced out of Jail, fine paid!
+      lines 306-321 : test dice first then nbTurnsInJail
+    Roll : 4
+    Roll : 4
+    Forced out of Jail, fine paid!
+      with freeCard
+   
+      BUG exchangeProperty:
+    ** Cash = -30 (cf. payPlayer)
+    
+    BUG: RR (200 for others)
+  rent = 150
+  
+  mini-feature (auto -- buyHotel -- It. 2)
+    *** Bought a house on Mazzeh Villat!
+  Buy another? n
+
+
+macro-feature:  
+** Cash = -45
+
+  BUG: not ownCollection
+  rent = 25
+    ** Doubling rent
+    Paying rent: 50
+    
+  BUG: (nothing is done)
+  You chose:  C
+Cash = 355
+   
+    BUG: playSquare after:
+   Chance card: Go Back 3 Spaces.
+Cash = 34
+
+    BUG: can't unmorgage, property in list ind 0 and item at ind 0 is another property
+    Houses: 0. Rent: 70 (F_Blue)
+    *** Mortgaged
+
+    ind: 1
+ *** Strong St. San Rafael is not mortgaged
+ 
+    BUG:
+None    Property[32]: Furth Circle Burlingame
+      Houses: 3. Rent: 1845 (F_Cyan)
+
+None    Property[33]: Linden Road Sandown Singapore
+      Houses: 3. Rent: 1450 (F_Cyan)
+
+    BUG:
+    ** Unmortgaged Erling Skakkes gate Stavern
+
+  ** Cash = -90
+
+    also pay fine (check amount)
+    BUG: Should invoke canPurchase()
+None  Square 8 : Water Company
+{Color.F_Green}    ** Mortgaged, no rent.{Color.F_White}
+
+    BUG:
+  * Property to exchange : 32
+  * Against : 18
+Traceback (most recent call last):
+...
+ValueError: list.remove(x): x not in list
+
+    BUG: playSquare should be called
+
+  Chance card: Go Back 3 Spaces.
+ Landed on rue du Commerce
+ 
+    U.I. mortgage()
+    BUG: readjust rent when houses sold (Urgent)
+        Checked: code seems OK
+      Houses: 0. Rent: 2350
+
+None    Property[14]: Lyonerstr. Frankfurt
+      Houses: 4. Rent: 1445 (F_Green)
+
+None    Property[21]: Berguvsvägen  Luleå
+      Houses: 4. Rent: 2265 (F_Blue)
+        
+        BUG:
+  *** Sold for 175.
+      Doing mortgage
+    Paying rent: 1080
+    reduceCash 1080
+Cash = 860
+      
+      BUG:
+  rent = 100
+  *** I have no more money!!!
+  ** Selling houses
+        Sold Furth Circle Burlingame (100/285)
+        Sold Linden Road Sandown Singapore (200/285)
+        Sold Brehmen St. Bergen (300/285)
+  *** Sold for 300.
+    Paying rent: 100
+      BUG: after bad exchange (Solved: pythonic exchange code)
+None    Property[6]: St Kilda Road Melbourne
+      Houses: 0. Rent: 20 (F_Red)
+    Property[8]: Water Company
+    Property[8]: Water Company
+    and:
+None    Property[21]: Berguvsvägen  Luleå
+      Houses: 0. Rent: 165 (F_Blue)
+
+None    Property[21]: Berguvsvägen  Luleå
+      Houses: 0. Rent: 165 (F_Blue)
+
+    BUG: after attemptPurchase.ownCollection -- buyHouses then exit
+Done:
+  Fri Apr 25 00:24:01 CEST 2025 @975 /Internet Time/:
+    Hotels: simple solution, requires refactoring of original code
 '''
 
 from Squares import *
 from Cards import *
 from mmysql import get_squares, get_chanceCards, wait_for_mysql_to_come_up
+from Color import Color
 
 import random
 from functools import cmp_to_key
@@ -24,6 +240,11 @@ from flask import Flask, render_template, request, session, url_for, redirect
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
+
+import colorama
+from colorama import Fore, Style
+
+import functools
 
 
 class Die:
@@ -113,11 +334,11 @@ class Board:
 
         self.squares = _get_squares(self.squares)
 
-        color = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Brown', 'Magenta', 'Rose']
+        self.color = ['F_LightRed', 'F_Red', 'F_Green', 'F_Yellow', 'F_Blue', 'F_Magenta', 'F_Cyan', 'F_White']
         
         k = 0
         for i in range(0, 8):
-            self.collections[i].color = color[i]
+            self.collections[i].color = self.color[i]
             l = 0
             for j in range(0, 3):
                 while not isinstance(self.squares[k], PropertySquare):
@@ -166,10 +387,16 @@ class Board:
         print(' *** Properties')
         i = 0
         for s in self.squares:
-            print(f'i : {i}, {s}')
             if isinstance(s, PropertySquare):
+                colorname = self.color[self.collections.index(player.getCollection(s, self))]
+                color = Color.getColor(colorname)
+            else:
+                color = Color.getColor('F_LightBlue')
+            print(f'{color}Square[{i}]: {s}')
+            if isinstance(s, Square):
                 if s.owner:
-                    print(f' ({s.owner.name}) --- {player.getCollection(s, self).color}')
+                    print(f'{Color.F_LightYellow} --- ({s.owner.name}){Color.F_White}')
+                     
             i += 1
         
 class Piece:
@@ -181,16 +408,15 @@ class Piece:
         
 class MonopolyGame:
     def __init__(self):
-        nbPlayers = 4
-        
+
         print('Creating MonopolyGame')
         self.board = Board()
         self.cup = Cup()
         self.players = []
-        self.players.append(Player('Hassan', 2000))
-        self.players.append(Player('Mamoun', 2000, True))
-        self.players.append(Player('Rima', 2000))
-        self.players.append(Player('Saleem', 2000))
+        self.players.append(Player('Hassan', 1500))
+        self.players.append(Player('Mamoun', 1500, True))
+        self.players.append(Player('Rima', 1500))
+        self.players.append(Player('Saleem', 1500))
         self.playerCount = 4
         self.currentPlayer = 0
        
@@ -210,13 +436,15 @@ class MonopolyGame:
     def advance(self, p, loc, distance):
         if p.piece.loc + distance >= 40:
             print('  Passing departure')
-            p.addCash(500)
+            p.addCash(200)
         p.piece.loc = (p.piece.loc + distance) % 40
 
         return p.piece.loc
              
     def quit(self, p):
         p.sellAll()
+        for prop in p.properties:
+            if prop.mortgaged: prop.mortgaged = False
         self.players.remove(p)
         self.playerCount -= 1
 
@@ -231,13 +459,19 @@ def cmpProperties(p1, p2):
     return 0
     
 def cmpHouses(p1, p2):
-    nh1 = p1.getnbHouses()
-    nh2 = p2.getnbHouses()
-    if nh1 > nh2:
-      return 1
-    elif nh1 < nh2:
-      return -1
-    return 0
+# BUG Solution:
+#    if not (isinstance(p1, PropertySquare) and isinstance(p2, PropertySquare)):
+    try:
+        nh1 = p1.getnbHouses()
+        nh2 = p2.getnbHouses()
+        if nh1 > nh2:
+          return 1
+        elif nh1 < nh2:
+          return -1
+        return 0
+    except AttributeError:  
+        if isinstance(p1, PropertySquare): return 1
+        else: return -1
       
 class Player:
     def __init__(self, name = '', cash = 0, isHuman = False):
@@ -264,32 +498,35 @@ class Player:
 #        nonlocal cup
 #        nonlocal loc
       '''
+        self.answer = 'y'
         if self.inJail:
-            if self.nbTurnsInJail == 3:
-               self.nbTurnsInJail = 0
-               self.reduceCash(50)
-               self.inJail = False
-               print('    Forced out of Jail, fine paid!')
-               return dv
-    
-            self.nbTurnsInJail += 1
-               
-            self.answer = 'y'
             if m.cup.double():
                 self.inJail = False
                 self.nbTurnsInJail = 0
                 print('    Double! Got out of Jail')
                 return dv
-            elif self.freeCard:
+            elif self.freeCard and self.nbTurnsInJail != 3:
                 if self.human:
                     self.answer = input('Use out-of-jail card ? ')
                     if self.answer.lower() == 'n':
+                        self.nbTurnsInJail += 1
                         return 0
                 print('    Using out-of-jail card')
                 self.freeCard = False
                 self.inJail = False
                 self.nbTurnsInJail = 0
                 return dv
+            elif self.nbTurnsInJail == 3:
+               print(' ** Three turns in jail')
+               self.nbTurnsInJail = 0
+               if self.freeCard:
+                   self.freeCard = False
+                   print('    Forced out of Jail, Out-of-jail card used!')
+               else:
+                   print('    Forced out of Jail, fine paid!')
+                   self.reduceCash(50)
+               self.inJail = False
+               return dv
             else:
                 self.answer = input('Pay fine ? ')
                 if self.answer.lower() == 'y':
@@ -298,6 +535,7 @@ class Player:
                     self.inJail = False
                     return dv                        
                 else:
+                    self.nbTurnsInJail += 1
                     print('Still in jail!')
                     return 0
         else:
@@ -313,24 +551,74 @@ class Player:
           
                 return dv
     #        location.landedOn(loc)
+#        self.nbTurnsInJail += 1
         
         return dv
-        
+
+    @staticmethod
+    def wrapper(func):
+        @functools.wraps(func)
+        def wrap(self, *args, **kwargs):
+            if self.cash < args[0]:
+                # getCash()
+                print("  ** Not enough cash [TODO]")
+            return func(self, *args, **kwargs)
+        return wrap
+
+    @wrapper
     def reduceCash(self, pr):
+        print(f'    reduceCash {pr}')
         self.cash -= pr
         
+#    wrapper = staticmethod(wrapper)
+
     def printProperties(self, board):
         for p in self.properties:
-            print(f'    Property[{board.squares.index(p)}]: {p}')
-            if isinstance(p, PropertySquare):
-                print(f'      Houses: {p.nbHouses}. Rent: {p.rent} ({self.getCollection(p, board).color})')
+            if not isinstance(p, PropertySquare):                
+                print(f'{Color.F_LightBlue}    Property[{board.squares.index(p)}]: {p}')
+            else:
+                colorname = board.color[board.collections.index(self.getCollection(p, board))]
+                color = Color.getColor(colorname)
+                print(f'{color}    Property[{board.squares.index(p)}]: {p}')
+
+                print(f'     {Color.B_LightGray}{Color.F_Black} Houses: {p.nbHouses}.{Color.B_Default}{Color.F_Default} Rent: {p.rent} ({getColor(p, board.collections)})')
+            if p.mortgaged:
+                print(f'{Color.F_Red}    *** Mortgaged')
+                
+        try:        
+            print(f'  *** max: {max(self.properties, key=cmp_to_key(cmpHouses))}\n')
+        except ValueError:
+            print(f'    {Color.B_Yellow}**** You have no property!{Color.B_Default}')
 
     def haveHouses(self):
         for p in self.properties:
             if isinstance(p, PropertySquare) and p.nbHouses != 0:
                 return True
         return False
-      
+        
+    def haveHotels(self):
+        for p in self.properties:
+            if isinstance(p, PropertySquare) and p.hasHotel:
+                return True
+        return False
+        
+    def sellHotels(self, missedAmount):
+        print('  ** Selling hotels')
+        props = [p for p in self.properties if isinstance(p, PropertySquare) and p.hasHotel]
+        saleAmount = 0
+        if props:
+            i = 0
+            for p in props:
+                p.setRent(p.getRent() - 100)
+                p.hasHotel = False
+                p.nbHouses = 4
+                saleAmount = int(p.price[4]/2)
+                if saleAmount > missedAmount:
+                    return saleAmount
+                    
+        return saleAmount
+    
+       
     def sellHouses(self, missedAmount):
         print('  ** Selling houses')
         props = [p for p in self.properties if isinstance(p, PropertySquare)]
@@ -338,15 +626,16 @@ class Player:
             props.sort(key=cmp_to_key(cmpHouses), reverse=True)
             i = 0
             saleAmount = 0
-            while saleAmount < missedAmount and i < len(props):
-                if i == len(props) and self.haveHouses():
-                    i = 0
+            while self.haveHouses() and saleAmount < missedAmount and i < len(props):
                 if props[i].nbHouses > 0:
-                    saleAmount += int(props[i].price[props[i].nbHouses] - 1 / 2)
-                    props[i].nbHouses -= 1
-                    props[i].setRent(props[i].getRent() - 50)
+                    p = props[i]
+                    saleAmount += int(p.price[p.nbHouses - 1] / 2)
+                    p.nbHouses -= 1
+                    p.setRent(p.getRent() - 50)
+                    print(f'        Sold {p} ({saleAmount}/{missedAmount})')
                 i += 1
-                
+                if i == len(props):
+                    i = 0
             print(f'  *** Sold for {saleAmount}.')
         
             return saleAmount
@@ -354,12 +643,39 @@ class Player:
             return 0
     
     def doMortgage(self, missedAmount):
-        return missedAmount - 1
-    
+        collected = 0
+        for p in self.properties:
+            if collected < missedAmount and not p.mortgaged:
+                collected += int(p.priceProperty / 2)
+                p.mortgaged = True
+                    
+        return collected
+
+    def unmortgageProperty(self):
+        self.mortgagedList = [p for p in self.properties if p.mortgaged]
+        i = 0
+        for p in self.mortgagedList:
+            print(f'  Mortgaged {i}: {p}')
+            i += 1
+        
+        ind = int(input('    ind: '))
+            
+        if self.mortgagedList[ind].owner != self:
+            print("  You dont't own this property!")
+            return
+        else:
+            p = self.mortgagedList[ind]
+            
+        if not p.mortgaged:
+            print(f' *** {p} is not mortgaged')
+        else:
+            self.reduceCash(int(p.priceProperty / 2))
+            p.mortgaged = False
+            print(f'    ** Unmortgaged {p}')
+
     def sellAll(self):
         for p in self.properties:
             p.owner = None
-        pass
     
     def attemptPurchase(self, game, s: Square):
         print(f'    Purchase {s.getPrice()}')
@@ -377,8 +693,7 @@ class Player:
                     answer = input('      Buy houses ? ')
                     answer = answer.upper()
                     if answer == 'Y':
-                      menu(game, self)
-        
+                      self.buyHouses(game.board, s)        
         else:
             print('  ** Not enough cash for purchase!')
             
@@ -401,25 +716,25 @@ class Player:
         return True
         
     def getCollection(self, p, board):
-        color = None
-        for c in board.collections:
-             for q in c.properties:
-                 if isinstance (q, PropertySquare):
-                    if p == q:
-                        color = c.color
-                        return c
-                
-        print(f'Color = {color}') 
+        if isinstance (p, PropertySquare):
+            for c in board.collections:
+                 for q in c.properties:
+                     if p == q:
+                         return c
         
-        if not color:
-            print('Color Error!')
+        else:
             return None
+            
+    def buyHotel(self, s):
+        s.hasHotel = True
+        s.nbHouses = 0
+        s.setRent(s.getRent() + 100)
+        self.reduceCash(s.price[4])
     
-                
-    def buyHouse(self, board, s):
+    def buyHouses(self, board, s, repeat = True):
          
 #        print(' ownCollection : {ownCollection(color, board.collections)}')
-        if not isinstance(s, Square):
+        if not isinstance(s, PropertySquare):
             print(f"  ** Can't buy houses on non property square {s}")
             return False
             
@@ -434,10 +749,14 @@ class Player:
             return False
             
         if self.cash >= s.price[s.nbHouses]:
-            s.addHouse()
             self.reduceCash(s.price[s.nbHouses])
+            s.addHouse()
             s.setRent(s.getRent() + 50)
             print(f'  *** Bought a house on {s}!')
+            if repeat:
+                r = input('  Buy another? ')
+                if r.upper() == 'Y':
+                    self.buyHouses(board, s)
             return True
         else:
             print('  *** Attempted to buy a house but not enough cash!')
@@ -449,15 +768,26 @@ class Player:
         
         p = squares[i]
         q = squares[j]
+
+        p.owner, q.owner = q.owner, p.owner
+
+        try:
+            p.owner.properties.append(q)
+            q.owner.properties.append(p)
+        except AttributeError:
+            print(f'  {Color.B_Red}*** Property not owned!{Color.B_Default}')
+            return
+            
         
-        o = q.owner
-        q.owner = self
-        p.owner = o
-        
-        self.properties.append(q)
-        o.properties.append(p)
-        self.properties.remove(p)
-        o.properties.remove(q)
+        try:
+            p.owner.properties.remove(p)
+            q.owner.properties.remove(q)
+        except ValueError:  # TODO: rewap properties (undo)
+            print(f'  {Color.B_Red}*** Not the right owner!{Color.B_Default}')
+            p.owner, q.owner = q.owner, p.owner
+            
+            return
+            
         self.properties.sort(key=cmp_to_key(cmpProperties))
         o.properties.sort(key=cmp_to_key(cmpProperties))
       
@@ -466,12 +796,27 @@ class Player:
         self.reduceCash(pd)
         o.addCash(pd)
            
-    def payRent(self, p, r):
+    def payRent(self, s, board, p, r):
+        if isinstance(s, PropertySquare) and s.nbHouses == 0 and not s.hasHotel:
+            if p.ownCollection(p.getCollection(s, board).color, board.collections):
+                print('    ** Doubling rent')
+                r *= 2
         if ( r > self.cash):
+            ''' getCash() TODO
+            '''
             print('  *** I have no more money!!!')
+            if self.haveHotels():
+                self.cash += self.sellHotels(r - self.cash)
+            if self.cash > r:
+                self.reduceCash(r)
+                p.addCash(r)
+              
+                return True
+                
             if self.haveHouses():
                 self.cash += self.sellHouses(r - self.cash)
                 if ( r > self.cash):
+                    print('      Doing mortgage')
                     self.cash += self.doMortgage(r - self.cash)
             else:
                 print('  * I have no houses to sell, trying mortgage')
@@ -481,26 +826,39 @@ class Player:
             self.reduceCash(r)
             p.addCash(r)
         else:
-            print(f'**** I lost, quitting game')
+            p.addCash(self.cash)
+            print(f'{Color.B_LightYellow}**** I lost, quitting game{Color.B_Default}')
             return False
             
         return True
             
     def addCash(self, pr):
         self.cash += pr
+        return self.cash
         
     def playSquare(self, game, loc, square, adv):
         rent = 0
         
         if isinstance(square, Square):
-            print(f'  Square {loc} : {square.address}')
+            if isinstance(square, PropertySquare):
+                colorname = game.board.color[game.board.collections.index(self.getCollection(square, game.board))]
+                color = Color.getColor(colorname)
+            else:
+                color = Color.getColor('F_LightBlue')
+            if hasattr(self.getCollection(square, game.board), 'color'):                
+                print(f'{color}  Square {loc} : {square.address}{Color.F_White}')
+            else:
+                print(f'{color}  Square {loc} : {square.address}{Color.F_White}')
             if square.owner != None:
-                print(f'  owner : {square.owner.name}')
+                print(f'{Color.F_LightYellow}  owner : {square.owner.name}{Color.F_White}')
+            if square.mortgaged:
+                print(f'{Color.F_Green}    ** Mortgaged, no rent.{Color.F_White}')
+                return True
         
         if isinstance(square, UtilitySquare):
             if square.owner != None:
                 rent = square.getRent(adv)
-                print(f'  UtilitySquare: rent = {rent}')
+                print(f'  Utility Square: rent = {rent}')
             elif square.canPurchase():
                 print('  Can purchase')
                 self.attemptPurchase(game, square)
@@ -508,7 +866,7 @@ class Player:
             else:
                 if self != square.owner:
                     rent = square.getRent(adv)
-                    if not self.payRent(square.owner, rent):
+                    if not self.payRent(square, game.board, square.owner, rent):
                         game.quit(self)
                         return False
                 return True
@@ -526,7 +884,8 @@ class Player:
                 self.attemptPurchase(game, square)
                 if isinstance(square, RRSquare):
                     self.setRRCount(self.getRRCount() + 1)
-                    square.rent = 50 * self.getRRCount()
+#                    square.rent = 50 * self.getRRCount()
+                    print(f'  getRRCount = {self.getRRCount()}')
                 return True
             else:
                 if isinstance(square, Square) and not square.owner == self:
@@ -534,14 +893,20 @@ class Player:
                 
         if rent != 0:
             if self != square.owner:
-                print(f'  rent = {rent}')
-                if not self.payRent(square.owner, rent):
+                print(f'{Color.F_Red}  rent = {rent}{Color.F_White}')
+                if not self.payRent(square, game.board, square.owner, rent):
                     game.quit(self)
                     return False
         return True
 
     def playCard(self, m, card, adv):
         print(f'  Chance card: {card.content}')
+        
+        if len(m.board.chanceCards) == 0:
+            m.board.chanceCards = m.board.usedChanceCards.copy()
+            print('       ** Shuffling chance cards **')
+            random.shuffle(m.board.chanceCards)
+            m.board.usedChanceCards.clear()
         
         match card.ind:
             case 0:
@@ -551,6 +916,7 @@ class Player:
             case 1:
                 self.piece.loc = 0
                 self.addCash(200)
+                self.addCash(200)  # TODO: should be in advance() (to Go)
             case 2:
                 if self.piece.loc > 7:
                     self.addCash(200)
@@ -558,19 +924,13 @@ class Player:
                 square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
             case 3:
-                if self.piece.loc > 17:
-                    self.addCash(200)
-                self.piece.loc = 17
-                square = m.board.squares[self.piece.loc]
-                self.playSquare(m, self.piece.loc, square, adv)
-            case 4:
                 self.piece.loc = (self.piece.loc + 1) % 40
                 square = m.board.squares[self.piece.loc]
                 while(not isinstance(square, RRSquare)):
                     self.piece.loc = (self.piece.loc + 1) % 40
                     square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
-            case 5:
+            case 4:
                 self.piece.loc = (self.piece.loc + 1) % 40
                 square = m.board.squares[self.piece.loc]
 
@@ -578,15 +938,16 @@ class Player:
                     self.piece.loc = (self.piece.loc + 1) % 40
                     square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
-            case 6:
+            case 5:
                 self.addCash(50)
-            case 7:
+            case 6:
                 self.freeCard = True
-            case 8:
+            case 7:
                 m.advance(self, self.piece.loc, -3)
                 square = m.board.squares[self.piece.loc]
-                if isinstance(square, PropertySquare) or isinstance(square, RRSquare) or isinstance(square, UtilitySquare):
-                    print(f' Landed on {square.address}')
+                if isinstance(square, PropertySquare) or isinstance(square, RRSquare)\
+                or isinstance(square, UtilitySquare) or isinstance(square, GoSquare):
+                    print(f' Landed on {square}')
                     self.playSquare(m, self.piece.loc, square, adv)
                 elif isinstance(square, ChanceSquare):
                     print(f' Landed on chance square')
@@ -598,38 +959,45 @@ class Player:
                     card = m.board.chanceCards.pop()
                     m.board.usedChanceCards.append(card)
                     self.playCard(m, card, adv)
-            case 9:
+                else:
+                    print(f' Landed on impossible {square}')
+                    
+            case 8:
                 self.piece.loc = 30
                 self.inJail = True
-            case 10:
+            case 9:
                 nbHouses = 0
                 nbHotels = 0
                 for p in self.properties:
                     if isinstance(p, PropertySquare):
                         nbHouses += p.nbHouses
                 self.reduceCash(50 * nbHouses + 100 * nbHotels)
-            case 11:
+            case 10:
                 self.reduceCash(15)
-            case 12:
+            case 11:
                 if self.piece.loc > 35:
                     self.addCash(200)
                 self.piece.loc = 35
                 square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
-            case 13:
+            case 12:
                 for p in m.players:
-                    p.addCash(50)
-                    self.reduceCash(50)
-            case 14:
+                    if p != self:
+                        p.addCash(50)
+                        self.reduceCash(50)
+            case 13:
                 self.addCash(150)
+            case 14:
+                if self.piece.loc > 17:
+                    self.addCash(200)
+                self.piece.loc = 17
+                square = m.board.squares[self.piece.loc]
+                self.playSquare(m, self.piece.loc, square, adv)
+
          
-        if len(m.board.chanceCards) == 0:
-            m.board.chanceCards = m.board.usedChanceCards.copy()
-            random.shuffle(m.board.chanceCards)
-            m.board.usedChanceCards.clear()
               
     def playGoSquare(self, title, loc):
-        print(f'  Square: {loc}. Got a go! : {title}')
+        print(f'  Square: {loc}. Landed on a go: {title}')
         if loc == 10:
             self.piece.loc = 30
             self.inJail = True
@@ -700,51 +1068,100 @@ def _get_squares():
      
     return squares
 '''
+def getColor(p, collections):
+    for c in collections:
+        if p in c.properties:
+            return c.color
+            
+    return None
+
+def listFree(game):
+    squares = game.board.squares
+    freeList = []
+    for s in squares:
+        if isinstance(s, Square) and not s.owner:
+            freeList.append(s)
+            if isinstance(s, PropertySquare):
+                colorname = game.board.color[game.board.collections.index(game.players[game.currentPlayer].getCollection(s, game.board))]
+                color = Color.getColor(colorname)
+            else:
+                color = Color.getColor('F_LightBlue')
+                
+            print(f'{color} squares[{game.board.squares.index(s)}] : {s.address}')
+    if len(freeList) == 0:
+        print(f'    {Color.B_LightGray}{Color.F_Green}No more free properties{Color.F_Default}{Color.B_Default}')
+        
+    return freeList
+
+
+def execCmd(choice, game, p):
+    match choice:
+        case 'L':
+            game.board.listProperties(p)
+        case 'P':
+            p.printProperties(game.board)
+        case 'B':
+            i = int(input("  Property's index: "))
+            p.buyHouses(game.board, game.board.squares[i], False)
+        case 'H':
+            i = int(input("  Property's index: "))
+            p.buyHouses(game.board, game.board.squares[i])
+        case 'O':
+            i = int(input("  Property's index: "))
+            p.buyHotel(game.board.squares[i])
+        case 'E':
+            p.exchangeProperties(game.board.squares)
+        case 'F':
+            listFree(game)
+        case 'U':
+            p.unmortgageProperty()
+        case 'R':
+            print('  ** TODO **')
+        case 'S':
+            print('  ** TODO **')
+        case 'M':
+            print(f'{Color.F_Magenta}  ** Cash = {p.cash}')
+        case 'T':
+            for c in game.board.chanceCards:
+                print(f'Card[{c.ind}]: {c.content}')
+            p.playCard(game, game.board.chanceCards[8], 0)
+            p.attemptPurchase(game, game.board.squares[1])
+            p.attemptPurchase(game, game.board.squares[3])
+            p.attemptPurchase(game, game.board.squares[4])
+            p.buyHouses(game.board, game.board.squares[3])
+            print(f'{Color.B_Yellow}******************************************')
+            print(f'*  {Color.B_Green}CONGRATULATIONS {game.players[0].name} YOU WON !!!{Color.B_Yellow}    *{Color.B_Default}')
+            print(f'{Color.B_Yellow}******************************************{Color.B_Default}')
+        case '':
+            pass
 
 def menu(game, p):
     choice=''
     while choice != 'C':
-        print('    **** Menu')
-        print('         L: List all properties')
+        print(f'{Color.F_Blue}\n    **** Menu')
+        print(f'{Color.F_Green}         L: List all properties')
         print('         P: Own properties')
         print('         B: Buy house')
+        print('         H: Buy houses')
+        print('         O: Buy hotel')
         print('         E: Exchange properties')
         print('         F: Free properties')
+        print('         U: Unmortgage property')
+        print('         R: Mortgage property')
+        print('         S: Sell houses')
         print('         M: Money')
         print('         T: Test')
         print('         C: Continue')
-        choice = input('      Choice: ')
+        choice = input(f'{Color.F_Red}      Choice: ')
         choice = choice.upper()
-        print('    You chose: ', choice)
+        print(f'{Color.F_Blue}        You chose: {Color.F_White}', choice)
         
-        match choice:
-            case 'L':
-                game.board.listProperties(p)
-            case 'P':
-                p.printProperties(game.board)
-            case 'B':
-                i = int(input("  Property's index: "))
-                p.buyHouse(game.board, game.board.squares[i])
-            case 'E':
-                p.exchangeProperties(game.board.squares)
-            case 'F':
-                for s in game.board.squares:
-                    if isinstance(s, Square) and not s.owner:
-                        print(f'squares[{game.board.squares.index(s)}] : {s.address}')
-                        if isinstance(s, PropertySquare):
-                            print(f'  ({p.getCollection(s, game.board).color})')
-            case 'M':
-                print(f'  ** Cash = {p.cash}')
-            case 'T':
-                for c in game.board.chanceCards:
-                    print(f'Card[{c.ind}]: {c.content}')
-                p.playCard(game, game.board.chanceCards[8], 0)
+        execCmd(choice, game, p)
    
 def main():
     
     game = MonopolyGame()
-    
-    '''
+    '''     
     print(f'{game.board.collections[0].color} {game.board.collections[0].properties[0]}')
     square = game.board.squares[1]
     for col in game.board.collections:
@@ -759,9 +1176,11 @@ def main():
     p = game.players[0]
     loc = 0
     
-    while(True):
+    game.playerCount = len(game.players)
+    while(game.playerCount != 1):
+        print('===============')
+        print(f'Player: {p.name}')
         print('_______________')
-        print(f'Player : {p.name}')
         menu(game, p)
         replay = True
         adv = game.cup.roll()
@@ -794,7 +1213,7 @@ def main():
                 replay = False
                 break
             
-            print(f'Cash = {p.cash}')
+            print(f'{Color.F_Magenta}Cash = {p.cash}{Color.F_White}')
             
             if replay:
                 adv = game.cup.roll()
@@ -803,6 +1222,10 @@ def main():
                 break
 
         p = game.nextPlayer()
+        
+    print(f'{Color.B_Yellow}**********************************************************')
+    print(f'{Color.F_Green}*          CONGRATULATIONS {game.players[0].name} YOU WON !!!            *{Color.B_Default}')
+    print(f'{Color.B_Yellow}**********************************************************{Color.B_Default}')
        
 if __name__ == '__main__':
     main()

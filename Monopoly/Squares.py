@@ -8,6 +8,7 @@ class Square:
         self.address = address
         self.rent = rent
         self.priceProperty = priceProperty
+        self.mortgaged = False
         self.owner = None
         
     def __str__(self):
@@ -54,6 +55,7 @@ class PropertySquare(Square):
         self.price = price
         self.mortgage = mortgage
         self.nbHouses = 0
+        self.hasHotel = False
         
     def getnbHouses(self):
         return self.nbHouses
@@ -61,17 +63,24 @@ class PropertySquare(Square):
     def setOwner(p):
         pass
     
+    def getRent(self):
+        return self.rent
+
     def landedOn(self, loc):
         pass
       
     def payRent(p):
+        if self.mortgaged:
+            print()('    ** Mortgaged. No rent.')
+            return
+            
         r = getRent()
         owner.addCash(r)
         p.reduceCash(r)
 
     def addHouse(self):
         self.nbHouses += 1
-        self.rent += 100
+#        self.rent += 100
         
 class LotSquare(Square):
       def getRent(r):
@@ -81,6 +90,9 @@ class RRSquare(Square):
     def __init__(self, ind = 0, address = '', rent = 50):
         super().__init__(ind, address, 100, rent)
         
+    def getRent(self):
+        return 50 * self.owner.getRRCount()
+       
 
 class RailRoadSquare(Square):
 #      owner = Player()
