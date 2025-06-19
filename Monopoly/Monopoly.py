@@ -4,7 +4,7 @@
   TODO: Player knows game (players out of game?)
   TODO: exchangeProprty UnitOfWork (technical feature)
   TODO: payPlayer(), listOtherProperties, Property exchange (Done),
-        CC card, buyHotel (menu and attemptPurchase option), Parking,
+        CC card, buyHotel (menu and attemptPurchase option), Parking (Canceled according to standard rules),
         attemptPurchase option:use sellHouses and mortgage if not enough cash
         mortgage (Done)
           TODO: mortgage value from DB
@@ -24,6 +24,7 @@
         buyHouses(): 2 by default
         addHouse() and rent
         priceHotel instead of price[4] (mini-feature)
+        exchange(): check owner
         
         quit() after:
         (Card)
@@ -70,7 +71,13 @@ Cash = 10
           Chance card: Make general repairs on all your property. For each house pay $For each hotel pay $100.
     reduceCash 600
 Cash = -55
-    also ib buyHouses()
+  became:
+  Chance card: You have been elected Chairman of the Board. Pay each player $50.
+  ** Not enough cash [TODO]
+    reduceCash 50
+     (technical feature: decorator-lime solution to no cash situations seems appropriate)
+     
+    also in buyHouses()
         BUG:
 line 727, in menu
     p.buyHouse(game.board, game.board.squares[i])
@@ -109,7 +116,7 @@ Cash = 1075
   also:
 Chance card: Advance to Athinon Str. Rhodes. If you pass Go, collect $200.
 
-      BUG (Scenario):
+      BUG (Scenario): (Solved: didn't repeat)
     Roll : 3
     Roll : 3
     Forced out of Jail, fine paid!
@@ -177,13 +184,13 @@ Traceback (most recent call last):
 ...
 ValueError: list.remove(x): x not in list
 
-    BUG: playSquare should be called
+    BUG: playSquare should be called (Solved: didn't repeat)
 
   Chance card: Go Back 3 Spaces.
  Landed on rue du Commerce
  
     U.I. mortgage()
-    BUG: readjust rent when houses sold (Urgent)
+    BUG: readjust rent when houses sold (Urgent) (Solved)
         Checked: code seems OK
       Houses: 0. Rent: 2350
 
@@ -193,7 +200,7 @@ None    Property[14]: Lyonerstr. Frankfurt
 None    Property[21]: Berguvsvägen  Luleå
       Houses: 4. Rent: 2265 (F_Blue)
         
-        BUG:
+        BUG: (Solved)
   *** Sold for 175.
       Doing mortgage
     Paying rent: 1080
@@ -209,6 +216,7 @@ Cash = 860
         Sold Brehmen St. Bergen (300/285)
   *** Sold for 300.
     Paying rent: 100
+
       BUG: after bad exchange (Solved: pythonic exchange code)
 None    Property[6]: St Kilda Road Melbourne
       Houses: 0. Rent: 20 (F_Red)
@@ -225,12 +233,86 @@ None    Property[21]: Berguvsvägen  Luleå
 Done:
   Fri Apr 25 00:24:01 CEST 2025 @975 /Internet Time/:
     Hotels: simple solution, requires refactoring of original code
+    
+    BUG: (after double)
+**** I lost, quitting game
+Cash = 95
+    Roll : 2
+    Roll : 1   
+    
+    
+   Chance card: Make general repairs on all your property. For each house pay $For each hotel pay $100.
+  ** Not enough cash [TODO]
+    reduceCash 0
+Cash = -5
+
+  BUG: (Done: attemptPurchase -¦ bool, TODO: check)
+None  Square 35 : Trafelgar RRS
+  Can purchase
+    Purchase 100
+    reduceCash 100
+  getRRCount = 5
+   
+     because of not enough cas to purchse previously
+
+Monopoly 1.0
+  Chance card: Advance token to nearest Utility.
+Cash = 1185
+
+  Chance card: Go Back 3 Spaces.
+===============
+
+None    Property[28]: Furth Circle NYC
+      Hotel. Rent: 285
+  bought by another player
+
+  Chance card: Make general repairs on all your property. For each house pay $For each hotel pay $100.
+       ** Shuffling chance cards **
+    reduceCash 15
+  with 0 houses
+
+  Chance card: Go to Jail. Go directly to Jail, do not pass Go, do not collect $200.
+    reduceCash 0
+
+  Chance card: Go Back 3 Spaces.
+===============
+
+  2 errors:
+None    Property[34]: Brehmen St. Bergen
+      Houses: 2. Rent: 355
+    *** Mortgaged
+  *** max: Brehmen St. Bergen
+    not owner
+
+  Chance card: Advance to the nearest Railroad.
+       ** Shuffling chance cards **
+
+  Chance card: Take a trip to Trafelgar RRS. If you pass Go, collect $200.
+
+None  Square 35 : Trafelgar RRS
+  owner : Saleem
+Cash = 140
+
+  Chance card: Go to Jail. Go directly to Jail, do not pass Go, do not collect $200.
+    reduceCash 0
+    and no jail! (seems to be ind + 1)
+  but afterward:
+  Chance card: You have been elected Chairman of the Board. Pay each player $50.
+    reduceCash 50
+  us OK
+
+  Chance card: Advance token to nearest Utility. ???
+Cash = 775
+    Roll : 4
+    Roll : 2
+  Chance card: Your building loan matures. Collect $150 (OK)
+
 '''
 
 from Squares import *
 from Cards import *
 from mmysql import get_squares, get_chanceCards, wait_for_mysql_to_come_up
-from Color import Color
+from printColors import Color
 
 import random
 from functools import cmp_to_key
@@ -241,8 +323,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
 
-import colorama
-from colorama import Fore, Style
+#import colorama
+#from colorama import Fore, Style
 
 import functools
 
@@ -276,8 +358,8 @@ class Cup:
 def get_mysql_uri():
     host = os.environ.get("DB_HOST", "localhost")
     port = 3306 if host == "localhost" else 5432
-    password = os.environ.get("DB_PASSWORD", "Allocation_123")
-    user, db_name ="allocation", "monopoly" 
+    password = os.environ.get("DB_PASSWORD", "Mamoun")
+    user, db_name ="alissali", "Monopoly" 
     return f"mysql://{user}:{password}@{host}:{port}/{db_name}"
   
         
@@ -445,6 +527,8 @@ class MonopolyGame:
         p.sellAll()
         for prop in p.properties:
             if prop.mortgaged: prop.mortgaged = False
+
+        self.nextPlayer()
         self.players.remove(p)
         self.playerCount -= 1
 
@@ -580,8 +664,14 @@ class Player:
                 colorname = board.color[board.collections.index(self.getCollection(p, board))]
                 color = Color.getColor(colorname)
                 print(f'{color}    Property[{board.squares.index(p)}]: {p}')
-
-                print(f'     {Color.B_LightGray}{Color.F_Black} Houses: {p.nbHouses}.{Color.B_Default}{Color.F_Default} Rent: {p.rent} ({getColor(p, board.collections)})')
+                if p.hasHotel:
+                    print(f'     {Color.B_LightCyan}{Color.F_Black} Hotel.{Color.B_Default}{Color.F_Default} Rent: {p.rent}')                    
+                else:
+                    if p.nbHouses != 0:
+                        print(f'     {Color.B_LightGray}{Color.F_Black} Houses: {p.nbHouses}.{Color.B_Default}{Color.F_Default} Rent: {p.rent}')
+                        print(f'     {Color.B_LightGray}{Color.F_Black} Houses: {p.nbHouses}.{Color.B_Default}{Color.F_Default} Rent: {p.rent}')
+                    else:
+                        print(f'     {Color.B_Default}{Color.F_Default} Rent: {p.rent}')
             if p.mortgaged:
                 print(f'{Color.F_Red}    *** Mortgaged')
                 
@@ -693,9 +783,11 @@ class Player:
                     answer = input('      Buy houses ? ')
                     answer = answer.upper()
                     if answer == 'Y':
-                      self.buyHouses(game.board, s)        
+                      self.buyHouses(game.board, s)
+            return True
         else:
             print('  ** Not enough cash for purchase!')
+            return False
             
     def ownProperty(self, s):
         return s.owner == self
@@ -772,29 +864,29 @@ class Player:
         p.owner, q.owner = q.owner, p.owner
 
         try:
-            p.owner.properties.append(q)
-            q.owner.properties.append(p)
+            p.owner.properties.append(p)
+            q.owner.properties.append(q)
         except AttributeError:
             print(f'  {Color.B_Red}*** Property not owned!{Color.B_Default}')
             return
             
         
         try:
-            p.owner.properties.remove(p)
-            q.owner.properties.remove(q)
+            p.owner.properties.remove(q)
+            q.owner.properties.remove(p)
         except ValueError:  # TODO: rewap properties (undo)
             print(f'  {Color.B_Red}*** Not the right owner!{Color.B_Default}')
             p.owner, q.owner = q.owner, p.owner
             
             return
             
-        self.properties.sort(key=cmp_to_key(cmpProperties))
-        o.properties.sort(key=cmp_to_key(cmpProperties))
+        p.owner.properties.sort(key=cmp_to_key(cmpProperties))
+        q.owner.properties.sort(key=cmp_to_key(cmpProperties))
       
         
         pd = int(input('  * Price difference : '))
         self.reduceCash(pd)
-        o.addCash(pd)
+        p.owner.addCash(pd)
            
     def payRent(self, s, board, p, r):
         if isinstance(s, PropertySquare) and s.nbHouses == 0 and not s.hasHotel:
@@ -881,11 +973,11 @@ class Player:
         else:
             if square.canPurchase():
                 print('  Can purchase')
-                self.attemptPurchase(game, square)
-                if isinstance(square, RRSquare):
-                    self.setRRCount(self.getRRCount() + 1)
+                if(self.attemptPurchase(game, square)):
+                    if isinstance(square, RRSquare):
+                        self.setRRCount(self.getRRCount() + 1)
 #                    square.rent = 50 * self.getRRCount()
-                    print(f'  getRRCount = {self.getRRCount()}')
+                        print(f'  getRRCount = {self.getRRCount()}')
                 return True
             else:
                 if isinstance(square, Square) and not square.owner == self:
@@ -903,10 +995,9 @@ class Player:
         print(f'  Chance card: {card.content}')
         
         if len(m.board.chanceCards) == 0:
-            m.board.chanceCards = m.board.usedChanceCards.copy()
+            m.board.chanceCards, m.board.usedChanceCards = m.board.usedChanceCards, m.board.chanceCards
             print('       ** Shuffling chance cards **')
             random.shuffle(m.board.chanceCards)
-            m.board.usedChanceCards.clear()
         
         match card.ind:
             case 0:
@@ -915,7 +1006,6 @@ class Player:
                 self.playSquare(m, self.piece.loc, square, adv)
             case 1:
                 self.piece.loc = 0
-                self.addCash(200)
                 self.addCash(200)  # TODO: should be in advance() (to Go)
             case 2:
                 if self.piece.loc > 7:
@@ -971,6 +1061,7 @@ class Player:
                 for p in self.properties:
                     if isinstance(p, PropertySquare):
                         nbHouses += p.nbHouses
+                        if p.hasHotel: nbHotels += 1
                 self.reduceCash(50 * nbHouses + 100 * nbHotels)
             case 10:
                 self.reduceCash(15)
@@ -1229,5 +1320,3 @@ def main():
        
 if __name__ == '__main__':
     main()
-    
-           
