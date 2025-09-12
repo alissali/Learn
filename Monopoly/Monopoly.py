@@ -256,7 +256,7 @@ None  Square 35 : Trafelgar RRS
      because of not enough cas to purchse previously
 
 Monopoly 1.0
-  Chance card: Advance token to nearest Utility.
+  Chance card: Advance token to nearest Utility. (Solved for all Chance Cards, reordered actions according to cards correctly)
 Cash = 1185
 
   Chance card: Go Back 3 Spaces.
@@ -296,6 +296,7 @@ Cash = 140
   Chance card: Go to Jail. Go directly to Jail, do not pass Go, do not collect $200.
     reduceCash 0
     and no jail! (seems to be ind + 1)
+    (it repeates)
   but afterward:
   Chance card: You have been elected Chairman of the Board. Pay each player $50.
     reduceCash 50
@@ -307,6 +308,35 @@ Cash = 775
     Roll : 2
   Chance card: Your building loan matures. Collect $150 (OK)
 
+
+  Chance card: Advance to Athinon Str. Rhodes. If you pass Go, collect $200.
+
+None  Square 25 : Gare du Nord
+
+  Chance card: Your building loan matures. Collect $150
+    reduceCash 50
+    reduceCash 50
+    reduceCash 50
+
+  Chance card: Take a trip to Trafelgar RRS. If you pass Go, collect $200.
+    reduceCash 15
+
+  Chance card: Take a trip to Trafelgar RRS. If you pass Go, collect $200.
+    reduceCash 15
+  (repeated)
+
+  Chance card: Advance to Athinon Str. Rhodes. If you pass Go, collect $200.
+
+None  Square 35 : Trafelgar RRS
+
+  Chance card: Your building loan matures. Collect $150
+       ** Shuffling chance cards **
+  ** Not enough cash [TODO]
+    reduceCash 50
+
+  *** Checked : order changes in getChanceCards from DB. TODO
+  Solution : add Ind PRIMARY KEY in DB (Done)
+             re(ajust Ind <-> Op. (TODO)
 '''
 
 from Squares import *
@@ -453,7 +483,7 @@ class Board:
         random.shuffle(self.chanceCards)
         
         for c in self.chanceCards:
-            print(c.content)
+            print(f'[{c.ind}] {c.content}')
         
    
     def _read_next(self):
@@ -669,7 +699,6 @@ class Player:
                 else:
                     if p.nbHouses != 0:
                         print(f'     {Color.B_LightGray}{Color.F_Black} Houses: {p.nbHouses}.{Color.B_Default}{Color.F_Default} Rent: {p.rent}')
-                        print(f'     {Color.B_LightGray}{Color.F_Black} Houses: {p.nbHouses}.{Color.B_Default}{Color.F_Default} Rent: {p.rent}')
                     else:
                         print(f'     {Color.B_Default}{Color.F_Default} Rent: {p.rent}')
             if p.mortgaged:
@@ -702,7 +731,9 @@ class Player:
                 p.setRent(p.getRent() - 100)
                 p.hasHotel = False
                 p.nbHouses = 4
-                saleAmount = int(p.price[4]/2)
+                amount = int(p.price[4]/2)
+                saleAmount += amount
+                print(f'    ** Sold hotel at {p.address} for {amount}')
                 if saleAmount > missedAmount:
                     return saleAmount
                     
@@ -1000,27 +1031,33 @@ class Player:
             random.shuffle(m.board.chanceCards)
         
         match card.ind:
-            case 0:
-                self.piece.loc = 23
+            case 1:
+                if self.piece.loc > 17:
+                    self.addCash(200)
+                self.piece.loc = 17
                 square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
-            case 1:
+            case 2:
                 self.piece.loc = 0
                 self.addCash(200)  # TODO: should be in advance() (to Go)
-            case 2:
+            case 3:
                 if self.piece.loc > 7:
                     self.addCash(200)
                 self.piece.loc = 7
                 square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
-            case 3:
+            case 4:
                 self.piece.loc = (self.piece.loc + 1) % 40
                 square = m.board.squares[self.piece.loc]
                 while(not isinstance(square, RRSquare)):
                     self.piece.loc = (self.piece.loc + 1) % 40
                     square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
-            case 4:
+            case 5:
+                self.piece.loc = 23
+                square = m.board.squares[self.piece.loc]
+                self.playSquare(m, self.piece.loc, square, adv)
+            case 6:
                 self.piece.loc = (self.piece.loc + 1) % 40
                 square = m.board.squares[self.piece.loc]
 
@@ -1028,11 +1065,11 @@ class Player:
                     self.piece.loc = (self.piece.loc + 1) % 40
                     square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
-            case 5:
-                self.addCash(50)
-            case 6:
-                self.freeCard = True
             case 7:
+                self.addCash(50)
+            case 8:
+                self.freeCard = True
+            case 9:
                 m.advance(self, self.piece.loc, -3)
                 square = m.board.squares[self.piece.loc]
                 if isinstance(square, PropertySquare) or isinstance(square, RRSquare)\
@@ -1052,10 +1089,10 @@ class Player:
                 else:
                     print(f' Landed on impossible {square}')
                     
-            case 8:
+            case 10:
                 self.piece.loc = 30
                 self.inJail = True
-            case 9:
+            case 11:
                 nbHouses = 0
                 nbHotels = 0
                 for p in self.properties:
@@ -1063,30 +1100,22 @@ class Player:
                         nbHouses += p.nbHouses
                         if p.hasHotel: nbHotels += 1
                 self.reduceCash(50 * nbHouses + 100 * nbHotels)
-            case 10:
+            case 12:
                 self.reduceCash(15)
-            case 11:
+            case 13:
                 if self.piece.loc > 35:
                     self.addCash(200)
                 self.piece.loc = 35
                 square = m.board.squares[self.piece.loc]
                 self.playSquare(m, self.piece.loc, square, adv)
-            case 12:
+            case 14:
                 for p in m.players:
                     if p != self:
                         p.addCash(50)
                         self.reduceCash(50)
-            case 13:
+            case 15:
                 self.addCash(150)
-            case 14:
-                if self.piece.loc > 17:
-                    self.addCash(200)
-                self.piece.loc = 17
-                square = m.board.squares[self.piece.loc]
-                self.playSquare(m, self.piece.loc, square, adv)
-
-         
-              
+ 
     def playGoSquare(self, title, loc):
         print(f'  Square: {loc}. Landed on a go: {title}')
         if loc == 10:
@@ -1221,7 +1250,7 @@ def execCmd(choice, game, p):
             p.attemptPurchase(game, game.board.squares[4])
             p.buyHouses(game.board, game.board.squares[3])
             print(f'{Color.B_Yellow}******************************************')
-            print(f'*  {Color.B_Green}CONGRATULATIONS {game.players[0].name} YOU WON !!!{Color.B_Yellow}    *{Color.B_Default}')
+            print(f'*  {Color.B_Blue}CONGRATULATIONS {game.players[0].name} YOU WON !!!{Color.B_Yellow}    *{Color.B_Default}')
             print(f'{Color.B_Yellow}******************************************{Color.B_Default}')
         case '':
             pass
