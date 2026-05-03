@@ -106,8 +106,9 @@ def new_game(player_names):
         "players": players,
         "current": 0,
         "board": SQUARES,
-        "owners": {},   # square_index -> player_index
-        "houses": {},   # square_index -> house count (4=hotel)
+        "owners": {},     # square_index -> player_index
+        "houses": {},     # square_index -> house count (4=hotel)
+        "mortgaged": {},  # square_index -> True if mortgaged
         "log": ["Game started! Good luck to all players! 🎲"],
         "phase": "roll",  # roll | action | buy | end
         "last_roll": None,
@@ -136,6 +137,8 @@ def calc_rent(game, sq_idx, player_idx, dice_total):
     owner_idx = game["owners"].get(sq_idx)
     if owner_idx is None or owner_idx == player_idx:
         return 0
+    if game["mortgaged"].get(sq_idx):
+        return 0  # mortgaged — no rent
     if sq["type"] == "railroad":
         owned_rr = sum(1 for i,o in game["owners"].items() if o == owner_idx and game["board"][i]["type"] == "railroad")
         return sq["rent"][min(owned_rr-1, 3)]
@@ -282,6 +285,44 @@ def do_buy(game):
     game["phase"] = "end"
     return game
 
+def do_mortgage(game, sq_idx):
+    player = game["players"][game["current"]]
+    sq = game["board"][sq_idx]
+    owner_idx = game["owners"].get(sq_idx)
+    if owner_idx != game["current"]:
+        game["log"].append(f"❌ You don't own {sq['name']}.")
+        return game
+    if game["mortgaged"].get(sq_idx):
+        game["log"].append(f"❌ {sq['name']} is already mortgaged.")
+        return game
+    if game["houses"].get(sq_idx, 0) > 0:
+        game["log"].append(f"❌ Remove houses from {sq['name']} before mortgaging.")
+        return game
+    mortgage_value = sq["price"] // 2
+    player["cash"] += mortgage_value
+    game["mortgaged"][sq_idx] = True
+    game["log"].append(f"🏦 {player['name']} mortgaged {sq['name']} for ${mortgage_value}.")
+    return game
+
+def do_unmortgage(game, sq_idx):
+    player = game["players"][game["current"]]
+    sq = game["board"][sq_idx]
+    owner_idx = game["owners"].get(sq_idx)
+    if owner_idx != game["current"]:
+        game["log"].append(f"❌ You don't own {sq['name']}.")
+        return game
+    if not game["mortgaged"].get(sq_idx):
+        game["log"].append(f"❌ {sq['name']} is not mortgaged.")
+        return game
+    cost = int(sq["price"] // 2 * 1.1)  # mortgage value + 10% interest
+    if player["cash"] < cost:
+        game["log"].append(f"❌ Need ${cost} to unmortgage {sq['name']}. You have ${player['cash']}.")
+        return game
+    player["cash"] -= cost
+    game["mortgaged"][sq_idx] = False
+    game["log"].append(f"✅ {player['name']} unmortgaged {sq['name']} for ${cost} (10% interest included).")
+    return game
+
 def do_pass(game):
     game["log"].append(f"⏭️ {game['players'][game['current']]['name']} passed on buying.")
     game["phase"] = "end"
@@ -343,6 +384,28 @@ def api_pass():
     if not game:
         return jsonify({"error": "No game"}), 404
     game = do_pass(game)
+    session["game"] = game
+    return jsonify(game)
+
+@app.route("/api/mortgage", methods=["POST"])
+def api_mortgage():
+    game = session.get("game")
+    if not game:
+        return jsonify({"error": "No game"}), 404
+    data = request.get_json()
+    sq_idx = int(data.get("sq_idx", -1))
+    game = do_mortgage(game, sq_idx)
+    session["game"] = game
+    return jsonify(game)
+
+@app.route("/api/unmortgage", methods=["POST"])
+def api_unmortgage():
+    game = session.get("game")
+    if not game:
+        return jsonify({"error": "No game"}), 404
+    data = request.get_json()
+    sq_idx = int(data.get("sq_idx", -1))
+    game = do_unmortgage(game, sq_idx)
     session["game"] = game
     return jsonify(game)
 

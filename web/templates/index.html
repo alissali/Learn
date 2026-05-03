@@ -78,6 +78,7 @@ h1 { text-align: center; padding: 16px; color: #f0c040; font-size: 1.6em; letter
       <button class="btn btn-pass" id="btn-pass" onclick="doPass()" disabled>⏭ Pass</button>
       <button class="btn btn-end"  id="btn-end"  onclick="doEnd()"  disabled>✅ End Turn</button>
     </div>
+    <div id="mortgage-panel" style="background:#0d1b2e;border-radius:8px;padding:10px;margin-bottom:10px;min-height:40px;"></div>
     <div id="log"></div>
   </div>
 </div>
@@ -129,6 +130,16 @@ async function doPass() {
 }
 async function doEnd() {
   const res = await fetch('/api/end_turn', {method:'POST'});
+  state = await res.json();
+  renderAll();
+}
+async function doMortgage(sqIdx) {
+  const res = await fetch('/api/mortgage', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({sq_idx: sqIdx})});
+  state = await res.json();
+  renderAll();
+}
+async function doUnmortgage(sqIdx) {
+  const res = await fetch('/api/unmortgage', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({sq_idx: sqIdx})});
   state = await res.json();
   renderAll();
 }
@@ -202,6 +213,13 @@ function renderBoard() {
         dot.style.background = PLAYER_COLORS[state.owners[idx]];
         cell.appendChild(dot);
       }
+      // Mortgaged indicator
+      if (state.mortgaged && state.mortgaged[idx]) {
+        const mort = document.createElement('div');
+        mort.style.cssText = 'font-size:9px;color:#ff4444;font-weight:bold;text-align:center;';
+        mort.textContent = 'M';
+        cell.appendChild(mort);
+      }
 
       // Tokens
       const here = playersOn[idx];
@@ -252,10 +270,46 @@ function renderLog() {
   div.innerHTML = [...state.log].reverse().slice(0,30).map(l=>`<p>${l}</p>`).join('');
 }
 
+function renderMortgagePanel() {
+  const div = document.getElementById('mortgage-panel');
+  if (!div) return;
+  const player = state.players[state.current];
+  if (!player || player.properties.length === 0) {
+    div.innerHTML = '<p style="color:#888;font-size:12px">No properties to mortgage.</p>';
+    return;
+  }
+  div.innerHTML = '<p style="color:#f0c040;font-size:12px;margin:0 0 6px 0">🏦 Your Properties:</p>';
+  player.properties.forEach(sqIdx => {
+    const sq = state.board[sqIdx];
+    const isMortgaged = state.mortgaged && state.mortgaged[sqIdx];
+    const mortgageVal = Math.floor(sq.price / 2);
+    const unmortgageCost = Math.floor(mortgageVal * 1.1);
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin:3px 0;font-size:12px;';
+    const label = document.createElement('span');
+    label.textContent = (isMortgaged ? '🔴 ' : '🟢 ') + sq.name;
+    label.style.color = isMortgaged ? '#ff6666' : '#ccc';
+    const btn = document.createElement('button');
+    if (isMortgaged) {
+      btn.textContent = `Lift $${unmortgageCost}`;
+      btn.style.cssText = 'background:#2a6a2a;color:#fff;border:none;border-radius:4px;padding:2px 7px;cursor:pointer;font-size:11px;';
+      btn.onclick = () => doUnmortgage(sqIdx);
+    } else {
+      btn.textContent = `Mortgage $${mortgageVal}`;
+      btn.style.cssText = 'background:#6a2a2a;color:#fff;border:none;border-radius:4px;padding:2px 7px;cursor:pointer;font-size:11px;';
+      btn.onclick = () => doMortgage(sqIdx);
+    }
+    row.appendChild(label);
+    row.appendChild(btn);
+    div.appendChild(row);
+  });
+}
+
 function renderAll() {
   renderBoard();
   renderPlayers();
   renderActions();
+  renderMortgagePanel();
   renderLog();
 }
 </script>
