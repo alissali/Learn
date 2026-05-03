@@ -7,85 +7,202 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
-h1 { text-align: center; padding: 16px; color: #f0c040; font-size: 1.6em; letter-spacing: 2px; }
-#setup { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 40px; }
-#setup input { padding: 8px 14px; border-radius: 6px; border: 1px solid #444; background: #2a2a4a; color: #eee; font-size: 1em; width: 220px; }
-#setup button { padding: 10px 28px; background: #f0c040; color: #1a1a2e; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; }
-#game { display: none; gap: 12px; padding: 10px; }
-#board-wrap { flex: 0 0 auto; }
-#board { display: grid; grid-template-columns: repeat(11, 52px); grid-template-rows: repeat(11, 52px); gap: 2px; }
-.cell { width: 52px; height: 52px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 8px; text-align: center; position: relative; cursor: default; border: 1px solid #333; background: #16213e; overflow: hidden; }
-.cell .cname { font-size: 7px; line-height: 1.1; padding: 1px; }
-.cell .cbar { width: 100%; height: 8px; position: absolute; top: 0; }
-.cell.corner { background: #0f3460; font-size: 10px; font-weight: bold; }
+
+h1 { text-align: center; padding: 14px; color: #f0c040; font-size: 1.5em; letter-spacing: 3px; border-bottom: 1px solid #2a2a4a; }
+
+/* ── SETUP ── */
+#setup { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 60px 20px; }
+#setup p { color: #aaa; }
+#name-inputs { display: flex; flex-direction: column; gap: 8px; }
+#setup input { padding: 9px 16px; border-radius: 6px; border: 1px solid #3a3a5a; background: #0f1b2e; color: #eee; font-size: 1em; width: 240px; outline: none; transition: border 0.2s; }
+#setup input:focus { border-color: #f0c040; }
+.setup-btn { padding: 10px 28px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.95em; transition: opacity 0.2s; }
+.setup-btn:hover { opacity: 0.85; }
+.btn-add   { background: #2a3a5a; color: #ccc; }
+.btn-start { background: #f0c040; color: #1a1a2e; margin-top: 6px; font-size: 1.05em; }
+
+/* ── LAYOUT ── */
+#game { display: none; flex-direction: row; flex-wrap: wrap; gap: 10px; padding: 10px; }
+
+/* ── BOARD ── */
+#board-wrap { padding: 4px; }
+#board { display: grid; grid-template-columns: repeat(11, 54px); grid-template-rows: repeat(11, 54px); gap: 2px; }
+.cell {
+  width: 54px; height: 54px; border-radius: 4px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 7.5px; text-align: center; position: relative; cursor: default;
+  border: 1px solid #2a3a5a; background: #16213e; overflow: hidden;
+  transition: outline 0.1s;
+}
+.cell:hover { outline: 1px solid #f0c040; z-index: 3; }
+.cell .cname { font-size: 7px; line-height: 1.2; padding: 2px 1px; }
+.cell .cbar { width: 100%; height: 8px; position: absolute; top: 0; flex-shrink: 0; }
+.cell.corner { background: #0d2040; font-size: 10px; font-weight: bold; }
 .cell.player-here { outline: 2px solid #f0c040; z-index: 2; }
-.tokens { font-size: 13px; line-height: 1; }
-.purple-bar { background: #9b59b6; }
-.lblue-bar  { background: #3498db; }
-.pink-bar   { background: #e91e8c; }
-.orange-bar { background: #e67e22; }
-.red-bar    { background: #e74c3c; }
-.yellow-bar { background: #f1c40f; }
-.green-bar  { background: #2ecc71; }
-.dblue-bar  { background: #1a5276; }
-.black-bar  { background: #2c3e50; }
-.white-bar  { background: #bdc3c7; }
+.tokens { font-size: 14px; line-height: 1; margin-top: 1px; }
 .owned-dot { position: absolute; bottom: 2px; right: 2px; width: 8px; height: 8px; border-radius: 50%; }
-#panel { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 260px; }
-#players-info { display: flex; flex-wrap: wrap; gap: 8px; }
-.player-card { background: #16213e; border-radius: 8px; padding: 10px 14px; flex: 1; min-width: 120px; border-left: 4px solid #f0c040; }
-.player-card.active-player { border-left-color: #2ecc71; background: #0f3460; }
-.player-card h3 { font-size: 0.9em; margin-bottom: 4px; }
-.player-card .cash { font-size: 1.2em; color: #f0c040; font-weight: bold; }
-.player-card .props { font-size: 0.75em; color: #aaa; margin-top: 4px; }
+.mort-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(180,0,0,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: bold; color: #ff5555; pointer-events: none;
+}
+
+/* color bars */
+.purple-bar { background: #9b59b6; } .lblue-bar { background: #3498db; }
+.pink-bar   { background: #e91e8c; } .orange-bar { background: #e67e22; }
+.red-bar    { background: #e74c3c; } .yellow-bar { background: #f1c40f; }
+.green-bar  { background: #2ecc71; } .dblue-bar  { background: #1565c0; }
+.black-bar  { background: #546e7a; } .white-bar  { background: #cfd8dc; }
+
+/* ── PANEL ── */
+#panel { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 280px; max-width: 420px; }
+
+/* section wrapper */
+.section { background: #16213e; border-radius: 8px; padding: 10px 12px; }
+.section-title { font-size: 0.72em; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 8px; }
+
+/* ── PLAYERS ── */
+#players-info { display: flex; flex-wrap: wrap; gap: 7px; }
+.player-card {
+  border-radius: 7px; padding: 9px 12px; flex: 1; min-width: 116px;
+  border-left: 4px solid #f0c040; background: #0f1b2e;
+  transition: background 0.2s;
+}
+.player-card.active-player { background: #0d2040; }
+.player-card h3 { font-size: 0.85em; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player-card .cash { font-size: 1.15em; color: #f0c040; font-weight: bold; }
+.player-card .net  { font-size: 0.72em; color: #7ab; margin-top: 1px; }
+.player-card .props { font-size: 0.72em; color: #888; margin-top: 3px; }
+
+/* ── DICE + PHASE ── */
+#dice-area { text-align: center; }
+#dice { font-size: 2.2em; letter-spacing: 10px; min-height: 50px; line-height: 1.2; }
+.phase-label {
+  display: inline-block; margin-top: 5px;
+  font-size: 0.78em; font-weight: bold; padding: 3px 12px;
+  border-radius: 20px; background: #0d2040; color: #aaa;
+  letter-spacing: 0.5px;
+}
+.phase-roll  { color: #f0c040 !important; }
+.phase-buy   { color: #2ecc71 !important; }
+.phase-end   { color: #3498db !important; }
+
+/* ── ACTION BUTTONS ── */
 #actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn { padding: 8px 18px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9em; transition: opacity 0.2s; }
-.btn:disabled { opacity: 0.3; cursor: not-allowed; }
-.btn-roll  { background: #f0c040; color: #1a1a2e; }
-.btn-buy   { background: #2ecc71; color: #1a1a2e; }
-.btn-pass  { background: #e74c3c; color: #fff; }
-.btn-end   { background: #3498db; color: #fff; }
-#log { background: #16213e; border-radius: 8px; padding: 10px; height: 220px; overflow-y: auto; font-size: 0.82em; line-height: 1.6; }
-#log p { border-bottom: 1px solid #223; padding: 2px 0; }
-#dice { font-size: 2em; text-align: center; letter-spacing: 8px; min-height: 48px; }
-.phase-label { text-align: center; font-size: 0.8em; color: #aaa; }
+.btn { padding: 9px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.88em; transition: opacity 0.2s, transform 0.1s; }
+.btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.btn:not(:disabled):hover { opacity: 0.88; transform: translateY(-1px); }
+.btn:not(:disabled):active { transform: translateY(0); }
+.btn-roll { background: #f0c040; color: #1a1a2e; }
+.btn-buy  { background: #2ecc71; color: #1a1a2e; }
+.btn-pass { background: #e74c3c; color: #fff; }
+.btn-end  { background: #3498db; color: #fff; }
+
+/* ── MORTGAGE ── */
+#mortgage-panel { }
+.mort-title { font-size: 0.72em; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 8px; }
+.mort-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 4px 0; font-size: 12px; padding: 4px 6px;
+  border-radius: 5px; background: #0f1b2e;
+}
+.mort-row:hover { background: #0d2040; }
+.mort-name { display: flex; align-items: center; gap: 6px; overflow: hidden; }
+.mort-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.mort-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
+.mort-label.is-mortgaged { color: #ff6666; text-decoration: line-through; }
+.mort-values { font-size: 10px; color: #778; margin-left: 4px; flex-shrink: 0; }
+.mort-btn {
+  border: none; border-radius: 4px; padding: 3px 9px;
+  cursor: pointer; font-size: 11px; font-weight: bold;
+  flex-shrink: 0; transition: opacity 0.2s;
+}
+.mort-btn:hover { opacity: 0.82; }
+.mort-btn.do-mortgage   { background: #5a1a1a; color: #ffaaaa; }
+.mort-btn.do-unmortgage { background: #1a5a1a; color: #aaffaa; }
+.mort-empty { color: #555; font-size: 12px; font-style: italic; }
+
+/* ── LOG ── */
+#log { background: #0f1b2e; border-radius: 8px; padding: 10px 12px; height: 200px; overflow-y: auto; font-size: 0.8em; line-height: 1.65; }
+#log p { border-bottom: 1px solid #1a2a3a; padding: 2px 0; }
+#log p.log-turn { color: #3498db; font-weight: bold; border-bottom-color: #2a3a5a; }
+#log p.log-buy  { color: #2ecc71; }
+#log p.log-pay  { color: #e74c3c; }
+#log p.log-card { color: #f0c040; }
+#log p.log-mort { color: #e67e22; }
 </style>
 </head>
 <body>
 <h1>🎲 mMonopoly — JuX Web Edition</h1>
 
+<!-- SETUP -->
 <div id="setup">
-  <p style="color:#aaa;margin-bottom:8px;">Enter player names (2–6 players)</p>
+  <p>Enter player names (2–6 players)</p>
   <div id="name-inputs">
-    <input type="text" placeholder="Player 1" value="Mamoun"><br><br>
+    <input type="text" placeholder="Player 1" value="Mamoun">
     <input type="text" placeholder="Player 2" value="Player 2">
   </div>
-  <button onclick="addPlayer()">+ Add Player</button>
-  <button onclick="startGame()" style="background:#2ecc71;margin-top:8px;">▶ Start Game</button>
+  <button class="setup-btn btn-add" onclick="addPlayer()">+ Add Player</button>
+  <button class="setup-btn btn-start" onclick="startGame()">▶ Start Game</button>
 </div>
 
-<div id="game" style="display:none;flex-direction:row;flex-wrap:wrap;">
-  <div id="board-wrap" style="padding:8px;">
+<!-- GAME -->
+<div id="game">
+  <div id="board-wrap">
     <div id="board"></div>
   </div>
   <div id="panel">
-    <div id="players-info"></div>
-    <div id="dice">🎲 🎲</div>
-    <div class="phase-label" id="phase-label">Waiting...</div>
-    <div id="actions">
-      <button class="btn btn-roll" id="btn-roll" onclick="doRoll()">🎲 Roll</button>
-      <button class="btn btn-buy"  id="btn-buy"  onclick="doBuy()"  disabled>🏠 Buy</button>
-      <button class="btn btn-pass" id="btn-pass" onclick="doPass()" disabled>⏭ Pass</button>
-      <button class="btn btn-end"  id="btn-end"  onclick="doEnd()"  disabled>✅ End Turn</button>
+
+    <!-- Players -->
+    <div class="section" id="players-section">
+      <div class="section-title">Players</div>
+      <div id="players-info"></div>
     </div>
-    <div id="mortgage-panel" style="background:#0d1b2e;border-radius:8px;padding:10px;margin-bottom:10px;min-height:40px;"></div>
-    <div id="log"></div>
+
+    <!-- Dice + Phase -->
+    <div class="section" id="dice-area">
+      <div id="dice">🎲 🎲</div>
+      <div class="phase-label" id="phase-label">Waiting...</div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="section">
+      <div id="actions">
+        <button class="btn btn-roll" id="btn-roll" onclick="doRoll()">🎲 Roll</button>
+        <button class="btn btn-buy"  id="btn-buy"  onclick="doBuy()"  disabled>🏠 Buy</button>
+        <button class="btn btn-pass" id="btn-pass" onclick="doPass()" disabled>⏭ Pass</button>
+        <button class="btn btn-end"  id="btn-end"  onclick="doEnd()"  disabled>✅ End Turn</button>
+      </div>
+    </div>
+
+    <!-- Mortgage panel -->
+    <div class="section" id="mortgage-section">
+      <div class="mort-title">🏦 Mortgage</div>
+      <div id="mortgage-panel"></div>
+    </div>
+
+    <!-- Log -->
+    <div class="section" style="padding:0;">
+      <div id="log"></div>
+    </div>
+
   </div>
 </div>
 
 <script>
 const DICE_FACES = ['','⚀','⚁','⚂','⚃','⚄','⚅'];
 const PLAYER_COLORS = ['#f0c040','#2ecc71','#e74c3c','#3498db','#e67e22','#9b59b6'];
+const COLOR_HEX = {
+  purple:'#9b59b6', lblue:'#3498db', pink:'#e91e8c', orange:'#e67e22',
+  red:'#e74c3c', yellow:'#f1c40f', green:'#2ecc71', dblue:'#1565c0',
+  black:'#546e7a', white:'#cfd8dc'
+};
+const COLOR_CLASSES = {
+  purple:'purple-bar', lblue:'lblue-bar', pink:'pink-bar', orange:'orange-bar',
+  red:'red-bar', yellow:'yellow-bar', green:'green-bar', dblue:'dblue-bar',
+  black:'black-bar', white:'white-bar'
+};
 
 let state = null;
 
@@ -95,16 +212,15 @@ function addPlayer() {
   if (inputs.length >= 6) { alert('Max 6 players!'); return; }
   const inp = document.createElement('input');
   inp.type = 'text';
-  inp.placeholder = 'Player ' + (inputs.length+1);
-  inp.value = 'Player ' + (inputs.length+1);
-  d.appendChild(document.createElement('br'));
-  d.appendChild(document.createElement('br'));
+  const n = inputs.length + 1;
+  inp.placeholder = 'Player ' + n;
+  inp.value = 'Player ' + n;
   d.appendChild(inp);
 }
 
 async function startGame() {
   const inputs = document.querySelectorAll('#name-inputs input');
-  const names = Array.from(inputs).map(i=>i.value.trim()).filter(n=>n);
+  const names = Array.from(inputs).map(i => i.value.trim()).filter(n => n);
   if (names.length < 2) { alert('Need at least 2 players!'); return; }
   const res = await fetch('/api/new', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({players: names})});
   state = await res.json();
@@ -113,50 +229,28 @@ async function startGame() {
   renderAll();
 }
 
-async function doRoll() {
-  const res = await fetch('/api/roll', {method:'POST'});
-  state = await res.json();
-  renderAll();
-}
-async function doBuy() {
-  const res = await fetch('/api/buy', {method:'POST'});
-  state = await res.json();
-  renderAll();
-}
-async function doPass() {
-  const res = await fetch('/api/pass', {method:'POST'});
-  state = await res.json();
-  renderAll();
-}
-async function doEnd() {
-  const res = await fetch('/api/end_turn', {method:'POST'});
-  state = await res.json();
-  renderAll();
-}
-async function doMortgage(sqIdx) {
-  const res = await fetch('/api/mortgage', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({sq_idx: sqIdx})});
-  state = await res.json();
-  renderAll();
-}
-async function doUnmortgage(sqIdx) {
-  const res = await fetch('/api/unmortgage', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({sq_idx: sqIdx})});
+async function api(url, body) {
+  const opts = { method: 'POST' };
+  if (body !== undefined) { opts.headers = {'Content-Type':'application/json'}; opts.body = JSON.stringify(body); }
+  const res = await fetch(url, opts);
   state = await res.json();
   renderAll();
 }
 
-const COLOR_CLASSES = {purple:'purple-bar',lblue:'lblue-bar',pink:'pink-bar',orange:'orange-bar',red:'red-bar',yellow:'yellow-bar',green:'green-bar',dblue:'dblue-bar',black:'black-bar',white:'white-bar'};
+const doRoll      = () => api('/api/roll');
+const doBuy       = () => api('/api/buy');
+const doPass      = () => api('/api/pass');
+const doEnd       = () => api('/api/end_turn');
+const doMortgage  = (i) => api('/api/mortgage',   {sq_idx: i});
+const doUnmortgage= (i) => api('/api/unmortgage', {sq_idx: i});
 
-// Board layout: square index -> grid position [row, col] (1-indexed)
+// ── BOARD ──────────────────────────────────────────────────────
 function boardLayout() {
   const layout = {};
-  // Bottom row (left to right): squares 0-10
-  for (let i=0;i<=10;i++) layout[i]=[11,i+1];
-  // Left col (bottom to top): squares 11-20
-  for (let i=0;i<9;i++) layout[11+i]=[10-i,1];
-  // Top row: squares 20-30
-  for (let i=0;i<=10;i++) layout[20+i]=[1,i+1];
-  // Right col: squares 31-39
-  for (let i=0;i<9;i++) layout[31+i]=[i+2,11];
+  for (let i = 0; i <= 10; i++) layout[i]     = [11, i+1];
+  for (let i = 0; i < 9;  i++) layout[11+i]   = [10-i, 1];
+  for (let i = 0; i <= 10; i++) layout[20+i]   = [1, i+1];
+  for (let i = 0; i < 9;  i++) layout[31+i]   = [i+2, 11];
   return layout;
 }
 
@@ -164,70 +258,64 @@ function renderBoard() {
   const board = document.getElementById('board');
   board.innerHTML = '';
   const layout = boardLayout();
-  const grid = Array.from({length:11},()=>Array(11).fill(null));
-  
-  // Place squares
-  state.board.forEach((sq,idx)=>{
-    const [r,c] = layout[idx];
-    grid[r-1][c-1] = {sq, idx};
-  });
-  // Center cell
-  grid[5][5] = {sq:{name:'JuX',type:'center',color:null},idx:-1};
+  const grid = Array.from({length:11}, () => Array(11).fill(null));
+  state.board.forEach((sq, idx) => { const [r,c] = layout[idx]; grid[r-1][c-1] = {sq, idx}; });
+  grid[5][5] = {sq:{name:'JuX',type:'center',color:null}, idx:-1};
 
-  // Find players on each cell
   const playersOn = {};
-  state.players.forEach((p,pi)=>{
-    if (!playersOn[p.position]) playersOn[p.position]=[];
+  state.players.forEach((p, pi) => {
+    if (!playersOn[p.position]) playersOn[p.position] = [];
     playersOn[p.position].push(pi);
   });
 
-  for (let r=0;r<11;r++) {
-    for (let c=0;c<11;c++) {
+  for (let r = 0; r < 11; r++) {
+    for (let c = 0; c < 11; c++) {
       const cell = document.createElement('div');
       cell.className = 'cell';
       const item = grid[r][c];
       if (!item) { cell.style.background='transparent'; cell.style.border='none'; board.appendChild(cell); continue; }
-      const {sq,idx} = item;
-      if (sq.type==='center') {
-        cell.style.gridColumn='2/11'; cell.style.gridRow='2/11';
-        cell.style.background='#0a0a1a'; cell.style.border='2px solid #f0c040';
-        cell.style.fontSize='18px'; cell.style.fontWeight='bold'; cell.style.color='#f0c040';
-        cell.innerHTML='<div>🎲<br>mMonopoly<br><span style="font-size:11px;color:#aaa">JuX Web Edition</span></div>';
+      const {sq, idx} = item;
+
+      if (sq.type === 'center') {
+        cell.style.gridColumn = '2/11'; cell.style.gridRow = '2/11';
+        cell.style.cssText += 'background:#080e1a;border:2px solid #1a3a6a;font-size:16px;font-weight:bold;color:#f0c040;flex-direction:column;gap:6px;';
+        cell.innerHTML = '<div style="font-size:28px">🎲</div><div style="letter-spacing:2px">mMonopoly</div><div style="font-size:10px;color:#5a7a9a;letter-spacing:1px">JuX Web Edition</div>';
         board.appendChild(cell); continue;
       }
+
       if (['go','jail','gotojail','parking'].includes(sq.type)) cell.classList.add('corner');
+
       if (sq.color && COLOR_CLASSES[sq.color]) {
         const bar = document.createElement('div');
         bar.className = 'cbar ' + COLOR_CLASSES[sq.color];
         cell.appendChild(bar);
       }
+
       const name = document.createElement('div');
       name.className = 'cname';
       name.textContent = sq.name;
       cell.appendChild(name);
 
-      // Owner dot
       if (state.owners && state.owners[idx] !== undefined) {
         const dot = document.createElement('div');
         dot.className = 'owned-dot';
         dot.style.background = PLAYER_COLORS[state.owners[idx]];
         cell.appendChild(dot);
       }
-      // Mortgaged indicator
+
       if (state.mortgaged && state.mortgaged[idx]) {
-        const mort = document.createElement('div');
-        mort.style.cssText = 'font-size:9px;color:#ff4444;font-weight:bold;text-align:center;';
-        mort.textContent = 'M';
-        cell.appendChild(mort);
+        const ov = document.createElement('div');
+        ov.className = 'mort-overlay';
+        ov.textContent = 'M';
+        cell.appendChild(ov);
       }
 
-      // Tokens
       const here = playersOn[idx];
       if (here && here.length > 0) {
         cell.classList.add('player-here');
         const tok = document.createElement('div');
         tok.className = 'tokens';
-        tok.textContent = here.map(pi=>state.players[pi].token).join('');
+        tok.textContent = here.map(pi => state.players[pi].token).join('');
         cell.appendChild(tok);
       }
 
@@ -236,75 +324,126 @@ function renderBoard() {
   }
 }
 
+// ── PLAYERS ────────────────────────────────────────────────────
+function calcNetWorth(player) {
+  let worth = player.cash;
+  (player.properties || []).forEach(sqIdx => {
+    const sq = state.board[sqIdx];
+    const mortgaged = state.mortgaged && state.mortgaged[sqIdx];
+    worth += mortgaged ? Math.floor(sq.price / 2) : sq.price;
+    worth += (state.houses && state.houses[sqIdx] || 0) * 50;
+  });
+  return worth;
+}
+
 function renderPlayers() {
   const div = document.getElementById('players-info');
   div.innerHTML = '';
-  state.players.forEach((p,i)=>{
+  state.players.forEach((p, i) => {
     const card = document.createElement('div');
-    card.className = 'player-card' + (i===state.current?' active-player':'');
+    const isActive = i === state.current;
+    card.className = 'player-card' + (isActive ? ' active-player' : '');
     card.style.borderLeftColor = PLAYER_COLORS[i];
-    card.innerHTML = `<h3>${p.token} ${p.name}${i===state.current?' ◀':''}</h3>
+    const nw = calcNetWorth(p);
+    const colorDots = (p.properties || []).map(sqIdx => {
+      const sq = state.board[sqIdx];
+      const col = sq.color ? (COLOR_HEX[sq.color] || '#888') : '#546e7a';
+      return `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${col};margin-right:2px;"></span>`;
+    }).join('');
+    card.innerHTML = `
+      <h3>${p.token} ${p.name}${isActive ? ' <span style="color:#2ecc71;font-size:0.9em">▶</span>' : ''}</h3>
       <div class="cash">$${p.cash}</div>
-      <div class="props">${p.properties.length} properties${p.in_jail?' 👮 JAIL':''}</div>`;
+      <div class="net">Net worth: $${nw}</div>
+      <div class="props">${colorDots || '—'}${p.in_jail ? ' &nbsp;👮 JAIL' : ''}</div>
+    `;
     div.appendChild(card);
   });
 }
 
+// ── DICE + PHASE ───────────────────────────────────────────────
 function renderActions() {
   const phase = state.phase;
   document.getElementById('btn-roll').disabled = phase !== 'roll';
   document.getElementById('btn-buy').disabled  = phase !== 'buy';
   document.getElementById('btn-pass').disabled = phase !== 'buy';
   document.getElementById('btn-end').disabled  = phase !== 'end';
-  document.getElementById('phase-label').textContent = 
-    phase==='roll'?'Your turn — Roll the dice!':
-    phase==='buy' ?'Buy this property?':
-    phase==='end' ?'Click End Turn to continue':'...';
+  const label = document.getElementById('phase-label');
+  const cur = state.players[state.current];
+  if (phase === 'roll') {
+    label.textContent = `${cur.name} — Roll the dice!`;
+    label.className = 'phase-label phase-roll';
+  } else if (phase === 'buy') {
+    const sq = state.board[cur.position];
+    label.textContent = `Buy ${sq.name} for $${sq.price}?`;
+    label.className = 'phase-label phase-buy';
+  } else if (phase === 'end') {
+    label.textContent = `${cur.name} — End turn`;
+    label.className = 'phase-label phase-end';
+  } else {
+    label.textContent = '...';
+    label.className = 'phase-label';
+  }
   if (state.last_roll) {
-    document.getElementById('dice').textContent = DICE_FACES[state.last_roll[0]] + ' ' + DICE_FACES[state.last_roll[1]];
+    document.getElementById('dice').textContent = DICE_FACES[state.last_roll[0]] + '  ' + DICE_FACES[state.last_roll[1]];
   }
 }
 
-function renderLog() {
-  const div = document.getElementById('log');
-  div.innerHTML = [...state.log].reverse().slice(0,30).map(l=>`<p>${l}</p>`).join('');
-}
-
+// ── MORTGAGE ───────────────────────────────────────────────────
 function renderMortgagePanel() {
   const div = document.getElementById('mortgage-panel');
   if (!div) return;
   const player = state.players[state.current];
-  if (!player || player.properties.length === 0) {
-    div.innerHTML = '<p style="color:#888;font-size:12px">No properties to mortgage.</p>';
+  if (!player || !player.properties || player.properties.length === 0) {
+    div.innerHTML = '<div class="mort-empty">No properties owned yet.</div>';
     return;
   }
-  div.innerHTML = '<p style="color:#f0c040;font-size:12px;margin:0 0 6px 0">🏦 Your Properties:</p>';
+  div.innerHTML = '';
   player.properties.forEach(sqIdx => {
     const sq = state.board[sqIdx];
     const isMortgaged = state.mortgaged && state.mortgaged[sqIdx];
-    const mortgageVal = Math.floor(sq.price / 2);
-    const unmortgageCost = Math.floor(mortgageVal * 1.1);
+    const mortVal = Math.floor(sq.price / 2);
+    const liftCost = Math.floor(mortVal * 1.1);
+    const col = sq.color ? (COLOR_HEX[sq.color] || '#546e7a') : '#546e7a';
+
     const row = document.createElement('div');
-    row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin:3px 0;font-size:12px;';
-    const label = document.createElement('span');
-    label.textContent = (isMortgaged ? '🔴 ' : '🟢 ') + sq.name;
-    label.style.color = isMortgaged ? '#ff6666' : '#ccc';
+    row.className = 'mort-row';
+
+    const nameDiv = document.createElement('div');
+    nameDiv.className = 'mort-name';
+    nameDiv.innerHTML = `
+      <span class="mort-dot" style="background:${col};${isMortgaged?'opacity:0.4':''}"></span>
+      <span class="mort-label${isMortgaged?' is-mortgaged':''}">${sq.name}</span>
+      <span class="mort-values">${isMortgaged ? `lift $${liftCost}` : `→ $${mortVal}`}</span>
+    `;
+
     const btn = document.createElement('button');
-    if (isMortgaged) {
-      btn.textContent = `Lift $${unmortgageCost}`;
-      btn.style.cssText = 'background:#2a6a2a;color:#fff;border:none;border-radius:4px;padding:2px 7px;cursor:pointer;font-size:11px;';
-      btn.onclick = () => doUnmortgage(sqIdx);
-    } else {
-      btn.textContent = `Mortgage $${mortgageVal}`;
-      btn.style.cssText = 'background:#6a2a2a;color:#fff;border:none;border-radius:4px;padding:2px 7px;cursor:pointer;font-size:11px;';
-      btn.onclick = () => doMortgage(sqIdx);
-    }
-    row.appendChild(label);
+    btn.className = 'mort-btn ' + (isMortgaged ? 'do-unmortgage' : 'do-mortgage');
+    btn.textContent = isMortgaged ? `Lift $${liftCost}` : `Mortgage $${mortVal}`;
+    btn.onclick = () => isMortgaged ? doUnmortgage(sqIdx) : doMortgage(sqIdx);
+
+    row.appendChild(nameDiv);
     row.appendChild(btn);
     div.appendChild(row);
   });
 }
 
+// ── LOG ────────────────────────────────────────────────────────
+function logClass(line) {
+  if (line.startsWith('---')) return 'log-turn';
+  if (line.includes('bought') || line.includes('✅')) return 'log-buy';
+  if (line.includes('paid') || line.includes('💸') || line.includes('tax')) return 'log-pay';
+  if (line.includes('🃏') || line.includes('📦')) return 'log-card';
+  if (line.includes('🏦') || line.includes('mortgag')) return 'log-mort';
+  return '';
+}
+
+function renderLog() {
+  const div = document.getElementById('log');
+  div.innerHTML = [...state.log].reverse().slice(0, 40)
+    .map(l => `<p class="${logClass(l)}">${l}</p>`).join('');
+}
+
+// ── RENDER ALL ─────────────────────────────────────────────────
 function renderAll() {
   renderBoard();
   renderPlayers();
