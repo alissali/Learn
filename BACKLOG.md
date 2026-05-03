@@ -15,17 +15,6 @@ RULE: Every item here has a TYPE, a STATUS, and a NAME. No noise.
 | B3 | AttributeError in cmpHouses | line 246, UtilitySquare | **SOLVED** | Tue Mar 25 17:13:46 CET 2025 @717 /Internet Time/ — `UtilitySquare` has no `getnbHouses` |
 | B4 | Double addition mortgage amount | unmortgageProperty | **DONE** | |
 | B5 | attemptPurchase return type | attemptPurchase → bool | Check needed | `TODO: check` |
-| B6 | exchangeProperty: negative cash | exchange() | Open | payPlayer() not called — cash goes negative |
-| B7 | Railroad rent: wrong amount | rent calculation, RR squares | Open | RR charges $200 to non-owners incorrectly |
-| B8 | ownCollection: rent not doubled | payRent → ownCollection check | Open | Doubling condition not triggered when player owns full set |
-| B9 | playSquare: not called after Chance card | playCard → Chance card resolution | Open | Board square effect skipped after card moves player |
-| B10 | unmortgage: wrong property index match | unmortgageProperty, list ind 0 | Open | Property at index 0 misidentified — wrong item unmortgaged |
-| B11 | printProperties: None prefix | printProperties | Open | `None` printed before property display — return value used as print argument |
-| B12 | canPurchase: not invoked on utility landing | playSquare → Utility | Open | Should call canPurchase() — not called |
-| B13 | exchange: ValueError list.remove | exchange() | Open | `list.remove(x): x not in list` — property 32 vs 18 |
-| B14 | sell houses: cash still negative after auto-sell | sellHouses auto-trigger | Open | Houses sold, rent paid — cash still < 0 |
-| B15 | buyHouses exit after attemptPurchase.ownCollection | menu → buyHouses | Open | Exits prematurely after purchase completes collection |
-| B16 | negative cash after double/loss | reduceCash → jail double roll | Open | Cash = -5 after losing — not enough cash not handled |
 
 ---
 
@@ -76,9 +65,6 @@ RULE: Every item here has a TYPE, a STATUS, and a NAME. No noise.
 | T5 | Register Players — clean up | Init | Open | |
 | T6 | Defensive Programming — Collection methods | Collections | Open | Long colorname expression needs cleanup |
 | T7 | unmortgageProperty: mortgagedList smell | unmortgageProperty | Open | code smell |
-| T8 | getChanceCards: reajust Ind <-> Op in DB | Cards / DB | Open | Primary key added, index-operation alignment pending |
-| T9 | addCash(200) on Go: move to advance() | advance(), line ~1042 | Open | Currently inline — should be in advance() |
-| T10 | exchange: undo / rewrap properties | exchange(), line ~908 | Open | ValueError on bad exchange — needs rollback |
 
 ---
 
@@ -94,10 +80,6 @@ RULE: Every item here has a TYPE, a STATUS, and a NAME. No noise.
 | D6 | check mortgage amounts | — | Done (double addition fixed) |
 | D7 | Parking — nothing to do per standard rules | — | Done, no more occurrences |
 | D8 | BUG: printProperties AttributeError UtilitySquare | Tue Mar 25 17:13:46 CET 2025 @717 /Internet Time/ | **CULTURE BUG** — Solved to the second |
-| D9 | getChanceCards: order from DB — add Ind PRIMARY KEY | line ~337 | Done |
-| D10 | readjust rent when houses sold | mortgage() | Done — code checked OK |
-| D11 | Chance card: Go Back 3 Spaces not executed | playCard | Done |
-| D12 | exchange: duplicate property after bad trade | exchange() | Done — pythonic exchange code |
 
 ---
 

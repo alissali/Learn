@@ -1,0 +1,16 @@
+INSERT INTO CCCards Values ("Advance to Go (Collect $200)");
+INSERT INTO CCCards Values ("Bank error in your favor. Collect $200");
+INSERT INTO CCCards Values ("Doctor’s fee. Pay $50");
+INSERT INTO CCCards Values ("From sale of stock you get $50");
+INSERT INTO CCCards Values ("Get Out of Jail Free");
+INSERT INTO CCCards Values ("Go to Jail. Go directly to jail, do not pass Go, do not collect $200");
+INSERT INTO CCCards Values ("Holiday fund matures. Receive $100");
+INSERT INTO CCCards Values ("Income tax refund. Collect $20");
+INSERT INTO CCCards Values ("It is your birthday. Collect $10 from every player");
+INSERT INTO CCCards Values ("Life insurance matures. Collect $100");
+INSERT INTO CCCards Values ("Pay hospital fees of $100");
+INSERT INTO CCCards Values ("Pay school fees of $50");
+INSERT INTO CCCards Values ("Receive $25 consultancy fee");
+INSERT INTO CCCards Values ("You are assessed for street repair. $40 per house. $115 per hotel");
+INSERT INTO CCCards Values ("You have won second prize in a beauty contest. Collect $10");
+INSERT INTO CCCards Values ("You inherit $100");
