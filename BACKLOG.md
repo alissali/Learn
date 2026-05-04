@@ -1,6 +1,6 @@
-# mMonopoly — Backlog
+# JuXAIMonopoly — Backlog
 
-NAME: mMonopoly Backlog  
+NAME: JuXAIMonopoly Backlog  
 FACT: Extracted from Monopoly.py TODO block. Separated from code. Living document.  
 RULE: Every item here has a TYPE, a STATUS, and a NAME. No noise.
 
