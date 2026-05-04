@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JeuX — Game Platform</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Georgia',serif; background:#0a0a0a; color:#e0e0e0; min-height:100vh; }
+
+/* ── HEADER ── */
+.header { text-align:center; padding:30px 20px 20px; border-bottom:1px solid #1e1e1e; }
+.header h1 { font-size:2.4em; letter-spacing:0.3em; color:#fff; text-transform:uppercase; }
+.header p { color:#555; font-size:0.85em; letter-spacing:0.2em; margin-top:6px; }
+
+/* ── TABS ── */
+.tabs { display:flex; justify-content:center; gap:4px; padding:20px; }
+.tab { padding:10px 32px; border:1px solid #222; background:#111; color:#666;
+       cursor:pointer; letter-spacing:0.15em; font-size:0.85em; text-transform:uppercase;
+       transition:all 0.2s; }
+.tab:hover { color:#aaa; border-color:#444; }
+.tab.active { color:#fff; border-color:#666; background:#1a1a1a; }
+
+/* ── PANELS ── */
+.panel { display:none; max-width:1000px; margin:0 auto; padding:20px 30px 60px; }
+.panel.active { display:block; }
+
+/* ── SETUP ── */
+.setup-card { background:#111; border:1px solid #1e1e1e; padding:30px; margin-bottom:24px; }
+.setup-card h2 { font-size:0.8em; letter-spacing:0.25em; text-transform:uppercase;
+                  color:#555; margin-bottom:20px; }
+.input-row { display:flex; gap:10px; flex-wrap:wrap; }
+.input-row input { flex:1; min-width:150px; background:#0a0a0a; border:1px solid #222;
+                    color:#ddd; padding:10px 14px; font-size:0.95em; }
+.input-row input:focus { outline:none; border-color:#555; }
+.btn { padding:10px 24px; border:1px solid #444; background:#1a1a1a; color:#ddd;
+       cursor:pointer; letter-spacing:0.1em; font-size:0.85em; text-transform:uppercase;
+       transition:all 0.2s; }
+.btn:hover { background:#252525; border-color:#777; color:#fff; }
+.btn.primary { border-color:#f0c040; color:#f0c040; }
+.btn.primary:hover { background:#1a1500; }
+.btn.red { border-color:#c33; color:#c33; }
+.btn.red:hover { background:#1a0000; }
+.btn.green { border-color:#4a8; color:#4a8; }
+.btn.green:hover { background:#001a0d; }
+
+/* ── YAMS ── */
+.dice-row { display:flex; gap:12px; justify-content:center; margin:20px 0; flex-wrap:wrap; }
+.die { width:70px; height:70px; border:2px solid #333; background:#111;
+       display:flex; align-items:center; justify-content:center;
+       font-size:2em; cursor:pointer; transition:all 0.2s; user-select:none; }
+.die:hover { border-color:#888; }
+.die.held { border-color:#f0c040; background:#1a1500; color:#f0c040; }
+.die.zero { color:#333; }
+
+.scorecard-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin:16px 0; }
+.score-row { display:flex; justify-content:space-between; align-items:center;
+             padding:8px 12px; background:#0d0d0d; border:1px solid #1a1a1a; }
+.score-row.used { opacity:0.4; }
+.score-row.available { cursor:pointer; }
+.score-row.available:hover { border-color:#f0c040; background:#1a1500; }
+.score-label { font-size:0.8em; letter-spacing:0.1em; color:#888; }
+.score-val { font-size:0.85em; color:#f0c040; }
+
+/* ── CARDS ── */
+.cards-row { display:flex; gap:10px; justify-content:center; margin:20px 0; flex-wrap:wrap; }
+.card { width:70px; height:100px; border:2px solid #333; background:#111;
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        font-size:1.3em; cursor:pointer; transition:all 0.2s; user-select:none; line-height:1.3; }
+.card:hover { border-color:#888; }
+.card.held { border-color:#f0c040; background:#1a1500; }
+.card .suit-h, .card .suit-d { color:#cc3333; }
+.card .suit-s, .card .suit-c { color:#ddd; }
+.card.empty { color:#333; font-size:0.8em; }
+.card .val { font-size:0.9em; color:#999; }
+
+/* ── COMMUNITY ── */
+.community { display:flex; gap:10px; justify-content:center; margin:20px 0;
+             padding:16px; background:#0d0d0d; border:1px solid #1a1a1a; }
+.community-label { text-align:center; font-size:0.7em; letter-spacing:0.2em;
+                    text-transform:uppercase; color:#444; margin-bottom:4px; }
+
+/* ── PLAYERS TABLE ── */
+.players-table { width:100%; border-collapse:collapse; margin:16px 0; }
+.players-table th { font-size:0.7em; letter-spacing:0.2em; text-transform:uppercase;
+                     color:#444; padding:8px; text-align:left; border-bottom:1px solid #1a1a1a; }
+.players-table td { padding:8px 10px; font-size:0.9em; color:#bbb; }
+.players-table tr.active-player td { color:#fff; }
+.players-table tr.folded td { opacity:0.3; }
+
+/* ── LOG ── */
+.log { background:#080808; border:1px solid #1a1a1a; padding:14px; max-height:140px;
+        overflow-y:auto; margin-top:16px; }
+.log-entry { font-size:0.78em; color:#666; padding:3px 0; font-family:monospace; }
+.log-entry.win { color:#f0c040; }
+.log-entry.action { color:#4a8; }
+
+/* ── STATUS BAR ── */
+.status { text-align:center; padding:10px; margin:10px 0;
+           font-size:0.8em; letter-spacing:0.15em; text-transform:uppercase; }
+.status.info { color:#666; }
+.status.winner { color:#f0c040; font-size:1em; }
+.status.phase { color:#4a8; }
+
+/* ── GAME OVER ── */
+.game-over { text-align:center; padding:40px; background:#0d0d0d; border:1px solid #333; margin:20px 0; }
+.game-over h2 { font-size:1.8em; color:#f0c040; margin-bottom:10px; }
+.game-over p { color:#888; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px) {
+  .scorecard-grid { grid-template-columns:1fr; }
+  .die, .card { width:55px; height:55px; font-size:1.5em; }
+  .card { height:80px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>JeuX</h1>
+  <p>JuXYams &nbsp;·&nbsp; 5-Card Draw &nbsp;·&nbsp; Texas Hold'em</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('yams')">JuXYams</div>
+  <div class="tab" onclick="switchTab('draw')">5-Card Draw</div>
+  <div class="tab" onclick="switchTab('holdem')">Hold'em</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ YAMS -->
+<div id="panel-yams" class="panel active">
+  <div class="setup-card">
+    <h2>Players</h2>
+    <div class="input-row">
+      <input id="yams-p1" value="Player 1" placeholder="Player 1">
+      <input id="yams-p2" value="Player 2" placeholder="Player 2">
+      <button class="btn primary" onclick="yamsNew()">New Game</button>
+    </div>
+  </div>
+
+  <div id="yams-game" style="display:none">
+    <div class="status info" id="yams-status">Roll your dice</div>
+    <div class="dice-row" id="yams-dice"></div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px">
+      <button class="btn primary" id="yams-roll-btn" onclick="yamsRoll()">🎲 Roll</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div>
+        <div style="font-size:0.75em;letter-spacing:0.2em;text-transform:uppercase;color:#444;margin-bottom:10px">Scorecard</div>
+        <div class="scorecard-grid" id="yams-scorecard"></div>
+      </div>
+      <div>
+        <table class="players-table" id="yams-players"></table>
+        <div class="log" id="yams-log"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ 5-CARD DRAW -->
+<div id="panel-draw" class="panel">
+  <div class="setup-card">
+    <h2>Players</h2>
+    <div class="input-row">
+      <input id="draw-p1" value="Player 1" placeholder="Player 1">
+      <input id="draw-p2" value="Player 2" placeholder="Player 2">
+      <button class="btn primary" onclick="drawNew()">New Game</button>
+    </div>
+  </div>
+
+  <div id="draw-game" style="display:none">
+    <div class="status info" id="draw-status">Start a new game</div>
+    <div style="text-align:center;margin-bottom:10px">
+      <span style="font-size:0.8em;color:#555;letter-spacing:0.15em">POT: </span>
+      <span id="draw-pot" style="color:#f0c040;font-size:1.1em">0</span>
+    </div>
+
+    <div id="draw-players-section">
+      <div style="font-size:0.75em;letter-spacing:0.2em;text-transform:uppercase;color:#444;margin-bottom:6px">Your Hand (Player 1)</div>
+      <div class="cards-row" id="draw-hand"></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0" id="draw-actions">
+        <button class="btn primary" onclick="drawDeal()" id="draw-deal-btn">Deal</button>
+        <button class="btn green" onclick="drawDraw()" id="draw-draw-btn" style="display:none">Draw New Cards</button>
+        <button class="btn red" onclick="drawShowdown()" id="draw-sd-btn" style="display:none">Showdown</button>
+      </div>
+    </div>
+
+    <table class="players-table" id="draw-players"></table>
+    <div class="log" id="draw-log"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ HOLD'EM -->
+<div id="panel-holdem" class="panel">
+  <div class="setup-card">
+    <h2>Players</h2>
+    <div class="input-row">
+      <input id="holdem-p1" value="Player 1" placeholder="Player 1">
+      <input id="holdem-p2" value="Player 2" placeholder="Player 2">
+      <input id="holdem-p3" value="Player 3" placeholder="Player 3 (optional)">
+      <button class="btn primary" onclick="holdemNew()">New Game</button>
+    </div>
+  </div>
+
+  <div id="holdem-game" style="display:none">
+    <div class="status info" id="holdem-status">Deal to start</div>
+    <div style="text-align:center;margin-bottom:6px">
+      <span style="font-size:0.8em;color:#555;letter-spacing:0.15em">POT: </span>
+      <span id="holdem-pot" style="color:#f0c040;font-size:1.1em">0</span>
+    </div>
+
+    <div class="community-label">Community Cards</div>
+    <div class="community" id="holdem-community"></div>
+
+    <div style="font-size:0.75em;letter-spacing:0.2em;text-transform:uppercase;color:#444;margin:14px 0 6px">Your Hole Cards (Player 1)</div>
+    <div class="cards-row" id="holdem-hole"></div>
+
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0" id="holdem-actions">
+      <button class="btn primary" onclick="holdemDeal()" id="h-deal">Deal</button>
+      <button class="btn" onclick="holdemFlop()" id="h-flop" style="display:none">Flop</button>
+      <button class="btn" onclick="holdemTurn()" id="h-turn" style="display:none">Turn</button>
+      <button class="btn" onclick="holdemRiver()" id="h-river" style="display:none">River</button>
+      <button class="btn green" onclick="holdemBet()" id="h-bet" style="display:none">Bet 20</button>
+      <button class="btn red" onclick="holdemFold()" id="h-fold" style="display:none">Fold</button>
+      <button class="btn primary" onclick="holdemShowdown()" id="h-sd" style="display:none">Showdown</button>
+    </div>
+
+    <table class="players-table" id="holdem-players"></table>
+    <div class="log" id="holdem-log"></div>
+  </div>
+</div>
+
+<script>
+// ── TABS ────────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names = ['yams','draw','holdem'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+// ── HELPERS ─────────────────────────────────────────────────────────────────
+async function api(url, body=null) {
+  const opts = body ? {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)} : {};
+  const r = await fetch(url, opts);
+  return r.json();
+}
+
+function renderLog(entries, elId) {
+  const el = document.getElementById(elId);
+  el.innerHTML = entries.map(e => `<div class="log-entry">${e}</div>`).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+function cardHtml(card) {
+  if (!card || card === '?') return `<div class="card empty">?</div>`;
+  const suit = card.slice(-1);
+  const val = card.slice(0, -1);
+  const cls = (suit === '♥' || suit === '♦') ? 'suit-h' : 'suit-s';
+  return `<div class="card"><span class="${cls}">${suit}</span><span class="val">${val}</span></div>`;
+}
+
+function holdableCard(card, idx, held, onToggle) {
+  if (!card || card === '?') return `<div class="card empty">?</div>`;
+  const suit = card.slice(-1);
+  const val = card.slice(0,-1);
+  const cls = (suit === '♥' || suit === '♦') ? 'suit-h' : 'suit-s';
+  const heldCls = held[idx] ? ' held' : '';
+  return `<div class="card${heldCls}" onclick="${onToggle}(${idx})">
+    <span class="${cls}">${suit}</span><span class="val">${val}</span>
+    ${held[idx] ? '<span style="font-size:0.55em;color:#f0c040">HOLD</span>' : ''}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════ YAMS ════════════
+
+let yamsState = null;
+
+async function yamsNew() {
+  const p1 = document.getElementById('yams-p1').value || 'Player 1';
+  const p2 = document.getElementById('yams-p2').value || 'Player 2';
+  yamsState = await api('/yams/new', {players:[p1,p2]});
+  document.getElementById('yams-game').style.display = 'block';
+  renderYams();
+}
+
+async function yamsRoll() {
+  const r = await api('/yams/roll');
+  if (r.error) { document.getElementById('yams-status').textContent = r.error; return; }
+  const s = await api('/yams/state');
+  yamsState = s;
+  renderYams();
+}
+
+async function yamsToggleHold(i) {
+  const r = await api('/yams/hold', {index:i});
+  if (!r.error && yamsState) yamsState.held = r.held;
+  renderYamsDice();
+}
+
+async function yamsScoreCombo(combo) {
+  const r = await api('/yams/score', {combo});
+  if (r.error) { document.getElementById('yams-status').textContent = r.error; return; }
+  yamsState = r.state;
+  renderYams();
+}
+
+function renderYams() {
+  if (!yamsState) return;
+  const s = yamsState;
+
+  // Status
+  const statusEl = document.getElementById('yams-status');
+  if (s.game_over) {
+    statusEl.textContent = `🏆 ${s.winner} wins!`;
+    statusEl.className = 'status winner';
+  } else {
+    statusEl.textContent = `${s.current_player}'s turn — ${s.rolls_left} roll(s) left`;
+    statusEl.className = 'status phase';
+  }
+
+  renderYamsDice();
+
+  // Roll button
+  const rollBtn = document.getElementById('yams-roll-btn');
+  rollBtn.disabled = s.rolls_left === 0 || s.game_over;
+
+  // Scorecard
+  const COMBO_LABELS = {
+    ones:'Ones', twos:'Twos', threes:'Threes', fours:'Fours', fives:'Fives', sixes:'Sixes',
+    three_of_a_kind:'3-of-a-Kind', four_of_a_kind:'4-of-a-Kind',
+    full_house:'Full House (25)', small_straight:'Sm. Straight (30)',
+    large_straight:'Lg. Straight (40)', yams:'YAMS (50)', chance:'Chance'
+  };
+  const sc = s.scorecard || {};
+  const avail = s.available || [];
+  let html = '';
+  for (const [k, label] of Object.entries(COMBO_LABELS)) {
+    const used = k in sc;
+    const canScore = avail.includes(k) && s.rolls_left < 3 && !s.game_over;
+    const val = used ? sc[k] : (canScore ? '?' : '–');
+    html += `<div class="score-row ${used?'used':''} ${canScore?'available':''}"
+      ${canScore ? `onclick="yamsScoreCombo('${k}')"` : ''}>
+      <span class="score-label">${label}</span>
+      <span class="score-val">${val}</span>
+    </div>`;
+  }
+  document.getElementById('yams-scorecard').innerHTML = html;
+
+  // Players table
+  let ptable = '<tr><th>Player</th><th>Score</th></tr>';
+  for (const p of s.players) {
+    ptable += `<tr><td>${p.name}</td><td style="color:#f0c040">${p.score}</td></tr>`;
+  }
+  document.getElementById('yams-players').innerHTML = ptable;
+
+  // Log
+  renderLog(s.log || [], 'yams-log');
+}
+
+function renderYamsDice() {
+  if (!yamsState) return;
+  const {dice, held, rolls_left} = yamsState;
+  const FACES = ['', '⚀','⚁','⚂','⚃','⚄','⚅'];
+  let html = '';
+  for (let i = 0; i < 5; i++) {
+    const d = dice[i] || 0;
+    const h = (held || [])[i] || false;
+    const canHold = rolls_left < 3 && d > 0;
+    html += `<div class="die ${h?'held':''} ${d===0?'zero':''}"
+      ${canHold ? `onclick="yamsToggleHold(${i})"` : ''}>
+      ${d > 0 ? FACES[d] : '·'}
+    </div>`;
+  }
+  document.getElementById('yams-dice').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════ DRAW POKER ═════
+
+let drawState = null;
+
+async function drawNew() {
+  const p1 = document.getElementById('draw-p1').value || 'Player 1';
+  const p2 = document.getElementById('draw-p2').value || 'Player 2';
+  drawState = await api('/draw/new', {players:[p1,p2]});
+  document.getElementById('draw-game').style.display = 'block';
+  renderDraw();
+}
+
+async function drawDeal() {
+  await api('/draw/deal');
+  drawState = await api('/draw/state?player=0');
+  renderDraw();
+  document.getElementById('draw-deal-btn').style.display = 'none';
+  document.getElementById('draw-draw-btn').style.display = 'inline-block';
+  document.getElementById('draw-status').textContent = 'Click cards to hold, then draw';
+}
+
+async function drawToggleCard(i) {
+  const r = await api('/draw/hold', {player:0, card:i});
+  if (drawState) drawState.held = r.held;
+  renderDrawHand();
+}
+
+async function drawDraw() {
+  await api('/draw/draw', {player:0});
+  // All players draw
+  for (let i = 1; i < (drawState.players||[]).length; i++) {
+    await api('/draw/draw', {player:i});
+  }
+  drawState = await api('/draw/state?player=0');
+  document.getElementById('draw-draw-btn').style.display = 'none';
+  document.getElementById('draw-sd-btn').style.display = 'inline-block';
+  document.getElementById('draw-status').textContent = 'All players drew — Showdown!';
+  renderDraw();
+}
+
+async function drawShowdown() {
+  const r = await api('/draw/showdown');
+  document.getElementById('draw-status').textContent = `🏆 ${r.winner} wins with ${r.hand.replace(/_/g,' ')}!`;
+  document.getElementById('draw-sd-btn').style.display = 'none';
+  document.getElementById('draw-deal-btn').style.display = 'inline-block';
+  document.getElementById('draw-deal-btn').textContent = 'New Round';
+  // Show results
+  let log = document.getElementById('draw-log');
+  let extra = (r.results||[]).map(p => p.folded ? `${p.name}: folded` : `${p.name}: ${p.hand_name} — ${p.cards.join(' ')}`).join(' | ');
+  log.innerHTML = `<div class="log-entry win">${extra}</div>` + log.innerHTML;
+  drawState = await api('/draw/state?player=0');
+  renderDraw();
+}
+
+function renderDraw() {
+  if (!drawState) return;
+  document.getElementById('draw-pot').textContent = drawState.pot || 0;
+  renderDrawHand();
+  // Players
+  let pt = '<tr><th>Player</th><th>Chips</th><th>Status</th></tr>';
+  for (const p of (drawState.players||[])) {
+    pt += `<tr class="${p.folded?'folded':''}"><td>${p.name}</td><td style="color:#f0c040">${p.chips}</td><td>${p.folded?'Folded':'–'}</td></tr>`;
+  }
+  document.getElementById('draw-players').innerHTML = pt;
+  renderLog(drawState.log||[], 'draw-log');
+}
+
+function renderDrawHand() {
+  if (!drawState) return;
+  const hand = drawState.your_hand || [];
+  const held = drawState.held || [false,false,false,false,false];
+  let html = '';
+  for (let i = 0; i < 5; i++) {
+    html += holdableCard(hand[i]||'?', i, held, 'drawToggleCard');
+  }
+  document.getElementById('draw-hand').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════ HOLD'EM ═════════
+
+let holdemGameState = null;
+
+async function holdemNew() {
+  const players = [
+    document.getElementById('holdem-p1').value || 'Player 1',
+    document.getElementById('holdem-p2').value || 'Player 2',
+  ];
+  const p3 = document.getElementById('holdem-p3').value;
+  if (p3) players.push(p3);
+  holdemGameState = await api('/holdem/new', {players});
+  document.getElementById('holdem-game').style.display = 'block';
+  showHoldemBtn(['h-deal']);
+  renderHoldem();
+}
+
+async function holdemDeal() {
+  await api('/holdem/deal');
+  holdemGameState = await api('/holdem/state?player=0');
+  showHoldemBtn(['h-flop','h-bet','h-fold']);
+  document.getElementById('holdem-status').textContent = 'Pre-flop — bet, fold, or deal flop';
+  renderHoldem();
+}
+
+async function holdemFlop() {
+  await api('/holdem/flop');
+  holdemGameState = await api('/holdem/state?player=0');
+  showHoldemBtn(['h-turn','h-bet','h-fold']);
+  document.getElementById('holdem-status').textContent = 'Flop — bet or fold';
+  renderHoldem();
+}
+
+async function holdemTurn() {
+  await api('/holdem/turn');
+  holdemGameState = await api('/holdem/state?player=0');
+  showHoldemBtn(['h-river','h-bet','h-fold']);
+  document.getElementById('holdem-status').textContent = 'Turn — bet or fold';
+  renderHoldem();
+}
+
+async function holdemRiver() {
+  await api('/holdem/river');
+  holdemGameState = await api('/holdem/state?player=0');
+  showHoldemBtn(['h-sd','h-bet','h-fold']);
+  document.getElementById('holdem-status').textContent = 'River — final bets or showdown';
+  renderHoldem();
+}
+
+async function holdemBet() {
+  await api('/holdem/bet', {player:0, amount:20});
+  holdemGameState = await api('/holdem/state?player=0');
+  renderHoldem();
+}
+
+async function holdemFold() {
+  await api('/holdem/fold', {player:0});
+  holdemGameState = await api('/holdem/state?player=0');
+  renderHoldem();
+}
+
+async function holdemShowdown() {
+  const r = await api('/holdem/showdown');
+  const statusEl = document.getElementById('holdem-status');
+  statusEl.textContent = `🏆 ${r.winner} wins ${r.pot} with ${r.hand.replace(/_/g,' ')}!`;
+  statusEl.className = 'status winner';
+  showHoldemBtn(['h-deal']);
+  document.getElementById('h-deal').textContent = 'New Round';
+  holdemGameState = await api('/holdem/state?player=0');
+  renderHoldem();
+}
+
+function showHoldemBtn(ids) {
+  const all = ['h-deal','h-flop','h-turn','h-river','h-bet','h-fold','h-sd'];
+  for (const id of all) {
+    document.getElementById(id).style.display = ids.includes(id) ? 'inline-block' : 'none';
+  }
+}
+
+function renderHoldem() {
+  if (!holdemGameState) return;
+  const s = holdemGameState;
+  document.getElementById('holdem-pot').textContent = s.pot || 0;
+
+  // Community cards
+  const comm = s.community || [];
+  let ch = comm.map(c => cardHtml(c)).join('');
+  if (!ch) ch = '<span style="color:#333;font-size:0.8em;letter-spacing:0.1em">No cards yet</span>';
+  document.getElementById('holdem-community').innerHTML = ch;
+
+  // Hole cards
+  const hole = s.your_hole || [];
+  document.getElementById('holdem-hole').innerHTML = hole.map(c => cardHtml(c)).join('') || '<span style="color:#333">–</span>';
+
+  // Players table
+  let pt = '<tr><th>Player</th><th>Chips</th><th>Bet</th><th>Status</th></tr>';
+  for (const p of (s.players||[])) {
+    pt += `<tr class="${p.folded?'folded':''}">
+      <td>${p.name}</td>
+      <td style="color:#f0c040">${p.chips}</td>
+      <td>${p.bet||0}</td>
+      <td>${p.folded?'<span style="color:#c33">Folded</span>':'–'}</td>
+    </tr>`;
+  }
+  document.getElementById('holdem-players').innerHTML = pt;
+  renderLog(s.log||[], 'holdem-log');
+}
+</script>
+</body>
+</html>
