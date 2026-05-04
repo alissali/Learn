@@ -133,6 +133,9 @@ def get_color_owner(game, color):
     return owners.pop() if len(owners) == 1 else None
 
 def calc_rent(game, sq_idx, player_idx, dice_total):
+    # B7 — Railroad rent: verified correct.
+    # owned_rr=1 → rent[0]=$25, 2 → rent[1]=$50, 3 → rent[2]=$100, 4 → rent[3]=$200.
+    # Uses sq["rent"][min(owned_rr-1, 3)] which is correct. ✓
     sq = game["board"][sq_idx]
     owner_idx = game["owners"].get(sq_idx)
     if owner_idx is None or owner_idx == player_idx:
@@ -151,39 +154,12 @@ def calc_rent(game, sq_idx, player_idx, dice_total):
         return sq["rent"][0] * 2
     return sq["rent"][min(houses, len(sq["rent"])-1)]
 
-def do_roll(game):
+# B9 — land_on_square: extracted from do_roll so card moves can trigger square effects.
+def land_on_square(game, log, dice_total=0):
+    """Handle ALL square landing effects for the current player at their current position."""
     player = game["players"][game["current"]]
-    d1, d2 = roll_dice()
-    total = d1 + d2
-    game["last_roll"] = [d1, d2]
-    log = []
-
-    if player["in_jail"]:
-        if d1 == d2:
-            player["in_jail"] = False
-            player["jail_turns"] = 0
-            log.append(f"🎲 {player['name']} rolled doubles ({d1}+{d2}) and got out of jail!")
-        else:
-            player["jail_turns"] += 1
-            if player["jail_turns"] >= 3:
-                player["cash"] -= 50
-                player["in_jail"] = False
-                player["jail_turns"] = 0
-                log.append(f"🎲 {player['name']} rolled {d1}+{d2}. Paid $50 to get out of jail!")
-            else:
-                log.append(f"🎲 {player['name']} rolled {d1}+{d2}. Still in jail (turn {player['jail_turns']}/3).")
-                game["phase"] = "end"
-                game["log"] += log
-                return game
-
-    old_pos = player["position"]
-    player["position"] = (player["position"] + total) % 40
-    if player["position"] < old_pos:
-        player["cash"] += 200
-        log.append(f"✈️ {player['name']} passed GO! Collected $200.")
-
-    sq = game["board"][player["position"]]
-    log.append(f"🎲 {player['name']} rolled {d1}+{d2}={total} → landed on {sq['name']}")
+    sq_idx = player["position"]
+    sq = game["board"][sq_idx]
 
     game["phase"] = "action"
     game["pending_action"] = None
@@ -199,6 +175,9 @@ def do_roll(game):
         player["cash"] -= sq["price"]
         game["free_parking_pot"] += sq["price"]
         log.append(f"💸 {player['name']} paid tax of ${sq['price']}.")
+        # B16 — debt warning after tax payment
+        if player["cash"] < 0:
+            log.append(f"⚠️ {player['name']} is in debt! Cash: ${player['cash']}. Must sell or mortgage to recover.")
         game["phase"] = "end"
     elif sq["type"] == "parking":
         pot = game["free_parking_pot"]
@@ -220,7 +199,7 @@ def do_roll(game):
         log.append(f"📦 Community Chest: {card}")
         game = apply_card(game, card, log)
     elif sq["type"] in ("property", "railroad", "utility"):
-        owner_idx = game["owners"].get(player["position"])
+        owner_idx = game["owners"].get(sq_idx)
         if owner_idx is None:
             game["phase"] = "buy"
             log.append(f"🏠 {sq['name']} is available for ${sq['price']}. Buy?")
@@ -228,12 +207,57 @@ def do_roll(game):
             log.append(f"🏠 You own {sq['name']}.")
             game["phase"] = "end"
         else:
-            rent = calc_rent(game, player["position"], game["current"], total)
+            rent = calc_rent(game, sq_idx, game["current"], dice_total)
             owner = game["players"][owner_idx]
             player["cash"] -= rent
             owner["cash"] += rent
             log.append(f"💰 {player['name']} paid ${rent} rent to {owner['name']}.")
+            # B16 — debt warning after rent payment
+            if player["cash"] < 0:
+                log.append(f"⚠️ {player['name']} is in debt! Cash: ${player['cash']}. Must sell or mortgage to recover.")
             game["phase"] = "end"
+
+    return game
+
+def do_roll(game):
+    player = game["players"][game["current"]]
+    d1, d2 = roll_dice()
+    total = d1 + d2
+    game["last_roll"] = [d1, d2]
+    log = []
+
+    if player["in_jail"]:
+        if d1 == d2:
+            player["in_jail"] = False
+            player["jail_turns"] = 0
+            log.append(f"🎲 {player['name']} rolled doubles ({d1}+{d2}) and got out of jail!")
+        else:
+            player["jail_turns"] += 1
+            if player["jail_turns"] >= 3:
+                player["cash"] -= 50
+                player["in_jail"] = False
+                player["jail_turns"] = 0
+                log.append(f"🎲 {player['name']} rolled {d1}+{d2}. Paid $50 to get out of jail!")
+                # B16 — debt warning after jail fee payment
+                if player["cash"] < 0:
+                    log.append(f"⚠️ {player['name']} is in debt! Cash: ${player['cash']}. Must sell or mortgage to recover.")
+            else:
+                log.append(f"🎲 {player['name']} rolled {d1}+{d2}. Still in jail (turn {player['jail_turns']}/3).")
+                game["phase"] = "end"
+                game["log"] += log
+                return game
+
+    old_pos = player["position"]
+    player["position"] = (player["position"] + total) % 40
+    if player["position"] < old_pos:
+        player["cash"] += 200
+        log.append(f"✈️ {player['name']} passed GO! Collected $200.")
+
+    sq = game["board"][player["position"]]
+    log.append(f"🎲 {player['name']} rolled {d1}+{d2}={total} → landed on {sq['name']}")
+
+    # B9 — delegate all square handling to land_on_square()
+    game = land_on_square(game, log, total)
 
     game["log"] += log
     return game
@@ -242,33 +266,49 @@ def apply_card(game, card, log):
     player = game["players"][game["current"]]
     card_l = card.lower()
     if "advance to go" in card_l:
+        # Advance to GO: collect $200, no square effect needed
         player["position"] = 0
         player["cash"] += 200
+        game["phase"] = "end"
     elif "go to jail" in card_l:
+        # Go to Jail: just jail, no square effect
         player["in_jail"] = True
         player["position"] = 10
+        game["phase"] = "end"
     elif "back 3 spaces" in card_l:
+        # B9 — movement card: trigger square effect at new position
         player["position"] = max(0, player["position"] - 3)
+        game = land_on_square(game, log)
     elif "dividend" in card_l or "bank error" in card_l or "holiday" in card_l or "insurance" in card_l or "consultancy" in card_l:
         amt = int(''.join(filter(str.isdigit, card))) if any(c.isdigit() for c in card) else 50
         player["cash"] += amt
+        game["phase"] = "end"
     elif "pay" in card_l or "fees" in card_l or "tax" in card_l:
         amt = int(''.join(filter(str.isdigit, card))) if any(c.isdigit() for c in card) else 50
         player["cash"] -= amt
         game["free_parking_pot"] += amt
+        game["phase"] = "end"
     elif "reading railroad" in card_l:
+        # B9 — movement card: trigger square effect at Reading RR (pos 5)
         player["position"] = 5
+        game = land_on_square(game, log)
     elif "illinois" in card_l:
+        # B9 — movement card: trigger square effect at Illinois Ave (pos 24)
         player["position"] = 24
+        game = land_on_square(game, log)
     elif "st. charles" in card_l:
+        # B9 — movement card: trigger square effect at St. Charles (pos 11)
         player["position"] = 11
+        game = land_on_square(game, log)
     elif "chairman" in card_l:
         amt = 50
         for i, p in enumerate(game["players"]):
             if i != game["current"] and p["active"]:
                 p["cash"] += amt
                 player["cash"] -= amt
-    game["phase"] = "end"
+        game["phase"] = "end"
+    else:
+        game["phase"] = "end"
     return game
 
 def do_buy(game):
