@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AOS — Adequate Operating System</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      /* The Prism — Three Objects */
+      --name:   #ff4444;   /* NAME   — Red    */
+      --fact:   #44ffaa;   /* FACT   — Green  */
+      --target: #4488ff;   /* TARGET — Blue   */
+
+      /* The Spectrum — Five Levels */
+      --l1: #ff4444;   /* Objects     — Red    */
+      --l2: #ff8844;   /* Expressions — Orange */
+      --l3: #ffdd44;   /* Sentences   — Yellow */
+      --l4: #44ffaa;   /* Dictionaries— Green  */
+      --l5: #bb44ff;   /* Services    — Violet */
+    }
+
+    body {
+      background: #000;
+      color: #f0f0f0;
+      font-family: 'Courier New', monospace;
+      padding: 60px 40px;
+      max-width: 860px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* PRISM HEADER */
+    .prism-bar {
+      height: 3px;
+      background: linear-gradient(to right, #ff4444, #ff8844, #ffdd44, #44ffaa, #44aaff, #bb44ff);
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h1 span {
+      background: linear-gradient(to right, #ff4444, #ff8844, #ffdd44, #44ffaa, #44aaff, #bb44ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      color: #444;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #444;
+      margin-top: 52px;
+      margin-bottom: 20px;
+    }
+
+    p { font-size: 1rem; margin-bottom: 14px; color: #aaa; }
+    .fact-line { font-size: 1rem; color: #f0f0f0; margin-bottom: 10px; }
+
+    hr.divider { border: none; border-top: 1px solid #111; margin: 48px 0; }
+
+    /* THREE OBJECTS */
+    .objects {
+      display: flex;
+      gap: 0;
+      margin: 24px 0;
+    }
+    .obj {
+      flex: 1;
+      padding: 24px 20px;
+      border-top: 3px solid;
+    }
+    .obj.name   { border-color: var(--name);   }
+    .obj.fact   { border-color: var(--fact);   }
+    .obj.target { border-color: var(--target); }
+    .obj .obj-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: #444;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .obj .obj-value {
+      font-size: 1.3rem;
+      letter-spacing: 0.1em;
+      font-weight: bold;
+    }
+    .obj.name   .obj-value { color: var(--name);   }
+    .obj.fact   .obj-value { color: var(--fact);   }
+    .obj.target .obj-value { color: var(--target); }
+    .obj .obj-desc {
+      font-size: 0.78rem;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    /* FIVE LEVELS */
+    .level {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 14px;
+      padding-left: 10px;
+      border-left: 2px solid;
+    }
+    .level.l1 { border-color: var(--l1); }
+    .level.l2 { border-color: var(--l2); }
+    .level.l3 { border-color: var(--l3); }
+    .level.l4 { border-color: var(--l4); }
+    .level.l5 { border-color: var(--l5); }
+
+    .level-num  { font-size: 1.2rem; color: #333; min-width: 24px; }
+    .level-name { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.1em; min-width: 160px; }
+    .level.l1 .level-name { color: var(--l1); }
+    .level.l2 .level-name { color: var(--l2); }
+    .level.l3 .level-name { color: var(--l3); }
+    .level.l4 .level-name { color: var(--l4); }
+    .level.l5 .level-name { color: var(--l5); }
+    .level-desc { font-size: 0.85rem; color: #555; }
+
+    /* SENTENCES */
+    .sentence {
+      padding: 10px 20px;
+      margin: 6px 0;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      border-left: 2px solid;
+      background: #060606;
+    }
+    .sentence.s-buy      { border-color: var(--l3); color: var(--l3); }
+    .sentence.s-mortgage { border-color: #ff8844;   color: #ff8844;   }
+    .sentence.s-roll     { border-color: var(--l4); color: var(--l4); }
+    .sentence.s-pay      { border-color: var(--l1); color: var(--l1); }
+    .sentence.s-fix      { border-color: var(--l5); color: var(--l5); }
+
+    /* DICTIONARY TAGS */
+    .tag {
+      display: inline-block;
+      border: 1px solid;
+      padding: 4px 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .tag.t1 { border-color: var(--l1); color: var(--l1); }
+    .tag.t2 { border-color: var(--l5); color: var(--l5); }
+    .tag.t3 { border-color: var(--l4); color: var(--l4); }
+    .tag.t4 { border-color: #ff8844;   color: #ff8844;   }
+    .tag.t5 { border-color: var(--l3); color: var(--l3); }
+
+    /* THREE LAYER SYSTEM */
+    .layer {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 12px;
+      padding: 14px 20px;
+      border: 1px solid #111;
+    }
+    .layer-name { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.15em; min-width: 120px; }
+    .layer.architect .layer-name { color: var(--name);   }
+    .layer.bridge    .layer-name { color: var(--fact);   }
+    .layer.ground    .layer-name { color: var(--target); }
+    .layer-desc { font-size: 0.82rem; color: #555; }
+
+    /* DOWNLOAD */
+    .download-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .download-item {
+      border: 1px solid #1a1a1a;
+      padding: 20px;
+      text-decoration: none;
+      color: #f0f0f0;
+      display: block;
+      transition: border-color 0.2s;
+    }
+    .download-item:hover { border-color: #444; }
+    .download-item .file-name {
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #f0f0f0;
+    }
+    .download-item .file-desc { font-size: 0.75rem; color: #444; }
+
+    /* SUPPORT */
+    .support-block {
+      background: #050505;
+      border: 1px solid #111;
+      padding: 28px;
+      margin-top: 20px;
+    }
+    .support-block p { font-size: 0.9rem; color: #555; margin-bottom: 8px; }
+    .support-block a { text-decoration: none; border-bottom: 1px solid #333; }
+    .support-block a:hover { border-bottom-color: #888; }
+    .support-block a.red    { color: var(--name);   }
+    .support-block a.green  { color: var(--fact);   }
+    .support-block a.blue   { color: var(--target); }
+
+    .quote {
+      font-size: 0.9rem;
+      color: #333;
+      font-style: italic;
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #111;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.7rem;
+      color: #222;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="prism-bar"></div>
+
+  <h1><span>AOS</span></h1>
+  <div class="subtitle">Adequate Operating System</div>
+
+  <hr class="divider"/>
+
+  <h2>The Three Objects</h2>
+  <div class="objects">
+    <div class="obj name">
+      <div class="obj-label">Object I</div>
+      <div class="obj-value">NAME</div>
+      <div class="obj-desc">Identity. Unique. Atomic.</div>
+    </div>
+    <div class="obj fact">
+      <div class="obj-label">Object II</div>
+      <div class="obj-value">FACT</div>
+      <div class="obj-desc">Reality. Verifiable. Immutable.</div>
+    </div>
+    <div class="obj target">
+      <div class="obj-label">Object III</div>
+      <div class="obj-value">TARGET</div>
+      <div class="obj-desc">Direction. Dynamic. Operational.</div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <h2>The Five Levels</h2>
+
+  <div class="level l1">
+    <span class="level-num">1</span>
+    <span class="level-name">Objects</span>
+    <span class="level-desc">Atomic carriers of Semantics — NAME / FACT / TARGET</span>
+  </div>
+  <div class="level l2">
+    <span class="level-num">2</span>
+    <span class="level-name">Expressions</span>
+    <span class="level-desc">Three Objects composed — one coherent unit of meaning</span>
+  </div>
+  <div class="level l3">
+    <span class="level-num">3</span>
+    <span class="level-name">Sentences</span>
+    <span class="level-desc">Expressions invoking Operations — executable meaning</span>
+  </div>
+  <div class="level l4">
+    <span class="level-num">4</span>
+    <span class="level-name">Dictionaries</span>
+    <span class="level-desc">One per User Discipline — domain vocabulary, organized</span>
+  </div>
+  <div class="level l5">
+    <span class="level-num">5</span>
+    <span class="level-name">Services</span>
+    <span class="level-desc">What Users demand — realized by Operations</span>
+  </div>
+
+  <hr class="divider"/>
+
+  <h2>Sentences in Production</h2>
+  <div class="sentence s-buy">buy( property, player )</div>
+  <div class="sentence s-mortgage">mortgage( property )</div>
+  <div class="sentence s-roll">roll( dice, player )</div>
+  <div class="sentence s-pay">pay( amount, from, to )</div>
+  <div class="sentence s-fix">fix( bug.NAME )</div>
+
+  <hr class="divider"/>
+
+  <h2>The Dictionaries</h2>
+  <span class="tag t1">AOS.MINIMAL</span>
+  <span class="tag t2">AOS.BUG-MIB</span>
+  <span class="tag t3">AOS.MEDICAL</span>
+  <span class="tag t4">AOS.ENGINEERING</span>
+  <span class="tag t5">AOS.LEGAL</span>
+  <p style="margin-top:16px;">JuX is the first Dictionary. Software discipline. Sentences already running on Ubuntu.</p>
+
+  <hr class="divider"/>
+
+  <h2>The Three-Layer System</h2>
+  <div class="layer architect">
+    <span class="layer-name">Architect</span>
+    <span class="layer-desc">Window / Jr — Vision. Names. Architecture.</span>
+  </div>
+  <div class="layer bridge">
+    <span class="layer-name">Bridge</span>
+    <span class="layer-desc">JuXITT — Communication. Publication. Surface.</span>
+  </div>
+  <div class="layer ground">
+    <span class="layer-name">Ground</span>
+    <span class="layer-desc">Ubuntu / Brother — Execution. Fix. Reality.</span>
+  </div>
+
+  <hr class="divider"/>
+
+  <h2>Download</h2>
+  <p>Formal specifications. Free. No registration.</p>
+  <div class="download-grid">
+    <a class="download-item" href="AOS.md" download>
+      <div class="file-name">AOS.md</div>
+      <div class="file-desc">Core specification — five levels, formal definition</div>
+    </a>
+    <a class="download-item" href="AOS.DICTIONARIES.md" download>
+      <div class="file-name">AOS.DICTIONARIES.md</div>
+      <div class="file-desc">Five dictionaries — Minimal, Bug, Medical, Engineering, Legal</div>
+    </a>
+    <a class="download-item" href="RTE.md" download>
+      <div class="file-name">RTE.md</div>
+      <div class="file-desc">Round Trip Engineering — the universal growth process</div>
+    </a>
+    <a class="download-item" href="culture_bug.html">
+      <div class="file-name">CULTURE BUG</div>
+      <div class="file-desc">The movement — Name it / Own it / Date it</div>
+    </a>
+  </div>
+
+  <hr class="divider"/>
+
+  <h2>Support</h2>
+  <div class="support-block">
+    <p style="color:#ffdd44; font-weight:bold; letter-spacing:0.1em;">MIT LICENSE</p>
+    <p style="color:#aaa; font-size:0.85em; margin-top:0.5em;">
+      Copyright © 2026 Mamoun Alissali — JuXITT<br/><br/>
+      Permission is hereby granted, free of charge, to any person obtaining a copy
+      of this architecture and associated documentation, to deal in it without restriction,
+      including without limitation the rights to use, copy, modify, merge, publish, distribute,
+      sublicense, and/or sell copies, and to permit persons to whom it is furnished to do so,
+      subject to the following condition:<br/><br/>
+      The above copyright notice and this permission notice shall be included in all copies
+      or substantial portions.
+    </p>
+    <br/>
+    <p>Questions, applications, contributions:</p>
+    <p><a class="red" href="mailto:jux@juxitt.com">jux@juxitt.com</a></p>
+    <br/>
+    <p>Built on: <a class="green" href="https://www.juxitt.com">JuXITT</a></p>
+    <p>Games running on AOS: <a class="blue" href="http://learn-1-vk8x.onrender.com/">JeuX</a></p>
+  </div>
+
+  <div class="quote">
+    "AOS doesn't describe a system. AOS describes a language that runs systems."
+  </div>
+
+  <div class="footer">
+    <p>© 2026 Mamoun Alissali — JuXITT — MIT License</p>
+  </div>
+
+</body>
+</html>
