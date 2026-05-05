@@ -1,0 +1,387 @@
+/*
+ * jux.css — JuX Universal Stylesheet
+ * NAME: jux.css
+ * FACT: OPAL + DIAMOND. One palette. All JuX pages inherit.
+ * LICENSE: MIT — Copyright © 2026 Mamoun Alissali — JuXITT
+ * CONTACT: jux@juxitt.com
+ */
+
+/* ============================================================
+   RESET
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   OPAL PALETTE — organic, layered, deep
+   ============================================================ */
+:root {
+  --opal-void:      #05070f;   /* deepest black — the stone before light */
+  --opal-deep:      #0a0f1e;   /* background — ocean floor               */
+  --opal-mid:       #111827;   /* surface — dark layer                   */
+  --opal-blue:      #1a6b8a;   /* deep teal — first light in opal        */
+  --opal-teal:      #2ec4b6;   /* turquoise — cold fire                  */
+  --opal-amber:     #e8a045;   /* warm gold — organic heat               */
+  --opal-violet:    #7b4fa6;   /* deep violet — spectral depth           */
+  --opal-lavender:  #b07fc4;   /* soft violet — surface shimmer          */
+  --opal-gold:      #f5c842;   /* bright gold — opal peak                */
+  --opal-ice:       #c8f0f5;   /* near-white — cold light on stone       */
+
+  /* ============================================================
+     DIAMOND PALETTE — crystalline, refracts all
+     ============================================================ */
+  --diamond-white:  #f8f9ff;   /* pure crystal face                      */
+  --diamond-cut:    #dde8ff;   /* refracted edge                         */
+  --diamond-prism:  #a8d8ea;   /* light through crystal                  */
+  --diamond-red:    #ff4455;   /* NAME   — refracted red                 */
+  --diamond-orange: #ff8844;   /* L2 — refracted orange                  */
+  --diamond-yellow: #ffe055;   /* L3 — refracted yellow                  */
+  --diamond-green:  #44ffaa;   /* FACT  — refracted green                */
+  --diamond-blue:   #4488ff;   /* TARGET — refracted blue                */
+  --diamond-indigo: #6655ff;   /* L5 — refracted indigo                  */
+  --diamond-violet: #cc44ff;   /* Services — refracted violet            */
+
+  /* ============================================================
+     AOS OBJECTS — canonical
+     ============================================================ */
+  --aos-name:   var(--diamond-red);
+  --aos-fact:   var(--diamond-green);
+  --aos-target: var(--diamond-blue);
+
+  /* ============================================================
+     AOS LEVELS — spectrum
+     ============================================================ */
+  --aos-l1: var(--diamond-red);      /* Objects      */
+  --aos-l2: var(--diamond-orange);   /* Expressions  */
+  --aos-l3: var(--diamond-yellow);   /* Sentences    */
+  --aos-l4: var(--diamond-green);    /* Dictionaries */
+  --aos-l5: var(--diamond-violet);   /* Services     */
+
+  /* ============================================================
+     TYPOGRAPHY
+     ============================================================ */
+  --font-main:  'Courier New', Courier, monospace;
+  --font-size:  16px;
+  --line-height: 1.7;
+
+  /* ============================================================
+     SPACING
+     ============================================================ */
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  2rem;
+  --space-xl:  4rem;
+
+  /* ============================================================
+     BORDERS
+     ============================================================ */
+  --border-thin:   1px solid rgba(255,255,255,0.08);
+  --border-opal:   1px solid var(--opal-teal);
+  --border-name:   1px solid var(--aos-name);
+  --border-fact:   1px solid var(--aos-fact);
+  --border-target: 1px solid var(--aos-target);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html {
+  font-size: var(--font-size);
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--opal-void);
+  color: var(--opal-ice);
+  font-family: var(--font-main);
+  line-height: var(--line-height);
+  min-height: 100vh;
+}
+
+/* ============================================================
+   PRISM BAR — top stripe
+   ============================================================ */
+.jux-prism-bar {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    var(--diamond-red),
+    var(--diamond-orange),
+    var(--diamond-yellow),
+    var(--diamond-green),
+    var(--diamond-blue),
+    var(--diamond-indigo),
+    var(--diamond-violet)
+  );
+}
+
+/* ============================================================
+   OPAL GLOW — ambient background pulse
+   ============================================================ */
+.jux-opal-bg {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(46,196,182,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(123,79,166,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 50%, rgba(232,160,69,0.03) 0%, transparent 70%),
+    var(--opal-void);
+}
+
+/* ============================================================
+   TYPOGRAPHY CLASSES
+   ============================================================ */
+.jux-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--opal-ice);
+}
+
+.jux-subtitle {
+  font-size: 0.95rem;
+  color: var(--opal-teal);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.jux-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+.jux-quote {
+  font-style: italic;
+  color: var(--opal-amber);
+  border-left: 3px solid var(--opal-amber);
+  padding-left: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+
+/* ============================================================
+   AOS OBJECT COLORS
+   ============================================================ */
+.name   { color: var(--aos-name);   }
+.fact   { color: var(--aos-fact);   }
+.target { color: var(--aos-target); }
+
+/* AOS LEVEL COLORS */
+.l1 { color: var(--aos-l1); }
+.l2 { color: var(--aos-l2); }
+.l3 { color: var(--aos-l3); }
+.l4 { color: var(--aos-l4); }
+.l5 { color: var(--aos-l5); }
+
+/* OPAL COLORS */
+.opal-teal    { color: var(--opal-teal);    }
+.opal-amber   { color: var(--opal-amber);   }
+.opal-violet  { color: var(--opal-violet);  }
+.opal-gold    { color: var(--opal-gold);    }
+.opal-lavender{ color: var(--opal-lavender);}
+
+/* ============================================================
+   BLOCKS
+   ============================================================ */
+.jux-block {
+  background: var(--opal-mid);
+  border: var(--border-thin);
+  border-radius: 2px;
+  padding: var(--space-lg);
+  margin: var(--space-md) 0;
+}
+
+.jux-block-name   { border-left: 3px solid var(--aos-name);   }
+.jux-block-fact   { border-left: 3px solid var(--aos-fact);   }
+.jux-block-target { border-left: 3px solid var(--aos-target); }
+.jux-block-opal   { border-left: 3px solid var(--opal-teal);  }
+.jux-block-amber  { border-left: 3px solid var(--opal-amber); }
+
+/* ============================================================
+   TABLE
+   ============================================================ */
+.jux-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-md) 0;
+}
+
+.jux-table th {
+  color: var(--opal-teal);
+  text-align: left;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--opal-teal);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.jux-table td {
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: var(--border-thin);
+  font-size: 0.9rem;
+  vertical-align: top;
+}
+
+.jux-table tr:hover td {
+  background: rgba(46,196,182,0.04);
+}
+
+/* ============================================================
+   LINKS
+   ============================================================ */
+a {
+  color: var(--opal-teal);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--opal-gold);
+}
+
+a.name   { color: var(--aos-name);   }
+a.fact   { color: var(--aos-fact);   }
+a.target { color: var(--aos-target); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.jux-btn {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--opal-teal);
+  color: var(--opal-teal);
+  background: transparent;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.jux-btn:hover {
+  background: var(--opal-teal);
+  color: var(--opal-void);
+}
+
+.jux-btn-amber {
+  border-color: var(--opal-amber);
+  color: var(--opal-amber);
+}
+
+.jux-btn-amber:hover {
+  background: var(--opal-amber);
+  color: var(--opal-void);
+}
+
+.jux-btn-name {
+  border-color: var(--aos-name);
+  color: var(--aos-name);
+}
+
+.jux-btn-name:hover {
+  background: var(--aos-name);
+  color: var(--opal-void);
+}
+
+/* ============================================================
+   CODE / SENTENCE
+   ============================================================ */
+.jux-code {
+  font-family: var(--font-main);
+  background: rgba(46,196,182,0.05);
+  border: 1px solid rgba(46,196,182,0.2);
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+  color: var(--opal-teal);
+  font-size: 0.9em;
+}
+
+.jux-sentence {
+  font-family: var(--font-main);
+  color: var(--diamond-yellow);
+  background: rgba(255,224,85,0.04);
+  border-left: 2px solid var(--diamond-yellow);
+  padding: var(--space-sm) var(--space-md);
+  margin: var(--space-sm) 0;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.jux-footer {
+  text-align: center;
+  padding: var(--space-xl) var(--space-md) var(--space-lg);
+  color: rgba(255,255,255,0.2);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  border-top: var(--border-thin);
+  margin-top: var(--space-xl);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.jux-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.jux-header {
+  text-align: center;
+  padding: var(--space-xl) 0 var(--space-lg);
+}
+
+.jux-section {
+  margin: var(--space-xl) 0;
+}
+
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+.jux-divider {
+  border: none;
+  border-top: var(--border-thin);
+  margin: var(--space-xl) 0;
+}
+
+.jux-divider-opal {
+  border-top: 1px solid rgba(46,196,182,0.3);
+}
+
+/* ============================================================
+   BADGE
+   ============================================================ */
+.jux-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  margin: 0 0.2rem;
+}
+
+.jux-badge-mit {
+  border: 1px solid var(--opal-gold);
+  color: var(--opal-gold);
+}
+
+.jux-badge-live {
+  border: 1px solid var(--aos-fact);
+  color: var(--aos-fact);
+}
+
+.jux-badge-open {
+  border: 1px solid var(--aos-name);
+  color: var(--aos-name);
+}
