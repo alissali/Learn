@@ -47,18 +47,18 @@
   /* ============================================================
      AOS OBJECTS — canonical
      ============================================================ */
-  --aos-name:   var(--diamond-red);
-  --aos-fact:   var(--diamond-green);
-  --aos-target: var(--diamond-blue);
+  --aos-name:   var(--aos-red);
+  --aos-fact:   var(--aos-green);
+  --aos-target: var(--aos-blue);
 
   /* ============================================================
      AOS LEVELS — spectrum
      ============================================================ */
-  --aos-l1: var(--diamond-red);      /* Objects      */
-  --aos-l2: var(--diamond-orange);   /* Expressions  */
-  --aos-l3: var(--diamond-yellow);   /* Sentences    */
-  --aos-l4: var(--diamond-green);    /* Dictionaries */
-  --aos-l5: var(--diamond-violet);   /* Services     */
+  --aos-l1: var(--aos-red);      /* Objects      */
+  --aos-l2: var(--aos-orange);   /* Expressions  */
+  --aos-l3: var(--aos-yellow);   /* Sentences    */
+  --aos-l4: var(--aos-green);    /* Dictionaries */
+  --aos-l5: var(--aos-violet);   /* Services     */
 
   /* ============================================================
      TYPOGRAPHY
@@ -110,13 +110,13 @@ body {
   width: 100%;
   background: linear-gradient(
     to right,
-    var(--diamond-red),
-    var(--diamond-orange),
-    var(--diamond-yellow),
-    var(--diamond-green),
-    var(--diamond-blue),
-    var(--diamond-indigo),
-    var(--diamond-violet)
+    var(--aos-red),
+    var(--aos-orange),
+    var(--aos-yellow),
+    var(--aos-green),
+    var(--aos-blue),
+    var(--aos-indigo),
+    var(--aos-violet)
   );
 }
 
@@ -307,9 +307,9 @@ a.target { color: var(--aos-target); }
 
 .jux-sentence {
   font-family: var(--font-main);
-  color: var(--diamond-yellow);
+  color: var(--aos-yellow);
   background: rgba(255,224,85,0.04);
-  border-left: 2px solid var(--diamond-yellow);
+  border-left: 2px solid var(--aos-yellow);
   padding: var(--space-sm) var(--space-md);
   margin: var(--space-sm) 0;
 }
