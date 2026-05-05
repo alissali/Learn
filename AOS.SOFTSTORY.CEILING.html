@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AOS — Soft Story: Ceiling · Hospital · Justice</title>
+<title>AOS — The Ceiling</title>
 <style>
   :root {
     --opal-void:    #05070f;
@@ -11,831 +11,556 @@
     --opal-amber:   #e8a045;
     --opal-violet:  #7b4fa6;
     --opal-gold:    #f5c842;
-    --aos-prism:    #e8f4f8;
-    --aos-ice:      #b8dff0;
+    --aos-ice:      #c8e6f0;
+    --aos-prism:    #a8d8ea;
     --minimal:      #2ec4b6;
-    --bug:          #e05252;
-    --medical:      #52c07a;
-    --engineering:  #5b9cf6;
-    --legal:        #c47be0;
+    --bug:          #e05c5c;
+    --medical:      #4fc3a1;
+    --engineering:  #e8a045;
+    --legal:        #7b4fa6;
     --synthesis:    #f5c842;
   }
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     background: var(--opal-void);
-    color: var(--aos-prism);
-    font-family: 'Courier New', monospace;
+    color: #ddd8ce;
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    line-height: 1.85;
     overflow-x: hidden;
-    font-size: 17px;
   }
 
-  /* STARFIELD */
-  #stars {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-  }
+  /* ── CANVAS ── */
+  #canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 
-  /* COLLAPSE STAGE */
-  #collapse-stage {
+  /* ── HERO ── */
+  #hero {
     position: relative;
-    width: 100%;
+    z-index: 1;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 1;
-    overflow: hidden;
-  }
-
-  #collapse-canvas {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-  }
-
-  #event-label {
-    position: relative;
-    z-index: 2;
     text-align: center;
+    padding: 40px;
+  }
+
+  #hero-eyebrow {
+    font-family: 'Courier New', monospace;
+    font-size: 0.7em;
+    letter-spacing: 0.3em;
+    color: var(--opal-teal);
+    text-transform: uppercase;
+    margin-bottom: 28px;
     opacity: 0;
-    animation: fadeIn 1.2s ease 2.5s forwards;
+    animation: fadeUp 1s ease 0.5s forwards;
   }
 
-  #event-label .title-main {
-    font-size: 2.6em;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--opal-gold);
-    text-shadow: 0 0 40px rgba(245,200,66,0.6);
+  #hero-title {
+    font-size: clamp(2.2em, 6vw, 4.5em);
+    font-weight: 400;
+    color: #f0ede6;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 1s forwards;
   }
 
-  #event-label .title-sub {
-    font-size: 0.95em;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--aos-ice);
-    margin-top: 12px;
-    opacity: 0.8;
-  }
-
-  #event-label .title-dict {
-    font-size: 0.78em;
-    letter-spacing: 0.25em;
+  #hero-title em {
     color: var(--opal-amber);
-    margin-top: 20px;
-    opacity: 0.7;
+    font-style: italic;
+  }
+
+  #hero-sub {
+    margin-top: 30px;
+    font-size: 1em;
+    color: #8a9aaa;
+    max-width: 520px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.8s forwards;
   }
 
   #scroll-hint {
     position: absolute;
     bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    opacity: 0;
-    animation: fadeIn 1s ease 4s forwards;
-    color: var(--aos-ice);
-    font-size: 0.75em;
-    letter-spacing: 0.3em;
+    font-family: 'Courier New', monospace;
+    font-size: 0.65em;
+    letter-spacing: 0.25em;
+    color: #556;
     text-transform: uppercase;
-    text-align: center;
+    opacity: 0;
+    animation: fadeUp 1s ease 3s forwards;
   }
 
-  #scroll-hint span {
-    display: block;
-    animation: bounce 1.5s infinite;
-    margin-top: 6px;
-  }
-
-  /* STORY SECTIONS */
-  .story-section {
+  /* ── MAIN CONTENT ── */
+  main {
     position: relative;
     z-index: 1;
-    max-width: 820px;
+    max-width: 760px;
     margin: 0 auto;
-    padding: 90px 40px;
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.9s ease, transform 0.9s ease;
+    padding: 0 40px 120px;
   }
 
-  .story-section.visible {
-    opacity: 1;
-    transform: translateY(0);
+  /* ── CHAPTER ── */
+  .chapter {
+    padding: 80px 0 60px;
+    border-top: 1px solid rgba(255,255,255,0.05);
   }
 
-  .dict-badge {
+  .chapter:first-child { border-top: none; }
+
+  .dict-tag {
     display: inline-block;
-    font-size: 0.7em;
-    letter-spacing: 0.35em;
+    font-family: 'Courier New', monospace;
+    font-size: 0.62em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    padding: 4px 14px;
+    padding: 4px 12px;
     border-radius: 2px;
-    margin-bottom: 28px;
+    margin-bottom: 36px;
     font-weight: bold;
   }
 
-  .badge-minimal    { background: rgba(46,196,182,0.15); color: var(--minimal);    border: 1px solid rgba(46,196,182,0.4); }
-  .badge-bug        { background: rgba(224,82,82,0.15);  color: var(--bug);        border: 1px solid rgba(224,82,82,0.4); }
-  .badge-medical    { background: rgba(82,192,122,0.15); color: var(--medical);    border: 1px solid rgba(82,192,122,0.4); }
-  .badge-engineering{ background: rgba(91,156,246,0.15); color: var(--engineering);border: 1px solid rgba(91,156,246,0.4); }
-  .badge-legal      { background: rgba(196,123,224,0.15);color: var(--legal);      border: 1px solid rgba(196,123,224,0.4); }
-  .badge-synthesis  { background: rgba(245,200,66,0.15); color: var(--synthesis);  border: 1px solid rgba(245,200,66,0.4); }
+  .tag-minimal    { background: rgba(46,196,182,0.12); color: var(--minimal);    border: 1px solid rgba(46,196,182,0.3); }
+  .tag-bug        { background: rgba(224,92,92,0.12);  color: var(--bug);        border: 1px solid rgba(224,92,92,0.3); }
+  .tag-medical    { background: rgba(79,195,161,0.12); color: var(--medical);    border: 1px solid rgba(79,195,161,0.3); }
+  .tag-engineering{ background: rgba(232,160,69,0.12); color: var(--engineering);border: 1px solid rgba(232,160,69,0.3); }
+  .tag-legal      { background: rgba(123,79,166,0.12); color: var(--legal);      border: 1px solid rgba(123,79,166,0.3); }
+  .tag-synthesis  { background: rgba(245,200,66,0.12); color: var(--synthesis);  border: 1px solid rgba(245,200,66,0.3); }
 
-  .section-heading {
-    font-size: 1.5em;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    line-height: 1.3;
+  .chapter-title {
+    font-size: clamp(1.5em, 3.5vw, 2.2em);
+    font-weight: 400;
+    color: #f0ede6;
+    line-height: 1.25;
+    margin-bottom: 36px;
   }
 
-  .nft-block {
-    background: rgba(255,255,255,0.03);
-    border-left: 3px solid;
-    padding: 22px 28px;
-    margin-bottom: 18px;
-    border-radius: 0 4px 4px 0;
-  }
+  .chapter-title em { font-style: italic; color: var(--opal-amber); }
 
-  .nft-block.minimal     { border-color: var(--minimal); }
-  .nft-block.bug         { border-color: var(--bug); }
-  .nft-block.medical     { border-color: var(--medical); }
-  .nft-block.engineering { border-color: var(--engineering); }
-  .nft-block.legal       { border-color: var(--legal); }
-  .nft-block.synthesis   { border-color: var(--synthesis); }
-
-  .nft-row {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 8px 16px;
-    margin-bottom: 10px;
-    font-size: 0.95em;
-    line-height: 1.6;
-  }
-
-  .nft-row:last-child { margin-bottom: 0; }
-
-  .nft-key {
-    font-size: 0.72em;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    opacity: 0.55;
-    padding-top: 3px;
-    font-weight: bold;
-  }
-
-  .nft-val {
-    color: var(--aos-prism);
-  }
-
-  .nft-val strong {
-    color: var(--opal-gold);
-  }
-
+  /* ── PROSE ── */
   .prose {
-    line-height: 1.85;
-    color: rgba(232,244,248,0.82);
-    margin-top: 20px;
-    font-size: 1em;
+    color: #cec9bf;
+    font-size: 1.05em;
+    line-height: 1.9;
+    margin-bottom: 36px;
   }
 
   .prose em {
+    color: var(--aos-ice);
+    font-style: italic;
+  }
+
+  .prose strong {
+    color: #f0ede6;
+    font-weight: 400;
+  }
+
+  /* ── AOS FOOTNOTE — small, precise, secondary ── */
+  .aos-footnote {
+    margin-top: 32px;
+    padding: 18px 22px;
+    border-left: 2px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    font-family: 'Courier New', monospace;
+    font-size: 0.72em;
+    color: #556677;
+    line-height: 1.7;
+  }
+
+  .aos-footnote .fn-label {
+    color: #3a5a6a;
+    margin-right: 8px;
+  }
+
+  .aos-footnote .fn-val {
+    color: #7a9aaa;
+  }
+
+  .aos-footnote .fn-verdict {
     color: var(--opal-amber);
-    font-style: normal;
+    margin-top: 6px;
+    display: block;
   }
 
-  /* SEPARATOR */
-  .separator {
-    max-width: 820px;
-    margin: 0 auto;
-    padding: 0 40px;
-    opacity: 0;
-    transition: opacity 1s ease;
-  }
-  .separator.visible { opacity: 1; }
-  .sep-line {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(245,200,66,0.3), transparent);
-  }
-
-  /* SYNTHESIS FINAL */
-  .synthesis-final {
-    position: relative;
-    z-index: 1;
+  /* ── SYNTHESIS ── */
+  #synthesis {
+    padding: 100px 0 80px;
     text-align: center;
-    padding: 100px 40px 120px;
-    max-width: 820px;
-    margin: 0 auto;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1.1s ease, transform 1.1s ease;
+    border-top: 1px solid rgba(255,255,255,0.06);
   }
 
-  .synthesis-final.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .synthesis-final .big-line {
-    font-size: 1.8em;
-    letter-spacing: 0.15em;
-    color: var(--synthesis);
-    text-shadow: 0 0 30px rgba(245,200,66,0.4);
-    margin-bottom: 16px;
-    line-height: 1.4;
-  }
-
-  .synthesis-final .small-line {
-    font-size: 0.85em;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--aos-ice);
-    opacity: 0.7;
+  .synth-line {
+    font-size: clamp(1.4em, 3vw, 2em);
+    color: #f0ede6;
+    line-height: 1.6;
     margin-bottom: 50px;
+    font-weight: 400;
   }
 
-  .trilogy {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    flex-wrap: wrap;
-  }
+  .synth-line em { color: var(--opal-gold); font-style: italic; }
 
-  .trilogy-item {
-    text-align: center;
-  }
-
-  .trilogy-word {
-    font-size: 1.1em;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--opal-gold);
-    margin-bottom: 6px;
-  }
-
-  .trilogy-def {
+  .nft-final {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    gap: 6px 24px;
+    font-family: 'Courier New', monospace;
     font-size: 0.75em;
-    letter-spacing: 0.15em;
-    color: var(--aos-ice);
-    opacity: 0.6;
+    text-align: left;
+    margin-top: 20px;
+    padding: 22px 32px;
+    border: 1px solid rgba(245,200,66,0.2);
+    background: rgba(245,200,66,0.04);
   }
 
-  /* LICENSE FOOTER */
-  .footer {
+  .nft-k { color: #5a6a4a; letter-spacing: 0.1em; }
+  .nft-v { color: var(--opal-gold); }
+
+  /* ── FOOTER ── */
+  footer {
     position: relative;
     z-index: 1;
     text-align: center;
     padding: 40px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    opacity: 0;
-    transition: opacity 1s ease;
-  }
-  .footer.visible { opacity: 1; }
-  .footer p {
-    font-size: 0.72em;
-    letter-spacing: 0.2em;
-    color: rgba(184,223,240,0.4);
-    margin-bottom: 8px;
-  }
-  .footer a {
-    color: var(--opal-teal);
-    text-decoration: none;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    font-family: 'Courier New', monospace;
+    font-size: 0.68em;
+    color: #334;
+    letter-spacing: 0.15em;
   }
 
-  /* AUDIO */
+  footer a { color: #446; text-decoration: none; }
+  footer a:hover { color: var(--opal-teal); }
+
+  /* ── AUDIO ── */
   #audio-btn {
     position: fixed;
     bottom: 28px;
     right: 28px;
     z-index: 100;
-    background: rgba(46,196,182,0.12);
-    border: 1px solid rgba(46,196,182,0.4);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(46,196,182,0.1);
+    border: 1px solid rgba(46,196,182,0.3);
     color: var(--opal-teal);
-    padding: 10px 18px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.8em;
-    letter-spacing: 0.2em;
+    font-size: 1.1em;
     cursor: pointer;
-    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background 0.3s;
   }
-  #audio-btn:hover { background: rgba(46,196,182,0.22); }
+  #audio-btn:hover { background: rgba(46,196,182,0.2); }
 
-  @keyframes fadeIn {
-    from { opacity: 0; } to { opacity: 1; }
-  }
-
-  @keyframes bounce {
-    0%,100% { transform: translateY(0); }
-    50%      { transform: translateY(6px); }
-  }
-
-  /* DEBRIS particles */
-  .debris {
-    position: absolute;
-    border-radius: 2px;
-    animation: fall linear forwards;
-    pointer-events: none;
-  }
-
-  @keyframes fall {
-    0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
-    100% { opacity: 0; transform: translateY(300px) rotate(720deg); }
+  /* ── KEYFRAMES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
 <body>
 
-<!-- STARFIELD -->
-<canvas id="stars"></canvas>
+<canvas id="canvas"></canvas>
 
-<!-- COLLAPSE STAGE -->
-<div id="collapse-stage">
-  <canvas id="collapse-canvas"></canvas>
+<!-- HERO -->
+<section id="hero">
+  <div id="hero-eyebrow">AOS Soft Story — Five Dictionaries, One Event</div>
+  <h1 id="hero-title">The Ceiling<br><em>came down</em></h1>
+  <p id="hero-sub">A was standing in apartment 7.<br>B owned the building.<br>Neither one was ready for Tuesday.</p>
+  <div id="scroll-hint">↓ read the story</div>
+</section>
 
-  <div id="event-label">
-    <div class="title-main">Ceiling</div>
-    <div class="title-sub">A is under it &nbsp;·&nbsp; B owns it &nbsp;·&nbsp; Law governs it</div>
-    <div class="title-dict">AOS.MINIMAL &nbsp;·&nbsp; AOS.BUG-MIB &nbsp;·&nbsp; AOS.MEDICAL &nbsp;·&nbsp; AOS.ENGINEERING &nbsp;·&nbsp; AOS.LEGAL</div>
-  </div>
+<!-- MAIN STORY -->
+<main>
 
-  <div id="scroll-hint">
-    scroll to read the story
-    <span>↓</span>
-  </div>
-</div>
+  <!-- ── CHAPTER 1 — MINIMAL ── -->
+  <article class="chapter">
+    <span class="dict-tag tag-minimal">AOS.MINIMAL</span>
+    <h2 class="chapter-title">Tuesday.<br>8h14.<br>Apartment 7.</h2>
+    <div class="prose">
+      <p>
+        A was pouring coffee. The kind of morning that doesn't announce itself — grey light through the window,
+        the smell of bread from somewhere below, the ordinary weight of a Tuesday.
+      </p>
+      <p style="margin-top:22px;">
+        Then the sound. Not a crack. Not a crash. Something older — a <em>release</em>,
+        as if the building had been holding its breath for eleven years
+        and finally, quietly, gave up.
+      </p>
+      <p style="margin-top:22px;">
+        The ceiling came down. A went with it.
+        <strong>The coffee cup stayed on the counter, untouched.</strong>
+      </p>
+    </div>
+    <div class="aos-footnote">
+      <div><span class="fn-label">NAME</span><span class="fn-val">CeilingCollapse · A · 8h14 · Tuesday</span></div>
+      <div><span class="fn-label">FACT</span><span class="fn-val">Structural element failed. Human beneath. Contact.</span></div>
+      <span class="fn-verdict">TARGET → Survive. Account. Justice.</span>
+    </div>
+  </article>
 
-<!-- ==================== SECTION 1 — MINIMAL ==================== -->
-<div class="story-section">
-  <span class="dict-badge badge-minimal">AOS.MINIMAL — The Event</span>
-  <div class="section-heading">A was standing.<br>The ceiling was not.</div>
+  <!-- ── CHAPTER 2 — BUG-MIB ── -->
+  <article class="chapter">
+    <span class="dict-tag tag-bug">AOS.BUG-MIB</span>
+    <h2 class="chapter-title">The bug<br>was already there<br><em>in 2015.</em></h2>
+    <div class="prose">
+      <p>
+        Bugs don't appear. They <em>accumulate</em>.
+        A hairline fracture at the anchor bolt — barely visible,
+        then invisible under paint. Humidity moved in. Winters expanded it.
+        Summers contracted it. Eleven of each.
+      </p>
+      <p style="margin-top:22px;">
+        The law requires inspection every five years.
+        B received no reminder. Sent no engineer. Filed no report.
+        Not in 2016. Not in 2021. Not ever.
+      </p>
+      <p style="margin-top:22px;">
+        <strong>The system had a bug. The bug had an owner.</strong>
+        The owner had a name: B.
+        And bugs — real bugs, structural bugs, the kind that fall on people —
+        do not close themselves.
+      </p>
+    </div>
+    <div class="aos-footnote">
+      <div><span class="fn-label">ID</span><span class="fn-val">BUG-0042 · StructuralIntegrity · Unit7</span></div>
+      <div><span class="fn-label">STATUS</span><span class="fn-val">OPEN → TRANSMITTED → PENDING CLOSE</span></div>
+      <span class="fn-verdict">OWNER → B. Fix required. Liability: established.</span>
+    </div>
+  </article>
 
-  <div class="nft-block minimal">
-    <div class="nft-row">
-      <span class="nft-key">NAME</span>
-      <span class="nft-val"><strong>CeilingCollapse.A.2026</strong></span>
+  <!-- ── CHAPTER 3 — MEDICAL ── -->
+  <article class="chapter">
+    <span class="dict-tag tag-medical">AOS.MEDICAL</span>
+    <h2 class="chapter-title">The hospital<br>does not ask <em>why.</em><br>It asks: where.</h2>
+    <div class="prose">
+      <p>
+        A arrived by ambulance. Unconscious. Left side of the face already bruising
+        into something no longer recognisable as Tuesday morning.
+        The intake form asked for a name. The body answered with a fracture.
+      </p>
+      <p style="margin-top:22px;">
+        T4. Fourth thoracic vertebra. The surgeons were calm — calm the way
+        people are calm when they have seen this before and know exactly
+        what the next six weeks will look like.
+        Pins. Immobilisation. Then the long, slow negotiation with pain.
+      </p>
+      <p style="margin-top:22px;">
+        <em>Full motor recovery projected.</em>
+        That is the medical version of hope —
+        not warm, not gentle, but precise.
+        <strong>Precise was enough.</strong>
+      </p>
     </div>
-    <div class="nft-row">
-      <span class="nft-key">FACT</span>
-      <span class="nft-val">Structural element failed. Human beneath. Contact occurred.</span>
+    <div class="aos-footnote">
+      <div><span class="fn-label">SYMPTOM</span><span class="fn-val">Blunt trauma · T4 fracture · contusions</span></div>
+      <div><span class="fn-label">TREATMENT</span><span class="fn-val">Surgical stabilisation · 6 weeks · 4 months PT</span></div>
+      <span class="fn-verdict">OUTCOME → Full motor recovery. Chronic pain: possible.</span>
     </div>
-    <div class="nft-row">
-      <span class="nft-key">TARGET</span>
-      <span class="nft-val">Survive. Treat. Account.</span>
-    </div>
-  </div>
+  </article>
 
-  <p class="prose">
-    One second: a room. Next second: rubble.<br>
-    <em>A</em> did not move. The ceiling moved for them.<br>
-    AOS.MINIMAL sees only what happened — no blame, no drama, no metaphor.<br>
-    A NAME. A FACT. A TARGET. The rest is consequence.
-  </p>
-</div>
+  <!-- ── CHAPTER 4 — ENGINEERING ── -->
+  <article class="chapter">
+    <span class="dict-tag tag-engineering">AOS.ENGINEERING</span>
+    <h2 class="chapter-title">Engineering<br>does not speculate.<br><em>It validates.</em></h2>
+    <div class="prose">
+      <p>
+        Three weeks after the collapse, an engineer entered apartment 7
+        with a torch, a caliper, and a protocol sheet.
+        He did not need to look long.
+      </p>
+      <p style="margin-top:22px;">
+        The NEN 6702 standard is not complicated: inspect every five years,
+        document corrosion, replace load-bearing anchors at first sign of fatigue.
+        The anchor bolt in unit 7 had not been replaced since installation.
+        The installation date: 2003.
+      </p>
+      <p style="margin-top:22px;">
+        The report was four pages long.
+        The conclusion was one sentence:
+        <em>"Failure was predictable, preventable, and owner-attributable."</em>
+        <strong>Four pages to get to one truth.</strong>
+        Architecture always does.
+      </p>
+    </div>
+    <div class="aos-footnote">
+      <div><span class="fn-label">STANDARD</span><span class="fn-val">NEN 6702 §4.2 · 5-year cycle · 180 kg/m²</span></div>
+      <div><span class="fn-label">ROOT CAUSE</span><span class="fn-val">Zero inspections in 11 years · humidity ingress</span></div>
+      <span class="fn-verdict">VALIDATED → Negligence. Preventable. Owner-attributable.</span>
+    </div>
+  </article>
 
-<div class="separator"><div class="sep-line"></div></div>
+  <!-- ── CHAPTER 5 — LEGAL ── -->
+  <article class="chapter">
+    <span class="dict-tag tag-legal">AOS.LEGAL</span>
+    <h2 class="chapter-title">B went in<br>asking for <em>fees.</em><br>The law had other plans.</h2>
+    <div class="prose">
+      <p>
+        B hired a lawyer on a Thursday, three months after the ceiling.
+        The goal was simple: recover legal costs, close the matter, move on.
+        The lawyer listened. Nodded. Then asked B to read the engineering report.
+      </p>
+      <p style="margin-top:22px;">
+        B read it standing up, in the office, and did not sit down again.
+      </p>
+      <p style="margin-top:22px;">
+        The courtroom did not need drama. It had documentation.
+        BUG-0042. The medical report. Four pages of engineering certainty.
+        The judge read the same sentence the engineer had written —
+        <em>"predictable, preventable, owner-attributable"</em> —
+        and the verdict followed the architecture of the facts.
+      </p>
+      <p style="margin-top:22px;">
+        <strong>B did not recover fees. B paid them.</strong>
+        And A, walking again by then — slowly, with a cane —
+        received something the law calls damages
+        and the body calls: the cost of a Tuesday.
+      </p>
+    </div>
+    <div class="aos-footnote">
+      <div><span class="fn-label">CLAIM</span><span class="fn-val">B seeks fee recovery · legal + remediation</span></div>
+      <div><span class="fn-label">EVIDENCE</span><span class="fn-val">Engineering audit · Medical report · BUG-0042</span></div>
+      <span class="fn-verdict">VERDICT → B: liable. Damages to A awarded. B bears all costs.</span>
+    </div>
+  </article>
 
-<!-- ==================== SECTION 2 — BUG-MIB ==================== -->
-<div class="story-section">
-  <span class="dict-badge badge-bug">AOS.BUG-MIB — The Bug</span>
-  <div class="section-heading">The ceiling was a bug<br>that waited.</div>
+  <!-- ── SYNTHESIS ── -->
+  <section id="synthesis">
+    <span class="dict-tag tag-synthesis">AOS.SYNTHESIS</span>
+    <div class="synth-line" style="margin-top:30px;">
+      The ceiling was a bug.<br>
+      The bug had an owner.<br>
+      <em>The law read the dictionary.</em>
+    </div>
+    <div class="prose" style="max-width:580px; margin:0 auto 40px; text-align:left; font-size:0.95em;">
+      Five languages. One event. The same Tuesday morning —
+      seen through the eyes of logic, of failure, of flesh, of steel, of justice.
+      AOS does not add meaning to the world.
+      It reveals <em>the meaning that was already there</em>,
+      waiting to be named.
+    </div>
+    <div class="nft-final">
+      <span class="nft-k">NAME</span>  <span class="nft-v">CeilingCollapse.A.Tuesday.2026</span>
+      <span class="nft-k">FACT</span>  <span class="nft-v">Negligence · Validated · Judged</span>
+      <span class="nft-k">TARGET</span><span class="nft-v">Justice. Recovery. Architecture.</span>
+    </div>
+  </section>
 
-  <div class="nft-block bug">
-    <div class="nft-row">
-      <span class="nft-key">ID</span>
-      <span class="nft-val"><strong>BUG-0042</strong></span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">NAME</span>
-      <span class="nft-val">StructuralIntegrity.Failure.Ceiling.Unit7</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">FACT</span>
-      <span class="nft-val">Fatigue crack. Undetected. 11 years. No inspection. No report.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">FIX REQUIRED</span>
-      <span class="nft-val">Full structural audit. Owner liability established.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">OWNER</span>
-      <span class="nft-val"><strong>B</strong></span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">STATUS</span>
-      <span class="nft-val">OPEN → TRANSMITTED → PENDING CLOSE</span>
-    </div>
-  </div>
-
-  <p class="prose">
-    Bugs do not announce themselves. They accumulate.<br>
-    The crack was there in 2015. In 2016. In every year after.<br>
-    <em>B</em> received no `capture()`. Sent no `fix()`. Waited for nothing.<br>
-    AOS.BUG-MIB names what the building forgot to say.
-  </p>
-</div>
-
-<div class="separator"><div class="sep-line"></div></div>
-
-<!-- ==================== SECTION 3 — MEDICAL ==================== -->
-<div class="story-section">
-  <span class="dict-badge badge-medical">AOS.MEDICAL — The Body</span>
-  <div class="section-heading">Symptom entered.<br>Outcome is the target.</div>
-
-  <div class="nft-block medical">
-    <div class="nft-row">
-      <span class="nft-key">NAME</span>
-      <span class="nft-val"><strong>A.Trauma.Acute.2026</strong></span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">SYMPTOM</span>
-      <span class="nft-val">Loss of consciousness. T4 fracture. Contusions — chest, left arm.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">DIAGNOSIS</span>
-      <span class="nft-val">Blunt force trauma. Spinal compression at T4. No severing.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">TREATMENT</span>
-      <span class="nft-val">Surgical stabilization. 6-week immobilization. Physical therapy: 4 months.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">OUTCOME</span>
-      <span class="nft-val"><strong>Full motor recovery projected.</strong> Chronic pain: possible.</span>
-    </div>
-  </div>
-
-  <p class="prose">
-    The hospital does not ask why. It asks: what, where, how urgent.<br>
-    AOS.MEDICAL speaks the body's language — <em>Symptom to Outcome</em>.<br>
-    The crack in the ceiling became a crack in the vertebra.<br>
-    Medicine maps the path from damage back to function.
-  </p>
-</div>
-
-<div class="separator"><div class="sep-line"></div></div>
-
-<!-- ==================== SECTION 4 — ENGINEERING ==================== -->
-<div class="story-section">
-  <span class="dict-badge badge-engineering">AOS.ENGINEERING — The Structure</span>
-  <div class="section-heading">Requirement existed.<br>Compliance did not.</div>
-
-  <div class="nft-block engineering">
-    <div class="nft-row">
-      <span class="nft-key">NAME</span>
-      <span class="nft-val"><strong>Ceiling.Unit7.StructuralAudit</strong></span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">REQUIREMENT</span>
-      <span class="nft-val">NEN 6702 §4.2 — Inspection cycle: 5 years. Load tolerance: 180 kg/m².</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">FAILURE MODE</span>
-      <span class="nft-val">Propagating fatigue crack. Initiating point: anchor bolt corrosion.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">ROOT CAUSE</span>
-      <span class="nft-val">Zero inspections in 11 years. Humidity ingress unreported.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">VALIDATED CAUSE</span>
-      <span class="nft-val"><strong>Negligence. Preventable. Owner-attributable.</strong></span>
-    </div>
-  </div>
-
-  <p class="prose">
-    Engineering does not speculate. It validates.<br>
-    The requirement was written. The schedule was set. The inspection never happened.<br>
-    <em>AOS.ENGINEERING</em> moves from Requirement to Validated System —<br>
-    and here, the system failed validation by 11 years.
-  </p>
-</div>
-
-<div class="separator"><div class="sep-line"></div></div>
-
-<!-- ==================== SECTION 5 — LEGAL ==================== -->
-<div class="story-section">
-  <span class="dict-badge badge-legal">AOS.LEGAL — The Claim</span>
-  <div class="section-heading">B saw a lawyer.<br>The lawyer saw a verdict.</div>
-
-  <div class="nft-block legal">
-    <div class="nft-row">
-      <span class="nft-key">NAME</span>
-      <span class="nft-val"><strong>B.v.A.LiabilityAction.2026</strong></span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">CLAIM</span>
-      <span class="nft-val">B seeks fee recovery: legal + structural remediation costs.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">EVIDENCE</span>
-      <span class="nft-val">Engineering audit (validated). Medical report (A). BUG-0042 record (MIB).</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">COUNTER</span>
-      <span class="nft-val">A: damages — pain, lost income, spinal injury, 4 months incapacity.</span>
-    </div>
-    <div class="nft-row">
-      <span class="nft-key">VERDICT</span>
-      <span class="nft-val"><strong>B: liable. Damages to A awarded. Fees: B bears own costs.</strong></span>
-    </div>
-  </div>
-
-  <p class="prose">
-    B went for fees. The law gave them accountability instead.<br>
-    AOS.LEGAL moves from Claim to enforceable Verdict —<br>
-    and the Verdict was written long before B entered the courtroom.<br>
-    <em>It was written in the BUG-MIB, on the day the inspection was skipped.</em>
-  </p>
-</div>
-
-<div class="separator"><div class="sep-line"></div></div>
-
-<!-- ==================== SYNTHESIS ==================== -->
-<div class="synthesis-final">
-  <span class="dict-badge badge-synthesis">AOS.SYNTHESIS — One Language. One Story.</span>
-
-  <div class="big-line">
-    The ceiling was a bug.<br>
-    The bug had an owner.<br>
-    The law read the dictionary.
-  </div>
-
-  <div class="small-line">Five lenses. One event. Zero ambiguity.</div>
-
-  <div class="trilogy">
-    <div class="trilogy-item">
-      <div class="trilogy-word">NAME</div>
-      <div class="trilogy-def">CeilingCollapse.A.2026</div>
-    </div>
-    <div class="trilogy-item">
-      <div class="trilogy-word">FACT</div>
-      <div class="trilogy-def">Negligence. Validated. Judged.</div>
-    </div>
-    <div class="trilogy-item">
-      <div class="trilogy-word">TARGET</div>
-      <div class="trilogy-def">Justice. Closed.</div>
-    </div>
-  </div>
-</div>
+</main>
 
 <!-- FOOTER -->
-<div class="footer">
-  <p>AOS — Adequate Operating System &nbsp;·&nbsp; MIT License</p>
-  <p><a href="https://github.com/alissali/Learn">github.com/alissali/Learn</a> &nbsp;·&nbsp; <a href="https://juxitt.com">juxitt.com</a></p>
-</div>
+<footer>
+  <p>AOS — Adequate Operating System · MIT License · <a href="https://juxitt.com">juxitt.com</a></p>
+  <p style="margin-top:6px; color:#223;">One language. All disciplines. Forever open.</p>
+</footer>
 
 <!-- AUDIO BUTTON -->
-<button id="audio-btn" onclick="toggleAudio()">♪ tone</button>
+<button id="audio-btn" title="Toggle ambient sound">♪</button>
 
+<!-- STARS CANVAS -->
 <script>
-// ─── STARFIELD ───────────────────────────────────────────────
-const sc = document.getElementById('stars');
-const sx = sc.getContext('2d');
-let stars = [];
+(function(){
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
 
-function initStars() {
-  sc.width  = window.innerWidth;
-  sc.height = window.innerHeight;
-  stars = [];
-  for (let i = 0; i < 300; i++) {
-    stars.push({
-      x: Math.random() * sc.width,
-      y: Math.random() * sc.height,
-      r: Math.random() * 1.4 + 0.2,
-      a: Math.random(),
-      s: 0.003 + Math.random() * 0.008,
-      hue: [180, 38, 270, 48][Math.floor(Math.random()*4)]
-    });
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
-}
 
-function drawStars() {
-  sx.clearRect(0, 0, sc.width, sc.height);
-  stars.forEach(s => {
-    s.a += s.s;
-    const alpha = (Math.sin(s.a) * 0.5 + 0.5) * 0.7 + 0.15;
-    sx.beginPath();
-    sx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-    sx.fillStyle = `hsla(${s.hue},70%,75%,${alpha})`;
-    sx.fill();
-  });
-  requestAnimationFrame(drawStars);
-}
+  const palette = ['#2ec4b6','#e8a045','#7b4fa6','#f5c842','#c8e6f0','#ffffff'];
 
-initStars();
-drawStars();
-window.addEventListener('resize', initStars);
-
-// ─── COLLAPSE ANIMATION ───────────────────────────────────────
-const cc = document.getElementById('collapse-canvas');
-const cx = cc.getContext('2d');
-cc.width  = window.innerWidth;
-cc.height = window.innerHeight;
-
-let phase = 0; // 0=ceiling, 1=crack, 2=fall, 3=settle
-let phaseT = 0;
-let debris = [];
-
-function spawnDebris() {
-  const cx2 = cc.width / 2;
-  const cy2 = cc.height * 0.25;
-  for (let i = 0; i < 40; i++) {
-    debris.push({
-      x: cx2 + (Math.random()-0.5)*300,
-      y: cy2 + Math.random()*40,
-      vx: (Math.random()-0.5)*4,
-      vy: Math.random()*3+1,
-      w: Math.random()*18+4,
-      h: Math.random()*10+3,
-      rot: Math.random()*Math.PI*2,
-      rotV: (Math.random()-0.5)*0.15,
-      alpha: 1,
-      color: `hsl(${30+Math.random()*20},20%,${40+Math.random()*20}%)`
-    });
-  }
-}
-
-let t = 0;
-function animCollapse() {
-  cc.clearRect(0,0,cc.width,cc.height);
-  t += 0.016;
-
-  const W = cc.width, H = cc.height;
-  const mid = W/2;
-  const ceilY = H * 0.22;
-
-  // Ceiling slab
-  if (t < 1.5) {
-    // Intact — subtle breathe
-    const alpha = 0.55 + Math.sin(t*2)*0.1;
-    cx.save();
-    cx.fillStyle = `rgba(80,80,90,${alpha})`;
-    cx.fillRect(mid - 220, ceilY - 12, 440, 22);
-    // Plaster texture lines
-    for (let i=0;i<6;i++) {
-      cx.strokeStyle = `rgba(120,120,130,0.3)`;
-      cx.lineWidth = 1;
-      cx.beginPath();
-      cx.moveTo(mid-220+i*70, ceilY-12);
-      cx.lineTo(mid-220+i*70+40, ceilY+10);
-      cx.stroke();
+  function makeStars(n){
+    stars = [];
+    for(let i=0;i<n;i++){
+      stars.push({
+        x: Math.random()*W,
+        y: Math.random()*H,
+        r: Math.random()*1.2+0.2,
+        c: palette[Math.floor(Math.random()*palette.length)],
+        a: Math.random(),
+        da: (Math.random()-0.5)*0.004,
+        speed: Math.random()*0.06+0.01
+      });
     }
-    cx.restore();
-  } else if (t < 2.0) {
-    // CRACK FORMING
-    const prog = (t-1.5)/0.5;
-    cx.save();
-    cx.fillStyle = `rgba(80,80,90,0.55)`;
-    cx.fillRect(mid-220, ceilY-12, 440, 22);
-    // Crack line
-    cx.strokeStyle = `rgba(245,200,66,${prog})`;
-    cx.lineWidth = 1.5;
-    cx.beginPath();
-    cx.moveTo(mid - 80, ceilY-8);
-    cx.lineTo(mid - 20 + prog*30, ceilY + 5);
-    cx.lineTo(mid + 60*prog, ceilY - 3);
-    cx.stroke();
-    // Glow
-    cx.shadowColor = '#f5c842';
-    cx.shadowBlur = 8*prog;
-    cx.stroke();
-    cx.restore();
-  } else if (t < 2.3) {
-    // FALL — spawn once
-    if (debris.length === 0) spawnDebris();
   }
 
-  // DEBRIS falling
-  if (debris.length > 0) {
-    debris.forEach(d => {
-      d.x  += d.vx;
-      d.y  += d.vy;
-      d.vy += 0.18; // gravity
-      d.rot+= d.rotV;
-      d.alpha -= 0.012;
-      cx.save();
-      cx.globalAlpha = Math.max(0, d.alpha);
-      cx.translate(d.x, d.y);
-      cx.rotate(d.rot);
-      cx.fillStyle = d.color;
-      cx.fillRect(-d.w/2, -d.h/2, d.w, d.h);
-      cx.restore();
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a += s.da;
+      if(s.a<=0||s.a>=1) s.da=-s.da;
+      s.y += s.speed;
+      if(s.y>H){ s.y=0; s.x=Math.random()*W; }
+      ctx.globalAlpha = s.a * 0.45;
+      ctx.fillStyle = s.c;
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fill();
     });
-    debris = debris.filter(d => d.alpha > 0);
+    ctx.globalAlpha=1;
+    requestAnimationFrame(draw);
   }
 
-  // PERSON A — simple silhouette
-  const personX = mid + 30;
-  const personY = H * 0.68;
-  cx.save();
-  const impact = t > 2.0 && t < 2.4;
-  if (impact) {
-    // Knocked down
-    cx.translate(personX + 30, personY + 15);
-    cx.rotate(Math.PI/2 * Math.min(1,(t-2.0)/0.4));
-    cx.translate(-personX - 30, -personY - 15);
-  }
-  cx.fillStyle = 'rgba(232,244,248,0.7)';
-  // Head
-  cx.beginPath();
-  cx.arc(personX, personY - 42, 10, 0, Math.PI*2);
-  cx.fill();
-  // Body
-  cx.fillRect(personX-6, personY-32, 12, 28);
-  // Legs
-  cx.fillRect(personX-7, personY-4, 6, 22);
-  cx.fillRect(personX+1, personY-4, 6, 22);
-  cx.restore();
-
-  // DUST CLOUD after impact
-  if (t > 2.2) {
-    const prog = Math.min(1,(t-2.2)/1.5);
-    const gr = cx.createRadialGradient(personX, personY, 0, personX, personY, 120*prog);
-    gr.addColorStop(0, `rgba(160,150,130,${0.25*(1-prog)})`);
-    gr.addColorStop(1, 'transparent');
-    cx.fillStyle = gr;
-    cx.beginPath();
-    cx.arc(personX, personY, 120*prog, 0, Math.PI*2);
-    cx.fill();
-  }
-
-  requestAnimationFrame(animCollapse);
-}
-animCollapse();
-
-// ─── SCROLL REVEAL ────────────────────────────────────────────
-const sections = document.querySelectorAll('.story-section, .synthesis-final, .separator, .footer');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('visible');
-  });
-}, { threshold: 0.12 });
-
-sections.forEach(s => observer.observe(s));
-
-// ─── AUDIO ────────────────────────────────────────────────────
-let audioCtx = null, playing = false, nodes = [];
-
-function toggleAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-  if (playing) {
-    nodes.forEach(n => { try { n.stop(); } catch(e){} });
-    nodes = [];
-    playing = false;
-    document.getElementById('audio-btn').textContent = '♪ tone';
-    return;
-  }
-
-  // Minor sombre tone — Am chord drone
-  const freqs = [110, 130.8, 164.8, 220, 261.6];
-  const master = audioCtx.createGain();
-  master.gain.setValueAtTime(0, audioCtx.currentTime);
-  master.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 2);
-  master.connect(audioCtx.destination);
-
-  freqs.forEach((f, i) => {
-    const osc = audioCtx.createOscillator();
-    const g   = audioCtx.createGain();
-    const lfo = audioCtx.createOscillator();
-    const lfoG= audioCtx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.value = f;
-
-    lfo.type = 'sine';
-    lfo.frequency.value = 0.07 + i * 0.015;
-    lfoG.gain.value = f * 0.004;
-
-    lfo.connect(lfoG);
-    lfoG.connect(osc.frequency);
-
-    g.gain.value = 0.18 - i * 0.025;
-    osc.connect(g);
-    g.connect(master);
-
-    osc.start();
-    lfo.start();
-    nodes.push(osc, lfo);
-  });
-
-  playing = true;
-  document.getElementById('audio-btn').textContent = '■ stop';
-}
-
-window.addEventListener('resize', () => {
-  cc.width  = window.innerWidth;
-  cc.height = window.innerHeight;
-});
+  window.addEventListener('resize',()=>{ resize(); makeStars(260); });
+  resize(); makeStars(260); draw();
+})();
 </script>
+
+<!-- AUDIO -->
+<script>
+(function(){
+  let ctx, playing = false;
+  const btn = document.getElementById('audio-btn');
+
+  function start(){
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const master = ctx.createGain();
+    master.gain.value = 0.06;
+    master.connect(ctx.destination);
+
+    // Am chord — sombre, minor, grounded
+    [[220,0],[261.63,0.3],[329.63,0.6],[440,0.9]].forEach(([freq, delay])=>{
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      g.gain.value = 0;
+      g.gain.linearRampToValueAtTime(1, ctx.currentTime + delay + 2);
+      // Slow LFO tremolo
+      const lfo = ctx.createOscillator();
+      const lfoG = ctx.createGain();
+      lfo.frequency.value = 0.08 + Math.random()*0.04;
+      lfoG.gain.value = 0.3;
+      lfo.connect(lfoG);
+      lfoG.connect(g.gain);
+      lfo.start();
+      osc.connect(g);
+      g.connect(master);
+      osc.start(ctx.currentTime + delay);
+    });
+  }
+
+  btn.addEventListener('click', ()=>{
+    if(!playing){
+      start();
+      btn.textContent = '■';
+      btn.style.color = '#e05c5c';
+    } else {
+      if(ctx) ctx.close();
+      btn.textContent = '♪';
+      btn.style.color = '#2ec4b6';
+    }
+    playing = !playing;
+  });
+})();
+</script>
+
 </body>
 </html>
