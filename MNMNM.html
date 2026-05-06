@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNMNM — Minimum Natural Moves Noting Method</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=IBM+Plex+Sans:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --opal-void:   #05070f;
+    --opal-deep:   #0a0d1a;
+    --opal-teal:   #2ec4b6;
+    --opal-amber:  #e8a045;
+    --opal-violet: #7b4fa6;
+    --opal-gold:   #f5c842;
+    --opal-smoke:  #8899aa;
+    --opal-frost:  #ccd8e0;
+    --aos-diamond: #b8d4e8;
+    --aos-prism:   #d4eaff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--opal-void);
+    color: var(--opal-frost);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 80px 24px 60px;
+    border-bottom: 1px solid rgba(46,196,182,0.15);
+  }
+
+  .title-en {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--opal-teal);
+    margin-bottom: 8px;
+  }
+
+  .title-ar {
+    font-family: 'Noto Naskh Arabic', serif;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 600;
+    color: var(--opal-amber);
+    direction: rtl;
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+
+  .subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--opal-smoke);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* TAGLINE */
+  .tagline {
+    text-align: center;
+    padding: 60px 24px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .tagline-text {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    color: var(--opal-frost);
+    line-height: 1.9;
+  }
+
+  .tagline-text strong {
+    color: var(--opal-teal);
+    font-weight: 600;
+  }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch-section {
+    max-width: 600px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .arch-box {
+    background: var(--opal-deep);
+    border: 1px solid rgba(46,196,182,0.2);
+    border-radius: 4px;
+    padding: 40px 32px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem;
+    line-height: 2.2;
+  }
+
+  .arch-human  { color: var(--opal-amber); font-weight: 600; }
+  .arch-mnmnm  { color: var(--opal-teal);  font-weight: 600; }
+  .arch-aos    { color: var(--aos-diamond); font-weight: 600; }
+  .arch-output { color: var(--opal-gold);  font-weight: 600; }
+  .arch-arrow  { color: var(--opal-smoke); }
+  .arch-note   { color: var(--opal-smoke); font-size: 0.75rem; }
+
+  /* LAW SECTION */
+  .law-section {
+    max-width: 800px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--opal-smoke);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .law-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .law-grid { grid-template-columns: 1fr; }
+  }
+
+  .law-card {
+    background: var(--opal-deep);
+    padding: 32px 28px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .law-card:first-child { border-color: rgba(46,196,182,0.3); }
+  .law-card:last-child  { border-color: rgba(232,160,69,0.3); }
+
+  .law-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .law-card:first-child .law-name { color: var(--opal-teal); }
+  .law-card:last-child  .law-name { color: var(--opal-amber); }
+
+  .law-def {
+    font-size: 0.9rem;
+    color: var(--opal-smoke);
+    margin-bottom: 16px;
+  }
+
+  .law-formula {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--opal-frost);
+    background: rgba(255,255,255,0.04);
+    padding: 10px 14px;
+    border-radius: 2px;
+  }
+
+  .law-relation {
+    text-align: center;
+    margin-top: 32px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--opal-gold);
+  }
+
+  /* THREE MOVES */
+  .moves-section {
+    max-width: 800px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+
+  .moves-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  @media (max-width: 700px) {
+    .moves-grid { grid-template-columns: 1fr; }
+  }
+
+  .move-card {
+    background: var(--opal-deep);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .move-input {
+    font-family: 'Noto Naskh Arabic', serif;
+    font-size: 2rem;
+    color: var(--opal-teal);
+    margin-bottom: 8px;
+    direction: rtl;
+  }
+
+  .move-input.ltr {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    direction: ltr;
+  }
+
+  .move-arrow {
+    color: var(--opal-smoke);
+    font-size: 1.2rem;
+    margin: 8px 0;
+  }
+
+  .move-output {
+    font-size: 0.8rem;
+    color: var(--opal-amber);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .move-domain {
+    font-size: 0.7rem;
+    color: var(--opal-smoke);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  /* STONES */
+  .stones-section {
+    max-width: 800px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+
+  .stones-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+  }
+
+  @media (max-width: 700px) {
+    .stones-grid { grid-template-columns: 1fr; }
+  }
+
+  .stone-card {
+    padding: 32px 24px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stone-aos    { background: rgba(184,212,232,0.07); border-color: rgba(184,212,232,0.25); }
+  .stone-opal   { background: rgba(232,160,69,0.07);  border-color: rgba(232,160,69,0.25); }
+  .stone-mnmnm  { background: rgba(46,196,182,0.07);  border-color: rgba(46,196,182,0.25); }
+
+  .stone-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .stone-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .stone-aos  .stone-name { color: var(--aos-diamond); }
+  .stone-opal .stone-name { color: var(--opal-amber); }
+  .stone-mnmnm .stone-name { color: var(--opal-teal); }
+
+  .stone-desc {
+    font-size: 0.82rem;
+    color: var(--opal-smoke);
+    line-height: 1.6;
+  }
+
+  /* ARABIC SECTION */
+  .arabic-section {
+    max-width: 600px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .arabic-word {
+    font-family: 'Noto Naskh Arabic', serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--opal-amber);
+    direction: rtl;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .arabic-gloss {
+    font-size: 0.9rem;
+    color: var(--opal-smoke);
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+
+  .arabic-insight {
+    font-size: 0.95rem;
+    color: var(--opal-frost);
+    line-height: 1.9;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* EXPRESSION */
+  .expression-section {
+    max-width: 700px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+
+  .expression-box {
+    background: var(--opal-deep);
+    border: 1px solid rgba(46,196,182,0.3);
+    padding: 40px 36px;
+    font-family: 'IBM Plex Mono', monospace;
+    text-align: center;
+  }
+
+  .expr-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--opal-smoke);
+    margin-bottom: 20px;
+  }
+
+  .expr-name   { color: var(--opal-teal);   font-size: 1rem; font-weight: 600; }
+  .expr-fact   { color: var(--opal-amber);  font-size: 0.9rem; margin: 10px 0; }
+  .expr-target { color: var(--opal-gold);   font-size: 0.9rem; }
+  .expr-sep    { color: var(--opal-smoke);  margin: 0 8px; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 60px 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--opal-smoke);
+    letter-spacing: 0.15em;
+    line-height: 2;
+  }
+
+  footer a {
+    color: var(--opal-teal);
+    text-decoration: none;
+  }
+
+  .divider {
+    max-width: 800px;
+    margin: 0 auto 80px;
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="title-en">MNMNM</div>
+  <div class="title-ar">منمنم</div>
+  <div class="subtitle">Minimum Natural Moves Noting Method</div>
+</header>
+
+<!-- TAGLINE -->
+<div class="tagline">
+  <p class="tagline-text">
+    The <strong>shell</strong> of AOS.<br>
+    OPAL-rounded. Zero friction.<br>
+    Every human who touches AOS enters through <strong>MNMNM</strong>.
+  </p>
+</div>
+
+<hr class="divider">
+
+<!-- ARCHITECTURE -->
+<div class="arch-section">
+  <p class="section-label">Architecture</p>
+  <div class="arch-box">
+    <div class="arch-human">HUMAN</div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-mnmnm">MNMNM <span class="arch-note">— shell · OPAL-rounded</span></div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-aos">AOS <span class="arch-note">— engine · Diamond</span></div>
+    <div class="arch-arrow">↓</div>
+    <div class="arch-output">OUTPUT <span class="arch-note">— Expression · Sentence · Service</span></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- LAW -->
+<div class="law-section">
+  <p class="section-label">The Two Laws</p>
+  <div class="law-grid">
+    <div class="law-card">
+      <div class="law-name">MIP</div>
+      <div class="law-def">Output law</div>
+      <div class="law-formula">20% in → 100% out</div>
+    </div>
+    <div class="law-card">
+      <div class="law-name">MNMNM</div>
+      <div class="law-def">Input law</div>
+      <div class="law-formula">those 20% must be natural</div>
+    </div>
+  </div>
+  <div class="law-relation">MNMNM feeds MIP.</div>
+</div>
+
+<hr class="divider">
+
+<!-- THREE MOVES -->
+<div class="moves-section">
+  <p class="section-label">Three Moves</p>
+  <div class="moves-grid">
+
+    <div class="move-card">
+      <div class="move-input">ك ت ب</div>
+      <div class="move-arrow">↓</div>
+      <div class="move-output">18 derivations</div>
+      <div class="move-domain">AOS.ARABIC</div>
+    </div>
+
+    <div class="move-card">
+      <div class="move-input ltr">cours</div>
+      <div class="move-arrow">↓</div>
+      <div class="move-output">full document</div>
+      <div class="move-domain">AOS.PUBLISHER</div>
+    </div>
+
+    <div class="move-card">
+      <div class="move-input ltr" style="font-size:0.8rem; padding-top:0.5rem;">NAME / FACT / TARGET</div>
+      <div class="move-arrow">↓</div>
+      <div class="move-output">AOS Expression</div>
+      <div class="move-domain">AOS.MINIMAL</div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- STONES -->
+<div class="stones-section">
+  <p class="section-label">Three Stones</p>
+  <div class="stones-grid">
+
+    <div class="stone-card stone-aos">
+      <div class="stone-icon">💎</div>
+      <div class="stone-name">AOS</div>
+      <div class="stone-desc">Crystalline. Hard edges. Formal. Precise. The Diamond.</div>
+    </div>
+
+    <div class="stone-card stone-opal">
+      <div class="stone-icon">🪨</div>
+      <div class="stone-name">OPAL</div>
+      <div class="stone-desc">Organic. Warm. Human. Living colour. The Stone.</div>
+    </div>
+
+    <div class="stone-card stone-mnmnm">
+      <div class="stone-icon">🌊</div>
+      <div class="stone-name">MNMNM</div>
+      <div class="stone-desc">Where they touch. The shell. The negotiation. Rounded.</div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ARABIC ROOT -->
+<div class="arabic-section">
+  <p class="section-label">The Arabic Root</p>
+  <div class="arabic-word">منمنم</div>
+  <div class="arabic-gloss">miniature painting — ultra-precise art — maximum detail in minimum space</div>
+  <div class="arabic-insight">
+    Arabic named it before AOS did.<br>
+    The word is the method.<br>
+    The method was always the word.
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- AOS EXPRESSION -->
+<div class="expression-section">
+  <p class="section-label">AOS Expression</p>
+  <div class="expression-box">
+    <div class="expr-label">NAME / FACT / TARGET</div>
+    <div class="expr-name">MNMNM</div>
+    <div class="expr-fact">minimum natural moves → AOS activation</div>
+    <div class="expr-target">human-AOS interface</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>JuX · <a href="https://juxitt.com">juxitt.com</a></div>
+  <div style="margin-top:8px;">MIT License · Open · Free · Forever</div>
+  <div style="margin-top:8px; color: rgba(136,153,170,0.5);">Wed 6 May 2026</div>
+</footer>
+
+</body>
+</html>
