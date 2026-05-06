@@ -175,11 +175,14 @@ function stripDiacritics(s){return s.replace(/[\u064B-\u065F\u0670]/g,"")}
 function extractLetters(raw){
   return stripDiacritics(raw).replace(/[-\s]/g,"").split("").filter(c=>/[\u0600-\u06FF]/.test(c));
 }
+// Keep shadda (\u0651) — removes only vowel marks, not structural marks
+const VOWEL_MARKS=/[\u064B-\u0650\u0652-\u065F\u0670]/;
 function applyPattern(pattern, letters){
   const [f,a,l]=letters;
   const map={"\u0641":f,"\u0639":a,"\u0644":l};
   let result="";
-  for(const ch of stripDiacritics(pattern)){
+  for(const ch of pattern){
+    if(VOWEL_MARKS.test(ch)) continue;
     result+=map[ch]!==undefined?map[ch]:ch;
   }
   return result;
