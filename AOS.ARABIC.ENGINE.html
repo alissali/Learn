@@ -9,49 +9,72 @@
 :root{
   --void:#05070f;--teal:#2ec4b6;--amber:#e8a045;--violet:#7b4fa6;
   --gold:#f5c842;--surface:#0d1117;--deep:#0a0f1a;
-  --border:#1e2a3a;--dim:#555;--dimmer:#333;--text:#ccc;
+  --border:#1e2a3a;--dim:#666;--dimmer:#444;--text:#ccc;
 }
 body{background:var(--void);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;min-height:100vh}
-.hero{padding:2rem 2rem 1.5rem;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#070b14 0%,#05070f 100%)}
-.hero-tag{font-family:monospace;font-size:.6rem;color:var(--dimmer);letter-spacing:.2em;margin-bottom:.6rem}
-.hero-aos{font-size:clamp(2rem,5vw,3rem);font-weight:900;color:var(--teal);font-family:monospace;letter-spacing:.1em;margin-bottom:.2rem}
-.hero-ar{font-size:clamp(1.1rem,3vw,1.7rem);font-weight:700;color:var(--gold);margin-bottom:.2rem}
-.hero-sub{font-size:.85rem;color:var(--amber);margin-bottom:.15rem}
-.hero-sub2{font-size:.75rem;color:var(--dim);font-style:italic;margin-bottom:1rem}
+
+/* HERO */
+.hero{padding:1.5rem 1.5rem 1.2rem;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#070b14 0%,#05070f 100%)}
+.hero-tag{font-family:monospace;font-size:.55rem;color:var(--dimmer);letter-spacing:.2em;margin-bottom:.5rem}
+.hero-aos{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--teal);font-family:monospace;letter-spacing:.1em;margin-bottom:.2rem}
+.hero-ar{font-size:clamp(1rem,2.5vw,1.5rem);font-weight:700;color:var(--gold);margin-bottom:.15rem}
+.hero-sub{font-size:.8rem;color:var(--amber);margin-bottom:.1rem}
+.hero-sub2{font-size:.7rem;color:var(--dim);font-style:italic;margin-bottom:.9rem}
 .objects{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
 .obj-item{text-align:center}
-.obj-ar{font-size:1.3rem;font-weight:700}
-.obj-en{font-family:monospace;font-size:.6rem;color:var(--dimmer);letter-spacing:.1em}
-.engine{max-width:880px;margin:0 auto;padding:1.5rem 1.5rem 3rem;text-align:center}
-.engine-tag{font-family:monospace;font-size:.6rem;color:var(--dimmer);letter-spacing:.2em;margin-bottom:1.2rem}
-.input-row{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:.8rem}
-input[type=text]{background:var(--surface);border:1px solid var(--teal);color:var(--gold);font-size:1.3rem;padding:.45rem .9rem;border-radius:4px;width:160px;text-align:center;outline:none;direction:rtl}
-.btn-derive{background:var(--teal);color:var(--void);border:none;padding:.5rem 1.3rem;font-size:.95rem;border-radius:4px;cursor:pointer;font-weight:700}
-.btn-derive:hover{opacity:.85}
-.presets{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem;align-items:center;justify-content:center}
-.preset-label{color:var(--dim);font-size:.75rem}
-.btn-preset{background:var(--surface);border:1px solid var(--dimmer);color:var(--text);padding:.2rem .6rem;border-radius:4px;cursor:pointer;font-size:1rem;direction:rtl}
+.obj-ar{font-size:1.2rem;font-weight:700}
+.obj-en{font-family:monospace;font-size:.55rem;color:var(--dimmer);letter-spacing:.1em}
+
+/* ENGINE */
+.engine{max-width:860px;margin:0 auto;padding:1.2rem 1.2rem 2.5rem;text-align:center}
+.engine-tag{font-family:monospace;font-size:.55rem;color:var(--dimmer);letter-spacing:.2em;margin-bottom:1rem}
+
+/* INPUT ROW */
+.input-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:.7rem}
+#rootInput{background:var(--surface);border:1px solid var(--teal);color:var(--gold);font-size:1.3rem;padding:.4rem .8rem;border-radius:4px;width:150px;text-align:center;outline:none;direction:rtl}
+#btnDerive{background:var(--teal);color:var(--void);border:none;padding:.45rem 1.2rem;font-size:.9rem;border-radius:4px;cursor:pointer;font-weight:700}
+#btnDerive:hover{opacity:.85}
+
+/* PRESETS */
+.presets{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;justify-content:center}
+.preset-label{color:var(--dim);font-size:.7rem}
+.btn-preset{background:var(--surface);border:1px solid var(--dimmer);color:var(--text);padding:.18rem .55rem;border-radius:4px;cursor:pointer;font-size:.95rem;direction:rtl}
 .btn-preset:hover{border-color:var(--teal);color:var(--teal)}
-.error{color:var(--amber);margin-bottom:1rem;font-size:.85rem}
-.expr-box{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:1.2rem;padding:1rem;background:var(--deep);border-radius:6px;border:1px solid var(--border)}
-.expr-tag{font-family:monospace;font-size:.6rem;color:var(--dimmer);letter-spacing:.15em;width:100%;margin-bottom:.3rem;text-align:center}
-.expr-item{border-radius:4px;padding:.5rem .9rem;text-align:center;min-width:120px}
-.expr-lbl{font-size:.6rem;margin-bottom:.15rem;font-family:monospace}
-.expr-val{font-size:1.4rem;font-weight:700;direction:rtl}
+
+/* ERROR */
+#errorMsg{display:none;color:var(--amber);margin-bottom:.8rem;font-size:.82rem}
+
+/* EXPRESSION */
+#exprBox{display:none;flex-wrap:wrap;gap:.7rem;align-items:center;justify-content:center;margin-bottom:1rem;padding:.8rem;background:var(--deep);border-radius:6px;border:1px solid var(--border)}
+.expr-tag{font-family:monospace;font-size:.55rem;color:var(--dimmer);letter-spacing:.15em;width:100%;margin-bottom:.2rem;text-align:center}
+.expr-item{border-radius:4px;padding:.45rem .8rem;text-align:center;min-width:110px}
+.expr-lbl{font-size:.55rem;margin-bottom:.12rem;font-family:monospace}
+.expr-val{font-size:1.35rem;font-weight:700;direction:rtl}
+
+/* TABS */
 .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:0;justify-content:center}
-.tab{background:var(--surface);color:var(--dim);border:none;padding:.45rem 1.2rem;cursor:pointer;font-weight:700;font-size:.75rem;letter-spacing:.05em}
+.tab{background:var(--surface);color:var(--dim);border:none;padding:.4rem 1.1rem;cursor:pointer;font-weight:700;font-size:.72rem;letter-spacing:.05em}
 .tab.active{background:var(--teal);color:var(--void)}
-table{width:100%;border-collapse:collapse;font-size:.88rem}
-th{padding:.55rem .8rem;color:var(--dim);border-bottom:1px solid var(--border);background:var(--deep);text-align:left}
-th.center{text-align:center}th.right{text-align:right}
-td{padding:.5rem .8rem;border-bottom:1px solid var(--border)}
-tr:hover td{background:#0d1117}
-.ar{direction:rtl;unicode-bidi:embed}
-.gold{color:var(--gold);font-size:1.2rem}
-.mono{font-family:monospace;font-size:.8rem}
-.footer{margin-top:2.5rem;text-align:center;font-family:monospace;font-size:.6rem;color:var(--dimmer);line-height:2;border-top:1px solid var(--border);padding-top:1.2rem}
-.hidden{display:none}
-.empty-msg{padding:2rem;text-align:center;color:var(--dimmer)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th{padding:.5rem .75rem;color:var(--dim);border-bottom:1px solid var(--border);background:var(--deep)}
+th.center{text-align:center}
+th.right{text-align:right}
+td{padding:.45rem .75rem;border-bottom:1px solid var(--border)}
+tr:hover td{background:var(--surface)}
+.ar{direction:rtl;unicode-bidi:embed;text-align:center}
+.gold{color:var(--gold);font-size:1.15rem}
+.mono{font-family:monospace;font-size:.78rem;color:var(--teal)}
+.col-form{color:var(--dim);font-family:monospace}
+.col-aos{text-align:right;font-size:.72rem;font-weight:700}
+.empty-msg{padding:1.8rem;text-align:center;color:var(--dimmer)}
+
+/* NOUN TABLE */
+#nounTable{display:none}
+
+/* FOOTER */
+.footer{margin-top:2rem;text-align:center;font-family:monospace;font-size:.55rem;color:var(--dimmer);line-height:2;border-top:1px solid var(--border);padding-top:1rem}
 </style>
 </head>
 <body>
@@ -74,40 +97,40 @@ tr:hover td{background:#0d1117}
 
   <div class="input-row">
     <input type="text" id="rootInput" placeholder="ك-ت-ب" dir="rtl"/>
-    <button class="btn-derive" onclick="runDerive()">derive() — اشتقاق</button>
+    <button id="btnDerive">derive() — اشتقاق</button>
   </div>
 
   <div class="presets">
     <span class="preset-label">Presets:</span>
-    <button class="btn-preset" onclick="setPreset('ك-ت-ب')">ك-ت-ب</button>
-    <button class="btn-preset" onclick="setPreset('ع-ل-م')">ع-ل-م</button>
-    <button class="btn-preset" onclick="setPreset('ق-ر-أ')">ق-ر-أ</button>
-    <button class="btn-preset" onclick="setPreset('ف-ه-م')">ف-ه-م</button>
-    <button class="btn-preset" onclick="setPreset('خ-ر-ج')">خ-ر-ج</button>
-    <button class="btn-preset" onclick="setPreset('ب-ن-ي')">ب-ن-ي</button>
+    <button class="btn-preset" data-root="ك-ت-ب">ك-ت-ب</button>
+    <button class="btn-preset" data-root="ع-ل-م">ع-ل-م</button>
+    <button class="btn-preset" data-root="ق-ر-أ">ق-ر-أ</button>
+    <button class="btn-preset" data-root="ف-ه-م">ف-ه-م</button>
+    <button class="btn-preset" data-root="خ-ر-ج">خ-ر-ج</button>
+    <button class="btn-preset" data-root="ب-ن-ي">ب-ن-ي</button>
   </div>
 
-  <div class="error hidden" id="errorMsg"></div>
+  <div id="errorMsg"></div>
 
-  <div class="expr-box hidden" id="exprBox">
+  <div id="exprBox">
     <div class="expr-tag">AOS EXPRESSION — التعبير</div>
-    <div class="expr-item" style="background:#051a1a;border:1px solid var(--teal)">
-      <div class="expr-lbl" style="color:var(--teal)">اسم · NAME</div>
-      <div class="expr-val" style="color:var(--teal)" id="exprName"></div>
+    <div class="expr-item" style="background:#051a1a;border:1px solid #2ec4b6">
+      <div class="expr-lbl" style="color:#2ec4b6">اسم · NAME</div>
+      <div class="expr-val" style="color:#2ec4b6" id="exprName"></div>
     </div>
-    <div class="expr-item" style="background:#1a1005;border:1px solid var(--amber)">
-      <div class="expr-lbl" style="color:var(--amber)">حقيقة · FACT</div>
-      <div class="expr-val" style="color:var(--amber)" id="exprFact"></div>
+    <div class="expr-item" style="background:#1a1005;border:1px solid #e8a045">
+      <div class="expr-lbl" style="color:#e8a045">حقيقة · FACT</div>
+      <div class="expr-val" style="color:#e8a045" id="exprFact"></div>
     </div>
-    <div class="expr-item" style="background:#120a1a;border:1px solid var(--violet)">
-      <div class="expr-lbl" style="color:var(--violet)">هدف · TARGET</div>
-      <div class="expr-val" style="color:var(--violet)" id="exprTarget"></div>
+    <div class="expr-item" style="background:#120a1a;border:1px solid #7b4fa6">
+      <div class="expr-lbl" style="color:#7b4fa6">هدف · TARGET</div>
+      <div class="expr-val" style="color:#7b4fa6" id="exprTarget"></div>
     </div>
   </div>
 
   <div class="tabs">
-    <button class="tab active" id="tabVerb" onclick="switchTab('verb')">VERB FORMS · أوزان الفعل</button>
-    <button class="tab" id="tabNoun" onclick="switchTab('noun')">NOUN PATTERNS · الأنماط الاسمية</button>
+    <button class="tab active" id="tabVerb">VERB FORMS · أوزان الفعل</button>
+    <button class="tab" id="tabNoun">NOUN PATTERNS · الأنماط الاسمية</button>
   </div>
 
   <div id="verbTable">
@@ -115,7 +138,7 @@ tr:hover td{background:#0d1117}
       <thead>
         <tr>
           <th>Form</th>
-          <th>Pattern · وزن</th>
+          <th class="center">Pattern · وزن</th>
           <th class="center">Derivative · مشتق</th>
           <th>Operation</th>
           <th class="right">AOS</th>
@@ -127,11 +150,11 @@ tr:hover td{background:#0d1117}
     </table>
   </div>
 
-  <div id="nounTable" class="hidden">
+  <div id="nounTable">
     <table>
       <thead>
         <tr>
-          <th>Pattern · وزن</th>
+          <th class="center">Pattern · وزن</th>
           <th class="center">Derivative · مشتق</th>
           <th>Role · دور</th>
           <th class="right">AOS</th>
@@ -151,116 +174,144 @@ tr:hover td{background:#0d1117}
 
 <script>
 const VERB_FORMS = [
-  {form:"I",   pattern:"فَعَلَ",       op:"do()",             aos:"TARGET", color:"#7b4fa6"},
-  {form:"II",  pattern:"فَعَّلَ",      op:"amplify()",        aos:"TARGET", color:"#7b4fa6"},
-  {form:"III", pattern:"فَاعَلَ",      op:"interact()",       aos:"TARGET", color:"#7b4fa6"},
-  {form:"IV",  pattern:"أَفْعَلَ",     op:"trigger()",        aos:"TARGET", color:"#7b4fa6"},
-  {form:"V",   pattern:"تَفَعَّلَ",    op:"self_transform()", aos:"TARGET", color:"#7b4fa6"},
-  {form:"VI",  pattern:"تَفَاعَلَ",    op:"sync()",           aos:"TARGET", color:"#7b4fa6"},
-  {form:"VII", pattern:"اِنْفَعَلَ",   op:"receive()",        aos:"TARGET", color:"#7b4fa6"},
-  {form:"VIII",pattern:"اِفْتَعَلَ",   op:"absorb()",         aos:"TARGET", color:"#7b4fa6"},
-  {form:"X",   pattern:"اِسْتَفْعَلَ", op:"request()",        aos:"TARGET", color:"#7b4fa6"},
-];
-const NOUN_PATTERNS = [
-  {pattern:"فَاعِل",       role:"Doer · الفاعل",          aos:"NAME",   color:"#2ec4b6"},
-  {pattern:"مَفْعُول",     role:"Receiver · المفعول به",   aos:"FACT",   color:"#e8a045"},
-  {pattern:"فِعَال",       role:"Object · الاسم الجامد",   aos:"TARGET", color:"#7b4fa6"},
-  {pattern:"مَفْعَل",      role:"Place · اسم المكان",      aos:"TARGET", color:"#7b4fa6"},
-  {pattern:"فَعَّال",      role:"Profession · المهنة",     aos:"NAME",   color:"#2ec4b6"},
-  {pattern:"تَفْعِيل",     role:"Verbal Noun II",          aos:"FACT",   color:"#e8a045"},
-  {pattern:"اِسْتِفْعَال", role:"Verbal Noun X",           aos:"FACT",   color:"#e8a045"},
+  {form:"I",   pattern:"فَعَلَ",       op:"do()",             aos:"TARGET"},
+  {form:"II",  pattern:"فَعَّلَ",      op:"amplify()",        aos:"TARGET"},
+  {form:"III", pattern:"فَاعَلَ",      op:"interact()",       aos:"TARGET"},
+  {form:"IV",  pattern:"أَفْعَلَ",     op:"trigger()",        aos:"TARGET"},
+  {form:"V",   pattern:"تَفَعَّلَ",    op:"self_transform()", aos:"TARGET"},
+  {form:"VI",  pattern:"تَفَاعَلَ",    op:"sync()",           aos:"TARGET"},
+  {form:"VII", pattern:"اِنْفَعَلَ",   op:"receive()",        aos:"TARGET"},
+  {form:"VIII",pattern:"اِفْتَعَلَ",   op:"absorb()",         aos:"TARGET"},
+  {form:"X",   pattern:"اِسْتَفْعَلَ", op:"request()",        aos:"TARGET"},
 ];
 
-function stripDiacritics(s){return s.replace(/[\u064B-\u065F\u0670]/g,"")}
-function extractLetters(raw){
-  return stripDiacritics(raw).replace(/[-\s]/g,"").split("").filter(c=>/[\u0600-\u06FF]/.test(c));
+const NOUN_PATTERNS = [
+  {pattern:"فَاعِل",       role:"Doer · الفاعل",          aos:"NAME"},
+  {pattern:"مَفْعُول",     role:"Receiver · المفعول به",   aos:"FACT"},
+  {pattern:"فِعَال",       role:"Object · الاسم الجامد",   aos:"TARGET"},
+  {pattern:"مَفْعَل",      role:"Place · اسم المكان",      aos:"TARGET"},
+  {pattern:"فَعَّال",      role:"Profession · المهنة",     aos:"NAME"},
+  {pattern:"تَفْعِيل",     role:"Verbal Noun II",          aos:"FACT"},
+  {pattern:"اِسْتِفْعَال", role:"Verbal Noun X",           aos:"FACT"},
+];
+
+const AOS_COLORS = {NAME:"#2ec4b6", FACT:"#e8a045", TARGET:"#7b4fa6"};
+
+// Strip vowel marks but keep shadda (U+0651)
+const VOWEL_MARKS = /[\u064B-\u0650\u0652-\u065F\u0670]/;
+
+function stripDiacritics(s) {
+  return s.replace(/[\u064B-\u065F\u0670]/g, "");
 }
-// Keep shadda (\u0651) — removes only vowel marks, not structural marks
-const VOWEL_MARKS=/[\u064B-\u0650\u0652-\u065F\u0670]/;
-function applyPattern(pattern, letters){
-  const [f,a,l]=letters;
-  const map={"\u0641":f,"\u0639":a,"\u0644":l};
-  let result="";
-  for(const ch of pattern){
-    if(VOWEL_MARKS.test(ch)) continue;
-    result+=map[ch]!==undefined?map[ch]:ch;
+
+function extractLetters(raw) {
+  return stripDiacritics(raw)
+    .replace(/[-\s]/g, "")
+    .split("")
+    .filter(c => /[\u0600-\u06FF]/.test(c));
+}
+
+function applyPattern(pattern, letters) {
+  const [f, a, l] = letters;
+  const map = {"\u0641": f, "\u0639": a, "\u0644": l};
+  let result = "";
+  for (const ch of pattern) {
+    if (VOWEL_MARKS.test(ch)) continue;
+    result += map[ch] !== undefined ? map[ch] : ch;
   }
   return result;
 }
 
-let currentLetters=[];
+let currentLetters = [];
 
-function runDerive(){
-  const raw=document.getElementById("rootInput").value;
-  const letters=extractLetters(raw);
-  const err=document.getElementById("errorMsg");
-  const expr=document.getElementById("exprBox");
-  if(letters.length<3){
-    err.textContent="أدخل جذراً ثلاثياً · Enter a trilateral root";
-    err.classList.remove("hidden");
-    expr.classList.add("hidden");
+function runDerive() {
+  const raw = document.getElementById("rootInput").value.trim();
+  const letters = extractLetters(raw);
+  const err = document.getElementById("errorMsg");
+  const expr = document.getElementById("exprBox");
+
+  if (letters.length < 3) {
+    err.textContent = "أدخل جذراً ثلاثياً · Enter a trilateral root (3 letters)";
+    err.style.display = "block";
+    expr.style.display = "none";
     renderEmpty();
     return;
   }
-  err.classList.add("hidden");
-  currentLetters=letters;
-  const [f,a,l]=letters;
-  const rootDisplay=f+"-"+a+"-"+l;
-  const fi3al=applyPattern("فِعَال",letters);
-  const faael=applyPattern("فَاعِل",letters);
-  document.getElementById("exprName").textContent=rootDisplay;
-  document.getElementById("exprFact").textContent=fi3al;
-  document.getElementById("exprTarget").textContent=faael;
-  expr.classList.remove("hidden");
+
+  err.style.display = "none";
+  currentLetters = letters;
+  const [f, a, l] = letters;
+
+  document.getElementById("exprName").textContent = f + "-" + a + "-" + l;
+  document.getElementById("exprFact").textContent = applyPattern("فِعَال", letters);
+  document.getElementById("exprTarget").textContent = applyPattern("فَاعِل", letters);
+  expr.style.display = "flex";
+
   renderVerb();
   renderNoun();
 }
 
-function renderEmpty(){
-  document.getElementById("verbBody").innerHTML='<tr><td colspan="5" class="empty-msg">Enter a root above · أدخل جذراً</td></tr>';
-  document.getElementById("nounBody").innerHTML='<tr><td colspan="4" class="empty-msg">Enter a root above · أدخل جذراً</td></tr>';
+function renderEmpty() {
+  document.getElementById("verbBody").innerHTML =
+    '<tr><td colspan="5" class="empty-msg">Enter a root above · أدخل جذراً</td></tr>';
+  document.getElementById("nounBody").innerHTML =
+    '<tr><td colspan="4" class="empty-msg">Enter a root above · أدخل جذراً</td></tr>';
 }
 
-function renderVerb(){
-  const tbody=document.getElementById("verbBody");
-  tbody.innerHTML=VERB_FORMS.map(row=>{
-    const d=applyPattern(row.pattern,currentLetters);
+function renderVerb() {
+  document.getElementById("verbBody").innerHTML = VERB_FORMS.map(row => {
+    const d = applyPattern(row.pattern, currentLetters);
     return `<tr>
-      <td style="color:var(--dim);font-family:monospace">${row.form}</td>
-      <td style="color:var(--text);direction:rtl;text-align:center" class="ar">${row.pattern}</td>
-      <td style="color:var(--gold);font-size:1.2rem;direction:rtl;text-align:center" class="ar">${d}</td>
-      <td style="color:var(--teal);font-family:monospace;font-size:.8rem">${row.op}</td>
-      <td style="text-align:right;color:${row.color};font-size:.75rem;font-weight:700">${row.aos}</td>
+      <td class="col-form">${row.form}</td>
+      <td class="col-pattern ar">${row.pattern}</td>
+      <td class="col-deriv ar gold">${d}</td>
+      <td class="col-op mono">${row.op}</td>
+      <td class="col-aos" style="color:${AOS_COLORS[row.aos]}">${row.aos}</td>
     </tr>`;
   }).join("");
 }
 
-function renderNoun(){
-  const tbody=document.getElementById("nounBody");
-  tbody.innerHTML=NOUN_PATTERNS.map(row=>{
-    const d=applyPattern(row.pattern,currentLetters);
+function renderNoun() {
+  document.getElementById("nounBody").innerHTML = NOUN_PATTERNS.map(row => {
+    const d = applyPattern(row.pattern, currentLetters);
     return `<tr>
-      <td style="color:var(--text);direction:rtl" class="ar">${row.pattern}</td>
-      <td style="color:var(--gold);font-size:1.2rem;direction:rtl;text-align:center" class="ar">${d}</td>
-      <td style="color:var(--dim)">${row.role}</td>
-      <td style="text-align:right;color:${row.color};font-size:.75rem;font-weight:700">${row.aos}</td>
+      <td class="col-pattern ar">${row.pattern}</td>
+      <td class="col-deriv ar gold">${d}</td>
+      <td class="col-role">${row.role}</td>
+      <td class="col-aos" style="color:${AOS_COLORS[row.aos]}">${row.aos}</td>
     </tr>`;
   }).join("");
 }
 
-function setPreset(r){
-  document.getElementById("rootInput").value=r;
-  runDerive();
+function switchTab(t) {
+  document.getElementById("verbTable").style.display = t === "verb" ? "block" : "none";
+  document.getElementById("nounTable").style.display = t === "noun" ? "block" : "none";
+  document.getElementById("tabVerb").classList.toggle("active", t === "verb");
+  document.getElementById("tabNoun").classList.toggle("active", t === "noun");
 }
 
-function switchTab(t){
-  document.getElementById("verbTable").classList.toggle("hidden",t!=="verb");
-  document.getElementById("nounTable").classList.toggle("hidden",t!=="noun");
-  document.getElementById("tabVerb").classList.toggle("active",t==="verb");
-  document.getElementById("tabNoun").classList.toggle("active",t==="noun");
-}
+document.addEventListener("DOMContentLoaded", function () {
+  // Derive button
+  document.getElementById("btnDerive").addEventListener("click", runDerive);
 
-document.getElementById("rootInput").addEventListener("keydown",function(e){if(e.key==="Enter")runDerive();});
+  // Enter key on input
+  document.getElementById("rootInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") runDerive();
+  });
+
+  // Preset buttons
+  document.querySelectorAll(".btn-preset").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.getElementById("rootInput").value = btn.dataset.root;
+      runDerive();
+    });
+  });
+
+  // Tab buttons
+  document.getElementById("tabVerb").addEventListener("click", function () { switchTab("verb"); });
+  document.getElementById("tabNoun").addEventListener("click", function () { switchTab("noun"); });
+});
+
 </script>
 </body>
 </html>
