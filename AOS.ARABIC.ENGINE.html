@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AOS.ARABIC.ENGINE</title>
+<style>
+  :root {
+    --opal-void: #05070f;
+    --opal-teal: #2ec4b6;
+    --opal-amber: #e8a045;
+    --opal-violet: #7b4fa6;
+    --opal-gold: #f5c842;
+    --aos-crystal: #a8d8ea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--opal-void);
+    color: #ccc;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  h1 { color: var(--opal-teal); font-size: 1.8rem; margin-bottom: 0.3rem; }
+  .subtitle { color: #555; font-size: 0.8rem; font-family: monospace; margin-bottom: 0.2rem; }
+  .tagline { color: #444; font-size: 0.85rem; margin-bottom: 2rem; }
+
+  .input-section {
+    background: #0d1117;
+    border: 1px solid #1e2a3a;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .input-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .input-group { flex: 1; min-width: 160px; }
+  label { display: block; font-size: 0.75rem; color: #444; font-family: monospace; margin-bottom: 0.4rem; }
+  input {
+    width: 100%;
+    background: #0a0f1a;
+    border: 1px solid #1e2a3a;
+    border-radius: 6px;
+    color: #ccc;
+    padding: 0.6rem 0.8rem;
+    font-size: 1.1rem;
+    font-family: monospace;
+    outline: none;
+  }
+  input:focus { border-color: var(--opal-teal); }
+  input[dir="rtl"] { text-align: right; font-size: 1.3rem; }
+  .warn { color: var(--opal-amber); font-size: 0.8rem; margin-top: 0.5rem; font-family: monospace; }
+
+  button.derive-btn {
+    background: var(--opal-teal);
+    color: var(--opal-void);
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem 2rem;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+  }
+  button.derive-btn:disabled { background: #1e2a3a; color: #333; cursor: not-allowed; }
+  button.derive-btn:hover:not(:disabled) { background: var(--opal-gold); }
+
+  .presets { margin-bottom: 1.5rem; }
+  .presets p { font-size: 0.75rem; color: #333; font-family: monospace; margin-bottom: 0.5rem; }
+  .preset-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  button.preset {
+    background: transparent;
+    border: 1px solid #1e2a3a;
+    color: #666;
+    border-radius: 6px;
+    padding: 0.3rem 0.8rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  button.preset:hover, button.preset.active { border-color: var(--opal-teal); color: var(--opal-teal); }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .root-display { font-size: 2rem; font-family: monospace; color: var(--opal-teal); font-weight: bold; direction: rtl; }
+  .meaning-display { color: #555; font-size: 0.9rem; }
+  .count-badge {
+    margin-left: auto;
+    background: #0d2a1a;
+    color: #2ecc71;
+    border-radius: 12px;
+    padding: 0.2rem 0.8rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+  }
+
+  .tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid #1e2a3a; }
+  button.tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #444;
+    padding: 0.7rem 1.2rem;
+    font-family: monospace;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  button.tab.active { color: var(--opal-teal); border-bottom-color: var(--opal-teal); }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left;
+    font-size: 0.7rem;
+    color: #333;
+    font-family: monospace;
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid #1e2a3a;
+  }
+  thead th.rtl { text-align: right; }
+  tbody tr:nth-child(even) { background: #0a0f1a; }
+  tbody tr:hover { background: #0d1520; }
+  td { padding: 0.7rem 0.8rem; font-size: 0.9rem; vertical-align: middle; }
+  td.form { font-family: monospace; color: #555; font-size: 0.8rem; }
+  td.pattern { text-align: right; font-family: monospace; font-size: 1.2rem; color: #444; direction: rtl; }
+  td.arabic { text-align: right; font-family: monospace; font-size: 1.5rem; color: var(--opal-teal); font-weight: bold; direction: rtl; }
+  td.operation span {
+    border: 1px solid #1e2a3a;
+    color: var(--opal-amber);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+  td.meaning { font-size: 0.8rem; color: #444; }
+
+  .aos-footer {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #0a0f1a;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: #2a3a2a;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<h1>AOS.ARABIC.ENGINE</h1>
+<div class="subtitle">Root = NAME · Pattern = FACT · Derivative = TARGET</div>
+<div class="tagline">Arabic was always AOS. Unnamed until today.</div>
+
+<div class="input-section">
+  <div class="input-row">
+    <div class="input-group">
+      <label>ROOT — e.g. ك-ت-ب</label>
+      <input type="text" id="rootInput" value="ك-ت-ب" dir="rtl" placeholder="ف-ع-ل"/>
+    </div>
+    <div class="input-group">
+      <label>MEANING (optional)</label>
+      <input type="text" id="meaningInput" value="writing / inscription" placeholder="semantic nucleus"/>
+    </div>
+  </div>
+  <button class="derive-btn" id="deriveBtn" onclick="handleDerive()">derive()</button>
+  <div class="warn" id="warnMsg" style="display:none">Enter 3 letters separated by dashes: ف-ع-ل</div>
+</div>
+
+<div class="presets">
+  <p>PRESETS:</p>
+  <div class="preset-row" id="presetRow"></div>
+</div>
+
+<div id="results" style="display:none">
+  <div class="result-header">
+    <div class="root-display" id="rootDisplay"></div>
+    <div class="meaning-display" id="meaningDisplay"></div>
+    <div class="count-badge" id="countBadge"></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" id="tabVerbs" onclick="switchTab('verbs')">Verb Forms (10 Operations)</button>
+    <button class="tab" id="tabNouns" onclick="switchTab('nouns')">Noun Patterns (7 Structures)</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>FORM</th>
+        <th class="rtl">PATTERN (FACT)</th>
+        <th class="rtl">DERIVATIVE (TARGET)</th>
+        <th>OPERATION</th>
+        <th>MEANING</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+
+  <div class="aos-footer">
+    NAME: AOS.ARABIC · FACT: Arabic was always AOS. Root = NAME. Pattern = FACT. Derivative = TARGET. 10 Operations. · TARGET: One language. Named today.<br/>
+    © AOS — MIT License — Open. Free. Forever.
+  </div>
+</div>
+
+<script>
+const PRESETS = [
+  { root: 'ك-ت-ب', meaning: 'writing / inscription' },
+  { root: 'ع-ل-م', meaning: 'knowledge / science' },
+  { root: 'خ-ر-ج', meaning: 'exit / emergence' },
+  { root: 'ق-ر-أ', meaning: 'reading / recitation' },
+  { root: 'ب-ن-ي', meaning: 'building / construction' },
+  { root: 'ف-ه-م', meaning: 'understanding / comprehension' },
+];
+
+const VERB_FORMS = [
+  { form: 'Form I',    pattern: 'فَعَلَ',       operation: 'do()',             meaning: 'Base action' },
+  { form: 'Form II',   pattern: 'فَعَّلَ',      operation: 'amplify()',        meaning: 'Intensify / causative' },
+  { form: 'Form III',  pattern: 'فَاعَلَ',      operation: 'interact()',       meaning: 'Reciprocal action' },
+  { form: 'Form IV',   pattern: 'أَفْعَلَ',     operation: 'trigger()',        meaning: 'Make happen' },
+  { form: 'Form V',    pattern: 'تَفَعَّلَ',    operation: 'self_transform()', meaning: 'Reflexive of II' },
+  { form: 'Form VI',   pattern: 'تَفَاعَلَ',    operation: 'sync()',           meaning: 'Mutual action' },
+  { form: 'Form VII',  pattern: 'اِنْفَعَلَ',   operation: 'receive()',        meaning: 'Passive result' },
+  { form: 'Form VIII', pattern: 'اِفْتَعَلَ',   operation: 'absorb()',         meaning: 'Active internalization' },
+  { form: 'Form IX',   pattern: 'اِفْعَلَّ',    operation: 'manifest()',       meaning: 'Color / defect' },
+  { form: 'Form X',    pattern: 'اِسْتَفْعَلَ', operation: 'request()',        meaning: 'Seek / request' },
+];
+
+const NOUN_PATTERNS = [
+  { form: 'Masdar I',   pattern: 'فَعْل',        operation: 'abstract()',  meaning: 'Verbal noun — the abstract action' },
+  { form: 'Fāʿil',     pattern: 'فَاعِل',        operation: 'agent()',     meaning: 'Active participle — the doer' },
+  { form: 'Mafʿūl',    pattern: 'مَفْعُول',      operation: 'state()',     meaning: 'Passive participle — the state' },
+  { form: 'Fiʿāl',     pattern: 'فِعَال',         operation: 'object()',    meaning: 'Object noun' },
+  { form: 'Mafʿal',    pattern: 'مَفْعَل',        operation: 'place()',     meaning: 'Place / instrument noun' },
+  { form: 'Tafʿīl',    pattern: 'تَفْعِيل',       operation: 'amplified()', meaning: 'Masdar of Form II' },
+  { form: 'Mufāʿala',  pattern: 'مُفَاعَلَة',     operation: 'exchange()',  meaning: 'Masdar of Form III' },
+];
+
+function applyPattern(pattern, f, a, l) {
+  return pattern.replace(/ف/g, f).replace(/ع/g, a).replace(/ل/g, l);
+}
+
+let currentTab = 'verbs';
+let allDerivatives = [];
+
+function deriveAll(root, meaning) {
+  const parts = root.trim().split(/[-\s]+/).filter(Boolean);
+  if (parts.length < 3) return [];
+  const [f, a, l] = parts;
+  const results = [];
+  for (const vf of VERB_FORMS) {
+    results.push({ ...vf, arabic: applyPattern(vf.pattern, f, a, l), type: 'verb' });
+  }
+  for (const np of NOUN_PATTERNS) {
+    results.push({ ...np, arabic: applyPattern(np.pattern, f, a, l), type: 'noun' });
+  }
+  return results;
+}
+
+function renderTable() {
+  const data = allDerivatives.filter(d => currentTab === 'verbs' ? d.type === 'verb' : d.type === 'noun');
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = data.map(d => `
+    <tr>
+      <td class="form">${d.form}</td>
+      <td class="pattern">${d.pattern}</td>
+      <td class="arabic">${d.arabic}</td>
+      <td class="operation"><span>${d.operation}</span></td>
+      <td class="meaning">${d.meaning}</td>
+    </tr>
+  `).join('');
+}
+
+function handleDerive() {
+  const root = document.getElementById('rootInput').value;
+  const meaning = document.getElementById('meaningInput').value;
+  const parts = root.trim().split(/[-\s]+/).filter(Boolean);
+  if (parts.length < 3) {
+    document.getElementById('warnMsg').style.display = 'block';
+    return;
+  }
+  document.getElementById('warnMsg').style.display = 'none';
+  allDerivatives = deriveAll(root, meaning);
+  document.getElementById('rootDisplay').textContent = root;
+  document.getElementById('meaningDisplay').textContent = '— ' + (meaning || 'semantic nucleus');
+  document.getElementById('countBadge').textContent = allDerivatives.length + ' derivatives';
+  document.getElementById('results').style.display = 'block';
+  renderTable();
+  updatePresetHighlight(root);
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tabVerbs').className = 'tab' + (tab === 'verbs' ? ' active' : '');
+  document.getElementById('tabNouns').className = 'tab' + (tab === 'nouns' ? ' active' : '');
+  renderTable();
+}
+
+function updatePresetHighlight(root) {
+  document.querySelectorAll('button.preset').forEach(btn => {
+    btn.className = 'preset' + (btn.dataset.root === root ? ' active' : '');
+  });
+}
+
+// Build presets
+const presetRow = document.getElementById('presetRow');
+PRESETS.forEach(p => {
+  const btn = document.createElement('button');
+  btn.className = 'preset' + (p.root === 'ك-ت-ب' ? ' active' : '');
+  btn.textContent = p.root;
+  btn.dataset.root = p.root;
+  btn.onclick = () => {
+    document.getElementById('rootInput').value = p.root;
+    document.getElementById('meaningInput').value = p.meaning;
+    handleDerive();
+  };
+  presetRow.appendChild(btn);
+});
+
+// Initial render
+handleDerive();
+</script>
+</body>
+</html>
