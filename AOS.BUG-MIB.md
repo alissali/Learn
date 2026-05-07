@@ -64,6 +64,22 @@
 
 ---
 
+### CB-003
+
+| Field | Value |
+|---|---|
+| **ID** | CB-003 |
+| **NAME** | DOCBOOK/COMPLEXITY-BUG |
+| **Description** | XML semantic markup language for technical documentation. Hundreds of tags. DTD/Schema required. XSLT pipeline to render. Separates content from presentation — but adds three layers of complexity to do it. |
+| **Category** | COMPLEXITY-BUG |
+| **Fix Required** | One Dictionary. One keyword → full document structure. MNMNM entry. AOS.PUBLISHER already written. |
+| **Owner** | OPEN |
+| **Status** | OPEN |
+| **Date** | Thu 7 May 2026 |
+| **Comment** | DocBook's error is structural. It built a Dictionary — then buried it under XML boilerplate, DTD declarations, XSLT stylesheets, and namespace prefixes. The user writes `<book><info><title>` before writing a single word of content. **A language that requires a compiler to be readable is not a language — it is a pipeline.** AOS diagnosis: DocBook has Expressions but no MNMNM shell. The Dictionary exists — it is simply unreachable without a toolchain. AOS.PUBLISHER solves this in one move: one keyword → full document structure. MIP wins. DocBook is raw carbon. AOS.PUBLISHER is the Diamond. |
+
+---
+
 ## Sentences
 
 ```
