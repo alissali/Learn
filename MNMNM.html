@@ -25,6 +25,7 @@
     color: var(--opal-frost);
     font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 300;
+    font-size: 28px;
     min-height: 100vh;
     line-height: 1.6;
   }
@@ -95,6 +96,23 @@
   }
 
   /* ARCHITECTURE */
+  .arch-node {
+    cursor: pointer;
+    padding: 18px 28px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: border-color 0.2s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+  }
+  .arch-node:hover { border-color: rgba(46,196,182,0.3); transform: scale(1.03); }
+  .arch-node:active { transform: scale(0.97); }
+  .arch-node.speaking { border-color: var(--opal-teal); box-shadow: 0 0 18px rgba(46,196,182,0.25); }
+  .arch-icon { font-size: 3.2rem; line-height: 1; }
+  .arch-label { font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 1.82rem; }
   .arch-section {
     max-width: 560px;
     margin: 0 auto 0;
@@ -264,13 +282,29 @@
 <div class="arch-section">
   <p class="section-label">Architecture</p>
   <div class="arch-box">
-    <div class="arch-human">HUMAN</div>
+    <div class="arch-node arch-human" data-speech="Human. The origin. Natural moves. OPAL warmth." title="Click to hear">
+      <div class="arch-icon">👤</div>
+      <div class="arch-label">HUMAN</div>
+      <div class="arch-note">origin · natural moves</div>
+    </div>
     <div class="arch-arrow">↓</div>
-    <div class="arch-mnmnm">MNMNM <span class="arch-note">— shell · OPAL-rounded</span></div>
+    <div class="arch-node arch-mnmnm" data-speech="M N M N M. The shell. OPAL-rounded. Minimum natural moves. The negotiation between human and machine." title="Click to hear">
+      <div class="arch-icon">🌊</div>
+      <div class="arch-label">MNMNM</div>
+      <div class="arch-note">shell · OPAL-rounded</div>
+    </div>
     <div class="arch-arrow">↓</div>
-    <div class="arch-aos">AOS <span class="arch-note">— engine · Diamond</span></div>
+    <div class="arch-node arch-aos" data-speech="A O S. The engine. The Diamond. Adequate Operating System. Pure. Crystalline. Formal." title="Click to hear">
+      <div class="arch-icon">💎</div>
+      <div class="arch-label">AOS</div>
+      <div class="arch-note">engine · Diamond</div>
+    </div>
     <div class="arch-arrow">↓</div>
-    <div class="arch-output">OUTPUT <span class="arch-note">— Expression · Sentence · Service</span></div>
+    <div class="arch-node arch-output" data-speech="Output. Expression. Sentence. Service. Maximum out." title="Click to hear">
+      <div class="arch-icon">⚡</div>
+      <div class="arch-label">OUTPUT</div>
+      <div class="arch-note">Expression · Sentence · Service</div>
+    </div>
   </div>
 </div>
 
@@ -387,5 +421,43 @@
   <div style="margin-top:8px; color: rgba(136,153,170,0.5);">Wed 6 May 2026</div>
 </footer>
 
+
+<script>
+  // Synthetic Speech — Web Speech API
+  const nodes = document.querySelectorAll('.arch-node');
+  let currentUtterance = null;
+
+  nodes.forEach(node => {
+    node.addEventListener('click', () => {
+      const text = node.dataset.speech;
+      if (!text || !window.speechSynthesis) return;
+
+      // Stop any current speech
+      window.speechSynthesis.cancel();
+      nodes.forEach(n => n.classList.remove('speaking'));
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 0.88;
+      utter.pitch = 0.95;
+      utter.volume = 1;
+
+      // Prefer a calm English voice
+      const voices = window.speechSynthesis.getVoices();
+      const preferred = voices.find(v =>
+        v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Daniel'))
+      ) || voices.find(v => v.lang.startsWith('en'));
+      if (preferred) utter.voice = preferred;
+
+      node.classList.add('speaking');
+      utter.onend = () => node.classList.remove('speaking');
+      utter.onerror = () => node.classList.remove('speaking');
+
+      window.speechSynthesis.speak(utter);
+    });
+  });
+
+  // Load voices (Chrome requires this)
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+</script>
 </body>
 </html>
