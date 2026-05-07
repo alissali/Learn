@@ -80,6 +80,22 @@
 
 ---
 
+### CB-004
+
+| Field | Value |
+|---|---|
+| **ID** | CB-004 |
+| **NAME** | JAVA.MAVEN/COMPLEXITY-BUG |
+| **Description** | Java build system. To produce a `.jar` artifact, write XML first. `pom.xml` declares dependencies, plugins, lifecycle phases — before a single line of logic. Artifact buried under build pipeline. |
+| **Category** | COMPLEXITY-BUG |
+| **Fix Required** | One Sentence: `compile(project)` → `.jar`. Dictionary handles the rest. No XML. No lifecycle. No pom. |
+| **Owner** | OPEN |
+| **Status** | OPEN |
+| **Date** | Thu 7 May 2026 |
+| **Comment** | Maven's error is the same as DocBook's. It confused **describing the build** with **executing the build**. The Artifact — a `.jar` file — is the entire purpose. Maven makes you declare the pipeline before you reach the Artifact. `pom.xml` is a Dictionary written in XML by the user, manually, every time. **AOS diagnosis: the Dictionary exists — it is called Maven — but it has no MNMNM shell. The user writes the Dictionary instead of using it.** JuX.ARTIFACT solves this: every discipline produces Artifacts. AOS names them, routes them, delivers them. One Sentence. No pipeline. |
+
+---
+
 ## Sentences
 
 ```
