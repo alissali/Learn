@@ -257,14 +257,12 @@
     margin-top: 0.2rem;
   }
 
-  .root-toggle {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 1rem;
     color: var(--opal-teal);
     transition: transform 0.2s;
   }
 
-  .root-card.active .root-toggle { transform: rotate(180deg); }
 
   .root-body {
     display: none;
@@ -272,7 +270,7 @@
     border-top: 1px solid rgba(46,196,182,0.08);
   }
 
-  .root-card.active .root-body { display: block; }
+  details.root-card .root-body { display: block; }
 
   .sub-label {
     font-family: 'IBM Plex Mono', monospace;
@@ -411,6 +409,27 @@
     margin-left: 1rem;
   }
   .speak-btn:hover { background: rgba(46,196,182,0.1); }
+
+  summary.root-header {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  summary.root-header::-webkit-details-marker { display: none; }
+  summary.root-header::marker { display: none; }
+  details.root-card summary.root-header::after {
+    content: '▼';
+    color: var(--opal-smoke);
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  details.root-card[open] summary.root-header::after {
+    transform: rotate(180deg);
+  }
+
 </style>
 </head>
 <body>
@@ -475,8 +494,8 @@
   <div class="section-label">Registry — Seven Roots</div>
 
   <!-- ROOT 001 — ك-ت-ب -->
-  <div class="root-card" onclick="toggle(this)">
-    <div class="root-header">
+  <details class="root-card" open>
+    <summary class="root-header">
       <div class="root-left">
         <div class="root-id">ROOT-001</div>
         <div class="root-letters">ك-ت-ب</div>
@@ -485,7 +504,6 @@
           <div class="root-domain">Knowledge Management</div>
         </div>
       </div>
-      <div class="root-toggle">▼</div>
     </div>
     <div class="root-body">
       <div class="sub-label">Verb Forms → Operations</div>
@@ -515,11 +533,11 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </details>
 
   <!-- ROOT 002 — ع-ل-م -->
-  <div class="root-card" onclick="toggle(this)">
-    <div class="root-header">
+  <details class="root-card">
+    <summary class="root-header">
       <div class="root-left">
         <div class="root-id">ROOT-002</div>
         <div class="root-letters">ع-ل-م</div>
@@ -528,7 +546,6 @@
           <div class="root-domain">Epistemology</div>
         </div>
       </div>
-      <div class="root-toggle">▼</div>
     </div>
     <div class="root-body">
       <div class="sub-label">Verb Forms → Operations</div>
@@ -557,11 +574,11 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </details>
 
   <!-- ROOT 003 — ف-ع-ل -->
-  <div class="root-card" onclick="toggle(this)">
-    <div class="root-header">
+  <details class="root-card">
+    <summary class="root-header">
       <div class="root-left">
         <div class="root-id">ROOT-003</div>
         <div class="root-letters">ف-ع-ل</div>
@@ -570,7 +587,6 @@
           <div class="root-domain">Operations (universal)</div>
         </div>
       </div>
-      <div class="root-toggle">▼</div>
     </div>
     <div class="root-body">
       <div class="sub-label">Verb Forms → Operations</div>
@@ -604,11 +620,11 @@
         Arabic grammar IS AOS grammar. The meta-root carries the full architecture.
       </div>
     </div>
-  </div>
+  </details>
 
   <!-- ROOT 004 — ب-ن-ى -->
-  <div class="root-card" onclick="toggle(this)">
-    <div class="root-header">
+  <details class="root-card">
+    <summary class="root-header">
       <div class="root-left">
         <div class="root-id">ROOT-004</div>
         <div class="root-letters">ب-ن-ى</div>
@@ -617,7 +633,6 @@
           <div class="root-domain">Engineering / Architecture</div>
         </div>
       </div>
-      <div class="root-toggle">▼</div>
     </div>
     <div class="root-body">
       <div class="sub-label">Verb Forms → Operations</div>
@@ -645,11 +660,11 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </details>
 
   <!-- ROOT 005 — ح-س-ب -->
-  <div class="root-card" onclick="toggle(this)">
-    <div class="root-header">
+  <details class="root-card">
+    <summary class="root-header">
       <div class="root-left">
         <div class="root-id">ROOT-005</div>
         <div class="root-letters">ح-س-ب</div>
@@ -658,7 +673,6 @@
           <div class="root-domain">Computation / Finance</div>
         </div>
       </div>
-      <div class="root-toggle">▼</div>
     </div>
     <div class="root-body">
       <div class="sub-label">Verb Forms → Operations</div>
@@ -691,11 +705,11 @@
         Same root. PATTERN changed. FACT transformed. AOS.ARABIC engine at work.
       </div>
     </div>
-  </div>
+  </details>
 
   <!-- ROOT 006 — ق-ر-أ -->
-  <div class="root-card" onclick="toggle(this)">
-    <div class="root-header">
+  <details class="root-card">
+    <summary class="root-header">
       <div class="root-left">
         <div class="root-id">ROOT-006</div>
         <div class="root-letters">ق-ر-أ</div>
@@ -704,7 +718,6 @@
           <div class="root-domain">Interpretation / AOS.CONTEXT</div>
         </div>
       </div>
-      <div class="root-toggle">▼</div>
     </div>
     <div class="root-body">
       <div class="sub-label">Verb Forms → Operations</div>
@@ -739,11 +752,11 @@
         <em>interpret(Expression, Dictionary) → Operation</em>
       </div>
     </div>
-  </div>
+  </details>
 
   <!-- ROOT 007 — ن-ظ-م -->
-  <div class="root-card" onclick="toggle(this)">
-    <div class="root-header">
+  <details class="root-card">
+    <summary class="root-header">
       <div class="root-left">
         <div class="root-id">ROOT-007</div>
         <div class="root-letters">ن-ظ-م</div>
@@ -752,7 +765,6 @@
           <div class="root-domain">AOS Architecture — the root IS AOS</div>
         </div>
       </div>
-      <div class="root-toggle">▼</div>
     </div>
     <div class="root-body">
       <div class="sub-label">Verb Forms → Operations</div>
@@ -788,7 +800,7 @@
         <strong>AOS named itself with its own root.</strong>
       </div>
     </div>
-  </div>
+  </details>
 
 </div>
 
@@ -834,17 +846,6 @@
   AOS.ARABIC.DICTIONARY · v0.01 · Thu 7 May 2026 · MIT License · One language. Seven domains. Zero invention.
 </footer>
 
-<script>
-function toggle(card) {
-  card.classList.toggle('active');
-}
-
-// Auto-open first card
-document.addEventListener('DOMContentLoaded', () => {
-  const first = document.querySelector('.root-card');
-  if (first) first.classList.add('active');
-});
-</script>
 
 </body>
 </html>
