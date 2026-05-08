@@ -171,5 +171,12 @@ def holdem_state_route():
     pidx = int(request.args.get("player", 0))
     return jsonify(holdem_state(g, pidx))
 
+
+# ─── JUXYAMS STANDALONE PAGE ──────────────────────────────────────────────────
+
+@app.route("/yams")
+def yams_page():
+    return render_template("juxyams.html")
+
 if __name__ == "__main__":
     app.run(port=5002, debug=True)
