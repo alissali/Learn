@@ -600,6 +600,13 @@ function renderHoldem() {
   document.getElementById('holdem-players').innerHTML = pt;
   renderLog(s.log||[], 'holdem-log');
 }
+
+// ── AUTO-TAB from URL path ────────────────────────────────────────────────────
+(function() {
+  const path = window.location.pathname.replace(/\/+$/, '');
+  if (path === '/draw') switchTab('draw');
+  else if (path === '/holdem') switchTab('holdem');
+})();
 </script>
 </body>
 </html>
