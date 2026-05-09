@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOLDEM.TRAINING — JuX</title>
+<style>
+:root {
+  --opal-void:   #010206;
+  --opal-deep:   #03050c;
+  --opal-teal:   #2ec4b6;
+  --opal-amber:  #e8a045;
+  --opal-violet: #7b4fa6;
+  --opal-gold:   #f5c842;
+  --opal-smoke:  #667788;
+  --opal-frost:  #b8c8d4;
+  --aos-diamond: #a0c4e0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--opal-void);
+  color: var(--opal-frost);
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 16px;
+  line-height: 1.7;
+  padding: 2rem 1rem;
+}
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ── HEADER ── */
+.header {
+  border-bottom: 1px solid var(--opal-teal);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.header .label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--opal-smoke);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.header h1 {
+  font-size: 2rem;
+  color: var(--opal-teal);
+  letter-spacing: 0.05em;
+}
+.header .sub {
+  color: var(--opal-amber);
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 2.5rem;
+}
+.section-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--opal-smoke);
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--opal-teal);
+  padding-left: 0.75rem;
+}
+
+/* ── EXPRESSION BLOCK ── */
+.expr {
+  background: var(--opal-deep);
+  border: 1px solid #1a2a3a;
+  border-radius: 6px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 0.4rem 1rem;
+}
+.expr-row {
+  display: contents;
+}
+.expr-key {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--opal-teal);
+  padding-top: 0.1rem;
+}
+.expr-val {
+  color: var(--opal-frost);
+}
+.expr-val.amber { color: var(--opal-amber); }
+.expr-val.violet { color: var(--opal-violet); }
+.expr-val.gold { color: var(--opal-gold); font-style: italic; }
+
+/* ── DICTIONARY TABLE ── */
+.dict-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+}
+.dict-table th {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--opal-smoke);
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #1a2a3a;
+}
+.dict-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #0d1520;
+  font-size: 0.9rem;
+  vertical-align: top;
+}
+.dict-table tr:hover td { background: #0a1020; }
+.td-name { color: var(--opal-teal); width: 180px; }
+.td-fact { color: var(--opal-frost); }
+.td-target { color: var(--opal-amber); width: 220px; }
+
+/* ── CODE BLOCK ── */
+.code-block {
+  background: var(--opal-deep);
+  border: 1px solid #1a2a3a;
+  border-left: 3px solid var(--opal-violet);
+  border-radius: 4px;
+  padding: 1rem 1.2rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--opal-frost);
+  margin-bottom: 1rem;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ── VERDICT ── */
+.verdict {
+  background: var(--opal-deep);
+  border: 1px solid var(--opal-teal);
+  border-radius: 6px;
+  padding: 1.2rem 1.4rem;
+  margin-top: 2rem;
+}
+.verdict-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--opal-teal);
+  margin-bottom: 0.6rem;
+}
+.verdict-text {
+  color: var(--opal-frost);
+  font-size: 0.95rem;
+}
+
+/* ── DELTA TABLE ── */
+.delta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+}
+.delta-table th {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--opal-smoke);
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #1a2a3a;
+}
+.delta-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #0d1520;
+  font-size: 0.88rem;
+  vertical-align: top;
+}
+.td-comp { color: var(--opal-smoke); width: 180px; }
+.td-model { color: var(--opal-teal); }
+.td-project { color: var(--opal-amber); }
+
+/* ── FOOTER ── */
+.footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #1a2a3a;
+  font-size: 0.75rem;
+  color: var(--opal-smoke);
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="label">JuX · Training Project · AOS</div>
+    <h1>HOLDEM.TRAINING</h1>
+    <div class="sub">Build Texas Hold'em from the 5-Card Draw model.</div>
+  </div>
+
+  <!-- SECTION 1 — PROJECT EXPRESSION -->
+  <div class="section">
+    <div class="section-title">Project Expression</div>
+
+    <div class="expr">
+      <div class="expr-key">NAME</div>
+      <div class="expr-val">HOLDEM.TRAINING</div>
+      <div class="expr-key">FACT</div>
+      <div class="expr-val amber">A Training Project. The student receives a working model (5-Card Draw) and extends it into Texas Hold'em. Same card engine. Same chip system. New flow.</div>
+      <div class="expr-key">TARGET</div>
+      <div class="expr-val violet">Playable 2-player Texas Hold'em in browser. No server. No framework. Pure JS.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — THE MODEL -->
+  <div class="section">
+    <div class="section-title">The Model — 5-Card Draw (Given)</div>
+
+    <table class="dict-table">
+      <thead>
+        <tr>
+          <th>NAME</th>
+          <th>FACT</th>
+          <th>TARGET</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">renderCard()</td>
+          <td class="td-fact">Renders one card — rank corners, suit center, red/black</td>
+          <td class="td-target">Reuse unchanged</td>
+        </tr>
+        <tr>
+          <td class="td-name">evaluateHand()</td>
+          <td class="td-fact">Ranks 5 cards — Pair → Royal Flush</td>
+          <td class="td-target">Reuse unchanged</td>
+        </tr>
+        <tr>
+          <td class="td-name">Chips</td>
+          <td class="td-fact">100 per player, ante 10, displayed top bar</td>
+          <td class="td-target">Extend with betting rounds</td>
+        </tr>
+        <tr>
+          <td class="td-name">Phase engine</td>
+          <td class="td-fact">Deal → Hold → Draw → Showdown</td>
+          <td class="td-target">Replace with Hold'em flow</td>
+        </tr>
+        <tr>
+          <td class="td-name">Deck</td>
+          <td class="td-fact">52 cards, shuffled, dealt by index</td>
+          <td class="td-target">Reuse unchanged</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 3 — THE DELTA -->
+  <div class="section">
+    <div class="section-title">The Delta — What the Student Builds</div>
+
+    <table class="delta-table">
+      <thead>
+        <tr>
+          <th>COMPONENT</th>
+          <th>5-Card Draw (Model)</th>
+          <th>Hold'em (Project)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-comp">Private cards</td>
+          <td class="td-model">5 per player</td>
+          <td class="td-project">2 per player (hole cards)</td>
+        </tr>
+        <tr>
+          <td class="td-comp">Community cards</td>
+          <td class="td-model">None</td>
+          <td class="td-project">5 shared — Flop(3) + Turn(1) + River(1)</td>
+        </tr>
+        <tr>
+          <td class="td-comp">Best hand</td>
+          <td class="td-model">5 of your 5</td>
+          <td class="td-project">Best 5 of 7 (2 hole + 5 community)</td>
+        </tr>
+        <tr>
+          <td class="td-comp">Betting rounds</td>
+          <td class="td-model">None (ante only)</td>
+          <td class="td-project">Pre-flop / Flop / Turn / River</td>
+        </tr>
+        <tr>
+          <td class="td-comp">Actions</td>
+          <td class="td-model">Hold / Draw</td>
+          <td class="td-project">Check / Bet / Call / Fold</td>
+        </tr>
+        <tr>
+          <td class="td-comp">Phase engine</td>
+          <td class="td-model">4 phases</td>
+          <td class="td-project">6 phases</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 4 — FORMAL SENTENCES -->
+  <div class="section">
+    <div class="section-title">Formal Sentences (AOS)</div>
+
+    <div class="code-block">deal(player, 2)              → hole cards
+deal(community, 3)           → flop
+deal(community, 1)           → turn
+deal(community, 1)           → river
+evaluate(hole + community)   → best_hand(5)
+compare(best_hand(P1), best_hand(P2)) → winner</div>
+  </div>
+
+  <!-- SECTION 5 — TRAINING DICTIONARY -->
+  <div class="section">
+    <div class="section-title">Training Dictionary — Milestones</div>
+
+    <table class="dict-table">
+      <thead>
+        <tr>
+          <th>NAME</th>
+          <th>FACT</th>
+          <th>TARGET</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">M1 — DEAL</td>
+          <td class="td-fact">Deal 2 hole cards per player. Display face-down for P2.</td>
+          <td class="td-target">Same as Draw model. Copy + trim.</td>
+        </tr>
+        <tr>
+          <td class="td-name">M2 — COMMUNITY</td>
+          <td class="td-fact">Reveal Flop, Turn, River one click each.</td>
+          <td class="td-target">3 new DOM slots. 3 new phase steps.</td>
+        </tr>
+        <tr>
+          <td class="td-name">M3 — BEST HAND</td>
+          <td class="td-fact">Pick best 5 from 7. evaluateHand() takes 5 — generate all C(7,2) combos.</td>
+          <td class="td-target">bestOf7(hand, community) → score</td>
+        </tr>
+        <tr>
+          <td class="td-name">M4 — BETTING</td>
+          <td class="td-fact">Check / Bet / Call / Fold buttons per round. Simple: no raise limit.</td>
+          <td class="td-target">pot += bet. winner takes pot.</td>
+        </tr>
+        <tr>
+          <td class="td-name">M5 — SHOWDOWN</td>
+          <td class="td-fact">Flip P2 hole cards. Compare best hands. Declare winner.</td>
+          <td class="td-target">compare() already exists in model.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 6 — RULE -->
+  <div class="section">
+    <div class="section-title">The Rule</div>
+    <div class="code-block">execute(HOLDEM.TRAINING, JeuX.DICTIONARY) → Playable Hold'em</div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-title">Verdict</div>
+    <div class="verdict-text">
+      The model is 80% of the project. The student does not start from zero — they start from a working system and extend it. Five milestones. Each one compiles. Each one runs. No dead ends.<br><br>
+      <span style="color:var(--opal-gold)">Hold'em is not a new game. It is 5-Card Draw with community cards and a betting protocol. The architecture is the same. Only the flow changes.</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>JuX · AOS · HOLDEM.TRAINING</span>
+    <span>MIT — Open. Free. Forever.</span>
+  </div>
+
+</div>
+</body>
+</html>
