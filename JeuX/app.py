@@ -178,5 +178,16 @@ def holdem_state_route():
 def yams_page():
     return render_template("juxyams.html")
 
+
+# ─── CARD GAME STANDALONE PAGES ──────────────────────────────────────────────
+
+@app.route("/draw")
+def draw_page():
+    return render_template("jeux.html")
+
+@app.route("/holdem")
+def holdem_page():
+    return render_template("jeux.html")
+
 if __name__ == "__main__":
     app.run(port=5002, debug=True)
