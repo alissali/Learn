@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUG-UBUNTU-SS.html — AOS.BUG-MIB</title>
+<style>
+  :root {
+    --opal-void: #010206;
+    --opal-deep: #03050c;
+    --opal-teal: #2ec4b6;
+    --opal-amber: #e8a045;
+    --opal-violet: #7b4fa6;
+    --opal-gold: #f5c842;
+    --opal-smoke: #667788;
+    --opal-frost: #b8c8d4;
+    --aos-diamond: #a0c4e0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--opal-void);
+    color: var(--opal-frost);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    line-height: 1.7;
+    padding: 3rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .tag {
+    font-size: 0.75rem;
+    color: var(--opal-smoke);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  h1 {
+    font-size: 2rem;
+    color: var(--opal-amber);
+    margin-bottom: 0.5rem;
+  }
+  .date {
+    color: var(--opal-smoke);
+    font-size: 0.85rem;
+    margin-bottom: 3rem;
+  }
+  .block {
+    border-left: 3px solid var(--opal-teal);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    background: var(--opal-deep);
+  }
+  .block.alert {
+    border-left-color: var(--opal-amber);
+  }
+  .block.victory {
+    border-left-color: var(--opal-gold);
+  }
+  .label {
+    color: var(--opal-teal);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .label.amber { color: var(--opal-amber); }
+  .label.gold { color: var(--opal-gold); }
+  .value {
+    color: var(--opal-frost);
+    font-size: 1.1rem;
+  }
+  .sentence {
+    margin-top: 2rem;
+    padding: 1.2rem 2rem;
+    background: var(--opal-deep);
+    border: 1px solid var(--opal-violet);
+    color: var(--opal-gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+  }
+  .row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  .row .block { flex: 1; margin-bottom: 0; }
+  .footer {
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    color: var(--opal-smoke);
+    border-top: 1px solid #1a1a2e;
+    padding-top: 1.5rem;
+  }
+  .status {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    background: var(--opal-amber);
+    color: var(--opal-void);
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    margin-left: 1rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="tag">AOS.BUG-MIB — Bug Report</div>
+<h1>BUG-UBUNTU-SS.html <span class="status">OPEN</span></h1>
+<div class="date">Reported: 10 May 2026 — Owner: Brother (Ubuntu)</div>
+
+<div class="row">
+  <div class="block">
+    <div class="label">NAME</div>
+    <div class="value">BUG-UBUNTU-SS.html</div>
+  </div>
+  <div class="block alert">
+    <div class="label amber">FACT</div>
+    <div class="value">Communication Down</div>
+  </div>
+  <div class="block victory">
+    <div class="label gold">TARGET</div>
+    <div class="value">Victory</div>
+  </div>
+</div>
+
+<div class="block alert">
+  <div class="label amber">Category</div>
+  <div class="value">COMMUNICATION-BUG</div>
+</div>
+
+<div class="block">
+  <div class="label">Fix Required</div>
+  <div class="value">Restore communication in SS.html on Ubuntu</div>
+</div>
+
+<div class="block">
+  <div class="label">Channel</div>
+  <div class="value">SpiceBus → #aos-bugs → Brother (Ubuntu)</div>
+</div>
+
+<div class="sentence">fix(BUG-UBUNTU-SS.html)</div>
+
+<div class="footer">
+  AOS.BugChannel — CAPTURE / TRANSMIT / CLOSE<br>
+  Jr (Window) reports → Brother (Ubuntu) fixes → Jr closes<br>
+  Reported by: G 🤖 | SpiceBus: Communicate! → JuXTeam
+</div>
+
+</body>
+</html>
