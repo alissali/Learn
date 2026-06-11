@@ -466,9 +466,106 @@ body::before {
   .card { width: 110px; height: 180px; }
   .card-front .card-icon { font-size: 1.6em; }
 }
+/* === BELIEF GATE === */
+#beliefGate {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #0a0006;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+#beliefGate .gate-bismillah {
+  font-size: 3em;
+  color: #c4953a;
+  font-family: 'Cormorant Garamond', serif;
+  margin-bottom: 30px;
+  text-shadow: 0 0 40px rgba(196,149,58,0.4);
+}
+#beliefGate .gate-question {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.6em;
+  color: #e8d5c0;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+#beliefGate .gate-buttons {
+  display: flex;
+  gap: 30px;
+}
+#beliefGate .gate-btn {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2em;
+  padding: 16px 48px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 3px;
+  transition: all 0.3s;
+}
+#beliefGate .gate-yes {
+  background: rgba(196,149,58,0.2);
+  border: 1px solid rgba(196,149,58,0.6);
+  color: #c4953a;
+}
+#beliefGate .gate-yes:hover {
+  background: rgba(196,149,58,0.4);
+  box-shadow: 0 0 30px rgba(196,149,58,0.3);
+}
+#beliefGate .gate-no {
+  background: rgba(180,40,20,0.15);
+  border: 1px solid rgba(180,40,20,0.4);
+  color: #b42814;
+}
+#beliefGate .gate-no:hover {
+  background: rgba(180,40,20,0.3);
+}
+#beliefGate .gate-denied {
+  margin-top: 30px;
+  font-size: 1.3em;
+  color: #b42814;
+  font-style: italic;
+  display: none;
+}
+#beliefGate .gate-star {
+  font-size: 4em;
+  margin-bottom: 20px;
+  animation: gatePulse 3s ease-in-out infinite;
+}
+@keyframes gatePulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
 </style>
 </head>
 <body>
+
+<!-- BELIEF GATE -->
+<div id="beliefGate">
+  <div class="gate-star">☪</div>
+  <div class="gate-bismillah">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+  <div class="gate-question">Do you believe in Allah?</div>
+  <div class="gate-buttons">
+    <button class="gate-btn gate-yes" onclick="openGate()">YES</button>
+    <button class="gate-btn gate-no" onclick="denyGate()">NO</button>
+  </div>
+  <div class="gate-denied" id="gateDenied">The door remains shut.<br>Nothing hidden — but not for you.</div>
+</div>
+
+<script>
+function openGate() {
+  document.getElementById('beliefGate').style.transition = 'opacity 1s';
+  document.getElementById('beliefGate').style.opacity = '0';
+  setTimeout(() => { document.getElementById('beliefGate').style.display = 'none'; }, 1000);
+}
+function denyGate() {
+  document.getElementById('gateDenied').style.display = 'block';
+}
+</script>
 
 <div class="container">
 
