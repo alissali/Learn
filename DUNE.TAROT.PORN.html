@@ -612,7 +612,7 @@ body::before {
   </div>
 
   <p style="text-align:center; margin-top:24px; font-size:0.8em; color:rgba(232,213,192,0.3);">
-    All payments via Mollie. Secure. No subscriptions. One price. PERPETUAL access.<br>
+    All payments via Stripe. Secure. No subscriptions. One price. PERPETUAL access.<br>
     <span style="color:rgba(180,40,20,0.4);">🐍 aRchitect / softwaRe expeRt / Soft SeX StoRy telleR 🐍</span>
   </p>
 </div>
@@ -1655,10 +1655,12 @@ function showPrizeStatus() {
 }
 
 function buyTier(tier) {
-  const tierNames = { melange: 'MELANGE (€6.66)', irulan: 'IRULAN (€22)', sss: 'SSS — THE GAME (€66)' };
-  const tierEmoji = { melange: '🍹', irulan: '👑', sss: '🐍🐍🐍' };
-  // For now, show a message — Mollie payment link will replace this
-  alert(tierEmoji[tier] + ' ' + tierNames[tier] + '\n\nPayment link coming soon via Mollie.\n\nContact: jux@juxitt.com\n\n♾️ NOTHING HIDDEN');
+  const links = {
+    melange: 'https://buy.stripe.com/dRm14pdv14VQ1qT7J41wY05',
+    irulan: 'https://buy.stripe.com/9B628tdv15ZUglNbZk1wY06',
+    sss: 'https://buy.stripe.com/5kQ9AVgHdaga3z10gC1wY07'
+  };
+  window.open(links[tier], '_blank');
 }
 
 // ═══ PRIZE TOAST NOTIFICATION ═══
