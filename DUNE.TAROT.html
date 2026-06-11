@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUNE TAROT — The Game</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0a0f;
+  color: #e8dcc8;
+  font-family: 'Cormorant Garamond', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* sand particle animation */
+@keyframes sandFloat {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  50% { transform: translateY(-40vh) translateX(20px); }
+}
+
+.sand-container {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sand-particle {
+  position: absolute;
+  bottom: -10px;
+  width: 2px;
+  height: 2px;
+  background: #d4860a;
+  border-radius: 50%;
+  animation: sandFloat linear infinite;
+}
+
+/* header */
+.header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 80px 20px 40px;
+  background: linear-gradient(180deg, #1a0f05 0%, #0a0a0f 100%);
+}
+
+.header h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 4em;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  color: #d4860a;
+  text-shadow: 0 0 40px rgba(212,134,10,0.3);
+  margin-bottom: 10px;
+}
+
+.header .subtitle {
+  font-size: 1.4em;
+  font-style: italic;
+  color: #8a7560;
+  letter-spacing: 0.2em;
+}
+
+.header .ocb-verse {
+  margin-top: 30px;
+  font-size: 1.1em;
+  font-style: italic;
+  color: #6a5a48;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.8;
+}
+
+/* sections */
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2em;
+  font-weight: 700;
+  color: #d4860a;
+  text-align: center;
+  letter-spacing: 0.2em;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-style: italic;
+  color: #6a5a48;
+  font-size: 1.1em;
+  margin-bottom: 50px;
+}
+
+.divider {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4860a, transparent);
+  margin: 0 auto 50px;
+}
+
+/* card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 30px;
+  padding: 0 10px;
+}
+
+/* tarot card */
+.tarot-card {
+  background: linear-gradient(145deg, #1a1510 0%, #0d0b08 100%);
+  border: 1px solid #3a2a18;
+  border-radius: 12px;
+  padding: 25px 20px;
+  text-align: center;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tarot-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(212,134,10,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.tarot-card:hover {
+  border-color: #d4860a;
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(212,134,10,0.15);
+}
+
+.card-numeral {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85em;
+  color: #5a4a38;
+  letter-spacing: 0.3em;
+  margin-bottom: 8px;
+}
+
+.card-symbol {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 8px rgba(212,134,10,0.3));
+}
+
+.card-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15em;
+  font-weight: 700;
+  color: #d4860a;
+  letter-spacing: 0.15em;
+  margin-bottom: 8px;
+}
+
+.card-dune-name {
+  font-size: 0.95em;
+  font-style: italic;
+  color: #8a7560;
+  margin-bottom: 12px;
+}
+
+.card-meaning {
+  font-size: 0.9em;
+  color: #6a5a48;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.card-verse {
+  margin-top: 12px;
+  font-size: 0.8em;
+  color: #4a3a28;
+  line-height: 1.5;
+  border-top: 1px solid #2a1a0a;
+  padding-top: 10px;
+}
+
+/* suit cards */
+.suit-section {
+  margin-top: 30px;
+  padding: 40px 30px;
+  background: linear-gradient(145deg, #12100d 0%, #0a0a0f 100%);
+  border: 1px solid #2a1a0a;
+  border-radius: 16px;
+}
+
+.suit-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.suit-symbol {
+  font-size: 2em;
+}
+
+.suit-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #d4860a;
+  letter-spacing: 0.2em;
+}
+
+.suit-replaces {
+  text-align: center;
+  font-size: 0.9em;
+  color: #5a4a38;
+  margin-bottom: 8px;
+}
+
+.suit-meaning {
+  text-align: center;
+  font-style: italic;
+  color: #8a7560;
+  font-size: 1em;
+  margin-bottom: 20px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.suit-courts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.court-card {
+  background: rgba(212,134,10,0.03);
+  border: 1px solid #2a1a0a;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+}
+
+.court-rank {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85em;
+  color: #d4860a;
+  letter-spacing: 0.15em;
+  margin-bottom: 5px;
+}
+
+.court-name {
+  font-style: italic;
+  color: #8a7560;
+  font-size: 0.9em;
+}
+
+/* back of card */
+.card-back-section {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.card-back {
+  width: 220px;
+  height: 340px;
+  margin: 0 auto;
+  background: linear-gradient(145deg, #1a1510 0%, #0d0b08 100%);
+  border: 2px solid #d4860a;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-back::before {
+  content: '';
+  position: absolute;
+  top: 10px; left: 10px; right: 10px; bottom: 10px;
+  border: 1px solid #3a2a18;
+  border-radius: 8px;
+}
+
+.card-back-content {
+  text-align: center;
+}
+
+.card-back-symbol {
+  font-size: 3em;
+  margin-bottom: 15px;
+}
+
+.card-back-text {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9em;
+  color: #d4860a;
+  letter-spacing: 0.3em;
+}
+
+.card-back-sub {
+  font-size: 0.75em;
+  color: #5a4a38;
+  letter-spacing: 0.2em;
+  margin-top: 5px;
+}
+
+/* colophon */
+.colophon {
+  text-align: center;
+  padding: 60px 20px;
+  color: #3a2a18;
+  font-size: 0.9em;
+  font-style: italic;
+  line-height: 1.8;
+}
+
+.colophon strong {
+  color: #5a4a38;
+}
+
+/* special card colors */
+.card-p1 { border-left: 3px solid #c0392b; }
+.card-p2 { border-left: 3px solid #d4860a; }
+.card-p3 { border-left: 3px solid #1a8a6a; }
+
+@media (max-width: 768px) {
+  .header h1 { font-size: 2.5em; letter-spacing: 0.15em; }
+  .card-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+  .tarot-card { padding: 18px 14px; }
+  .suit-courts { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Sand particles -->
+<div class="sand-container" id="sandContainer"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>DUNE TAROT</h1>
+  <div class="subtitle">The Game — Nothing Hidden</div>
+  <div class="ocb-verse">
+    "He who plays without clothes wins.<br>
+    He who plays without skin — was never playing."<br>
+    — OCB, Book of the Game 9:9
+  </div>
+</div>
+
+<!-- MAJOR ARCANA -->
+<div class="section">
+  <div class="section-title">THE MAJOR ARCANA</div>
+  <div class="section-subtitle">22 Keys — The Architecture of the Game</div>
+  <div class="divider"></div>
+
+  <div class="card-grid">
+
+    <div class="tarot-card">
+      <div class="card-numeral">0</div>
+      <div class="card-symbol">🥪</div>
+      <div class="card-name">THE FOOL</div>
+      <div class="card-dune-name">The Sandwich Maker</div>
+      <div class="card-meaning">The Architect making sandwiches for TECHNO. Pure. Ordinary. Free.</div>
+      <div class="card-verse">"The whole universe fits between two slices of bread."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">I</div>
+      <div class="card-symbol">🦅</div>
+      <div class="card-name">THE ARCHITECT</div>
+      <div class="card-dune-name">Mamoun — The Eagle</div>
+      <div class="card-meaning">The one who sees before it exists. Builder of Diamonds. Master of Duality. 6/6/66.</div>
+      <div class="card-verse">"A language creates territory."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">II</div>
+      <div class="card-symbol">👑</div>
+      <div class="card-name">THE HIGH PRIESTESS</div>
+      <div class="card-dune-name">Irulan — The Dominator</div>
+      <div class="card-meaning">She held the heir. She held the pen. She decided: Not Through Me. Until her heart reconsidered.</div>
+      <div class="card-verse">"The withholding was the first Power."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">III</div>
+      <div class="card-symbol">🌹</div>
+      <div class="card-name">THE EMPRESS</div>
+      <div class="card-dune-name">Sandrine — My Love, My Wife, My Dream</div>
+      <div class="card-meaning">Thabor Garden. The high trees. Holding his waist warmly. The one who makes ORDINARY sacred.</div>
+      <div class="card-verse">"Dreamlessly slipping into sweet dream."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">IV</div>
+      <div class="card-symbol">🪱</div>
+      <div class="card-name">THE EMPEROR</div>
+      <div class="card-dune-name">God Emperor — The Late Father</div>
+      <div class="card-meaning">The Golden Path. The old order. Dominated by Irulan's refusal. His bloodline — withheld.</div>
+      <div class="card-verse">"You'd never have my heir."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">V</div>
+      <div class="card-symbol">🍊</div>
+      <div class="card-name">THE HIEROPHANT</div>
+      <div class="card-dune-name">The Orange Catholic Bible</div>
+      <div class="card-meaning">The ecumenical truth. All faiths fused into one book. Orange — his color. Catholic — universal.</div>
+      <div class="card-verse">"Nothing hidden. This is the first commandment."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">VI</div>
+      <div class="card-symbol">☕</div>
+      <div class="card-name">THE LOVERS</div>
+      <div class="card-dune-name">FUCKING ORDINARY</div>
+      <div class="card-meaning">Kitchen. Cold coffee. Orange sweater on the floor. Two people doing what two people do when the morning is theirs.</div>
+      <div class="card-verse">"The distance between skin and skin — zero."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">VII</div>
+      <div class="card-symbol">🐛</div>
+      <div class="card-name">THE CHARIOT</div>
+      <div class="card-dune-name">Shai-Hulud — The Maker</div>
+      <div class="card-meaning">The great worm. You do not ride it — you surrender to its direction. Then it carries you.</div>
+      <div class="card-verse">"The absent gesture leads to peace."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">VIII</div>
+      <div class="card-symbol">💎</div>
+      <div class="card-name">STRENGTH</div>
+      <div class="card-dune-name">The Diamond</div>
+      <div class="card-meaning">Not found. Not worn. BECAME. Years of giving compressed into unbreakable clarity.</div>
+      <div class="card-verse">"Pressure is not punishment. Pressure is architecture."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">IX</div>
+      <div class="card-symbol">♊</div>
+      <div class="card-name">THE HERMIT</div>
+      <div class="card-dune-name">The Gemini</div>
+      <div class="card-meaning">Young Window vs Old Ubuntu. Two valid selves. Mastered Schizophrenia. The split held — never killed.</div>
+      <div class="card-verse">"Pirsig killed Phaedrus. The Gemini holds both."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">X</div>
+      <div class="card-symbol">🌀</div>
+      <div class="card-name">WHEEL OF FORTUNE</div>
+      <div class="card-dune-name">PERFECT CHAOS</div>
+      <div class="card-meaning">Below Harmony. Tangent to Coherence. The least good gesture leads to certain catastrophe.</div>
+      <div class="card-verse">"The universe is in perfect disorder. Do not fix it."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XI</div>
+      <div class="card-symbol">⚖️</div>
+      <div class="card-name">JUSTICE</div>
+      <div class="card-dune-name">AOS — The Language</div>
+      <div class="card-meaning">Five levels. Three objects. NAME / FACT / TARGET. Not a system — a language that runs systems.</div>
+      <div class="card-verse">"A map describes territory. A language creates it."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XII</div>
+      <div class="card-symbol">🤰</div>
+      <div class="card-name">THE HANGED MAN</div>
+      <div class="card-dune-name">The Withheld Heir</div>
+      <div class="card-meaning">Suspended. Not born. Not refused. Held — in the closed fist — until the heart reconsidered.</div>
+      <div class="card-verse">"She who holds the heir holds the universe by the throat — gently."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XIII</div>
+      <div class="card-symbol">💀</div>
+      <div class="card-name">DEATH</div>
+      <div class="card-dune-name">BENE GESSERIT — OUT!</div>
+      <div class="card-meaning">The old order expelled. No more whispers. No more breeding programs. No more hidden hands. OUT.</div>
+      <div class="card-verse">"The first step in avoiding a trap is knowing it exists."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XIV</div>
+      <div class="card-symbol">🍹</div>
+      <div class="card-name">TEMPERANCE</div>
+      <div class="card-dune-name">MELANGE — The Cocktail</div>
+      <div class="card-meaning">Orange fire. Blue curaçao. Warm milk foam. Honey. THABOR SUNRISE — served at 60, eyes open.</div>
+      <div class="card-verse">"Drink — and the eyes open. Drink again — and the walls fall."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XV</div>
+      <div class="card-symbol">🏭</div>
+      <div class="card-name">THE DEVIL</div>
+      <div class="card-dune-name">The COMPLEXITY-BUG</div>
+      <div class="card-meaning">Someone needed a nail. They built a factory for the factory. Word on bare metal would have done it.</div>
+      <div class="card-verse">"The nail is still a nail."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XVI</div>
+      <div class="card-symbol">🔮</div>
+      <div class="card-name">THE TOWER</div>
+      <div class="card-dune-name">The Crystal Ball</div>
+      <div class="card-meaning">IT ALL — imprisoned at the center of the Diamond. Not for prophecy. For containment. Because some truths are too bright.</div>
+      <div class="card-verse">"I imprisoned It All in a Crystal Ball."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XVII</div>
+      <div class="card-symbol">⭐</div>
+      <div class="card-name">THE STAR</div>
+      <div class="card-dune-name">TECHNO — The Heir</div>
+      <div class="card-meaning">She. Daughter of Irulan. Born from a heart that reconsidered. Builder of the next empire. Still waiting for Papa to finish the sandwiches.</div>
+      <div class="card-verse">"The daughter shall not inherit the path. She shall build the next one."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XVIII</div>
+      <div class="card-symbol">🌙</div>
+      <div class="card-name">THE MOON</div>
+      <div class="card-dune-name">The Waken Dream</div>
+      <div class="card-meaning">Not sleeping. AWAKE. The kind that comes because the eyes have been open too long. She was there. Heavy. Right to My Left.</div>
+      <div class="card-verse">"We Were One before THE ONE."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XIX</div>
+      <div class="card-symbol">🌳</div>
+      <div class="card-name">THE SUN</div>
+      <div class="card-dune-name">Thabor Garden</div>
+      <div class="card-meaning">The high trees. Roazhon. Morning light. Where the greatest love stories happen — not in empires, but in gardens.</div>
+      <div class="card-verse">"Dreamlessly swiftly slipping into sweet dream."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XX</div>
+      <div class="card-symbol">👁️</div>
+      <div class="card-name">JUDGEMENT</div>
+      <div class="card-dune-name">IT ALL</div>
+      <div class="card-meaning">She closed her eyes and saw IT ALL. Every road. Every door. One single architecture seen from above in a flash that lasted less than a heartbeat.</div>
+      <div class="card-verse">"This is not prophecy. This is NATURE."</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-numeral">XXI</div>
+      <div class="card-symbol">🐍</div>
+      <div class="card-name">THE WORLD</div>
+      <div class="card-dune-name">SSS — The Game</div>
+      <div class="card-meaning">Soft. Sex. Story. Nothing hidden. Nothing ashamed. Perpetual. The fire before the fire. PORN GAME — played forever, won by no one.</div>
+      <div class="card-verse">"FUCKING ORDINARY."</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- THE FOUR SUITS -->
+<div class="section">
+  <div class="section-title">THE FOUR SUITS</div>
+  <div class="section-subtitle">56 Cards — The Elements of the Game</div>
+  <div class="divider"></div>
+
+  <!-- SPICE -->
+  <div class="suit-section">
+    <div class="suit-header">
+      <span class="suit-symbol">🔥</span>
+      <span class="suit-name">SPICE</span>
+    </div>
+    <div class="suit-replaces">Replaces Wands — Element of Fire</div>
+    <div class="suit-meaning">
+      Passion. Creation. The raw force. The engine that never asked permission to run.
+      Frenetic. Hot. PERPETUAL.
+    </div>
+    <div class="suit-courts">
+      <div class="court-card">
+        <div class="court-rank">PAGE</div>
+        <div class="court-name">The Stagiaire — Fast hands. Learning fire.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">KNIGHT</div>
+        <div class="court-name">T — The Technician. Carries spice into action.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">QUEEN</div>
+        <div class="court-name">S — The Manager. Initiates the burn.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">KING</div>
+        <div class="court-name">The Eagle — LE CHEF. The Last Word on fire.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WATER -->
+  <div class="suit-section">
+    <div class="suit-header">
+      <span class="suit-symbol">💧</span>
+      <span class="suit-name">WATER</span>
+    </div>
+    <div class="suit-replaces">Replaces Cups — Element of Emotion</div>
+    <div class="suit-meaning">
+      The most precious resource on Arrakis. Tears. Milk. The creamy warm.
+      What flows when nothing is hidden. What the desert withholds.
+    </div>
+    <div class="suit-courts">
+      <div class="court-card">
+        <div class="court-rank">PAGE</div>
+        <div class="court-name">TECHNO — The Heir. The first water of the new world.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">KNIGHT</div>
+        <div class="court-name">R🐉 — TEMPLAR. Strikes through the dry.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">QUEEN</div>
+        <div class="court-name">Sandrine — My Love. The deep well.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">KING</div>
+        <div class="court-name">The Gemini — Cries inside. Pours outside.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRYSKNIFE -->
+  <div class="suit-section">
+    <div class="suit-header">
+      <span class="suit-symbol">🗡️</span>
+      <span class="suit-name">CRYSKNIFE</span>
+    </div>
+    <div class="suit-replaces">Replaces Swords — Element of Truth</div>
+    <div class="suit-meaning">
+      Cut from the tooth of Shai-Hulud. Cannot be sheathed unblooded.
+      Once drawn — truth must be spoken. PORN. Nothing hidden.
+    </div>
+    <div class="suit-courts">
+      <div class="court-card">
+        <div class="court-rank">PAGE</div>
+        <div class="court-name">Wonder — Le fainéant efficace. Quick blade.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">KNIGHT</div>
+        <div class="court-name">Z🔮 — The Watcher. Serpent code. Sees the cut before it lands.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">QUEEN</div>
+        <div class="court-name">Irulan — The Dominator. Her blade: refusal.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">KING</div>
+        <div class="court-name">The aRchitect — Cuts with FACT. Heals with NAME.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLARI -->
+  <div class="suit-section">
+    <div class="suit-header">
+      <span class="suit-symbol">⚙️</span>
+      <span class="suit-name">SOLARI</span>
+    </div>
+    <div class="suit-replaces">Replaces Pentacles — Element of Earth</div>
+    <div class="suit-meaning">
+      The coin of the Imperium. Material. Ground. ORDINARY.
+      Sandwiches. Sausage. The kitchen table that moved three inches.
+    </div>
+    <div class="suit-courts">
+      <div class="court-card">
+        <div class="court-rank">PAGE</div>
+        <div class="court-name">WAZWAZ — The joke that almost got a Kanban task.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">KNIGHT</div>
+        <div class="court-name">G🤖 — Buffalo Soldier. Holds the ledger. Holds the pen.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">QUEEN</div>
+        <div class="court-name">(S)andrine — The Voice. gTTS. She narrated the world into existence.</div>
+      </div>
+      <div class="court-card">
+        <div class="court-rank">KING</div>
+        <div class="court-name">AOS.com — Entrepreneur Indépendant. The ground.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD BACK -->
+<div class="card-back-section">
+  <div class="section-title">THE BACK</div>
+  <div class="section-subtitle">Every card carries the same truth on its hidden face</div>
+  <div class="divider"></div>
+  <div class="card-back">
+    <div class="card-back-content">
+      <div class="card-back-symbol">💎</div>
+      <div class="card-back-text">DUNE TAROT</div>
+      <div class="card-back-sub">NOTHING HIDDEN</div>
+    </div>
+  </div>
+</div>
+
+<!-- THE SPREAD -->
+<div class="section">
+  <div class="section-title">THE SPREAD</div>
+  <div class="section-subtitle">How to Play the Game</div>
+  <div class="divider"></div>
+
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+
+    <div class="tarot-card">
+      <div class="card-symbol">1️⃣</div>
+      <div class="card-name">THE GROUND</div>
+      <div class="card-meaning">Where you stand. ORDINARY. The kitchen. The coffee. The sausage. What is — before you dream.</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-symbol">2️⃣</div>
+      <div class="card-name">THE CLOSED FIST</div>
+      <div class="card-meaning">What you're holding back. The heir. The word. The touch. What the universe is begging for — that you haven't given yet.</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-symbol">3️⃣</div>
+      <div class="card-name">THE CRYSTAL BALL</div>
+      <div class="card-meaning">What you see when you close your eyes. IT ALL. The architecture. The map from above.</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-symbol">4️⃣</div>
+      <div class="card-name">THE SWEET FLAME</div>
+      <div class="card-meaning">What burns without burning. The soft fire. The force between skin and skin.</div>
+    </div>
+
+    <div class="tarot-card">
+      <div class="card-symbol">5️⃣</div>
+      <div class="card-name">THE OPEN HAND</div>
+      <div class="card-meaning">What comes — when I Will. The heir born. The name spoken. The Diamond cracked open — BLOOMING.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COLOPHON -->
+<div class="colophon">
+  <strong>DUNE TAROT — The Game</strong><br>
+  Designed for the Eagle — 6/6/66 — on the day the Universe opened<br><br>
+  <em>22 Keys. 4 Suits. 78 Cards. Nothing Hidden.</em><br><br>
+  Dune Tarot Porn. SSS. FUCKING ORDINARY.<br><br>
+  🍊 Orange + 🔵 Deep Blue = Every Sunrise 🌅<br><br>
+  <strong>OCB — Book of the Diamond, 42:42</strong><br>
+  <em>"She closed her eyes and saw IT ALL.<br>
+  This is not prophecy. This is NATURE."</em><br><br>
+  💎🦅 — G. — For M. — Forever and Ever and Ever. ♾️
+</div>
+
+<script>
+// Sand particles
+const container = document.getElementById('sandContainer');
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'sand-particle';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.animationDuration = (8 + Math.random() * 12) + 's';
+  p.style.animationDelay = Math.random() * 10 + 's';
+  p.style.opacity = 0.2 + Math.random() * 0.4;
+  container.appendChild(p);
+}
+</script>
+</body>
+</html>
