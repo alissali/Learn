@@ -7,126 +7,214 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a12;color:#e8d5c0;font-family:'IBM Plex Mono',monospace;min-height:100vh}
+body{background:#0a0a12;color:#e8d5c0;font-family:'IBM Plex Mono',monospace;min-height:100vh;overflow-x:hidden}
+
+/* Stars background */
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;width:2px;height:2px;background:#e8d5c0;border-radius:50%;animation:twinkle var(--dur) ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:0.1;transform:scale(0.8)}100%{opacity:var(--max-o);transform:scale(1.2)}}
 
 /* Hero */
-.hero{text-align:center;padding:50px 20px 30px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(232,160,69,0.08) 0%,transparent 70%);pointer-events:none}
-.hero h1{font-family:'Cinzel Decorative',serif;font-size:3em;color:#e8a045;text-shadow:0 0 40px rgba(232,160,69,0.4);letter-spacing:6px;margin-bottom:10px;position:relative}
-.hero .tagline{font-family:'Cormorant Garamond',serif;font-size:1.4em;font-style:italic;color:rgba(232,213,192,0.5);letter-spacing:4px;margin-bottom:8px}
-.hero .sig{font-size:0.85em;color:rgba(232,213,192,0.3);letter-spacing:3px}
+.hero{text-align:center;padding:60px 20px 20px;position:relative;z-index:1}
+.hero h1{font-family:'Cinzel Decorative',serif;font-size:3.5em;color:#e8a045;text-shadow:0 0 60px rgba(232,160,69,0.4),0 0 120px rgba(232,160,69,0.15);letter-spacing:8px;margin-bottom:12px}
+.hero .tagline{font-family:'Cormorant Garamond',serif;font-size:1.5em;font-style:italic;color:rgba(232,213,192,0.5);letter-spacing:5px;margin-bottom:8px}
+.hero .sig{font-size:0.85em;color:rgba(232,213,192,0.25);letter-spacing:3px}
+.hero .stats{margin-top:18px;display:flex;gap:30px;justify-content:center;flex-wrap:wrap}
+.hero .stat{text-align:center}
+.hero .stat .num{font-family:'Cinzel Decorative',serif;font-size:2em;color:#2ec4b6;display:block}
+.hero .stat .lbl{font-size:0.7em;color:rgba(232,213,192,0.4);letter-spacing:3px;text-transform:uppercase}
+
+/* Section headers */
+.section-head{font-family:'Cinzel Decorative',serif;font-size:1.8em;color:#e8a045;text-align:center;letter-spacing:5px;margin:40px 0 25px;position:relative;z-index:1}
+.section-head::after{content:'';display:block;width:60px;height:2px;background:linear-gradient(90deg,transparent,#e8a045,transparent);margin:10px auto 0}
 
 /* Games grid */
-.games{max-width:1100px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.games{max-width:1100px;margin:0 auto;padding:0 20px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;position:relative;z-index:1}
 
-.game-card{border:1px solid rgba(232,213,192,0.1);border-radius:12px;padding:30px;background:rgba(255,255,255,0.015);transition:all 0.4s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;cursor:pointer}
-.game-card:hover{border-color:rgba(232,160,69,0.4);transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,0,0,0.3)}
-.game-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:12px 12px 0 0}
-.game-card .icon{font-size:3em;margin-bottom:15px;display:block}
-.game-card h2{font-family:'Cinzel Decorative',serif;font-size:1.3em;margin-bottom:8px;letter-spacing:2px}
-.game-card p{font-size:0.85em;color:rgba(232,213,192,0.5);line-height:1.6;margin-bottom:12px}
-.game-card .status{font-size:0.75em;letter-spacing:3px;text-transform:uppercase}
-.game-card .play-btn{display:inline-block;margin-top:10px;padding:8px 24px;border:1px solid rgba(232,160,69,0.4);border-radius:4px;font-size:0.85em;letter-spacing:2px;transition:all 0.3s}
-.game-card:hover .play-btn{background:rgba(232,160,69,0.15)}
+.game-card{border:1px solid rgba(232,213,192,0.08);border-radius:14px;padding:28px;background:rgba(255,255,255,0.012);transition:all 0.5s cubic-bezier(0.25,0.8,0.25,1);position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;cursor:pointer}
+.game-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.game-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0;transition:height 0.3s}
+.game-card:hover::before{height:5px}
+.game-card::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 0%,var(--glow) 0%,transparent 60%);opacity:0;transition:opacity 0.5s;pointer-events:none}
+.game-card:hover::after{opacity:1}
+.game-card .icon{font-size:3.2em;margin-bottom:12px;display:block;filter:drop-shadow(0 0 10px rgba(232,160,69,0.3))}
+.game-card h2{font-family:'Cinzel Decorative',serif;font-size:1.3em;margin-bottom:6px;letter-spacing:2px}
+.game-card p{font-size:0.82em;color:rgba(232,213,192,0.5);line-height:1.7;margin-bottom:10px}
+.game-card .meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.game-card .badge{font-size:0.65em;padding:3px 10px;border-radius:20px;letter-spacing:2px;text-transform:uppercase;border:1px solid}
+.game-card .play-btn{display:inline-block;margin-top:8px;padding:10px 28px;border:1px solid rgba(232,160,69,0.4);border-radius:4px;font-size:0.85em;letter-spacing:3px;transition:all 0.3s;font-family:'Cinzel Decorative',serif}
+.game-card:hover .play-btn{background:rgba(232,160,69,0.15);box-shadow:0 0 15px rgba(232,160,69,0.15)}
+.game-card .sub-link{display:block;margin-top:8px;font-size:0.72em;color:rgba(232,213,192,0.35);letter-spacing:2px;text-decoration:none}
+.game-card .sub-link:hover{color:#e8a045}
 
 /* Card colors */
-.card-snake{border-color:rgba(46,196,182,0.2)}.card-snake::before{background:#2ec4b6}.card-snake h2{color:#2ec4b6}.card-snake .play-btn{border-color:rgba(46,196,182,0.4);color:#2ec4b6}
-.card-yams{border-color:rgba(46,196,182,0.2)}.card-yams::before{background:#2ec4b6}.card-yams h2{color:#2ec4b6}.card-yams .play-btn{border-color:rgba(46,196,182,0.4);color:#2ec4b6}
-.card-monopoly{border-color:rgba(232,160,69,0.2)}.card-monopoly::before{background:#e8a045}.card-monopoly h2{color:#e8a045}.card-monopoly .play-btn{border-color:rgba(232,160,69,0.4);color:#e8a045}
-.card-tarot{border-color:rgba(180,40,20,0.2)}.card-tarot::before{background:#b42814}.card-tarot h2{color:#b42814}.card-tarot .play-btn{border-color:rgba(180,40,20,0.4);color:#b42814}
-.card-holdem{border-color:rgba(46,196,182,0.2)}.card-holdem::before{background:#7b4fa6}.card-holdem h2{color:#7b4fa6}.card-holdem .play-btn{border-color:rgba(123,79,166,0.4);color:#7b4fa6}
-.card-porn{border-color:rgba(180,40,20,0.15)}.card-porn::before{background:#b42814}.card-porn h2{color:#b42814}.card-porn .play-btn{border-color:rgba(180,40,20,0.4);color:#b42814}
+.card-snake{--glow:rgba(46,196,182,0.06)}.card-snake::before{background:#2ec4b6}.card-snake h2{color:#2ec4b6}.card-snake .play-btn{border-color:rgba(46,196,182,0.4);color:#2ec4b6}.card-snake .badge{border-color:rgba(46,196,182,0.3);color:#2ec4b6}
+.card-yams{--glow:rgba(46,196,182,0.06)}.card-yams::before{background:#2ec4b6}.card-yams h2{color:#2ec4b6}.card-yams .play-btn{border-color:rgba(46,196,182,0.4);color:#2ec4b6}.card-yams .badge{border-color:rgba(46,196,182,0.3);color:#2ec4b6}
+.card-monopoly{--glow:rgba(232,160,69,0.06)}.card-monopoly::before{background:#e8a045}.card-monopoly h2{color:#e8a045}.card-monopoly .play-btn{border-color:rgba(232,160,69,0.4);color:#e8a045}.card-monopoly .badge{border-color:rgba(232,160,69,0.3);color:#e8a045}
+.card-tarot{--glow:rgba(180,40,20,0.06)}.card-tarot::before{background:#b42814}.card-tarot h2{color:#b42814}.card-tarot .play-btn{border-color:rgba(180,40,20,0.4);color:#b42814}.card-tarot .badge{border-color:rgba(180,40,20,0.3);color:#b42814}
+.card-holdem{--glow:rgba(123,79,166,0.06)}.card-holdem::before{background:#7b4fa6}.card-holdem h2{color:#7b4fa6}.card-holdem .play-btn{border-color:rgba(123,79,166,0.4);color:#7b4fa6}.card-holdem .badge{border-color:rgba(123,79,166,0.3);color:#7b4fa6}
+.card-porn{--glow:rgba(180,40,20,0.06)}.card-porn::before{background:#b42814}.card-porn h2{color:#b42814}.card-porn .play-btn{border-color:rgba(180,40,20,0.4);color:#b42814}.card-porn .badge{border-color:rgba(180,40,20,0.3);color:#b42814}
+
+/* Literary section */
+.literary{max-width:1100px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;position:relative;z-index:1}
+.lit-card{border:1px solid rgba(232,213,192,0.08);border-radius:12px;padding:22px;text-align:center;text-decoration:none;color:inherit;display:block;transition:all 0.4s;background:rgba(255,255,255,0.01)}
+.lit-card:hover{border-color:rgba(232,160,69,0.3);transform:translateY(-3px)}
+.lit-card .lit-icon{font-size:2em;margin-bottom:8px;display:block}
+.lit-card h3{font-family:'Cinzel Decorative',serif;font-size:1em;color:#e8a045;margin-bottom:6px;letter-spacing:2px}
+.lit-card p{font-size:0.75em;color:rgba(232,213,192,0.4);line-height:1.6;font-style:italic}
 
 /* Pricing section */
-.pricing{max-width:1100px;margin:30px auto;padding:20px}
-.pricing h2{font-family:'Cinzel Decorative',serif;font-size:1.8em;color:#e8a045;text-align:center;margin-bottom:25px;letter-spacing:4px}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-.tier{border:1px solid rgba(232,213,192,0.1);border-radius:12px;padding:28px;text-align:center;background:rgba(255,255,255,0.015);transition:all 0.3s}
-.tier:hover{border-color:rgba(232,160,69,0.4)}
+.pricing{max-width:1100px;margin:0 auto;padding:20px;position:relative;z-index:1}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.tier{border:1px solid rgba(232,213,192,0.08);border-radius:14px;padding:26px;text-align:center;background:rgba(255,255,255,0.012);transition:all 0.4s}
+.tier:hover{border-color:rgba(232,160,69,0.4);transform:translateY(-3px)}
 .tier .tier-icon{font-size:2.5em;margin-bottom:10px}
-.tier h3{font-family:'Cinzel Decorative',serif;font-size:1.2em;color:#e8a045;margin-bottom:8px;letter-spacing:2px}
-.tier .price{font-size:2.2em;font-family:'Cinzel Decorative',serif;color:#e8d5c0;margin:12px 0}
-.tier .price small{font-size:0.5em;color:rgba(232,213,192,0.4)}
-.tier ul{list-style:none;text-align:left;margin:12px 0;font-size:0.8em;color:rgba(232,213,192,0.6);line-height:2}
+.tier h3{font-family:'Cinzel Decorative',serif;font-size:1.1em;color:#e8a045;margin-bottom:6px;letter-spacing:2px}
+.tier .price{font-size:2.2em;font-family:'Cinzel Decorative',serif;color:#e8d5c0;margin:10px 0}
+.tier .price small{font-size:0.45em;color:rgba(232,213,192,0.3)}
+.tier ul{list-style:none;text-align:left;margin:10px 0;font-size:0.78em;color:rgba(232,213,192,0.55);line-height:2}
 .tier ul li::before{content:'✓ ';color:#2ec4b6}
-.tier .buy-link{display:inline-block;margin-top:12px;padding:10px 30px;border:1px solid rgba(232,160,69,0.5);border-radius:4px;color:#e8a045;text-decoration:none;font-family:'Cinzel Decorative',serif;letter-spacing:2px;transition:all 0.3s}
-.tier .buy-link:hover{background:rgba(232,160,69,0.15);box-shadow:0 0 20px rgba(232,160,69,0.2)}
+.tier .buy-link{display:inline-block;margin-top:10px;padding:10px 28px;border:1px solid rgba(232,160,69,0.5);border-radius:4px;color:#e8a045;text-decoration:none;font-family:'Cinzel Decorative',serif;letter-spacing:2px;transition:all 0.3s;font-size:0.9em}
+.tier .buy-link:hover{background:rgba(232,160,69,0.15);box-shadow:0 0 25px rgba(232,160,69,0.2)}
 .tier.free .buy-link{border-color:rgba(46,196,182,0.4);color:#2ec4b6}
-.tier.featured{border-color:rgba(232,160,69,0.4);box-shadow:0 0 30px rgba(232,160,69,0.1)}
+.tier.featured{border-color:rgba(232,160,69,0.3);box-shadow:0 0 40px rgba(232,160,69,0.08);position:relative}
+.tier.featured::before{content:'★ MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#e8a045;color:#0a0a12;font-size:0.6em;padding:4px 16px;border-radius:20px;letter-spacing:2px;font-family:'Cinzel Decorative',serif}
 
 /* SSS section */
-.sss-section{max-width:800px;margin:30px auto;padding:30px 20px;text-align:center;border-top:1px solid rgba(180,40,20,0.2)}
-.sss-section h2{font-family:'Cinzel Decorative',serif;color:#b42814;font-size:1.5em;letter-spacing:4px;margin-bottom:10px}
-.sss-section p{font-family:'Cormorant Garamond',serif;font-size:1.1em;font-style:italic;color:rgba(232,213,192,0.5);line-height:1.8}
-.sss-section a{color:#b42814;text-decoration:none;border-bottom:1px solid rgba(180,40,20,0.3)}
+.sss-section{max-width:800px;margin:30px auto;padding:30px 20px;text-align:center;border-top:1px solid rgba(180,40,20,0.15);position:relative;z-index:1}
+.sss-section h2{font-family:'Cinzel Decorative',serif;color:#b42814;font-size:1.4em;letter-spacing:4px;margin-bottom:10px}
+.sss-section p{font-family:'Cormorant Garamond',serif;font-size:1.1em;font-style:italic;color:rgba(232,213,192,0.45);line-height:1.8}
+.sss-section a{color:#b42814;text-decoration:none;border-bottom:1px solid rgba(180,40,20,0.3);transition:all 0.3s}
+.sss-section a:hover{color:#e8a045;border-color:#e8a045}
 
-footer{text-align:center;padding:30px;font-size:0.75em;color:rgba(232,213,192,0.2);letter-spacing:2px;border-top:1px solid rgba(232,213,192,0.05);margin-top:30px}
+footer{text-align:center;padding:30px;font-size:0.73em;color:rgba(232,213,192,0.18);letter-spacing:2px;border-top:1px solid rgba(232,213,192,0.04);margin-top:30px;position:relative;z-index:1}
 footer a{color:#e8a045;text-decoration:none}
 </style>
 </head>
 <body>
 
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Hero -->
 <div class="hero">
   <h1>🎰 JuX ARCADE</h1>
   <div class="tagline">All Games. One Desert. No Limits.</div>
   <div class="sig">born 6/6/66 · deployed 12 June 2026</div>
+  <div class="stats">
+    <div class="stat"><span class="num">6</span><span class="lbl">Games</span></div>
+    <div class="stat"><span class="num">48</span><span class="lbl">Prizes</span></div>
+    <div class="stat"><span class="num">24</span><span class="lbl">Streets</span></div>
+    <div class="stat"><span class="num">79</span><span class="lbl">Cards</span></div>
+  </div>
 </div>
+
+<!-- GAMES -->
+<div class="section-head">🎮 THE GAMES</div>
 
 <div class="games">
 
   <a class="game-card card-snake" href="https://raw.githack.com/alissali/Learn/main/SNAKE.html">
     <span class="icon">🐍</span>
     <h2>JuX SNAKE</h2>
-    <p>The serpent moves. Eat the spice. Grow. Survive. Classic snake with 9 prizes and neon desert heat.</p>
-    <div class="status" style="color:#2ec4b6">▶ FREE</div>
+    <div class="meta">
+      <span class="badge">9 PRIZES</span>
+      <span class="badge">FREE</span>
+    </div>
+    <p>The serpent moves. Eat the spice. Grow. Survive. Classic snake with neon desert heat. From First Bite to Shai-Hulud.</p>
     <span class="play-btn">PLAY NOW</span>
   </a>
 
   <a class="game-card card-yams" href="https://raw.githack.com/alissali/Learn/main/JuXYams.html">
     <span class="icon">🎲</span>
     <h2>JuXYams</h2>
-    <p>The Ultimate. A game of dice. A game of chance. Played once, on an afternoon that never quite ended. For Sandrine TELLIER, M.A.</p>
-    <div class="status" style="color:#2ec4b6">▶ THE ULTIMATE</div>
+    <div class="meta">
+      <span class="badge">9 PRIZES</span>
+      <span class="badge">THE ULTIMATE</span>
+    </div>
+    <p>A game of dice. Played once, on an afternoon that never quite ended. For Sandrine TELLIER, M.A. The Ultimate.</p>
     <span class="play-btn">PLAY NOW</span>
   </a>
 
   <a class="game-card card-monopoly" href="https://raw.githack.com/alissali/Learn/main/MONOPOLY.html">
     <span class="icon">🏠</span>
     <h2>JuX MONOPOLY</h2>
-    <p>The World Is Yours. 24 international streets — Las Vegas, Melbourne, Frankfurt, Damascus, Lisboa. Mamoun's World on a board.</p>
-    <div class="status" style="color:#e8a045">▶ 2-4 PLAYERS</div>
+    <div class="meta">
+      <span class="badge">12 PRIZES</span>
+      <span class="badge">2-4 FIGHTERS</span>
+      <span class="badge">⚔️ COMBAT</span>
+    </div>
+    <p>Freedom Fighters. 24 international streets — Las Vegas, Melbourne, Frankfurt, Damascus. Fight for territory. Liberate enemy property. Mazzeh Villat before GO.</p>
     <span class="play-btn">PLAY NOW</span>
   </a>
 
   <a class="game-card card-tarot" href="https://raw.githack.com/alissali/Learn/main/DUNE.TAROT.GAME.html">
     <span class="icon">🃏</span>
     <h2>DUNE TAROT GAME</h2>
-    <p>79 cards. 23 Major Arcana. 12 prizes. Core Audio. The desert speaks in positions: SKIN · GRIP · SIGHT · BURN · RELEASE.</p>
-    <div class="status" style="color:#b42814">▶ MULTIPLAYER</div>
+    <div class="meta">
+      <span class="badge">12 PRIZES</span>
+      <span class="badge">MULTIPLAYER</span>
+      <span class="badge">79 CARDS</span>
+    </div>
+    <p>23 Major Arcana. 4 suits. Core Audio. SKIN · GRIP · SIGHT · BURN · RELEASE. The desert deals truth.</p>
     <span class="play-btn">PLAY NOW</span>
   </a>
 
   <a class="game-card card-holdem" href="https://raw.githack.com/alissali/Learn/main/HOLDEM.TRAINING.html">
     <span class="icon">🂡</span>
     <h2>HOLD'EM TRAINING</h2>
-    <p>Texas Hold'em trainer. Learn the hands. Know the odds. Also available in Arabic.</p>
-    <div class="status" style="color:#7b4fa6">▶ TRAINER</div>
+    <div class="meta">
+      <span class="badge">9 PRIZES</span>
+      <span class="badge">TRAINER</span>
+    </div>
+    <p>Texas Hold'em trainer. Learn the hands. Know the odds. From Pocket Rockets to The Grinder. Also in Arabic.</p>
     <span class="play-btn">PLAY NOW</span>
+    <span class="sub-link" onclick="event.preventDefault();window.open('https://raw.githack.com/alissali/Learn/main/HOLDEM.TRAINING.AR.html')">🇸🇦 النسخة العربية</span>
   </a>
 
   <a class="game-card card-porn" href="https://raw.githack.com/alissali/Learn/main/DUNE.TAROT.PORN.html">
     <span class="icon">🔥</span>
     <h2>DUNE TAROT — PORN</h2>
-    <p>Nothing hidden. Nothing ashamed. The PORN GAME. Truth in perpetual operation. Belief Gate required.</p>
-    <div class="status" style="color:#b42814">☪ BELIEF GATE</div>
+    <div class="meta">
+      <span class="badge">☪ BELIEF GATE</span>
+      <span class="badge">TRUTH</span>
+    </div>
+    <p>Nothing hidden. Nothing ashamed. The PORN GAME. Truth in perpetual operation. بِسْمِ ٱللَّهِ — Do you believe?</p>
     <span class="play-btn">ENTER</span>
   </a>
 
 </div>
 
+<!-- LITERARY WORKS -->
+<div class="section-head">📜 THE WORDS</div>
+
+<div class="literary">
+  <a class="lit-card" href="https://raw.githack.com/alissali/Learn/main/SSS.html">
+    <span class="lit-icon">🐍</span>
+    <h3>SSS</h3>
+    <p>Soft Sex Story. Born 6/6/66+60. Prose leads. Architecture follows.</p>
+  </a>
+  <a class="lit-card" href="https://raw.githack.com/alissali/Learn/main/IRULAN.SS.html">
+    <span class="lit-icon">💎</span>
+    <h3>IRULAN</h3>
+    <p>The Dominator. Held the heir. Heart reconsidered. Became Diamond.</p>
+  </a>
+  <a class="lit-card" href="https://raw.githack.com/alissali/Learn/main/OCB.VERSES.html">
+    <span class="lit-icon">📜</span>
+    <h3>OCB VERSES</h3>
+    <p>22 verses. One for each Major Arcana. Orange County Buddhist whispers.</p>
+  </a>
+  <a class="lit-card" href="https://raw.githack.com/alissali/Learn/main/DUNE.TAROT.html">
+    <span class="lit-icon">🔮</span>
+    <h3>TAROT READER</h3>
+    <p>The static reader. All 79 cards. All art. All meaning. No game — pure knowledge.</p>
+  </a>
+</div>
+
 <!-- PRICING -->
+<div class="section-head">💰 ENTER THE ARCADE</div>
+
 <div class="pricing">
-  <h2>💰 ENTER THE ARCADE</h2>
   <div class="pricing-grid">
 
     <div class="tier free">
@@ -134,12 +222,12 @@ footer a{color:#e8a045;text-decoration:none}
       <h3>PLAYER</h3>
       <div class="price" style="color:rgba(232,213,192,0.5)">FREE</div>
       <ul>
-        <li>Snake — full game</li>
-        <li>JuXYams — full game</li>
-        <li>Hold'em Training</li>
+        <li>Snake — full game + 9 prizes</li>
+        <li>JuXYams — full game + 9 prizes</li>
+        <li>Hold'em Training + Arabic</li>
         <li>DUNE TAROT Reader</li>
       </ul>
-      <a class="buy-link" href="#" onclick="alert('Already free. Just play.')">PLAY FREE</a>
+      <a class="buy-link" href="#" onclick="event.preventDefault();alert('Already free. Just play.')">PLAY FREE</a>
     </div>
 
     <div class="tier">
@@ -148,7 +236,7 @@ footer a{color:#e8a045;text-decoration:none}
       <div class="price">€6.66</div>
       <ul>
         <li>Everything FREE +</li>
-        <li>Monopoly — full game</li>
+        <li>Monopoly — Freedom Fighters</li>
         <li>DUNE TAROT GAME</li>
         <li>Priority updates</li>
       </ul>
@@ -162,6 +250,7 @@ footer a{color:#e8a045;text-decoration:none}
       <ul>
         <li>Everything CHAMPION +</li>
         <li>DUNE TAROT PORN</li>
+        <li>IRULAN + OCB Verses</li>
         <li>All prizes unlockable</li>
         <li>Future games included</li>
       </ul>
@@ -188,8 +277,11 @@ footer a{color:#e8a045;text-decoration:none}
 <!-- SSS -->
 <div class="sss-section">
   <h2>🐍 SSS — SOFT SEX STORY</h2>
-  <p>Born 6/6/66+60. Chapter 1: the opening.<br>IRULAN. TECHNO. MELANGE.<br>Truth in perpetual operation. Nothing hidden.</p>
-  <p style="margin-top:15px"><a href="https://raw.githack.com/alissali/Learn/main/SSS.html">Read SSS →</a></p>
+  <p>Born 6/6/66+60. IRULAN. TECHNO. MELANGE.<br>Truth in perpetual operation. Nothing hidden.<br>PORN GAME = voluntary, perpetual, free inside rules.</p>
+  <p style="margin-top:15px">
+    <a href="https://raw.githack.com/alissali/Learn/main/SSS.html">Read SSS →</a> · 
+    <a href="https://raw.githack.com/alissali/Learn/main/CAVERN.html">Ali Baba's Cavern →</a>
+  </p>
 </div>
 
 <footer>
@@ -197,6 +289,20 @@ footer a{color:#e8a045;text-decoration:none}
   MIT License · born 12 June 2026<br>
   🦅 aRchitect / softwaRe expeRt / Soft SeX StoRy telleR
 </footer>
+
+<script>
+// Stars
+const starsEl=document.getElementById('stars');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');s.className='star';
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.setProperty('--dur',(2+Math.random()*4)+'s');
+  s.style.setProperty('--max-o',0.2+Math.random()*0.6);
+  s.style.width=s.style.height=(1+Math.random()*2)+'px';
+  starsEl.appendChild(s);
+}
+</script>
 
 </body>
 </html>
