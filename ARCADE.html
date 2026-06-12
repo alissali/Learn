@@ -384,6 +384,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch
 <a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> ·
 <a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> ·
 © JuX ITT</div>
+<div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.GUIDE.html" style="display:inline-block;background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(46,204,113,.3);letter-spacing:2px">&#128214; PLAYER GUIDE</a></div>
 <div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.TRAILER.html" style="display:inline-block;background:linear-gradient(135deg,#ff4488,#9b59b6);color:#fff;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(155,89,182,.3);letter-spacing:2px">&#127916; WATCH THE TRAILER</a></div>
 <div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.MAP.html" style="display:inline-block;background:linear-gradient(135deg,#00d4ff,#4a9eff);color:#0a0a12;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(74,158,255,.3);letter-spacing:2px">&#9733; STAR MAP</a></div>
 <div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.STATS.html" style="display:inline-block;background:linear-gradient(135deg,#4a9eff,#00d4ff);color:#0a0a12;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(74,158,255,.3);letter-spacing:2px">&#128202; STATS DASHBOARD</a></div>
@@ -422,6 +423,46 @@ var ce=document.getElementById('achieveCount');if(ce)ce.textContent=c;
 if(c>=11&&!s.legend)unlock('legend')}
 unlock('first_visit');unlock('daily_check');render();
 window.juxAchieve=unlock;
+})();
+</script>
+<div id="radioBtn" onclick="toggleRadio()" style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;background:rgba(10,10,18,.9);border:1px solid #333;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5em;z-index:100;transition:.3s" title="ARCADE Radio">&#127925;</div>
+<script>
+(function(){
+var actx,playing=false,nodes=[];
+function createRadio(){
+  actx=new(window.AudioContext||window.webkitAudioContext)();
+  // Pad 1 — deep drone
+  var o1=actx.createOscillator();o1.type='sine';o1.frequency.value=55;
+  var g1=actx.createGain();g1.gain.value=0.08;
+  o1.connect(g1);g1.connect(actx.destination);o1.start();
+  // Pad 2 — warm fifth
+  var o2=actx.createOscillator();o2.type='sine';o2.frequency.value=82.5;
+  var g2=actx.createGain();g2.gain.value=0.05;
+  o2.connect(g2);g2.connect(actx.destination);o2.start();
+  // Pad 3 — shimmer
+  var o3=actx.createOscillator();o3.type='triangle';o3.frequency.value=220;
+  var g3=actx.createGain();g3.gain.value=0.02;
+  var lfo=actx.createOscillator();lfo.frequency.value=0.3;
+  var lfoG=actx.createGain();lfoG.gain.value=15;
+  lfo.connect(lfoG);lfoG.connect(o3.frequency);lfo.start();
+  o3.connect(g3);g3.connect(actx.destination);o3.start();
+  // Ambient noise — filtered
+  var bufSize=2*actx.sampleRate;var buf=actx.createBuffer(1,bufSize,actx.sampleRate);
+  var d=buf.getChannelData(0);for(var i=0;i<bufSize;i++)d[i]=(Math.random()*2-1)*0.015;
+  var noise=actx.createBufferSource();noise.buffer=buf;noise.loop=true;
+  var filt=actx.createBiquadFilter();filt.type='lowpass';filt.frequency.value=400;
+  noise.connect(filt);filt.connect(actx.destination);noise.start();
+  nodes=[o1,o2,o3,lfo,noise];
+}
+window.toggleRadio=function(){
+  var btn=document.getElementById('radioBtn');
+  if(!playing){
+    if(!actx)createRadio();else actx.resume();
+    playing=true;btn.style.borderColor='#e8a045';btn.style.boxShadow='0 0 15px rgba(232,160,69,.4)';btn.innerHTML='&#127925;';btn.title='Radio ON — click to mute';
+  }else{
+    actx.suspend();playing=false;btn.style.borderColor='#333';btn.style.boxShadow='none';btn.innerHTML='&#128263;';btn.title='Radio OFF — click to play';
+  }
+};
 })();
 </script>
 </body>

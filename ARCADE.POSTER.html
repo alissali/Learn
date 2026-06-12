@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+@page{size:A4;margin:0}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:210mm;height:297mm;background:#0a0a12;color:#e8d5c0;font-family:Georgia,serif;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:15mm;overflow:hidden;position:relative}
+body::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(232,160,69,.06),transparent 70%)}
+.diamond{width:60px;height:60px;background:linear-gradient(135deg,#e8a045,#d4782f);transform:rotate(45deg);margin:0 auto}
+h1{font-family:Cinzel Decorative,serif;font-size:2.8em;color:#e8a045;letter-spacing:6px;margin-top:10px;text-shadow:0 0 30px rgba(232,160,69,.3)}
+.sub{font-family:monospace;color:#666;font-size:1em;letter-spacing:3px;margin-top:5px}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin:15px 0}
+.gcard{border:1px solid #1a1a2e;border-radius:10px;padding:15px;background:rgba(15,15,25,.9);text-align:center}
+.gcard .emoji{font-size:2.5em}
+.gcard .gname{font-family:Cinzel Decorative,serif;color:#e8a045;font-size:1.1em;margin:6px 0 3px}
+.gcard .gdesc{font-family:monospace;color:#666;font-size:.75em}
+.prices{width:100%;border:1px solid #e8a045;border-radius:10px;padding:15px;background:rgba(232,160,69,.04);text-align:center;margin:8px 0}
+.prices h3{color:#e8a045;font-family:Cinzel Decorative,serif;font-size:1.2em;margin-bottom:8px}
+.prices .row{display:flex;justify-content:space-around;flex-wrap:wrap}
+.prices .item{font-family:monospace;font-size:.85em;color:#bbb;padding:4px 0}
+.prices .price{color:#e8a045;font-weight:bold}
+.qr-section{text-align:center;margin:10px 0}
+.qr-section p{font-family:monospace;color:#666;font-size:.8em;margin-top:8px;letter-spacing:2px}
+.qr-box{width:120px;height:120px;border:2px solid #e8a045;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto;background:#fff;position:relative;overflow:hidden}
+.qr-box::after{content:'SCAN ME';position:absolute;bottom:4px;font-size:.5em;font-family:monospace;color:#333}
+.url{font-family:monospace;color:#e8a045;font-size:1em;letter-spacing:2px;margin:5px 0}
+.footer{font-family:monospace;color:#333;font-size:.7em;text-align:center}
+.footer span{color:#e8a045}
+</style>
+</head>
+<body>
+<div>
+<div class="diamond"></div>
+<h1>JuX ARCADE</h1>
+<p class="sub">6 GAMES &middot; 48 PRIZES &middot; 24 STREETS &middot; 79 CARDS</p>
+</div>
+
+<div class="games">
+<div class="gcard"><div class="emoji">&#127924;</div><div class="gname">DUNE TAROT</div><div class="gdesc">79 cards &middot; 3 versions &middot; 12 prizes</div></div>
+<div class="gcard"><div class="emoji">&#127922;</div><div class="gname">MONOPOLY</div><div class="gdesc">24 streets &middot; Freedom Fighters</div></div>
+<div class="gcard"><div class="emoji">&#128013;</div><div class="gname">SNAKE</div><div class="gdesc">Neon desert &middot; 9 prizes</div></div>
+<div class="gcard"><div class="emoji">&#127919;</div><div class="gname">JuXYams</div><div class="gdesc">5 dice &middot; 9 prizes</div></div>
+<div class="gcard"><div class="emoji">&#9824;&#65039;</div><div class="gname">HOLD'EM</div><div class="gdesc">Texas poker &middot; 9 prizes</div></div>
+<div class="gcard"><div class="emoji">&#127769;</div><div class="gname">&#1607;&#1608;&#1604;&#1583;&#1605; &#1593;&#1585;&#1576;&#1610;</div><div class="gdesc">9 &#1580;&#1608;&#1575;&#1574;&#1586; &middot; &#1576;&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;</div></div>
+</div>
+
+<div class="prices">
+<h3>&#128176; PREMIUM</h3>
+<div class="row">
+<div class="item">CHAMPION <span class="price">&euro;6.66</span></div>
+<div class="item">MOGUL <span class="price">&euro;22</span></div>
+<div class="item">FULL ARCADE <span class="price">&euro;66</span></div>
+</div>
+</div>
+
+<div class="qr-section">
+<div class="qr-box">
+<svg viewBox="0 0 100 100" width="100" height="100"><rect fill="#fff" width="100" height="100"/><rect fill="#0a0a12" x="10" y="10" width="25" height="25"/><rect fill="#fff" x="14" y="14" width="17" height="17"/><rect fill="#0a0a12" x="18" y="18" width="9" height="9"/><rect fill="#0a0a12" x="65" y="10" width="25" height="25"/><rect fill="#fff" x="69" y="14" width="17" height="17"/><rect fill="#0a0a12" x="73" y="18" width="9" height="9"/><rect fill="#0a0a12" x="10" y="65" width="25" height="25"/><rect fill="#fff" x="14" y="69" width="17" height="17"/><rect fill="#0a0a12" x="18" y="73" width="9" height="9"/><rect fill="#e8a045" x="40" y="40" width="20" height="20" rx="3"/><text x="50" y="53" font-size="8" text-anchor="middle" fill="#0a0a12" font-family="monospace">JuX</text></svg>
+</div>
+<p>SCAN TO PLAY</p>
+</div>
+
+<p class="url">juxaos.com/shop</p>
+
+<div class="footer">
+JuX ITT &copy; 2026 &middot; <span>NAME / FACT / TARGET</span> &middot; All games free to play
+</div>
+</body>
+</html>
