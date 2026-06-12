@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JuX ARCADE — HALL OF FAME</title>
+<meta name="description" content="The ARCADE Hall of Fame. 48 prizes. 6 games. Your trophies. Your glory.">
+<meta property="og:title" content="JuX ARCADE — HALL OF FAME">
+<meta property="og:description" content="48 prizes across 6 games. Track your glory.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://raw.githack.com/alissali/Learn/main/ARCADE.HALL.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JuX ARCADE — HALL OF FAME">
+<meta name="twitter:description" content="48 prizes across 6 games. Track your glory.">
+<link rel="canonical" href="https://raw.githack.com/alissali/Learn/main/ARCADE.HALL.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 30,16 16,30 2,16' fill='%23ff6600'/><polygon points='16,6 26,16 16,26 6,16' fill='%230a1628'/><text x='16' y='20' text-anchor='middle' font-size='12' fill='%23ff6600' font-family='monospace' font-weight='bold'>J</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:#e0e0e0;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden}
+
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;background:#ff6600;border-radius:50%;animation:twinkle var(--d) infinite}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:20px}
+.header{text-align:center;padding:40px 20px}
+.header h1{font-size:2.8em;color:#ff6600;text-shadow:0 0 30px rgba(255,102,0,.5)}
+.header .sub{color:#888;letter-spacing:3px;margin-top:8px;font-size:.9em}
+.header .stats{color:#ff6600;font-size:1.2em;margin-top:16px}
+
+.back{text-align:center;margin:10px}
+.back a{color:#ff6600;text-decoration:none;font-size:.9em}
+
+/* Trophy counter */
+.trophy-bar{text-align:center;margin:20px auto;padding:16px;background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid #333;border-radius:8px;max-width:500px}
+.trophy-bar .count{font-size:2.5em;color:#ff6600;font-weight:bold}
+.trophy-bar .label{color:#888;font-size:.85em;margin-top:4px}
+
+/* Game sections */
+.game-section{margin:30px 0;background:#111;border:1px solid #222;border-radius:12px;overflow:hidden}
+.game-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:linear-gradient(90deg,#1a1a2e,#111);cursor:pointer;transition:background .3s}
+.game-header:hover{background:#1a1a2e}
+.game-header h2{color:#ff6600;font-size:1.3em}
+.game-header .game-stats{color:#888;font-size:.85em}
+.game-header .badge{background:#ff6600;color:#0a0a0f;padding:3px 10px;border-radius:12px;font-size:.75em;font-weight:bold}
+.game-header .play-btn{background:transparent;border:1px solid #ff6600;color:#ff6600;padding:6px 16px;border-radius:4px;font-family:monospace;cursor:pointer;text-decoration:none;font-size:.85em;transition:all .3s}
+.game-header .play-btn:hover{background:#ff6600;color:#0a0a0f}
+
+.prizes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;padding:20px}
+.prize{text-align:center;padding:16px 8px;background:#0a0a0f;border:1px solid #222;border-radius:8px;transition:all .3s;position:relative}
+.prize.won{border-color:#ff6600;box-shadow:0 0 15px rgba(255,102,0,.3)}
+.prize .icon{font-size:2em;display:block;margin-bottom:6px}
+.prize .name{font-size:.8em;color:#ccc;line-height:1.3}
+.prize .check{position:absolute;top:4px;right:6px;color:#ff6600;font-size:.8em;display:none}
+.prize.won .check{display:block}
+.prize:not(.won){opacity:.4}
+.prize:not(.won):hover{opacity:.7}
+
+/* Daily Challenge Banner */
+.daily{text-align:center;margin:20px auto;padding:20px;background:linear-gradient(135deg,#2a1a00,#1a0a00);border:2px solid #ff6600;border-radius:12px;max-width:600px;animation:dailyPulse 3s infinite}
+@keyframes dailyPulse{0%,100%{box-shadow:0 0 10px rgba(255,102,0,.3)}50%{box-shadow:0 0 30px rgba(255,102,0,.6)}}
+.daily h3{color:#ff6600;font-size:1.3em;margin-bottom:8px}
+.daily .challenge{color:#e0e0e0;font-size:1.1em;margin-bottom:12px}
+.daily .go{display:inline-block;background:#ff6600;color:#0a0a0f;padding:8px 24px;text-decoration:none;font-weight:bold;font-family:monospace;border-radius:4px}
+
+.footer{text-align:center;padding:30px 20px;color:#555;font-size:.8em;border-top:1px solid #222;margin-top:40px}
+.footer a{color:#ff6600;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+<div class="header">
+<h1>🏆 HALL OF FAME</h1>
+<div class="sub">YOUR TROPHIES · YOUR GLORY</div>
+<div class="stats" id="headerStats"></div>
+</div>
+
+<div class="back"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">← BACK TO ARCADE</a></div>
+
+<!-- Daily Challenge -->
+<div class="daily" id="dailyChallenge"></div>
+
+<!-- Trophy counter -->
+<div class="trophy-bar">
+<div class="count" id="trophyCount">0 / 48</div>
+<div class="label">PRIZES UNLOCKED</div>
+</div>
+
+<!-- Game sections -->
+<div id="gameList"></div>
+
+<div style="text-align:center;margin:30px 0">
+<button onclick="resetAll()" style="background:transparent;border:1px solid #555;color:#555;padding:8px 20px;font-family:monospace;cursor:pointer;border-radius:4px;font-size:.8em">Reset All Progress</button>
+</div>
+
+<div class="footer">
+<a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">ARCADE</a> ·
+<a href="https://juxaos.com/shop.html">SHOP</a> ·
+<a href="https://juxaos.com">juxaos.com</a><br><br>
+JuX ITT · MIT Licensed · NAME / FACT / TARGET<br>
+<a href="https://juxaos.com/privacy.html" style="color:#666">Privacy</a> · <a href="https://juxaos.com/terms.html" style="color:#666">Terms</a>
+</div>
+</div>
+
+<script>
+// All 48 prizes across 6 games
+const GAMES = [
+  {
+    name: 'DUNE TAROT',
+    emoji: '🎴',
+    url: 'https://raw.githack.com/alissali/Learn/main/DUNE.TAROT.PORN.html',
+    storageKey: 'dunetarot_prizes',
+    popular: true,
+    prizes: [
+      {icon:'🌙',name:'First Reading'},{icon:'⭐',name:'Star Collector'},{icon:'🔮',name:'Crystal Seer'},
+      {icon:'🗡️',name:'Crysknife Bearer'},{icon:'💧',name:'Water Found'},{icon:'🔥',name:'Spice Touched'},
+      {icon:'⚙️',name:'Solari Rich'},{icon:'👁️',name:'Prescient Eye'},{icon:'💎',name:'Diamond Sight'},
+      {icon:'🪐',name:'Arrakis Walker'},{icon:'🐛',name:'Worm Rider'},{icon:'👑',name:'Emperor'}
+    ]
+  },
+  {
+    name: 'MONOPOLY',
+    emoji: '🎲',
+    url: 'https://raw.githack.com/alissali/Learn/main/MONOPOLY.html',
+    storageKey: 'monopoly_prizes',
+    prizes: [
+      {icon:'🏠',name:'First Property'},{icon:'🏨',name:'Hotel Mogul'},{icon:'💰',name:'Cash King'},
+      {icon:'🗺️',name:'Globe Trotter'},{icon:'⚔️',name:'Street Fighter'},{icon:'🏦',name:'Banker'},
+      {icon:'🎰',name:'Lucky Roll'},{icon:'🌍',name:'World Dominator'},{icon:'🏆',name:'Freedom Champion'}
+    ]
+  },
+  {
+    name: 'SNAKE',
+    emoji: '🐍',
+    url: 'https://raw.githack.com/alissali/Learn/main/SNAKE.html',
+    storageKey: 'snake_prizes',
+    prizes: [
+      {icon:'🐍',name:'First Bite'},{icon:'🔥',name:'Speed Demon'},{icon:'💎',name:'Diamond Eater'},
+      {icon:'🌙',name:'Night Crawler'},{icon:'⚡',name:'Lightning'},{icon:'🏜️',name:'Desert King'},
+      {icon:'👑',name:'Serpent Lord'},{icon:'🌟',name:'Star Snake'},{icon:'🐛',name:'Shai-Hulud'}
+    ]
+  },
+  {
+    name: 'YAMS',
+    emoji: '🎯',
+    url: 'https://raw.githack.com/alissali/Learn/main/JuXYams.html',
+    storageKey: 'yams_prizes',
+    prizes: [
+      {icon:'🎲',name:'First Roll'},{icon:'🎯',name:'Straight Shot'},{icon:'🃏',name:'Full House'},
+      {icon:'💥',name:'Four of a Kind'},{icon:'🔥',name:'YAMS!'},{icon:'📊',name:'Score Master'},
+      {icon:'🎰',name:'Lucky Streak'},{icon:'👑',name:'Dice Emperor'},{icon:'💎',name:'Perfect Game'}
+    ]
+  },
+  {
+    name: "HOLD'EM TRAINING",
+    emoji: '♠️',
+    url: 'https://raw.githack.com/alissali/Learn/main/HOLDEM.TRAINING.html',
+    storageKey: 'holdem_prizes',
+    prizes: [
+      {icon:'♠️',name:'First Hand'},{icon:'♥️',name:'Heart Breaker'},{icon:'♦️',name:'Diamond Flush'},
+      {icon:'♣️',name:'Club Master'},{icon:'🃏',name:'Bluff King'},{icon:'💰',name:'Pot Winner'},
+      {icon:'🎰',name:'All In'},{icon:'👑',name:'Table Captain'},{icon:'🏆',name:'Poker Champion'}
+    ]
+  },
+  {
+    name: "HOLD'EM عربي",
+    emoji: '🌙',
+    url: 'https://raw.githack.com/alissali/Learn/main/HOLDEM.TRAINING.AR.html',
+    storageKey: 'holdem_ar_prizes',
+    prizes: [
+      {icon:'🌙',name:'اليد الأولى'},{icon:'⭐',name:'نجم الطاولة'},{icon:'🔥',name:'ملك البلف'},
+      {icon:'💎',name:'الماسة'},{icon:'👑',name:'السلطان'},{icon:'🏆',name:'البطل'},
+      {icon:'💰',name:'الكنز'},{icon:'🎯',name:'القناص'},{icon:'🐉',name:'التنين'}
+    ]
+  }
+];
+
+// Daily Challenge generator
+function getDailyChallenge() {
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
+  const gameIdx = seed % GAMES.length;
+  const game = GAMES[gameIdx];
+  
+  const challenges = [
+    `Win 3 prizes in ${game.name}`,
+    `Play ${game.name} for 10 minutes straight`,
+    `Unlock a NEW prize in ${game.name}`,
+    `Beat your high score in ${game.name}`,
+    `Complete a full round of ${game.name}`,
+    `Earn the rarest prize in ${game.name}`
+  ];
+  const chalIdx = (seed * 7) % challenges.length;
+  
+  const el = document.getElementById('dailyChallenge');
+  el.innerHTML = `
+    <h3>🎯 DAILY CHALLENGE — ${today.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</h3>
+    <div class="challenge">${game.emoji} ${challenges[chalIdx]}</div>
+    <a class="go" href="${game.url}">GO →</a>
+  `;
+}
+
+// Render all games + prizes
+function renderGames() {
+  const container = document.getElementById('gameList');
+  let totalWon = 0;
+  let totalPrizes = 0;
+  
+  let html = '';
+  GAMES.forEach((game, gi) => {
+    // Read prizes from localStorage
+    let won = [];
+    try {
+      const stored = localStorage.getItem(game.storageKey);
+      if (stored) won = JSON.parse(stored);
+      if (!Array.isArray(won)) won = [];
+    } catch(e) { won = []; }
+    
+    const wonCount = won.length;
+    totalWon += wonCount;
+    totalPrizes += game.prizes.length;
+    const pct = game.prizes.length > 0 ? Math.round(wonCount / game.prizes.length * 100) : 0;
+    
+    html += `<div class="game-section">
+      <div class="game-header" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'grid':'none'">
+        <h2>${game.emoji} ${game.name} ${game.popular?'<span class="badge">MOST POPULAR</span>':''}</h2>
+        <div>
+          <span class="game-stats">${wonCount}/${game.prizes.length} prizes · ${pct}%</span>
+          <a class="play-btn" href="${game.url}" onclick="event.stopPropagation()">PLAY</a>
+        </div>
+      </div>
+      <div class="prizes-grid">`;
+    
+    game.prizes.forEach((prize, pi) => {
+      const isWon = won.includes(pi) || won.includes(prize.name);
+      html += `<div class="prize ${isWon?'won':''}">
+        <span class="check">✓</span>
+        <span class="icon">${prize.icon}</span>
+        <span class="name">${prize.name}</span>
+      </div>`;
+    });
+    
+    html += `</div></div>`;
+  });
+  
+  container.innerHTML = html;
+  document.getElementById('trophyCount').textContent = `${totalWon} / ${totalPrizes}`;
+  document.getElementById('headerStats').textContent = `${GAMES.length} GAMES · ${totalPrizes} PRIZES · ${totalWon} WON`;
+}
+
+function resetAll() {
+  if (confirm('Reset ALL prize progress? This cannot be undone.')) {
+    GAMES.forEach(g => localStorage.removeItem(g.storageKey));
+    renderGames();
+  }
+}
+
+// Stars
+function createStars() {
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;--d:${2+Math.random()*4}s;animation-delay:${Math.random()*3}s`;
+    c.appendChild(s);
+  }
+}
+
+createStars();
+getDailyChallenge();
+renderGames();
+</script>
+</body>
+</html>

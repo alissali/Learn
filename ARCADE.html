@@ -123,6 +123,27 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
   </div>
 </div>
 
+<div id="dailyChallenge" style="text-align:center;margin:20px auto;padding:16px;background:linear-gradient(135deg,#2a1a00,#1a0a00);border:2px solid #e8a045;border-radius:12px;max-width:600px;position:relative;z-index:1;animation:dailyPulse 3s infinite"></div>
+<style>@keyframes dailyPulse{0%,100%{box-shadow:0 0 10px rgba(232,160,69,.3)}50%{box-shadow:0 0 30px rgba(232,160,69,.6)}}</style>
+<script>
+(function(){
+  const games=[
+    {name:'DUNE TAROT',emoji:'\u{1F3B4}',url:'https://raw.githack.com/alissali/Learn/main/DUNE.TAROT.PORN.html'},
+    {name:'MONOPOLY',emoji:'\u{1F3B2}',url:'https://raw.githack.com/alissali/Learn/main/MONOPOLY.html'},
+    {name:'SNAKE',emoji:'\u{1F40D}',url:'https://raw.githack.com/alissali/Learn/main/SNAKE.html'},
+    {name:'YAMS',emoji:'\u{1F3AF}',url:'https://raw.githack.com/alissali/Learn/main/JuXYams.html'},
+    {name:"HOLD\'EM",emoji:'\u2660\uFE0F',url:'https://raw.githack.com/alissali/Learn/main/HOLDEM.TRAINING.html'}
+  ];
+  const d=new Date(),seed=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+  const g=games[seed%games.length];
+  const chals=['Win 3 rounds','Play for 10 minutes','Beat your record','Unlock a new prize','Complete a full game','Score maximum points'];
+  const c=chals[(seed*7)%chals.length];
+  document.getElementById('dailyChallenge').innerHTML=
+    '<div style="color:#e8a045;font-size:1.2em;font-weight:bold;font-family:Cinzel Decorative,serif">\u{1F3AF} DAILY CHALLENGE</div>'+
+    '<div style="color:#e8d5c0;margin:8px 0;font-size:1em">'+g.emoji+' '+c+' in '+g.name+'</div>'+
+    '<a href="'+g.url+'" style="display:inline-block;background:#e8a045;color:#0a0a12;padding:8px 20px;text-decoration:none;font-weight:bold;font-family:monospace;border-radius:4px;margin-top:4px">GO \u2192</a>';
+})();
+</script>
 <div class="section-head">🎮 THE GAMES</div>
 
 <div class="games">
@@ -321,5 +342,6 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch
 <a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> ·
 <a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> ·
 © JuX ITT</div>
+<div style="text-align:center;margin:20px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.HALL.html" style="display:inline-block;background:linear-gradient(135deg,#e8a045,#c48030);color:#0a0a12;padding:12px 32px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1.1em;box-shadow:0 0 20px rgba(232,160,69,.4);letter-spacing:2px">&#127942; HALL OF FAME</a></div>
 </body>
 </html>
