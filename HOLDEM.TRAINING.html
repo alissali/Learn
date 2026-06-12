@@ -207,10 +207,23 @@ body {
 .ph.won{border-color:#e8a045;color:#e8a045;background:rgba(232,160,69,0.1)}
 #htoast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:#e8a045;color:#010206;padding:10px 20px;border-radius:6px;font-size:0.85rem;z-index:200;transition:transform 0.4s}
 #htoast.show{transform:translateX(-50%) translateY(0)}
+a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "JuX ITT",
+  "url": "https://juxaos.com",
+  "email": "jux@juxitt.com",
+  "description": "Software architecture, games, stories, and spice."
+}
+</script>
+<meta name="theme-color" content="#0a0a0f">
 </head>
 <body>
-<div class="page">
+<a href="#main" class="skip-link" style="position:absolute;top:-40px;left:0;background:#ff6600;color:#0a0a0f;padding:8px;z-index:9999;font-family:monospace;text-decoration:none;transition:top .3s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to content</a>
+<div id="main" class="page">
 
   <!-- HEADER -->
   <div class="header">

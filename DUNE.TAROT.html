@@ -357,9 +357,45 @@ body {
   .tarot-card { padding: 18px 14px; }
   .suit-courts { grid-template-columns: 1fr 1fr; }
 }
+a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "JuX ITT",
+  "url": "https://juxaos.com",
+  "email": "jux@juxitt.com",
+  "description": "Software architecture, games, stories, and spice."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "DUNE TAROT \u2014 MELANGE",
+  "description": "79-card Dune Tarot deck \u2014 MELANGE tier",
+  "brand": {
+    "@type": "Brand",
+    "name": "JuX ITT"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "6.66",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock",
+    "url": "https://buy.stripe.com/dRm14pdv14VQ1qT7J41wY05",
+    "seller": {
+      "@type": "Organization",
+      "name": "JuX ITT"
+    }
+  }
+}
+</script>
+<meta name="theme-color" content="#0a0a0f">
 </head>
 <body>
+<a href="#main" class="skip-link" style="position:absolute;top:-40px;left:0;background:#ff6600;color:#0a0a0f;padding:8px;z-index:9999;font-family:monospace;text-decoration:none;transition:top .3s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to content</a>
 
 <!-- Sand particles -->
 <div class="sand-container" id="sandContainer"></div>
