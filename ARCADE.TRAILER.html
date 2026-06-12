@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JuX ARCADE — THE TRAILER</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 30,16 16,30 2,16' fill='%23e8a045'/></svg>">
+<meta property="og:title" content="JuX ARCADE — THE TRAILER">
+<meta property="og:description" content="6 games. 48 prizes. No sign-up. No download. Just play.">
+<meta name="twitter:card" content="summary">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;overflow:hidden;font-family:Georgia,serif;height:100vh;width:100vw}
+.scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 1s}
+.scene.active{opacity:1}
+.scene h1{font-size:3em;letter-spacing:6px;text-shadow:0 0 40px currentColor}
+.scene h2{font-size:1.5em;margin-top:10px;letter-spacing:3px}
+.scene p{font-size:1.1em;margin-top:20px;font-style:italic;color:#888}
+.scene .emoji{font-size:5em;margin-bottom:20px}
+.s-intro h1{color:#e8a045}
+.s-tarot{color:#9b59b6}
+.s-monopoly{color:#2ecc71}
+.s-snake{color:#00ff88}
+.s-yams{color:#ff6b6b}
+.s-holdem{color:#4a9eff}
+.s-arabic{color:#ffd700}
+.s-finale h1{color:#e8a045;font-size:3.5em;animation:pulse-big 1.5s infinite}
+.s-finale .cta{display:inline-block;margin-top:30px;padding:16px 40px;background:#e8a045;color:#0a0a12;text-decoration:none;font-weight:bold;font-size:1.3em;border-radius:8px;letter-spacing:3px;animation:glow 2s infinite}
+@keyframes pulse-big{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(232,160,69,.4)}50%{box-shadow:0 0 50px rgba(232,160,69,.8)}}
+.stars{position:fixed;inset:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;background:#e8a045;border-radius:50%;animation:twinkle var(--d) infinite}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+#progress{position:fixed;bottom:0;left:0;height:3px;background:#e8a045;z-index:99;transition:width .3s}
+#skip{position:fixed;top:20px;right:20px;color:#444;font-family:monospace;cursor:pointer;z-index:99}
+#skip:hover{color:#e8a045}
+.counter{font-family:monospace;color:#e8a045;font-size:4em;font-weight:bold;text-shadow:0 0 30px rgba(232,160,69,.5)}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div id="progress" style="width:0%"></div>
+<div id="skip" onclick="skipToEnd()">SKIP &#8594;</div>
+
+<div class="scene s-intro" id="s0"><div class="emoji">&#128142;</div><h1>JuX ARCADE</h1><p>Loading transmission...</p></div>
+<div class="scene s-count" id="s1"><div class="counter" id="countdown">6</div><p style="color:#888;margin-top:20px;font-family:monospace">GAMES INCOMING</p></div>
+<div class="scene s-tarot" id="s2"><div class="emoji">&#127924;</div><h1>DUNE TAROT</h1><h2>79 cards &middot; 3 versions &middot; 12 prizes</h2><p>The spice must flow through the cards</p></div>
+<div class="scene s-monopoly" id="s3"><div class="emoji">&#127922;</div><h1>MONOPOLY</h1><h2>24 streets &middot; Freedom Fighters &middot; Combat</h2><p>From Damascus to Las Vegas</p></div>
+<div class="scene s-snake" id="s4"><div class="emoji">&#128013;</div><h1>SNAKE</h1><h2>Neon desert &middot; 9 prizes &middot; Spice trail</h2><p>The desert never ends</p></div>
+<div class="scene s-yams" id="s5"><div class="emoji">&#127919;</div><h1>JuX YAMS</h1><h2>5 dice &middot; 9 prizes &middot; Full house fever</h2><p>Roll the bones of fate</p></div>
+<div class="scene s-holdem" id="s6"><div class="emoji">&#9824;&#65039;</div><h1>HOLD'EM TRAINING</h1><h2>Texas &middot; 9 prizes &middot; Poker face</h2><p>Read them like a book</p></div>
+<div class="scene s-arabic" id="s7"><div class="emoji">&#127769;</div><h1>&#1607;&#1608;&#1604;&#1583;&#1605; &#1593;&#1585;&#1576;&#1610;</h1><h2>9 &#1580;&#1608;&#1575;&#1574;&#1586; &middot; &#1576;&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;</h2><p>The game speaks your language</p></div>
+<div class="scene s-finale" id="s8"><div class="emoji">&#129413;</div><h1>PLAY NOW</h1><h2 style="color:#e8d5c0">6 games &middot; 48 prizes &middot; 24 streets &middot; 79 cards</h2><a class="cta" href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">ENTER THE ARCADE</a><p style="margin-top:20px;color:#444;font-family:monospace">No sign-up &middot; No download &middot; Just play</p></div>
+
+<script>
+const sf=document.getElementById('stars');for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--d',(1+Math.random()*3)+'s');sf.appendChild(s)}
+const scenes=['s0','s1','s2','s3','s4','s5','s6','s7','s8'];
+const dur=[2500,3000,3000,3000,3000,3000,3000,3000,0];
+let cur=0;const prog=document.getElementById('progress');
+function animCount(){const el=document.getElementById('countdown');let n=6;const iv=setInterval(()=>{n--;if(n<=0){clearInterval(iv);el.textContent='GO!';return}el.textContent=n},400)}
+function show(i){scenes.forEach(id=>document.getElementById(id).classList.remove('active'));document.getElementById(scenes[i]).classList.add('active');prog.style.width=((i/(scenes.length-1))*100)+'%';if(i===1)animCount();try{const ac=new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator();const g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=[440,523,587,659,698,784,880,932,1046][i];o.type='sine';g.gain.value=0.08;o.start();g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+0.3);o.stop(ac.currentTime+0.3)}catch(e){}}
+function advance(){if(cur>=scenes.length-1)return;cur++;show(cur);if(dur[cur]>0)setTimeout(advance,dur[cur])}
+function skipToEnd(){cur=scenes.length-1;show(cur)}
+show(0);setTimeout(advance,dur[0]);
+document.addEventListener('click',e=>{if(e.target.tagName==='A')return;if(cur<scenes.length-1){cur++;show(cur);if(dur[cur]>0)setTimeout(advance,dur[cur])}});
+</script>
+</body>
+</html>

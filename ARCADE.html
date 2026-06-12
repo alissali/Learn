@@ -384,8 +384,45 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch
 <a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> ·
 <a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> ·
 © JuX ITT</div>
+<div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.TRAILER.html" style="display:inline-block;background:linear-gradient(135deg,#ff4488,#9b59b6);color:#fff;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(155,89,182,.3);letter-spacing:2px">&#127916; WATCH THE TRAILER</a></div>
+<div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.MAP.html" style="display:inline-block;background:linear-gradient(135deg,#00d4ff,#4a9eff);color:#0a0a12;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(74,158,255,.3);letter-spacing:2px">&#9733; STAR MAP</a></div>
 <div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.STATS.html" style="display:inline-block;background:linear-gradient(135deg,#4a9eff,#00d4ff);color:#0a0a12;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(74,158,255,.3);letter-spacing:2px">&#128202; STATS DASHBOARD</a></div>
 <div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.CHALLENGE.html" style="display:inline-block;background:linear-gradient(135deg,#ff4488,#ff0066);color:#fff;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(255,68,136,.3);letter-spacing:2px">&#127915; CHALLENGE A FRIEND</a></div>
 <div style="text-align:center;margin:20px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.HALL.html" style="display:inline-block;background:linear-gradient(135deg,#e8a045,#c48030);color:#0a0a12;padding:12px 32px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1.1em;box-shadow:0 0 20px rgba(232,160,69,.4);letter-spacing:2px">&#127942; HALL OF FAME</a></div>
+<div style="max-width:800px;margin:30px auto;padding:20px;border:1px solid #2a2a3a;border-radius:12px;background:rgba(10,10,18,.9);position:relative;z-index:1">
+<h2 style="text-align:center;color:#e8a045;font-family:Cinzel Decorative,serif;letter-spacing:3px;margin-bottom:20px">&#127941; ACHIEVEMENTS</h2>
+<div id="achieveGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px"></div>
+<p style="text-align:center;color:#444;font-family:monospace;font-size:.8em;margin-top:12px"><span id="achieveCount">0</span>/12 unlocked</p>
+</div>
+<script>
+(function(){
+var A=[
+{id:'first_visit',name:'FIRST STEPS',icon:'&#128099;',desc:'Visit the ARCADE'},
+{id:'play_tarot',name:'CARD READER',icon:'&#127924;',desc:'Play Dune Tarot'},
+{id:'play_monopoly',name:'MOGUL',icon:'&#127922;',desc:'Play Monopoly'},
+{id:'play_snake',name:'DESERT WALKER',icon:'&#128013;',desc:'Play Snake'},
+{id:'play_yams',name:'DICE ROLLER',icon:'&#127919;',desc:'Play Yams'},
+{id:'play_holdem',name:'POKER FACE',icon:'&#9824;&#65039;',desc:'Play Hold Em'},
+{id:'visit_hall',name:'HALL WALKER',icon:'&#127942;',desc:'Visit Hall of Fame'},
+{id:'visit_stats',name:'ANALYST',icon:'&#128202;',desc:'Visit Stats'},
+{id:'daily_check',name:'DAILY PLAYER',icon:'&#128197;',desc:'Check Daily Challenge'},
+{id:'challenge_sent',name:'CHALLENGER',icon:'&#9876;&#65039;',desc:'Create Challenge Card'},
+{id:'all_games',name:'COMPLETIONIST',icon:'&#11088;',desc:'Visit all 6 games'},
+{id:'legend',name:'LEGEND',icon:'&#128081;',desc:'Unlock all achievements'}
+];
+var s=JSON.parse(localStorage.getItem('jux_achievements')||'{}');
+function unlock(id){if(!s[id]){s[id]=Date.now();localStorage.setItem('jux_achievements',JSON.stringify(s));render()}}
+function render(){
+var g=document.getElementById('achieveGrid');if(!g)return;g.innerHTML='';var c=0;
+A.forEach(function(a){var u=!!s[a.id];if(u)c++;var d=document.createElement('div');
+d.style.cssText='text-align:center;padding:10px;border-radius:8px;border:1px solid '+(u?'#e8a045':'#1a1a2e')+';background:'+(u?'rgba(232,160,69,.08)':'rgba(10,10,18,.5)')+';transition:.3s';
+d.innerHTML='<div style="font-size:2em;filter:'+(u?'none':'grayscale(1) opacity(.3)')+'">'+a.icon+'</div><div style="font-size:.75em;font-family:monospace;color:'+(u?'#e8a045':'#333')+';margin-top:4px">'+a.name+'</div><div style="font-size:.65em;color:#555;margin-top:2px">'+a.desc+'</div>';
+g.appendChild(d)});
+var ce=document.getElementById('achieveCount');if(ce)ce.textContent=c;
+if(c>=11&&!s.legend)unlock('legend')}
+unlock('first_visit');unlock('daily_check');render();
+window.juxAchieve=unlock;
+})();
+</script>
 </body>
 </html>

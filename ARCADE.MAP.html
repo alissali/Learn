@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JuX ARCADE — STAR MAP</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 30,16 16,30 2,16' fill='%23e8a045'/></svg>">
+<meta property="og:title" content="JuX ARCADE — STAR MAP">
+<meta property="og:description" content="Navigate the JuX constellation. 6 games connected by starlight.">
+<meta name="twitter:card" content="summary">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#e8d5c0;font-family:Georgia,serif;min-height:100vh;overflow:hidden}
+canvas{display:block;width:100vw;height:100vh}
+#tooltip{position:fixed;background:rgba(10,10,18,.95);border:1px solid #e8a045;padding:12px 18px;border-radius:8px;pointer-events:none;display:none;font-family:monospace;font-size:.9em;z-index:10;max-width:250px}
+#tooltip h3{color:#e8a045;margin-bottom:4px;font-family:Georgia,serif}
+#tooltip p{color:#888;font-size:.85em}
+.back{position:fixed;top:15px;left:15px;color:#444;text-decoration:none;font-family:monospace;z-index:10}
+.back:hover{color:#e8a045}
+.title{position:fixed;top:15px;width:100%;text-align:center;font-family:Cinzel Decorative,serif;color:#e8a045;font-size:1.2em;letter-spacing:4px;pointer-events:none;z-index:5;text-shadow:0 0 20px rgba(232,160,69,.3)}
+</style>
+</head>
+<body>
+<a class="back" href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">&larr; ARCADE</a>
+<div class="title">&#9733; STAR MAP &#9733;</div>
+<canvas id="map"></canvas>
+<div id="tooltip"><h3></h3><p></p></div>
+
+<script>
+const canvas=document.getElementById('map');
+const ctx=canvas.getContext('2d');
+const tooltip=document.getElementById('tooltip');
+let W,H;
+
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+
+const games=[
+{name:'DUNE TAROT',emoji:'\u{1F3B4}',desc:'79 cards \u00b7 3 versions \u00b7 12 prizes',color:'#9b59b6',url:'https://raw.githack.com/alissali/Learn/main/DUNE.TAROT.PORN.html',px:.5,py:.25},
+{name:'MONOPOLY',emoji:'\u{1F3B2}',desc:'24 streets \u00b7 Freedom Fighters',color:'#2ecc71',url:'https://raw.githack.com/alissali/Learn/main/MONOPOLY.html',px:.25,py:.45},
+{name:'SNAKE',emoji:'\u{1F40D}',desc:'Neon desert \u00b7 9 prizes',color:'#00ff88',url:'https://raw.githack.com/alissali/Learn/main/SNAKE.html',px:.75,py:.45},
+{name:'YAMS',emoji:'\u{1F3AF}',desc:'5 dice \u00b7 9 prizes',color:'#ff6b6b',url:'https://raw.githack.com/alissali/Learn/main/JuXYams.html',px:.35,py:.7},
+{name:"HOLD'EM",emoji:'\u2660\uFE0F',desc:'Texas poker \u00b7 9 prizes',color:'#4a9eff',url:'https://raw.githack.com/alissali/Learn/main/HOLDEM.TRAINING.html',px:.65,py:.7},
+{name:'\u0647\u0648\u0644\u062F\u0645 \u0639\u0631\u0628\u064A',emoji:'\u{1F319}',desc:'9 \u062C\u0648\u0627\u0626\u0632 \u00b7 \u0628\u0627\u0644\u0639\u0631\u0628\u064A',color:'#ffd700',url:'https://raw.githack.com/alissali/Learn/main/HOLDEM.TRAINING.AR.html',px:.5,py:.85}
+];
+
+// Connections (constellation lines)
+const links=[[0,1],[0,2],[1,3],[2,4],[3,5],[4,5],[1,4],[2,3],[0,3],[0,4]];
+
+// Background stars
+const stars=[];for(let i=0;i<200;i++)stars.push({x:Math.random(),y:Math.random(),s:Math.random()*1.5,sp:0.3+Math.random()*2});
+
+let hovered=-1;
+let time=0;
+
+function draw(){
+time+=0.02;
+ctx.clearRect(0,0,W,H);
+
+// Stars
+stars.forEach(s=>{
+  const a=0.3+0.7*Math.abs(Math.sin(time*s.sp));
+  ctx.fillStyle='rgba(232,160,69,'+a*0.3+')';
+  ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);ctx.fill();
+});
+
+// Lines
+links.forEach(([a,b])=>{
+  const ga=games[a],gb=games[b];
+  const ax=ga.px*W,ay=ga.py*H,bx=gb.px*W,by=gb.py*H;
+  const grad=ctx.createLinearGradient(ax,ay,bx,by);
+  grad.addColorStop(0,ga.color+'44');
+  grad.addColorStop(1,gb.color+'44');
+  ctx.strokeStyle=grad;ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();
+  // Traveling particle
+  const t=(Math.sin(time+a+b)+1)/2;
+  const px=ax+(bx-ax)*t,py=ay+(by-ay)*t;
+  ctx.fillStyle='rgba(232,160,69,.4)';
+  ctx.beginPath();ctx.arc(px,py,2,0,Math.PI*2);ctx.fill();
+});
+
+// Game nodes
+games.forEach((g,i)=>{
+  const x=g.px*W,y=g.py*H;
+  const isHov=i===hovered;
+  const r=isHov?35:25;
+  const pulse=1+0.1*Math.sin(time*2+i);
+  
+  // Glow
+  const grd=ctx.createRadialGradient(x,y,0,x,y,r*2*pulse);
+  grd.addColorStop(0,g.color+'33');
+  grd.addColorStop(1,'transparent');
+  ctx.fillStyle=grd;ctx.beginPath();ctx.arc(x,y,r*2*pulse,0,Math.PI*2);ctx.fill();
+  
+  // Core
+  ctx.fillStyle=isHov?g.color:g.color+'aa';
+  ctx.beginPath();ctx.arc(x,y,r*pulse,0,Math.PI*2);ctx.fill();
+  
+  // Border
+  ctx.strokeStyle=g.color;ctx.lineWidth=isHov?3:1;
+  ctx.beginPath();ctx.arc(x,y,r*pulse,0,Math.PI*2);ctx.stroke();
+  
+  // Emoji
+  ctx.font=(isHov?'28px':'22px')+' serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(g.emoji,x,y);
+  
+  // Label
+  ctx.fillStyle=isHov?'#fff':g.color+'cc';
+  ctx.font=(isHov?'bold ':'')+'13px monospace';
+  ctx.textBaseline='top';
+  ctx.fillText(g.name,x,y+r*pulse+8);
+});
+
+requestAnimationFrame(draw);
+}
+draw();
+
+canvas.addEventListener('mousemove',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const mx=e.clientX,my=e.clientY;
+  hovered=-1;
+  games.forEach((g,i)=>{
+    const x=g.px*W,y=g.py*H;
+    const d=Math.sqrt((mx-x)**2+(my-y)**2);
+    if(d<35){hovered=i;canvas.style.cursor='pointer';
+      tooltip.style.display='block';
+      tooltip.style.left=(mx+15)+'px';tooltip.style.top=(my+15)+'px';
+      tooltip.querySelector('h3').textContent=g.emoji+' '+g.name;
+      tooltip.querySelector('p').textContent=g.desc;
+    }
+  });
+  if(hovered===-1){canvas.style.cursor='default';tooltip.style.display='none'}
+});
+
+canvas.addEventListener('click',e=>{
+  if(hovered>=0)window.location.href=games[hovered].url;
+});
+</script>
+</body>
+</html>
