@@ -101,13 +101,13 @@ footer a{color:#e8a045;text-decoration:none}
 <body>
 
 <h1>🏠 JuX MONOPOLY</h1>
-<div class="subtitle">T H E &nbsp; W O R L D &nbsp; I S &nbsp; Y O U R S</div>
+<div class="subtitle">F R E E D O M &nbsp; F I G H T E R S</div>
 
 <div class="game-wrap">
 
 <!-- SETUP -->
 <div id="setupScreen">
-  <h2>🎲 How Many Players?</h2>
+  <h2>🎲 How Many Freedom Fighters?</h2>
   <div class="player-colors">
     <span class="p-token" data-n="2" onclick="selectPlayers(2)">👥 2</span>
     <span class="p-token" data-n="3" onclick="selectPlayers(3)">👥 3</span>
@@ -299,7 +299,8 @@ function selectPlayers(n){
   numPlayers=n;
   document.querySelectorAll('.p-token').forEach(t=>{t.classList.toggle('selected',parseInt(t.dataset.n)===n)});
   let h='';
-  for(let i=0;i<n;i++)h+=`<div class="setup-opt"><label>${TOKENS[i]} Player ${i+1}</label><input id="pname${i}" value="Player ${i+1}" maxlength="12"></div>`;
+  const FIGHTER_NAMES=['Fighter 1','Fighter 2','Fighter 3','Fighter 4'];
+  for(let i=0;i<n;i++)h+=`<div class="setup-opt"><label>${TOKENS[i]} Freedom Fighter ${i+1}</label><input id="pname${i}" value="${FIGHTER_NAMES[i]}" maxlength="12"></div>`;
   document.getElementById('nameInputs').innerHTML=h;
 }
 selectPlayers(2);
@@ -308,7 +309,7 @@ function initGame(){
   players=[];
   for(let i=0;i<numPlayers;i++){
     const el=document.getElementById('pname'+i);
-    players.push({name:el?el.value:'Player '+(i+1),token:TOKENS[i],color:PCOLORS[i],pos:0,cash:1500,properties:[],inJail:false,jailTurns:0,jailFree:false,laps:0,bankrupt:false});
+    players.push({name:el?el.value:'Fighter '+(i+1),token:TOKENS[i],color:PCOLORS[i],pos:0,cash:1500,properties:[],inJail:false,jailTurns:0,jailFree:false,laps:0,bankrupt:false});
   }
   currentPlayer=0;gameActive=true;canBuy=false;
   document.getElementById('setupScreen').style.display='none';
