@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎰 JuX ARCADE — All Games. One Desert.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#e8d5c0;font-family:'IBM Plex Mono',monospace;min-height:100vh}
+
+/* Hero */
+.hero{text-align:center;padding:50px 20px 30px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(232,160,69,0.08) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-family:'Cinzel Decorative',serif;font-size:3em;color:#e8a045;text-shadow:0 0 40px rgba(232,160,69,0.4);letter-spacing:6px;margin-bottom:10px;position:relative}
+.hero .tagline{font-family:'Cormorant Garamond',serif;font-size:1.4em;font-style:italic;color:rgba(232,213,192,0.5);letter-spacing:4px;margin-bottom:8px}
+.hero .sig{font-size:0.85em;color:rgba(232,213,192,0.3);letter-spacing:3px}
+
+/* Games grid */
+.games{max-width:1100px;margin:0 auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+
+.game-card{border:1px solid rgba(232,213,192,0.1);border-radius:12px;padding:30px;background:rgba(255,255,255,0.015);transition:all 0.4s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;cursor:pointer}
+.game-card:hover{border-color:rgba(232,160,69,0.4);transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,0,0,0.3)}
+.game-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:12px 12px 0 0}
+.game-card .icon{font-size:3em;margin-bottom:15px;display:block}
+.game-card h2{font-family:'Cinzel Decorative',serif;font-size:1.3em;margin-bottom:8px;letter-spacing:2px}
+.game-card p{font-size:0.85em;color:rgba(232,213,192,0.5);line-height:1.6;margin-bottom:12px}
+.game-card .status{font-size:0.75em;letter-spacing:3px;text-transform:uppercase}
+.game-card .play-btn{display:inline-block;margin-top:10px;padding:8px 24px;border:1px solid rgba(232,160,69,0.4);border-radius:4px;font-size:0.85em;letter-spacing:2px;transition:all 0.3s}
+.game-card:hover .play-btn{background:rgba(232,160,69,0.15)}
+
+/* Card colors */
+.card-snake{border-color:rgba(46,196,182,0.2)}.card-snake::before{background:#2ec4b6}.card-snake h2{color:#2ec4b6}.card-snake .play-btn{border-color:rgba(46,196,182,0.4);color:#2ec4b6}
+.card-yams{border-color:rgba(46,196,182,0.2)}.card-yams::before{background:#2ec4b6}.card-yams h2{color:#2ec4b6}.card-yams .play-btn{border-color:rgba(46,196,182,0.4);color:#2ec4b6}
+.card-monopoly{border-color:rgba(232,160,69,0.2)}.card-monopoly::before{background:#e8a045}.card-monopoly h2{color:#e8a045}.card-monopoly .play-btn{border-color:rgba(232,160,69,0.4);color:#e8a045}
+.card-tarot{border-color:rgba(180,40,20,0.2)}.card-tarot::before{background:#b42814}.card-tarot h2{color:#b42814}.card-tarot .play-btn{border-color:rgba(180,40,20,0.4);color:#b42814}
+.card-holdem{border-color:rgba(46,196,182,0.2)}.card-holdem::before{background:#7b4fa6}.card-holdem h2{color:#7b4fa6}.card-holdem .play-btn{border-color:rgba(123,79,166,0.4);color:#7b4fa6}
+.card-porn{border-color:rgba(180,40,20,0.15)}.card-porn::before{background:#b42814}.card-porn h2{color:#b42814}.card-porn .play-btn{border-color:rgba(180,40,20,0.4);color:#b42814}
+
+/* Pricing section */
+.pricing{max-width:1100px;margin:30px auto;padding:20px}
+.pricing h2{font-family:'Cinzel Decorative',serif;font-size:1.8em;color:#e8a045;text-align:center;margin-bottom:25px;letter-spacing:4px}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.tier{border:1px solid rgba(232,213,192,0.1);border-radius:12px;padding:28px;text-align:center;background:rgba(255,255,255,0.015);transition:all 0.3s}
+.tier:hover{border-color:rgba(232,160,69,0.4)}
+.tier .tier-icon{font-size:2.5em;margin-bottom:10px}
+.tier h3{font-family:'Cinzel Decorative',serif;font-size:1.2em;color:#e8a045;margin-bottom:8px;letter-spacing:2px}
+.tier .price{font-size:2.2em;font-family:'Cinzel Decorative',serif;color:#e8d5c0;margin:12px 0}
+.tier .price small{font-size:0.5em;color:rgba(232,213,192,0.4)}
+.tier ul{list-style:none;text-align:left;margin:12px 0;font-size:0.8em;color:rgba(232,213,192,0.6);line-height:2}
+.tier ul li::before{content:'✓ ';color:#2ec4b6}
+.tier .buy-link{display:inline-block;margin-top:12px;padding:10px 30px;border:1px solid rgba(232,160,69,0.5);border-radius:4px;color:#e8a045;text-decoration:none;font-family:'Cinzel Decorative',serif;letter-spacing:2px;transition:all 0.3s}
+.tier .buy-link:hover{background:rgba(232,160,69,0.15);box-shadow:0 0 20px rgba(232,160,69,0.2)}
+.tier.free .buy-link{border-color:rgba(46,196,182,0.4);color:#2ec4b6}
+.tier.featured{border-color:rgba(232,160,69,0.4);box-shadow:0 0 30px rgba(232,160,69,0.1)}
+
+/* SSS section */
+.sss-section{max-width:800px;margin:30px auto;padding:30px 20px;text-align:center;border-top:1px solid rgba(180,40,20,0.2)}
+.sss-section h2{font-family:'Cinzel Decorative',serif;color:#b42814;font-size:1.5em;letter-spacing:4px;margin-bottom:10px}
+.sss-section p{font-family:'Cormorant Garamond',serif;font-size:1.1em;font-style:italic;color:rgba(232,213,192,0.5);line-height:1.8}
+.sss-section a{color:#b42814;text-decoration:none;border-bottom:1px solid rgba(180,40,20,0.3)}
+
+footer{text-align:center;padding:30px;font-size:0.75em;color:rgba(232,213,192,0.2);letter-spacing:2px;border-top:1px solid rgba(232,213,192,0.05);margin-top:30px}
+footer a{color:#e8a045;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🎰 JuX ARCADE</h1>
+  <div class="tagline">All Games. One Desert. No Limits.</div>
+  <div class="sig">born 6/6/66 · deployed 12 June 2026</div>
+</div>
+
+<div class="games">
+
+  <a class="game-card card-snake" href="https://raw.githack.com/alissali/Learn/main/SNAKE.html">
+    <span class="icon">🐍</span>
+    <h2>JuX SNAKE</h2>
+    <p>The serpent moves. Eat the spice. Grow. Survive. Classic snake with 9 prizes and neon desert heat.</p>
+    <div class="status" style="color:#2ec4b6">▶ FREE</div>
+    <span class="play-btn">PLAY NOW</span>
+  </a>
+
+  <a class="game-card card-yams" href="https://raw.githack.com/alissali/Learn/main/JuXYams.html">
+    <span class="icon">🎲</span>
+    <h2>JuXYams</h2>
+    <p>The Ultimate. A game of dice. A game of chance. Played once, on an afternoon that never quite ended. For Sandrine TELLIER, M.A.</p>
+    <div class="status" style="color:#2ec4b6">▶ THE ULTIMATE</div>
+    <span class="play-btn">PLAY NOW</span>
+  </a>
+
+  <a class="game-card card-monopoly" href="https://raw.githack.com/alissali/Learn/main/MONOPOLY.html">
+    <span class="icon">🏠</span>
+    <h2>JuX MONOPOLY</h2>
+    <p>The World Is Yours. 24 international streets — Las Vegas, Melbourne, Frankfurt, Damascus, Lisboa. Mamoun's World on a board.</p>
+    <div class="status" style="color:#e8a045">▶ 2-4 PLAYERS</div>
+    <span class="play-btn">PLAY NOW</span>
+  </a>
+
+  <a class="game-card card-tarot" href="https://raw.githack.com/alissali/Learn/main/DUNE.TAROT.GAME.html">
+    <span class="icon">🃏</span>
+    <h2>DUNE TAROT GAME</h2>
+    <p>79 cards. 23 Major Arcana. 12 prizes. Core Audio. The desert speaks in positions: SKIN · GRIP · SIGHT · BURN · RELEASE.</p>
+    <div class="status" style="color:#b42814">▶ MULTIPLAYER</div>
+    <span class="play-btn">PLAY NOW</span>
+  </a>
+
+  <a class="game-card card-holdem" href="https://raw.githack.com/alissali/Learn/main/HOLDEM.TRAINING.html">
+    <span class="icon">🂡</span>
+    <h2>HOLD'EM TRAINING</h2>
+    <p>Texas Hold'em trainer. Learn the hands. Know the odds. Also available in Arabic.</p>
+    <div class="status" style="color:#7b4fa6">▶ TRAINER</div>
+    <span class="play-btn">PLAY NOW</span>
+  </a>
+
+  <a class="game-card card-porn" href="https://raw.githack.com/alissali/Learn/main/DUNE.TAROT.PORN.html">
+    <span class="icon">🔥</span>
+    <h2>DUNE TAROT — PORN</h2>
+    <p>Nothing hidden. Nothing ashamed. The PORN GAME. Truth in perpetual operation. Belief Gate required.</p>
+    <div class="status" style="color:#b42814">☪ BELIEF GATE</div>
+    <span class="play-btn">ENTER</span>
+  </a>
+
+</div>
+
+<!-- PRICING -->
+<div class="pricing">
+  <h2>💰 ENTER THE ARCADE</h2>
+  <div class="pricing-grid">
+
+    <div class="tier free">
+      <div class="tier-icon">🐍</div>
+      <h3>PLAYER</h3>
+      <div class="price" style="color:rgba(232,213,192,0.5)">FREE</div>
+      <ul>
+        <li>Snake — full game</li>
+        <li>JuXYams — full game</li>
+        <li>Hold'em Training</li>
+        <li>DUNE TAROT Reader</li>
+      </ul>
+      <a class="buy-link" href="#" onclick="alert('Already free. Just play.')">PLAY FREE</a>
+    </div>
+
+    <div class="tier">
+      <div class="tier-icon">🎲</div>
+      <h3>CHAMPION</h3>
+      <div class="price">€6.66</div>
+      <ul>
+        <li>Everything FREE +</li>
+        <li>Monopoly — full game</li>
+        <li>DUNE TAROT GAME</li>
+        <li>Priority updates</li>
+      </ul>
+      <a class="buy-link" href="https://buy.stripe.com/dRm14pdv14VQ1qT7J41wY05">BUY €6.66</a>
+    </div>
+
+    <div class="tier featured">
+      <div class="tier-icon">🏆</div>
+      <h3>MOGUL</h3>
+      <div class="price">€22</div>
+      <ul>
+        <li>Everything CHAMPION +</li>
+        <li>DUNE TAROT PORN</li>
+        <li>All prizes unlockable</li>
+        <li>Future games included</li>
+      </ul>
+      <a class="buy-link" href="https://buy.stripe.com/9B628tdv15ZUglNbZk1wY06">BUY €22</a>
+    </div>
+
+    <div class="tier">
+      <div class="tier-icon">🎰</div>
+      <h3>FULL ARCADE</h3>
+      <div class="price">€66</div>
+      <ul>
+        <li>EVERYTHING. Forever.</li>
+        <li>SSS — Soft Sex Story</li>
+        <li>Ali Baba's Cavern</li>
+        <li>All future content</li>
+        <li>Architect's signature</li>
+      </ul>
+      <a class="buy-link" href="https://buy.stripe.com/5kQ9AVgHdaga3z10gC1wY07">BUY €66</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- SSS -->
+<div class="sss-section">
+  <h2>🐍 SSS — SOFT SEX STORY</h2>
+  <p>Born 6/6/66+60. Chapter 1: the opening.<br>IRULAN. TECHNO. MELANGE.<br>Truth in perpetual operation. Nothing hidden.</p>
+  <p style="margin-top:15px"><a href="https://raw.githack.com/alissali/Learn/main/SSS.html">Read SSS →</a></p>
+</div>
+
+<footer>
+  JuX ARCADE · <a href="https://juxitt.com">juxitt.com</a> · <a href="https://juxaos.com">juxaos.com</a><br>
+  MIT License · born 12 June 2026<br>
+  🦅 aRchitect / softwaRe expeRt / Soft SeX StoRy telleR
+</footer>
+
+</body>
+</html>

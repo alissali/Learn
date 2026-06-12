@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏠 JuX MONOPOLY — The World Is Yours</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#e8d5c0;font-family:'IBM Plex Mono',monospace;min-height:100vh;overflow-x:hidden}
+h1{font-family:'Cinzel Decorative',serif;font-size:2em;color:#e8a045;text-shadow:0 0 30px rgba(232,160,69,0.4);letter-spacing:4px;text-align:center;margin:15px 0 5px}
+.subtitle{text-align:center;font-size:0.85em;color:rgba(232,213,192,0.4);letter-spacing:6px;margin-bottom:12px}
+.game-wrap{max-width:900px;margin:0 auto;padding:0 15px}
+
+/* Board */
+.board{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:15px;max-width:700px;margin-left:auto;margin-right:auto}
+.sq{background:rgba(232,160,69,0.06);border:1px solid rgba(232,160,69,0.15);border-radius:4px;padding:6px 4px;text-align:center;font-size:0.55em;min-height:60px;display:flex;flex-direction:column;justify-content:space-between;position:relative;transition:all 0.3s;cursor:default}
+.sq:hover{border-color:rgba(232,160,69,0.5);background:rgba(232,160,69,0.1)}
+.sq .name{font-weight:600;line-height:1.2;margin-bottom:2px}
+.sq .price{color:#e8a045;font-size:0.9em}
+.sq .players{position:absolute;top:2px;right:3px;font-size:1.2em}
+.sq .owner-dot{position:absolute;bottom:2px;left:3px;width:8px;height:8px;border-radius:50%}
+.sq.special{background:rgba(46,196,182,0.08);border-color:rgba(46,196,182,0.2)}
+.sq.active{box-shadow:0 0 15px rgba(232,160,69,0.4);border-color:#e8a045}
+
+/* Players panel */
+.players-panel{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:12px}
+.p-card{border:2px solid rgba(232,213,192,0.15);border-radius:8px;padding:10px;background:rgba(255,255,255,0.02)}
+.p-card.active-player{border-color:#e8a045;box-shadow:0 0 15px rgba(232,160,69,0.2)}
+.p-card .p-name{font-family:'Cinzel Decorative',serif;font-size:1em;margin-bottom:4px}
+.p-card .p-cash{color:#2ec4b6;font-size:1.1em}
+.p-card .p-props{font-size:0.7em;color:rgba(232,213,192,0.5);margin-top:4px}
+
+/* Controls */
+.controls{text-align:center;margin:12px 0}
+.btn{background:rgba(232,160,69,0.15);border:1px solid rgba(232,160,69,0.4);color:#e8a045;font-family:'Cinzel Decorative',serif;font-size:1em;padding:10px 30px;cursor:pointer;letter-spacing:2px;transition:all 0.3s;border-radius:4px;margin:0 5px}
+.btn:hover{background:rgba(232,160,69,0.3);box-shadow:0 0 15px rgba(232,160,69,0.3)}
+.btn:disabled{opacity:0.3;cursor:not-allowed}
+.btn.buy{border-color:rgba(46,196,182,0.5);color:#2ec4b6;background:rgba(46,196,182,0.1)}
+.btn.buy:hover{background:rgba(46,196,182,0.25)}
+
+/* Log */
+.log{max-height:150px;overflow-y:auto;background:rgba(0,0,0,0.3);border:1px solid rgba(232,213,192,0.1);border-radius:6px;padding:10px;font-size:0.75em;line-height:1.6;margin-bottom:12px}
+.log .entry{border-bottom:1px solid rgba(232,213,192,0.05);padding:2px 0}
+.log .entry:last-child{border:none}
+
+/* Dice */
+.dice-area{display:flex;gap:15px;justify-content:center;align-items:center;margin:10px 0}
+.die{width:55px;height:55px;background:rgba(232,160,69,0.1);border:2px solid rgba(232,160,69,0.4);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.8em;font-family:'Cinzel Decorative',serif;color:#e8a045;transition:all 0.3s}
+.die.rolling{animation:diceRoll 0.4s ease}
+@keyframes diceRoll{0%{transform:rotate(0)}25%{transform:rotate(15deg)}50%{transform:rotate(-15deg)}75%{transform:rotate(8deg)}100%{transform:rotate(0)}}
+
+/* Card popup */
+.card-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1a28;border:2px solid #e8a045;border-radius:12px;padding:25px;text-align:center;z-index:100;max-width:350px;box-shadow:0 0 40px rgba(232,160,69,0.3);display:none}
+.card-popup h3{font-family:'Cinzel Decorative',serif;color:#e8a045;margin-bottom:12px}
+.card-popup p{line-height:1.6;margin-bottom:15px}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99;display:none}
+
+/* Setup */
+#setupScreen{text-align:center;padding:40px 20px}
+#setupScreen h2{font-family:'Cinzel Decorative',serif;color:#e8a045;font-size:1.8em;margin-bottom:25px}
+.setup-opt{margin:10px 0}
+.setup-opt label{display:block;margin-bottom:5px;color:rgba(232,213,192,0.6);font-size:0.85em}
+.setup-opt input{background:rgba(255,255,255,0.05);border:1px solid rgba(232,160,69,0.3);color:#e8d5c0;padding:8px 14px;border-radius:4px;font-family:'IBM Plex Mono',monospace;text-align:center;width:200px}
+.player-colors{display:flex;gap:12px;justify-content:center;margin:15px 0;flex-wrap:wrap}
+.p-token{font-size:2em;opacity:0.4;cursor:pointer;transition:all 0.3s}
+.p-token.selected{opacity:1;transform:scale(1.3)}
+
+/* Prizes */
+.prizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px;margin:12px 0}
+.prize{background:rgba(232,160,69,0.04);border:1px solid rgba(232,160,69,0.12);border-radius:6px;padding:6px;text-align:center;font-size:0.65em;color:rgba(232,213,192,0.35)}
+.prize.won{border-color:#e8a045;color:#e8a045;background:rgba(232,160,69,0.08)}
+.prize .icon{font-size:1.5em;display:block;margin-bottom:2px}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(232,160,69,0.95);color:#0a0a12;padding:12px 28px;border-radius:8px;font-family:'Cinzel Decorative',serif;z-index:200;opacity:0;transition:opacity 0.5s;pointer-events:none}
+.toast.show{opacity:1}
+
+footer{text-align:center;padding:15px;font-size:0.7em;color:rgba(232,213,192,0.25);letter-spacing:2px}
+footer a{color:#e8a045;text-decoration:none}
+</style>
+</head>
+<body>
+
+<h1>🏠 JuX MONOPOLY</h1>
+<div class="subtitle">T H E &nbsp; W O R L D &nbsp; I S &nbsp; Y O U R S</div>
+
+<div class="game-wrap">
+
+<!-- SETUP SCREEN -->
+<div id="setupScreen">
+  <h2>🎲 How Many Players?</h2>
+  <div class="player-colors">
+    <span class="p-token" data-n="2" onclick="selectPlayers(2)">👥 2</span>
+    <span class="p-token" data-n="3" onclick="selectPlayers(3)">👥 3</span>
+    <span class="p-token" data-n="4" onclick="selectPlayers(4)">👥 4</span>
+  </div>
+  <div id="nameInputs"></div>
+  <button class="btn" onclick="initGame()" style="margin-top:20px">🎲 ROLL THE WORLD</button>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen" style="display:none">
+  <div class="players-panel" id="playersPanel"></div>
+  <div class="dice-area">
+    <div class="die" id="die1">⚀</div>
+    <div class="die" id="die2">⚀</div>
+  </div>
+  <div class="controls" id="controls">
+    <button class="btn" id="rollBtn" onclick="rollDice()">🎲 ROLL</button>
+    <button class="btn buy" id="buyBtn" onclick="buyProperty()" style="display:none">🏠 BUY</button>
+    <button class="btn" id="endBtn" onclick="endTurn()" style="display:none">⏭ END TURN</button>
+  </div>
+  <div class="board" id="board"></div>
+  <div class="log" id="log"></div>
+  <div class="prizes" id="prizesGrid"></div>
+</div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeCard()"></div>
+<div class="card-popup" id="cardPopup"><h3 id="cardTitle"></h3><p id="cardText"></p><button class="btn" onclick="closeCard()">OK</button></div>
+<div id="toast" class="toast"></div>
+
+<footer>JuX MONOPOLY — born 12 June 2026 · Mamoun's World<br><a href="https://juxitt.com">juxitt.com</a> · MIT License</footer>
+
+<script>
+const TOKENS=['🔴','🔵','🟡','🟢'];
+const PCOLORS=['#e74c3c','#3498db','#f1c40f','#2ecc71'];
+const DICE_FACE=['⚀','⚁','⚂','⚃','⚄','⚅'];
+const audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+
+// Mamoun's 24 International Streets
+const STREETS=[
+  {name:'rue Royale',price:100,rent:8,color:'#8B4513'},
+  {name:'Strong St. Las Vegas',price:100,rent:8,color:'#8B4513'},
+  {name:'St Kilda Rd Melbourne',price:100,rent:10,color:'#8B4513'},
+  {name:'rue des Cinquante Otages',price:120,rent:12,color:'#1E90FF'},
+  {name:'Erling Skakkes gate',price:120,rent:12,color:'#1E90FF'},
+  {name:'Strong St. San Rafael',price:150,rent:16,color:'#1E90FF'},
+  {name:'ul. Filtrowa Warszawa',price:150,rent:18,color:'#FF69B4'},
+  {name:'Lyonerstr. Frankfurt',price:150,rent:18,color:'#FF69B4'},
+  {name:'N. Pendale St. S.F.',price:180,rent:20,color:'#FF69B4'},
+  {name:'Long Airport Ave NYC',price:200,rent:22,color:'#FF6347'},
+  {name:'C/ Moralzarzal 86',price:200,rent:22,color:'#FF6347'},
+  {name:'Berguvsvägen Luleå',price:200,rent:24,color:'#FF6347'},
+  {name:'Vinbæltet København',price:220,rent:26,color:'#FFD700'},
+  {name:'rue du Commerce',price:220,rent:26,color:'#FFD700'},
+  {name:'Bronz Sok. Singapore',price:240,rent:28,color:'#FFD700'},
+  {name:'Furth Circle NYC',price:250,rent:30,color:'#32CD32'},
+  {name:'Pompton St. Allentown',price:250,rent:30,color:'#32CD32'},
+  {name:'Furth Cir. Burlingame',price:260,rent:32,color:'#32CD32'},
+  {name:'Linden Rd Singapore',price:280,rent:35,color:'#9370DB'},
+  {name:'Brehmen St. Bergen',price:280,rent:35,color:'#9370DB'},
+  {name:'Spinnaker Dr. N.Haven',price:300,rent:40,color:'#9370DB'},
+  {name:'Estrada da saúde Lisboa',price:300,rent:45,color:'#e8a045'},
+  {name:'Mazzeh Villat Damascus',price:350,rent:50,color:'#e8a045'}
+];
+
+const CC_CARDS=[
+  {text:'Advance to Go! Collect $200',action:'goto',val:0,amount:200},
+  {text:'Bank error in your favor. Collect $200',action:'gain',val:200},
+  {text:"Doctor's fee. Pay $50",action:'lose',val:50},
+  {text:'From sale of stock you get $50',action:'gain',val:50},
+  {text:'Get Out of Jail Free!',action:'jail_free',val:0},
+  {text:'Go to Jail!',action:'jail',val:0},
+  {text:'Holiday fund matures. Receive $100',action:'gain',val:100},
+  {text:'Income tax refund. Collect $20',action:'gain',val:20},
+  {text:'It is your birthday! Collect $10 from every player',action:'birthday',val:10},
+  {text:'Life insurance matures. Collect $100',action:'gain',val:100},
+  {text:'Pay hospital fees of $100',action:'lose',val:100},
+  {text:'Pay school fees of $50',action:'lose',val:50},
+  {text:'Receive $25 consultancy fee',action:'gain',val:25},
+  {text:'You have won second prize in a beauty contest! Collect $10',action:'gain',val:10},
+  {text:'You inherit $100',action:'gain',val:100}
+];
+
+const CHANCE_CARDS=[
+  {text:'Advance to Vinbæltet København!',action:'goto',val:20},
+  {text:'Advance to Go! Collect $200',action:'goto',val:0,amount:200},
+  {text:'Advance to rue des Cinquante Otages. If you pass Go, collect $200.',action:'goto',val:6},
+  {text:'Advance to N. Pendale St. San Fran. If you pass Go, collect $200.',action:'goto',val:14},
+  {text:'Bank pays you dividend of $50.',action:'gain',val:50},
+  {text:'Get Out of Jail Free!',action:'jail_free',val:0},
+  {text:'Go Back 3 Spaces.',action:'back',val:3},
+  {text:'Go to Jail!',action:'jail',val:0},
+  {text:'Speeding fine $15.',action:'lose',val:15},
+  {text:'Your building loan matures. Collect $150',action:'gain',val:150},
+  {text:'You have been elected Chairman. Pay each player $50.',action:'chairman',val:50}
+];
+
+// Build the board: 28 squares in a loop
+// Layout: GO, 3 streets, CC, 3 streets, JAIL, 3 streets, CHANCE, 3 streets, FREE_PARKING, 3 streets, CC, 3 streets, GO_TO_JAIL, 2 streets
+let BOARD=[];
+let streetIdx=0;
+function addStreet(){if(streetIdx<STREETS.length){BOARD.push({type:'property',...STREETS[streetIdx]});streetIdx++}else{BOARD.push({type:'empty',name:'★'})}}
+
+BOARD.push({type:'go',name:'__86__ GO',icon:'🏁'});
+addStreet();addStreet();addStreet();
+BOARD.push({type:'cc',name:'Community Chest',icon:'📦'});
+addStreet();addStreet();addStreet();
+BOARD.push({type:'jail',name:'JAIL',icon:'🔒'});
+addStreet();addStreet();addStreet();
+BOARD.push({type:'chance',name:'Chance',icon:'❓'});
+addStreet();addStreet();addStreet();
+BOARD.push({type:'tax',name:'TAX $100',icon:'💰'});
+addStreet();addStreet();addStreet();
+BOARD.push({type:'cc',name:'Community Chest',icon:'📦'});
+addStreet();addStreet();addStreet();
+BOARD.push({type:'gotojail',name:'GO TO JAIL',icon:'🚔'});
+addStreet();addStreet();
+
+const SQ_COUNT=BOARD.length;
+
+// Game state
+let players=[],currentPlayer=0,numPlayers=2,gameActive=false,canBuy=false,currentSquare=null;
+
+// Prizes
+const PRIZES=[
+  {id:'first_roll',name:'First Roll',icon:'🎲',desc:'Roll the dice'},
+  {id:'first_buy',name:'Landlord',icon:'🏠',desc:'Buy your first property'},
+  {id:'five_props',name:'Mogul',icon:'🏢',desc:'Own 5 properties'},
+  {id:'millionaire',name:'Millionaire',icon:'💎',desc:'Have $2000+'},
+  {id:'jailbird',name:'Jailbird',icon:'🔒',desc:'Go to jail'},
+  {id:'taxman',name:'Taxman',icon:'💰',desc:'Pay taxes'},
+  {id:'globetrotter',name:'Globetrotter',icon:'🌍',desc:'Go around the board'},
+  {id:'lucky',name:'Lucky Card',icon:'🃏',desc:'Draw 5 cards'},
+  {id:'damascus',name:'Mazzeh Villat',icon:'🕌',desc:'Own Damascus'}
+];
+let wonPrizes=new Set(JSON.parse(localStorage.getItem('mono_prizes')||'[]'));
+let cardsDrawn=parseInt(localStorage.getItem('mono_cards')||'0');
+
+function savePrizes(){localStorage.setItem('mono_prizes',JSON.stringify([...wonPrizes]))}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function checkPrize(id){if(!wonPrizes.has(id)){wonPrizes.add(id);savePrizes();showToast('🏆 '+PRIZES.find(p=>p.id===id).name+'!');playSound(800,0.15);renderPrizes()}}
+
+function renderPrizes(){
+  document.getElementById('prizesGrid').innerHTML=PRIZES.map(p=>`<div class="prize ${wonPrizes.has(p.id)?'won':''}"><span class="icon">${p.icon}</span>${p.name}</div>`).join('');
+}
+
+function playSound(f,d,t='square'){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=t;o.frequency.value=f;g.gain.setValueAtTime(0.1,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+d);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d)}
+
+function selectPlayers(n){
+  numPlayers=n;
+  document.querySelectorAll('.p-token').forEach(t=>{t.classList.toggle('selected',parseInt(t.dataset.n)===n)});
+  let html='';
+  for(let i=0;i<n;i++){html+=`<div class="setup-opt"><label>${TOKENS[i]} Player ${i+1}</label><input id="pname${i}" value="Player ${i+1}" maxlength="12"></div>`}
+  document.getElementById('nameInputs').innerHTML=html;
+}
+selectPlayers(2);
+
+function initGame(){
+  players=[];
+  for(let i=0;i<numPlayers;i++){
+    const nameEl=document.getElementById('pname'+i);
+    players.push({name:nameEl?nameEl.value:'Player '+(i+1),token:TOKENS[i],color:PCOLORS[i],pos:0,cash:1500,properties:[],inJail:false,jailTurns:0,jailFree:false,laps:0,bankrupt:false});
+  }
+  currentPlayer=0;gameActive=true;canBuy=false;
+  document.getElementById('setupScreen').style.display='none';
+  document.getElementById('gameScreen').style.display='block';
+  renderBoard();renderPlayers();renderPrizes();
+  log(players[0].token+' '+players[0].name+' goes first!');
+  if(audioCtx.state==='suspended')audioCtx.resume();
+}
+
+function renderBoard(){
+  const boardEl=document.getElementById('board');
+  boardEl.innerHTML=BOARD.map((sq,i)=>{
+    const isSpecial=sq.type!=='property';
+    const playersHere=players.filter(p=>p.pos===i&&!p.bankrupt).map(p=>p.token).join('');
+    const ownerDot=sq.owner!==undefined?`<div class="owner-dot" style="background:${PCOLORS[sq.owner]}"></div>`:'';
+    const colorBar=sq.color?`<div style="background:${sq.color};height:4px;border-radius:2px;margin-bottom:3px"></div>`:'';
+    const active=players[currentPlayer]&&players[currentPlayer].pos===i?' active':'';
+    if(isSpecial){
+      return `<div class="sq special${active}" data-i="${i}"><div class="players">${playersHere}</div><div style="font-size:1.8em">${sq.icon||''}</div><div class="name">${sq.name}</div></div>`;
+    }
+    return `<div class="sq${active}" data-i="${i}">${colorBar}<div class="players">${playersHere}</div><div class="name">${sq.name}</div><div class="price">$${sq.price}</div>${ownerDot}</div>`;
+  }).join('');
+}
+
+function renderPlayers(){
+  document.getElementById('playersPanel').innerHTML=players.map((p,i)=>{
+    const active=i===currentPlayer&&!p.bankrupt?' active-player':'';
+    const status=p.bankrupt?' 💀 BANKRUPT':p.inJail?' 🔒 IN JAIL':'';
+    const propCount=p.properties.length;
+    return `<div class="p-card${active}"><div class="p-name" style="color:${p.color}">${p.token} ${p.name}${status}</div><div class="p-cash">$${p.cash}</div><div class="p-props">${propCount} properties</div></div>`;
+  }).join('');
+}
+
+function log(msg){
+  const logEl=document.getElementById('log');
+  logEl.innerHTML=`<div class="entry">${msg}</div>`+logEl.innerHTML;
+  if(logEl.children.length>50)logEl.removeChild(logEl.lastChild);
+}
+
+function rollDice(){
+  if(!gameActive)return;
+  const p=players[currentPlayer];
+  if(p.bankrupt){nextPlayer();return}
+
+  const d1=Math.floor(Math.random()*6)+1,d2=Math.floor(Math.random()*6)+1;
+  const total=d1+d2;
+  document.getElementById('die1').textContent=DICE_FACE[d1-1];
+  document.getElementById('die2').textContent=DICE_FACE[d2-1];
+  document.getElementById('die1').classList.add('rolling');
+  document.getElementById('die2').classList.add('rolling');
+  setTimeout(()=>{document.getElementById('die1').classList.remove('rolling');document.getElementById('die2').classList.remove('rolling')},400);
+  playSound(300,0.1);
+  checkPrize('first_roll');
+
+  if(p.inJail){
+    if(d1===d2){p.inJail=false;p.jailTurns=0;log(p.token+' DOUBLES! Out of jail!')}
+    else if(p.jailFree){p.inJail=false;p.jailTurns=0;p.jailFree=false;log(p.token+' uses Get Out of Jail Free!')}
+    else{p.jailTurns++;if(p.jailTurns>=3){p.inJail=false;p.jailTurns=0;p.cash-=50;log(p.token+' pays $50 bail')}else{log(p.token+' stuck in jail ('+p.jailTurns+'/3)');document.getElementById('rollBtn').style.display='none';document.getElementById('endBtn').style.display='inline-block';renderPlayers();return}}
+  }
+
+  const oldPos=p.pos;
+  p.pos=(p.pos+total)%SQ_COUNT;
+  if(p.pos<oldPos){p.cash+=200;p.laps++;log(p.token+' passed GO! +$200');if(p.laps>=1)checkPrize('globetrotter')}
+
+  const sq=BOARD[p.pos];
+  log(p.token+' rolled '+d1+'+'+d2+'='+total+' → '+sq.name);
+
+  document.getElementById('rollBtn').style.display='none';
+  handleSquare(p,sq);
+  renderBoard();renderPlayers();
+}
+
+function handleSquare(p,sq){
+  canBuy=false;
+  document.getElementById('buyBtn').style.display='none';
+
+  if(sq.type==='property'){
+    if(sq.owner===undefined){
+      if(p.cash>=sq.price){canBuy=true;currentSquare=sq;document.getElementById('buyBtn').style.display='inline-block';log('💡 '+sq.name+' available for $'+sq.price)}
+    }else if(sq.owner!==currentPlayer){
+      const owner=players[sq.owner];
+      if(!owner.bankrupt){
+        p.cash-=sq.rent;owner.cash+=sq.rent;
+        log(p.token+' pays $'+sq.rent+' rent to '+owner.token);
+        playSound(200,0.15,'sawtooth');
+        if(p.cash<=0)goBankrupt(p);
+      }
+    }else{log(p.token+' is home at '+sq.name)}
+  }
+  else if(sq.type==='cc'){drawCard(p,CC_CARDS,'Community Chest','📦')}
+  else if(sq.type==='chance'){drawCard(p,CHANCE_CARDS,'Chance','❓')}
+  else if(sq.type==='tax'){p.cash-=100;log(p.token+' pays $100 tax');checkPrize('taxman');if(p.cash<=0)goBankrupt(p)}
+  else if(sq.type==='gotojail'){sendToJail(p)}
+  else if(sq.type==='go'){/* already collected */}
+
+  document.getElementById('endBtn').style.display='inline-block';
+  renderPlayers();
+}
+
+function drawCard(p,deck,title,icon){
+  cardsDrawn++;localStorage.setItem('mono_cards',cardsDrawn);
+  if(cardsDrawn>=5)checkPrize('lucky');
+  const card=deck[Math.floor(Math.random()*deck.length)];
+  showCard(icon+' '+title,card.text);
+  if(card.action==='gain'){p.cash+=card.val;log(p.token+' gains $'+card.val)}
+  else if(card.action==='lose'){p.cash-=card.val;log(p.token+' pays $'+card.val);if(p.cash<=0)goBankrupt(p)}
+  else if(card.action==='goto'){const oldPos=p.pos;p.pos=card.val;if(card.amount)p.cash+=card.amount;if(p.pos<oldPos){p.cash+=200;p.laps++}log(p.token+' moves to '+BOARD[p.pos].name);renderBoard()}
+  else if(card.action==='jail'){sendToJail(p)}
+  else if(card.action==='jail_free'){p.jailFree=true;log(p.token+' gets Jail Free card!')}
+  else if(card.action==='back'){p.pos=(p.pos-card.val+SQ_COUNT)%SQ_COUNT;log(p.token+' goes back to '+BOARD[p.pos].name);handleSquare(p,BOARD[p.pos]);renderBoard()}
+  else if(card.action==='birthday'){const amt=card.val*(players.filter(x=>!x.bankrupt).length-1);p.cash+=amt;players.forEach((x,i)=>{if(i!==currentPlayer&&!x.bankrupt)x.cash-=card.val});log(p.token+' birthday! +$'+amt)}
+  else if(card.action==='chairman'){const amt=card.val*(players.filter(x=>!x.bankrupt).length-1);p.cash-=amt;players.forEach((x,i)=>{if(i!==currentPlayer&&!x.bankrupt)x.cash+=card.val});log(p.token+' chairman pays $'+amt)}
+  renderPlayers();
+}
+
+function showCard(title,text){
+  document.getElementById('cardTitle').textContent=title;
+  document.getElementById('cardText').textContent=text;
+  document.getElementById('cardPopup').style.display='block';
+  document.getElementById('overlay').style.display='block';
+}
+function closeCard(){document.getElementById('cardPopup').style.display='none';document.getElementById('overlay').style.display='none'}
+
+function sendToJail(p){p.inJail=true;p.jailTurns=0;p.pos=8;log(p.token+' goes to JAIL! 🔒');checkPrize('jailbird');playSound(150,0.3,'sawtooth');renderBoard()}
+
+function buyProperty(){
+  if(!canBuy||!currentSquare)return;
+  const p=players[currentPlayer];
+  p.cash-=currentSquare.price;
+  currentSquare.owner=currentPlayer;
+  p.properties.push(currentSquare.name);
+  log(p.token+' buys '+currentSquare.name+' for $'+currentSquare.price);
+  playSound(600,0.15,'sine');
+  checkPrize('first_buy');
+  if(p.properties.length>=5)checkPrize('five_props');
+  if(p.cash>=2000)checkPrize('millionaire');
+  if(currentSquare.name.includes('Mazzeh'))checkPrize('damascus');
+  canBuy=false;
+  document.getElementById('buyBtn').style.display='none';
+  renderBoard();renderPlayers();
+}
+
+function goBankrupt(p){
+  p.bankrupt=true;p.cash=0;
+  log('💀 '+p.token+' '+p.name+' is BANKRUPT!');
+  playSound(100,0.5,'sawtooth');
+  // Release properties
+  BOARD.forEach(sq=>{if(sq.owner===players.indexOf(p))sq.owner=undefined});
+  p.properties=[];
+  // Check if game over
+  const alive=players.filter(x=>!x.bankrupt);
+  if(alive.length===1){
+    log('🏆 '+alive[0].token+' '+alive[0].name+' WINS! THE WORLD IS THEIRS!');
+    gameActive=false;showToast('🏆 '+alive[0].name+' WINS!');
+  }
+  renderBoard();renderPlayers();
+}
+
+function endTurn(){
+  if(!gameActive)return;
+  do{currentPlayer=(currentPlayer+1)%numPlayers}while(players[currentPlayer].bankrupt&&players.filter(x=>!x.bankrupt).length>1);
+  canBuy=false;
+  document.getElementById('rollBtn').style.display='inline-block';
+  document.getElementById('buyBtn').style.display='none';
+  document.getElementById('endBtn').style.display='none';
+  const p=players[currentPlayer];
+  if(p.cash>=2000)checkPrize('millionaire');
+  log('— '+p.token+' '+p.name+"'s turn —");
+  renderBoard();renderPlayers();
+}
+</script>
+</body>
+</html>
