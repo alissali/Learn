@@ -305,6 +305,17 @@ td.current-player {
   color: var(--muted);
   margin-bottom: 24px;
 }
+/* PRIZES */
+.prizes-bar{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:14px;margin:0 28px 10px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.prize-badge{background:rgba(46,196,182,0.05);border:1px solid rgba(46,196,182,0.15);border-radius:6px;padding:6px 10px;text-align:center;font-size:0.7rem;color:var(--muted);transition:all 0.3s}
+.prize-badge.won{border-color:var(--amber);color:var(--amber);background:var(--amber-light)}
+.prize-badge .icon{font-size:1.3em;display:block;margin-bottom:2px}
+#toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--amber);color:white;padding:12px 24px;border-radius:8px;font-family:var(--mono);font-size:0.85rem;z-index:200;transition:transform 0.4s ease;box-shadow:0 4px 20px rgba(232,160,69,0.4)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+.stripe-bar{text-align:center;padding:16px 28px;border-top:2px solid var(--border);margin-top:10px;background:var(--surface)}
+.stripe-bar a{display:inline-block;margin:0 8px;padding:8px 18px;border:1.5px solid var(--amber);border-radius:6px;color:var(--amber);text-decoration:none;font-family:var(--mono);font-size:0.8rem;transition:all 0.2s}
+.stripe-bar a:hover{background:var(--amber);color:white}
+.prize-counter{font-family:var(--mono);font-size:0.8rem;color:var(--muted);text-align:center;margin:4px 0}
 </style>
 </head>
 <body>
@@ -752,6 +763,40 @@ function renderTable() {
 
 /* ── START ── */
 newGame();
+/* ── PRIZES ── */
+const YAMS_PRIZES=[
+{id:'first_roll',name:'First Roll',icon:'🎲',desc:'Roll the dice'},
+{id:'yams',name:'YAMS!',icon:'🎯',desc:'Score a Yams'},
+{id:'full',name:'Full House',icon:'🏠',desc:'Score a Full'},
+{id:'grande',name:'Grand Suite',icon:'📏',desc:'Score Grande Suite'},
+{id:'petite',name:'Petite Suite',icon:'📐',desc:'Score Petite Suite'},
+{id:'carre',name:'Carré',icon:'🎰',desc:'Score a Carré'},
+{id:'bonus',name:'Bonus!',icon:'⭐',desc:'Get the 63+ bonus'},
+{id:'winner',name:'Victor',icon:'🏆',desc:'Win a game'},
+{id:'perfect',name:'Perfect Game',icon:'💎',desc:'Win with 300+ pts'}
+];
+let yWon=new Set(JSON.parse(localStorage.getItem('yams_prizes')||'[]'));
+function ySave(){localStorage.setItem('yams_prizes',JSON.stringify([...yWon]))}
+function yToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function yCheck(id){if(yWon.has(id))return;yWon.add(id);ySave();const p=YAMS_PRIZES.find(x=>x.id===id);if(p)yToast('🏆 '+p.name+'! — '+p.desc);yRender()}
+function yRender(){const c=document.getElementById('prizesBar');if(!c)return;c.innerHTML=YAMS_PRIZES.map(p=>'<div class="prize-badge'+(yWon.has(p.id)?' won':'')+'">'+'<span class="icon">'+p.icon+'</span>'+p.name+'</div>').join('');document.getElementById('prizeCount').textContent=yWon.size}
+/* Hook into existing game */
+const _origLancer=lancer;
+lancer=function(){_origLancer();yCheck('first_roll')};
+const _origValider=valider;
+valider=function(){const fig=state.selected;_origValider();if(fig>=0){const f=FIGURES[fig];if(f.name==='Yams')yCheck('yams');if(f.name==='Full')yCheck('full');if(f.name==='G. Suite')yCheck('grande');if(f.name==='P. Suite')yCheck('petite');if(f.name==='Carré')yCheck('carre')}};
+const _origEndGame=endGame;
+endGame=function(){_origEndGame();const t0=computeTotal(state.scores[0]);const t1=computeTotal(state.scores[1]);const b0=computeBonus(state.scores[0]);const b1=computeBonus(state.scores[1]);if(b0>0||b1>0)yCheck('bonus');yCheck('winner');if(Math.max(t0,t1)>=300)yCheck('perfect')};
+yRender();
 </script>
+<div id="toast"></div>
+<div class="prizes-bar" id="prizesBar"></div>
+<div class="prize-counter">🏆 <span id="prizeCount">0</span>/9</div>
+<div class="stripe-bar">
+<a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">🎰 ARCADE</a>
+<a href="https://buy.stripe.com/9B6bJ31Mj4VQ2uX1kG1wY0a">🎲 CHAMPION €6.66</a>
+<a href="https://buy.stripe.com/fZu14pez5gEy6Ldfbw1wY0b">🏆 MOGUL €22</a>
+<a href="https://buy.stripe.com/fZucN71Mj73YedFd3o1wY0c">🎰 FULL ARCADE €66</a>
+</div>
 </body>
 </html>

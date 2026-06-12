@@ -30,6 +30,9 @@ h1{font-family:'Cinzel Decorative',serif;font-size:2.2em;color:#2ec4b6;text-shad
 .ctrl-btn:active{background:rgba(46,196,182,0.3)}
 footer{margin:15px 0 20px;text-align:center;font-size:0.75em;color:rgba(232,213,192,0.3);letter-spacing:2px}
 footer a{color:#2ec4b6;text-decoration:none}
+.stripe-snake{text-align:center;padding:12px;border-top:1px solid rgba(232,160,69,0.15)}
+.stripe-snake a{display:inline-block;margin:0 6px;padding:6px 14px;border:1px solid rgba(232,160,69,0.3);border-radius:4px;color:#e8a045;text-decoration:none;font-size:0.75rem;font-family:'Cinzel Decorative',serif;transition:all 0.3s}
+.stripe-snake a:hover{background:rgba(232,160,69,0.1)}
 </style>
 </head>
 <body>
@@ -201,6 +204,12 @@ function resize(){
   const sz=Math.floor(maxW/COLS)*COLS;
   canvas.style.width=sz+'px';canvas.style.height=sz+'px';
 }
+<div class="stripe-snake">
+<a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">🎰 ARCADE</a>
+<a href="https://buy.stripe.com/9B6bJ31Mj4VQ2uX1kG1wY0a">🎲 €6.66</a>
+<a href="https://buy.stripe.com/fZu14pez5gEy6Ldfbw1wY0b">🏆 €22</a>
+<a href="https://buy.stripe.com/fZucN71Mj73YedFd3o1wY0c">🎰 €66</a>
+</div>
 resize();window.addEventListener('resize',resize);
 draw();
 </script>

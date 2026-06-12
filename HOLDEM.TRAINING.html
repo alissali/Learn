@@ -192,6 +192,11 @@ body {
   display: flex;
   justify-content: space-between;
 }
+.prizes-hld{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.9);border-top:1px solid rgba(232,160,69,0.2);padding:8px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;z-index:100}
+.ph{font-size:0.65rem;padding:4px 8px;border:1px solid rgba(232,160,69,0.15);border-radius:4px;color:rgba(232,213,192,0.3)}
+.ph.won{border-color:#e8a045;color:#e8a045;background:rgba(232,160,69,0.1)}
+#htoast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:#e8a045;color:#010206;padding:10px 20px;border-radius:6px;font-size:0.85rem;z-index:200;transition:transform 0.4s}
+#htoast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
@@ -377,6 +382,17 @@ compare(best_hand(P1), best_hand(P2)) → winner</div>
   </div>
 
   <div class="footer">
+<div id="htoast"></div>
+<div class="prizes-hld" id="hPrizes"></div>
+<script>
+const HP=[{id:'first_hand',n:'First Hand',i:'🃏'},{id:'pair',n:'Pair',i:'👫'},{id:'two_pair',n:'Two Pair',i:'✌️'},{id:'trips',n:'Three of a Kind',i:'🎯'},{id:'straight',n:'Straight',i:'📏'},{id:'flush',n:'Flush',i:'💧'},{id:'full_house',n:'Full House',i:'🏠'},{id:'quads',n:'Four of a Kind',i:'🎰'},{id:'streak',n:'Hot Streak',i:'🔥'}];
+let hW=new Set(JSON.parse(localStorage.getItem('holdem_prizes')||'[]'));
+function hS(){localStorage.setItem('holdem_prizes',JSON.stringify([...hW]))}
+function hT(m){const t=document.getElementById('htoast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function hC(id){if(hW.has(id))return;hW.add(id);hS();const p=HP.find(x=>x.id===id);if(p)hT('🏆 '+p.n+'!');hR()}
+function hR(){const c=document.getElementById('hPrizes');c.innerHTML=HP.map(p=>'<div class="ph'+(hW.has(p.id)?' won':'')+'">'+p.i+' '+p.n+'</div>').join('')}
+hR();
+</script>
     <span>JuX · AOS · HOLDEM.TRAINING</span>
     <span>MIT — Open. Free. Forever.</span>
   </div>
