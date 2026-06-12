@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JuX ARCADE — Build Timeline</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23e8a045' x='25' y='25' width='50' height='50' rx='4' transform='rotate(45 50 50)'/></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#e8d5c0;font-family:monospace;min-height:100vh}
+.hdr{text-align:center;padding:30px 20px;border-bottom:2px solid #e8a045}
+.hdr h1{font-family:'Cinzel Decorative',serif;color:#e8a045;font-size:1.6em;letter-spacing:4px}
+.hdr p{color:#666;font-size:.8em;margin-top:5px}
+.tl{max-width:700px;margin:30px auto;padding:0 20px;position:relative}
+.tl::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#e8a045,#1a0a2e)}
+.ev{position:relative;padding:0 0 25px 50px}
+.ev::before{content:'';position:absolute;left:14px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid #e8a045;background:#0a0a12;z-index:1}
+.ev.major::before{background:#e8a045;box-shadow:0 0 10px rgba(232,160,69,.5)}
+.ev .date{color:#e8a045;font-size:.75em;letter-spacing:1px}
+.ev .title{color:#e8d5c0;font-size:.95em;margin:4px 0;font-weight:bold}
+.ev .desc{color:#888;font-size:.78em;line-height:1.5}
+.ev .tags{margin-top:5px}
+.tag{display:inline-block;padding:1px 7px;border-radius:3px;font-size:.65em;margin:2px;border:1px solid}
+.tag.game{border-color:#e8a045;color:#e8a045}
+.tag.infra{border-color:#4fc3f7;color:#4fc3f7}
+.tag.biz{border-color:#4caf50;color:#4caf50}
+.tag.story{border-color:#f48fb1;color:#f48fb1}
+.tag.art{border-color:#ce93d8;color:#ce93d8}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:700px;margin:0 auto 30px;padding:0 20px}
+.stat{background:rgba(15,15,25,.95);border:1px solid #1a1a2e;border-radius:8px;padding:12px;text-align:center}
+.stat .v{color:#e8a045;font-size:1.5em;font-family:'Cinzel Decorative',serif}
+.stat .l{color:#666;font-size:.65em;margin-top:2px;letter-spacing:1px}
+a.back{display:block;text-align:center;color:#e8a045;text-decoration:none;padding:15px;font-size:.85em}
+</style>
+</head>
+<body>
+<div class="hdr">
+<h1>📅 BUILD TIMELINE</h1>
+<p>Every round. Every commit. The full record.</p>
+</div>
+<div class="stats">
+<div class="stat"><div class="v">22</div><div class="l">ROUNDS</div></div>
+<div class="stat"><div class="v">110+</div><div class="l">DELIVERABLES</div></div>
+<div class="stat"><div class="v">25+</div><div class="l">COMMITS</div></div>
+<div class="stat"><div class="v">1</div><div class="l">SESSION</div></div>
+</div>
+<div class="tl">
+
+<div class="ev major">
+<div class="date">12 JUN 2026 — ROUND 1-4</div>
+<div class="title">🏗️ FOUNDATION</div>
+<div class="desc">OG tags (18 pages) · Favicon (20 pages) · CHANGELOG for both repos · PWA manifest + service worker → ARCADE installable + offline</div>
+<div class="tags"><span class="tag infra">infrastructure</span></div>
+</div>
+
+<div class="ev">
+<div class="date">ROUND 5-6</div>
+<div class="title">🔍 AUDIT & QR</div>
+<div class="desc">Page size audit (TAROT 2.3MB = correct) · 6 QR codes generated · QR-SHEET.png printable · Digital business card with vCard</div>
+<div class="tags"><span class="tag infra">infrastructure</span><span class="tag biz">business</span></div>
+</div>
+
+<div class="ev">
+<div class="date">ROUND 7-8</div>
+<div class="title">📡 STATUS & LEGAL</div>
+<div class="desc">Status monitor (21 services, 60s refresh) · Privacy Policy + Terms of Service · humans.txt · RSS feed · Thank You page (confetti)</div>
+<div class="tags"><span class="tag infra">infrastructure</span><span class="tag biz">business</span></div>
+</div>
+
+<div class="ev major">
+<div class="date">ROUND 9-10</div>
+<div class="title">💳 COMMERCE</div>
+<div class="desc">JuXNews email template · Legal footer (11 pages) · JSON-LD structured data (13 products) · JuX MANIFESTO (about.html)</div>
+<div class="tags"><span class="tag biz">business</span><span class="tag infra">SEO</span></div>
+</div>
+
+<div class="ev">
+<div class="date">ROUND 11-12</div>
+<div class="title">♿ ACCESSIBILITY & SEO</div>
+<div class="desc">Skip-to-content · Focus outlines · Canonical URLs (23 pages) · Email signature · Twitter Cards (23 pages)</div>
+<div class="tags"><span class="tag infra">accessibility</span><span class="tag infra">SEO</span></div>
+</div>
+
+<div class="ev major">
+<div class="date">ROUND 13-14</div>
+<div class="title">🛒 THE SHOP + MINIFICATION</div>
+<div class="desc">shop.html — 13 products, all buy buttons · HTML minification (16 pages trimmed) · ARCADE v3: Hall of Fame (48 prizes), Web Audio, Daily Challenge</div>
+<div class="tags"><span class="tag biz">business</span><span class="tag game">game</span></div>
+</div>
+
+<div class="ev">
+<div class="date">ROUND 15-16</div>
+<div class="title">🗺️ INFRASTRUCTURE</div>
+<div class="desc">Gateway + sitemap.html + sitemap.xml updated · 80+ deliverables milestone · "Scatter them across the universe"</div>
+<div class="tags"><span class="tag infra">infrastructure</span></div>
+</div>
+
+<div class="ev major">
+<div class="date">ROUND 17</div>
+<div class="title">🎪 ARCADE v4 — CINEMA</div>
+<div class="desc">Boot Sequence (neon letters, coin drop, system log) · Stats Dashboard (6 games, rank system) · Challenge Cards (canvas, PNG, share)</div>
+<div class="tags"><span class="tag game">arcade</span><span class="tag art">visual</span></div>
+</div>
+
+<div class="ev major">
+<div class="date">ROUND 18</div>
+<div class="title">🎬 ARCADE v5 — SPECTACLE</div>
+<div class="desc">Trailer (9 scenes, countdown, auto-play) · 12 Achievements (cross-game, persistent) · Star Map (constellation, particles)</div>
+<div class="tags"><span class="tag game">arcade</span><span class="tag art">visual</span></div>
+</div>
+
+<div class="ev">
+<div class="date">ROUND 19</div>
+<div class="title">📜 ARCADE v6 — KNOWLEDGE</div>
+<div class="desc">Player Guide (rules, controls, all prizes) · Print Poster (A4 dark, QR) · Radio (ambient synth, toggleable)</div>
+<div class="tags"><span class="tag game">arcade</span><span class="tag biz">print</span></div>
+</div>
+
+<div class="ev major">
+<div class="date">ROUND 20 — THE HUNDRED</div>
+<div class="title">⚔️ MULTIPLAYER + COMMERCE + SOCIAL</div>
+<div class="desc">Tournament Mode (2-8 players, bracket) · Cavern Menu Card (A4 print, 17 products) · Link Tree (16 links, social bio)</div>
+<div class="tags"><span class="tag game">multiplayer</span><span class="tag biz">business</span></div>
+</div>
+
+<div class="ev major">
+<div class="date">ROUND 21</div>
+<div class="title">📰 NEWS + UNIVERSE + COMMAND</div>
+<div class="desc">JuXNews Edition 3 (The Hundred dispatch) · Universe Map (36 nodes, interactive) · Command Center (admin dashboard, live checks)</div>
+<div class="tags"><span class="tag infra">admin</span><span class="tag art">visual</span></div>
+</div>
+
+<div class="ev major">
+<div class="date">ROUND 22</div>
+<div class="title">📦 PRESS + TIMELINE + REWARDS</div>
+<div class="desc">Press Kit (media page) · This timeline · Daily Rewards (login streak, retention engine)</div>
+<div class="tags"><span class="tag biz">media</span><span class="tag game">retention</span></div>
+</div>
+
+</div>
+<a class="back" href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">◆ Back to ARCADE</a>
+</body>
+</html>

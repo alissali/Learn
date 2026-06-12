@@ -105,6 +105,22 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
     <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a0f">
 <link rel="canonical" href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">
+
+<style>
+.rewards-bar{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#1a0a2e,#0a0a12);border-bottom:1px solid #e8a045;padding:8px 15px;display:flex;align-items:center;justify-content:center;gap:15px;z-index:9999;font-family:monospace;font-size:.75em}
+.rewards-bar .streak{color:#e8a045;font-weight:bold}
+.rewards-bar .dots{display:flex;gap:4px}
+.rewards-bar .dot{width:18px;height:18px;border-radius:50%;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-size:.65em}
+.rewards-bar .dot.earned{border-color:#e8a045;background:rgba(232,160,69,.2);color:#e8a045}
+.rewards-bar .dot.today{border-color:#4caf50;background:rgba(76,175,80,.2);color:#4caf50;animation:pulse 1.5s infinite}
+.rewards-bar .claim-btn{padding:3px 10px;border:1px solid #4caf50;color:#4caf50;background:none;border-radius:4px;cursor:pointer;font-family:monospace;font-size:.85em}
+.rewards-bar .claim-btn:hover{background:rgba(76,175,80,.15)}
+.rewards-bar .claim-btn.claimed{border-color:#666;color:#666;cursor:default}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.rewards-toast{position:fixed;top:50px;left:50%;transform:translateX(-50%);background:#e8a045;color:#0a0a12;padding:8px 20px;border-radius:6px;font-family:monospace;font-size:.85em;font-weight:bold;z-index:10000;opacity:0;transition:opacity .3s}
+.rewards-toast.show{opacity:1}
+</style>
+
 </head>
 <body>
 <div id="bootOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0a12;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer" onclick="skipBoot()">
@@ -466,5 +482,44 @@ window.toggleRadio=function(){
 };
 })();
 </script>
+
+<script>
+(function(){
+const REWARDS=['🎯','⭐','🔥','💎','👑','🏆','🌟'];
+const MSGS=['Day 1: Welcome back!','Day 2: On a roll!','Day 3: Hat trick! 🎩','Day 4: Dedicated!','Day 5: Unstoppable!','Day 6: Legend status!','Day 7: WEEKLY CHAMPION! 🏆'];
+const k='jux_arcade_streak';
+let data=JSON.parse(localStorage.getItem(k)||'{"streak":0,"lastVisit":"","claimed":false}');
+const today=new Date().toDateString();
+if(data.lastVisit!==today){
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  if(data.lastVisit===yesterday){data.streak=Math.min(data.streak+1,7)}
+  else if(data.lastVisit){data.streak=1}
+  else{data.streak=1}
+  data.lastVisit=today;data.claimed=false;
+  localStorage.setItem(k,JSON.stringify(data));
+}
+const bar=document.createElement('div');bar.className='rewards-bar';
+let dots='';
+for(let i=1;i<=7;i++){
+  let cls=i<=data.streak?(i===data.streak?'dot today':'dot earned'):'dot';
+  dots+=`<span class="${cls}">${i<=data.streak?REWARDS[i-1]:i}</span>`;
+}
+bar.innerHTML=`<span class="streak">🔥 ${data.streak}-DAY STREAK</span><span class="dots">${dots}</span>`+
+  (data.claimed?`<span class="claim-btn claimed">✓ Claimed</span>`:`<button class="claim-btn" id="claim-reward">🎁 Claim</button>`);
+document.body.style.paddingTop='45px';
+document.body.insertBefore(bar,document.body.firstChild);
+const toast=document.createElement('div');toast.className='rewards-toast';document.body.appendChild(toast);
+if(!data.claimed){
+  const btn=document.getElementById('claim-reward');
+  if(btn)btn.onclick=function(){
+    data.claimed=true;localStorage.setItem(k,JSON.stringify(data));
+    this.textContent='✓ Claimed';this.className='claim-btn claimed';
+    toast.textContent=MSGS[data.streak-1];toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),3000);
+  };
+}
+})();
+</script>
+
 </body>
 </html>
