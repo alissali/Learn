@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JuX ARCADE — STATS DASHBOARD</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 30,16 16,30 2,16' fill='%23e8a045'/></svg>">
+<meta property="og:title" content="JuX ARCADE — Stats Dashboard">
+<meta property="og:description" content="Track your progress across 6 games · 48 prizes · Total mastery">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://raw.githack.com/alissali/Learn/main/ARCADE.STATS.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#e8d5c0;font-family:Georgia,'Times New Roman',serif;min-height:100vh;padding:20px}
+a{color:#e8a045}
+.header{text-align:center;padding:30px 0}
+.header h1{font-family:'Cinzel Decorative',serif;color:#e8a045;font-size:2em;letter-spacing:4px;text-shadow:0 0 20px rgba(232,160,69,.4)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:1000px;margin:30px auto}
+.card{background:#12121e;border:1px solid #2a2a3a;border-radius:12px;padding:20px;transition:.3s}
+.card:hover{border-color:#e8a045;box-shadow:0 0 20px rgba(232,160,69,.2)}
+.card h2{font-family:'Cinzel Decorative',serif;color:#e8a045;font-size:1.2em;margin-bottom:15px}
+.bar-wrap{background:#1a1a2e;border-radius:6px;height:24px;margin:8px 0;overflow:hidden;position:relative}
+.bar{height:100%;border-radius:6px;transition:width 1s ease;display:flex;align-items:center;padding-left:8px;font-size:.75em;font-weight:bold;color:#0a0a12}
+.bar-tarot{background:linear-gradient(90deg,#e8a045,#ff6600)}
+.bar-monopoly{background:linear-gradient(90deg,#4a9eff,#00d4ff)}
+.bar-snake{background:linear-gradient(90deg,#00ff88,#00cc66)}
+.bar-yams{background:linear-gradient(90deg,#ff4488,#ff0066)}
+.bar-holdem{background:linear-gradient(90deg,#aa66ff,#8833ff)}
+.bar-holdem-ar{background:linear-gradient(90deg,#ffcc00,#ff9900)}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1a1a2e}
+.stat-label{color:#888;font-size:.9em}
+.stat-val{color:#e8a045;font-weight:bold;font-size:1.1em}
+.total-card{background:linear-gradient(135deg,#1a0a00,#2a1a00);border:2px solid #e8a045}
+.total-card h2{font-size:1.5em}
+.reset-btn{display:block;margin:30px auto;padding:10px 24px;background:transparent;border:1px solid #444;color:#666;font-family:monospace;cursor:pointer;border-radius:4px}
+.reset-btn:hover{border-color:#ff4444;color:#ff4444}
+.back-link{text-align:center;margin:20px;font-family:monospace}
+.chart-area{height:120px;display:flex;align-items:flex-end;gap:4px;padding:10px 0;border-bottom:1px solid #1a1a2e}
+.chart-bar{flex:1;background:#e8a045;border-radius:3px 3px 0 0;min-width:8px;transition:height 1s;position:relative}
+.chart-bar:hover::after{content:attr(data-label);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#0a0a12;color:#e8a045;padding:2px 6px;font-size:.7em;white-space:nowrap;border:1px solid #e8a045;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="back-link"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">← ARCADE</a></div>
+<div class="header">
+<h1>📊 STATS DASHBOARD</h1>
+<p style="color:#888;margin-top:8px;font-family:monospace">Your progress across the JuX ARCADE</p>
+</div>
+
+<div class="grid" id="statsGrid"></div>
+<button class="reset-btn" onclick="if(confirm('Reset ALL stats?')){localStorage.clear();location.reload()}">⚠ RESET ALL STATS</button>
+<div class="back-link"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">← BACK TO ARCADE</a></div>
+
+<script>
+const games = [
+  {key:'tarot', name:'DUNE TAROT', emoji:'🎴', prizes:12, barClass:'bar-tarot',
+   prizeKey:'tarotPrizes', playKey:'tarotPlays'},
+  {key:'monopoly', name:'MONOPOLY', emoji:'🎲', prizes:9, barClass:'bar-monopoly',
+   prizeKey:'monopolyPrizes', playKey:'monopolyPlays'},
+  {key:'snake', name:'SNAKE', emoji:'🐍', prizes:9, barClass:'bar-snake',
+   prizeKey:'snakePrizes', playKey:'snakePlays'},
+  {key:'yams', name:'YAMS', emoji:'🎯', prizes:9, barClass:'bar-yams',
+   prizeKey:'yamsPrizes', playKey:'yamsPlays'},
+  {key:'holdem', name:"HOLD'EM", emoji:'♠️', prizes:9, barClass:'bar-holdem',
+   prizeKey:'holdemPrizes', playKey:'holdemPlays'},
+  {key:'holdem-ar', name:"HOLD'EM عربي", emoji:'🌙', prizes:0, barClass:'bar-holdem-ar',
+   prizeKey:'holdemArPrizes', playKey:'holdemArPlays'}
+];
+
+function getCount(key, max) {
+  try {
+    const v = localStorage.getItem(key);
+    if (!v) return 0;
+    const parsed = JSON.parse(v);
+    if (Array.isArray(parsed)) return Math.min(parsed.length, max);
+    if (typeof parsed === 'number') return Math.min(parsed, max);
+    return 0;
+  } catch(e) { return 0; }
+}
+
+const grid = document.getElementById('statsGrid');
+let totalPrizes = 0, totalMax = 0, totalPlays = 0;
+
+games.forEach(g => {
+  const won = getCount(g.prizeKey, g.prizes);
+  const plays = getCount(g.playKey, 9999);
+  const pct = g.prizes > 0 ? Math.round((won/g.prizes)*100) : 0;
+  totalPrizes += won;
+  totalMax += g.prizes;
+  totalPlays += plays;
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <h2>${g.emoji} ${g.name}</h2>
+    <div class="stat-row"><span class="stat-label">Prizes</span><span class="stat-val">${won} / ${g.prizes}</span></div>
+    <div class="bar-wrap"><div class="bar ${g.barClass}" style="width:${pct}%">${pct}%</div></div>
+    <div class="stat-row"><span class="stat-label">Sessions</span><span class="stat-val">${plays}</span></div>
+    <div class="stat-row"><span class="stat-label">Status</span><span class="stat-val">${won>=g.prizes && g.prizes>0?'🏆 COMPLETE':won>0?'🔥 IN PROGRESS':'⬜ NOT STARTED'}</span></div>
+  `;
+  grid.appendChild(card);
+});
+
+// Total card
+const totalPct = totalMax > 0 ? Math.round((totalPrizes/totalMax)*100) : 0;
+const totalCard = document.createElement('div');
+totalCard.className = 'card total-card';
+totalCard.style.gridColumn = '1 / -1';
+totalCard.innerHTML = `
+  <h2>💎 TOTAL MASTERY</h2>
+  <div class="stat-row"><span class="stat-label">Total Prizes</span><span class="stat-val">${totalPrizes} / ${totalMax}</span></div>
+  <div class="bar-wrap"><div class="bar bar-tarot" style="width:${totalPct}%">${totalPct}%</div></div>
+  <div class="stat-row"><span class="stat-label">Total Sessions</span><span class="stat-val">${totalPlays}</span></div>
+  <div class="stat-row"><span class="stat-label">Games Touched</span><span class="stat-val">${games.filter(g=>getCount(g.prizeKey,g.prizes)>0).length} / 6</span></div>
+  <div class="stat-row"><span class="stat-label">Rank</span><span class="stat-val">${totalPct>=100?'👑 ARCADE LEGEND':totalPct>=75?'🏆 CHAMPION':totalPct>=50?'⭐ VETERAN':totalPct>=25?'🔥 CONTENDER':'🌱 ROOKIE'}</span></div>
+  <div class="chart-area" id="chart"></div>
+  <div style="text-align:center;color:#666;font-size:.75em;margin-top:4px">Prize completion by game</div>
+`;
+grid.appendChild(totalCard);
+
+// Mini chart
+const chart = document.getElementById('chart');
+games.forEach(g => {
+  const won = getCount(g.prizeKey, g.prizes);
+  const pct = g.prizes > 0 ? (won/g.prizes)*100 : 0;
+  const bar = document.createElement('div');
+  bar.className = 'chart-bar';
+  bar.style.height = Math.max(pct, 3) + '%';
+  bar.setAttribute('data-label', g.name + ': ' + Math.round(pct) + '%');
+  chart.appendChild(bar);
+});
+</script>
+
+<div style="text-align:center;color:#333;font-size:.75em;margin:40px 0;font-family:monospace">
+JuX ITT · <a href="https://juxaos.com/privacy.html" style="color:#444">Privacy</a> · <a href="https://juxaos.com/terms.html" style="color:#444">Terms</a>
+</div>
+</body>
+</html>

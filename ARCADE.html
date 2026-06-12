@@ -107,6 +107,48 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
 <link rel="canonical" href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">
 </head>
 <body>
+<div id="bootOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0a12;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer" onclick="skipBoot()">
+<style>
+@keyframes bootFlicker{0%,100%{opacity:1}50%{opacity:.7}}
+@keyframes bootScanline{0%{top:-100%}100%{top:100%}}
+@keyframes coinDrop{0%{transform:translateY(-100px) rotateY(0);opacity:0}40%{opacity:1}100%{transform:translateY(0) rotateY(720deg);opacity:1}}
+#bootOverlay::after{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:rgba(232,160,69,.15);animation:bootScanline 2s linear infinite;pointer-events:none}
+#bootText span{opacity:0;animation:bootFlicker .1s forwards}
+#bootCoin{font-size:3em;opacity:0;animation:coinDrop .6s ease-out 1.8s forwards}
+#bootReady{opacity:0;animation:bootFlicker .3s 2.5s forwards;cursor:pointer}
+</style>
+<div id="bootCoin">🪙</div>
+<div id="bootText" style="font-family:'Cinzel Decorative',serif;font-size:2.5em;color:#e8a045;letter-spacing:8px;text-shadow:0 0 30px rgba(232,160,69,.6);margin:20px 0"></div>
+<div style="color:#888;font-size:0.8em;font-family:monospace;margin:10px 0" id="bootLog"></div>
+<div id="bootReady" style="color:#e8a045;font-family:monospace;font-size:1.1em;margin-top:20px;animation:bootFlicker 1s infinite">[ INSERT COIN TO PLAY ]</div>
+<script>
+(function(){
+  const text='JuX ARCADE';
+  const el=document.getElementById('bootText');
+  text.split('').forEach((ch,i)=>{
+    const s=document.createElement('span');
+    s.textContent=ch;
+    s.style.animationDelay=(0.3+i*0.12)+'s';
+    el.appendChild(s);
+  });
+  const logs=['> INITIALIZING JuX ARCADE SYSTEM...','> LOADING 6 GAMES...','> 48 PRIZES DETECTED','> 79 TAROT CARDS IN DECK','> 24 STREETS MAPPED','> AUDIO SYSTEM: READY','> ALL SYSTEMS NOMINAL','> '];
+  const logEl=document.getElementById('bootLog');
+  logs.forEach((l,i)=>{
+    setTimeout(()=>{logEl.textContent=l},800+i*200);
+  });
+  setTimeout(()=>{
+    document.getElementById('bootOverlay').style.transition='opacity 0.5s';
+    document.getElementById('bootOverlay').style.opacity='0';
+    setTimeout(()=>{document.getElementById('bootOverlay').style.display='none'},500);
+  },4000);
+})();
+function skipBoot(){
+  const o=document.getElementById('bootOverlay');
+  o.style.transition='opacity 0.3s';o.style.opacity='0';
+  setTimeout(()=>{o.style.display='none'},300);
+}
+</script>
+</div>
 <a href="#main" class="skip-link" style="position:absolute;top:-40px;left:0;background:#ff6600;color:#0a0a0f;padding:8px;z-index:9999;font-family:monospace;text-decoration:none;transition:top .3s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to content</a>
 
 <div class="stars" id="stars"></div>
@@ -342,6 +384,8 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch
 <a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> ·
 <a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> ·
 © JuX ITT</div>
+<div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.STATS.html" style="display:inline-block;background:linear-gradient(135deg,#4a9eff,#00d4ff);color:#0a0a12;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(74,158,255,.3);letter-spacing:2px">&#128202; STATS DASHBOARD</a></div>
+<div style="text-align:center;margin:12px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.CHALLENGE.html" style="display:inline-block;background:linear-gradient(135deg,#ff4488,#ff0066);color:#fff;padding:10px 28px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1em;box-shadow:0 0 15px rgba(255,68,136,.3);letter-spacing:2px">&#127915; CHALLENGE A FRIEND</a></div>
 <div style="text-align:center;margin:20px;position:relative;z-index:1"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.HALL.html" style="display:inline-block;background:linear-gradient(135deg,#e8a045,#c48030);color:#0a0a12;padding:12px 32px;text-decoration:none;font-weight:bold;font-family:Cinzel Decorative,serif;border-radius:8px;font-size:1.1em;box-shadow:0 0 20px rgba(232,160,69,.4);letter-spacing:2px">&#127942; HALL OF FAME</a></div>
 </body>
 </html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JuX ARCADE — CHALLENGE CARD</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 30,16 16,30 2,16' fill='%23e8a045'/></svg>">
+<meta property="og:title" content="JuX ARCADE — I CHALLENGE YOU">
+<meta property="og:description" content="Someone challenged you. Open the card. Accept the game.">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://raw.githack.com/alissali/Learn/main/ARCADE.CHALLENGE.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#e8d5c0;font-family:Georgia,'Times New Roman',serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
+a{color:#e8a045}
+h1{font-family:'Cinzel Decorative',serif;color:#e8a045;font-size:2em;letter-spacing:4px;text-shadow:0 0 20px rgba(232,160,69,.4);margin:20px 0}
+.builder{max-width:500px;width:100%;margin:20px 0}
+label{display:block;color:#888;font-family:monospace;font-size:.85em;margin:12px 0 4px}
+select,input{width:100%;padding:10px;background:#12121e;border:1px solid #2a2a3a;color:#e8d5c0;font-family:Georgia,serif;font-size:1em;border-radius:6px}
+select:focus,input:focus{border-color:#e8a045;outline:none}
+.preview{margin:30px 0;text-align:center}
+canvas{border:2px solid #e8a045;border-radius:12px;max-width:100%;box-shadow:0 0 40px rgba(232,160,69,.3)}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.btn{padding:12px 28px;font-family:monospace;font-weight:bold;font-size:1em;border:none;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-primary{background:#e8a045;color:#0a0a12}
+.btn-secondary{background:transparent;border:1px solid #e8a045;color:#e8a045}
+.btn:hover{transform:scale(1.05);transition:.2s}
+.back-link{font-family:monospace;margin:10px}
+</style>
+</head>
+<body>
+<div class="back-link"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">← ARCADE</a></div>
+<h1>🎫 CHALLENGE CARD</h1>
+<p style="color:#888;font-family:monospace;text-align:center">Create. Download. Share. Dare.</p>
+
+<div class="builder">
+<label>YOUR NAME</label>
+<input type="text" id="playerName" value="Wonder Boy" maxlength="20">
+
+<label>CHOOSE GAME</label>
+<select id="gameSelect">
+<option value="DUNE TAROT 🎴">DUNE TAROT 🎴</option>
+<option value="MONOPOLY 🎲">MONOPOLY 🎲</option>
+<option value="SNAKE 🐍">SNAKE 🐍</option>
+<option value="YAMS 🎯">YAMS 🎯</option>
+<option value="HOLD'EM ♠️">HOLD'EM ♠️</option>
+<option value="HOLD'EM عربي 🌙">HOLD'EM عربي 🌙</option>
+</select>
+
+<label>CHALLENGE MESSAGE</label>
+<input type="text" id="chalMsg" value="I bet you can't beat me" maxlength="40">
+
+<button class="btn btn-primary" style="width:100%;margin-top:16px" onclick="generateCard()">⚡ GENERATE CARD</button>
+</div>
+
+<div class="preview">
+<canvas id="cardCanvas" width="600" height="400"></canvas>
+</div>
+
+<div class="actions">
+<button class="btn btn-primary" onclick="downloadCard()">💾 DOWNLOAD</button>
+<button class="btn btn-secondary" onclick="shareCard()">📤 SHARE</button>
+</div>
+
+<div class="back-link"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">← BACK TO ARCADE</a></div>
+
+<script>
+const canvas = document.getElementById('cardCanvas');
+const ctx = canvas.getContext('2d');
+
+function generateCard() {
+  const name = document.getElementById('playerName').value || 'ANONYMOUS';
+  const game = document.getElementById('gameSelect').value;
+  const msg = document.getElementById('chalMsg').value || 'I CHALLENGE YOU';
+  
+  // Background
+  const grad = ctx.createLinearGradient(0,0,600,400);
+  grad.addColorStop(0,'#0a0a12');
+  grad.addColorStop(0.5,'#1a0a00');
+  grad.addColorStop(1,'#0a0a12');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,600,400);
+  
+  // Border
+  ctx.strokeStyle = '#e8a045';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(10,10,580,380);
+  
+  // Inner border
+  ctx.strokeStyle = 'rgba(232,160,69,0.3)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(20,20,560,360);
+  
+  // Diamond
+  ctx.fillStyle = '#e8a045';
+  ctx.beginPath();
+  ctx.moveTo(300,30);ctx.lineTo(320,50);ctx.lineTo(300,70);ctx.lineTo(280,50);
+  ctx.closePath();ctx.fill();
+  
+  // Stars
+  ctx.fillStyle = 'rgba(232,160,69,0.15)';
+  for(let i=0;i<30;i++){
+    const x=Math.random()*600,y=Math.random()*400,s=Math.random()*2;
+    ctx.beginPath();ctx.arc(x,y,s,0,Math.PI*2);ctx.fill();
+  }
+  
+  // Title
+  ctx.fillStyle = '#e8a045';
+  ctx.font = 'bold 28px Georgia';
+  ctx.textAlign = 'center';
+  ctx.fillText('⚔️ I CHALLENGE YOU ⚔️', 300, 120);
+  
+  // Game
+  ctx.fillStyle = '#e8d5c0';
+  ctx.font = '22px Georgia';
+  ctx.fillText(game, 300, 170);
+  
+  // Message
+  ctx.fillStyle = '#e8a045';
+  ctx.font = 'italic 18px Georgia';
+  ctx.fillText('"' + msg + '"', 300, 220);
+  
+  // From
+  ctx.fillStyle = '#e8d5c0';
+  ctx.font = 'bold 20px Georgia';
+  ctx.fillText('— ' + name.toUpperCase(), 300, 280);
+  
+  // URL
+  ctx.fillStyle = '#666';
+  ctx.font = '12px monospace';
+  ctx.fillText('JuX ARCADE — juxaos.com/shop', 300, 330);
+  
+  // Footer
+  ctx.fillStyle = '#e8a045';
+  ctx.font = '14px Georgia';
+  ctx.fillText('DO YOU ACCEPT?', 300, 370);
+}
+
+function downloadCard() {
+  const a = document.createElement('a');
+  a.download = 'JuX-Challenge.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+async function shareCard() {
+  try {
+    canvas.toBlob(async blob => {
+      const file = new File([blob], 'JuX-Challenge.png', {type:'image/png'});
+      if (navigator.share) {
+        await navigator.share({title:'JuX ARCADE Challenge', text:'I challenge you!', files:[file]});
+      } else {
+        downloadCard();
+      }
+    });
+  } catch(e) { downloadCard(); }
+}
+
+// Generate on load
+generateCard();
+// Re-generate on any input change
+['playerName','gameSelect','chalMsg'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', generateCard);
+});
+</script>
+
+<div style="text-align:center;color:#333;font-size:.75em;margin:40px 0;font-family:monospace">
+JuX ITT · <a href="https://juxaos.com/privacy.html" style="color:#444">Privacy</a> · <a href="https://juxaos.com/terms.html" style="color:#444">Terms</a>
+</div>
+</body>
+</html>
