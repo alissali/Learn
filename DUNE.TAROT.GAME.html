@@ -404,7 +404,6 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
 <body>
 <a href="#main" class="skip-link" style="position:absolute;top:-40px;left:0;background:#ff6600;color:#0a0a0f;padding:8px;z-index:9999;font-family:monospace;text-decoration:none;transition:top .3s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to content</a>
 
-<!-- TITLE SCREEN -->
 <div id="titleScreen" class="screen title-screen active">
   <div class="serpents">🐍🐍🐍</div>
   <h1>DUNE TAROT</h1>
@@ -421,14 +420,12 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
   </div>
 </div>
 
-<!-- SETUP SCREEN -->
 <div id="setupScreen" class="screen setup-screen">
   <h2>WHO PLAYS?</h2>
   <div id="playerInputs" class="player-inputs"></div>
   <button class="mode-btn" onclick="startFromSetup()">DEAL</button>
 </div>
 
-<!-- GAME SCREEN -->
 <div id="gameScreen" class="screen game-screen">
   <div class="game-header">
     <h2 id="gameTitle">THE SPREAD</h2>
@@ -440,16 +437,14 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
   <div id="cardGrid" class="card-grid"></div>
   <div id="synthesisPanel" class="synthesis-panel"></div>
   <div id="comparePanel" class="compare-panel" style="display:none"></div>
-  <!-- MUTE BUTTON -->
+
   <button id="muteBtn" onclick="document.getElementById('muteBtn').textContent = CoreAudio.toggleMute() ? '🔇' : '🔊'" style="position:fixed;top:15px;left:15px;background:#1a0a00;border:1px solid #5a4a3a;color:#d4a574;font-size:1.5rem;width:44px;height:44px;border-radius:50%;cursor:pointer;z-index:9999;">🔊</button>
 
-  <!-- PRIZES -->
   <div style="max-width:700px;margin:2rem auto;padding:0 1rem;">
     <h2 style="font-family:Cinzel,serif;text-align:center;color:#d4a574;font-size:1.5rem;margin-bottom:1rem;">🏆 PRIZES</h2>
     <div id="prizeGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;"></div>
   </div>
 
-  <!-- PRICING -->
   <div style="max-width:700px;margin:2rem auto;padding:0 1rem;">
     <h2 style="font-family:Cinzel,serif;text-align:center;color:#d4a574;font-size:1.5rem;margin-bottom:1rem;">💎 THE SPICE MUST FLOW</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;">
@@ -1013,11 +1008,11 @@ function initGame() {
 function renderGame() {
   // Title
   const allDone = Object.values(playerHands).every(h => h.length >= 5);
-  document.getElementById('gameTitle').textContent = allDone ? 'THE READING IS COMPLETE' : 
+  document.getElementById('gameTitle').textContent = allDone ? 'THE READING IS COMPLETE' :
     (numPlayers > 1 ? playerNames[currentPlayer] + ' — ' : '') + 'Choose a Card';
-  
+
   if (!allDone) {
-    document.getElementById('positionName').innerHTML = 
+    document.getElementById('positionName').innerHTML =
       '<span style="color:'+PLAYER_COLORS[currentPlayer]+'">'+POSITIONS[currentPosition].name+'</span> — '+POSITIONS[currentPosition].desc;
   } else {
     document.getElementById('positionName').textContent = '';
@@ -1055,7 +1050,7 @@ function renderGame() {
   grid.innerHTML = '';
   const usedIds = new Set();
   Object.values(playerHands).forEach(h => h.forEach(c => usedIds.add(c.id)));
-  
+
   if (!allDone && playerHands[currentPlayer].length < 5) {
     deck.forEach((card, idx) => {
       if (usedIds.has(card.id)) return;
@@ -1095,7 +1090,7 @@ function selectCard(card, container) {
   CoreAudio.flip();
   container.classList.add('flipped');
   document.querySelectorAll('.card-container:not(.flipped)').forEach(c => c.classList.add('disabled'));
-  
+
   setTimeout(() => {
     playerHands[currentPlayer].push(card);
     playerCards[currentPlayer].push({card, position: POSITIONS[currentPosition]});
@@ -1142,7 +1137,7 @@ function showSynthesis() {
   CoreAudio.reveal();
   const panel = document.getElementById('synthesisPanel');
   let html = '<h2>🐍 THE READING 🐍</h2>';
-  
+
   for (let p = 0; p < numPlayers; p++) {
     if (numPlayers > 1) {
       html += '<h3 style="color:'+PLAYER_COLORS[p]+';font-family:Cinzel;margin:1.5rem 0 0.5rem;">'+playerNames[p]+'</h3>';
@@ -1154,7 +1149,7 @@ function showSynthesis() {
         '<div style="font-size:0.7rem;color:#5a4a3a">'+pc.card.name+'</div></div>';
     });
     html += '</div>';
-    
+
     // Synthesis text
     const cards = playerCards[p];
     html += '<div class="synthesis-text">' +
@@ -1164,11 +1159,11 @@ function showSynthesis() {
       'The flame BURNS with <strong>'+cards[3].card.name+'</strong>.<br>' +
       'Your body RELEASES <strong>'+cards[4].card.name+'</strong>.<br><br>' +
       '<em>Nothing hidden. Nothing ashamed. THE GAME.</em></div>';
-    
+
     // Check prizes for each player
     checkPrizes(playerCards[p], numPlayers);
   }
-  
+
   html += '<button class="deal-again-btn" onclick="initGame()">♾️ DEAL AGAIN — PERPETUAL</button>';
   panel.innerHTML = html;
   panel.className = 'synthesis-panel active';
@@ -1181,8 +1176,8 @@ showReadingBadge();
 </script>
 <div style="text-align:center;padding:12px;position:fixed;top:15px;right:15px;z-index:9999"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html" style="color:#d4a574;text-decoration:none;font-size:1em;background:#1a0a00;border:1px solid #5a4a3a;padding:6px 14px;border-radius:20px">🎰 ARCADE</a></div>
 <div style="text-align:center;padding:8px;font-family:monospace;font-size:.7em;border-top:1px solid #222;margin-top:10px">
-<a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> · 
-<a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> · 
+<a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> ·
+<a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> ·
 © JuX ITT</div>
 </body>
 </html>

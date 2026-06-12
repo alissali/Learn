@@ -638,7 +638,6 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
 <body>
 <a href="#main" class="skip-link" style="position:absolute;top:-40px;left:0;background:#ff6600;color:#0a0a0f;padding:8px;z-index:9999;font-family:monospace;text-decoration:none;transition:top .3s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to content</a>
 
-<!-- BELIEF GATE -->
 <div id="beliefGate">
   <div class="gate-star">☪</div>
   <div class="gate-bismillah">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
@@ -700,32 +699,25 @@ function denyGate() {
   <button class="deal-btn" id="againBtn" style="display:none" onclick="reset()">♾️ &nbsp; A G A I N &nbsp; ♾️</button>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- PRIZES — IN-GAME ACHIEVEMENTS -->
-<!-- ═══════════════════════════════════════ -->
 <div id="prizesSection" style="margin-top:40px; border-top:1px solid rgba(180,40,20,0.3); padding-top:30px;">
   <h2 style="font-family:'Cinzel Decorative',serif; text-align:center; color:#b42814; font-size:1.8em; letter-spacing:4px; margin-bottom:20px;">🏆 THE PRIZES 🏆</h2>
   <p style="text-align:center; font-style:italic; color:rgba(232,213,192,0.6); margin-bottom:30px;">"The Game rewards those who play naked." — OCB 9:9</p>
-  
+
   <div id="prizesGrid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; max-width:1000px; margin:0 auto;">
   </div>
-  
+
   <div style="text-align:center; margin-top:20px;">
     <button class="deal-btn" onclick="showPrizeStatus()" style="font-size:0.9em; padding:12px 30px;">🔮 CHECK MY PRIZES</button>
   </div>
   <div id="prizeStatus" style="margin-top:15px; text-align:center; display:none;"></div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- PRICING — THE SPICE HAS A PRICE -->
-<!-- ═══════════════════════════════════════ -->
 <div id="pricingSection" style="margin-top:40px; border-top:1px solid rgba(180,40,20,0.3); padding-top:30px;">
   <h2 style="font-family:'Cinzel Decorative',serif; text-align:center; color:#b42814; font-size:1.8em; letter-spacing:4px; margin-bottom:8px;">💎 THE PRICE OF SPICE 💎</h2>
   <p style="text-align:center; font-style:italic; color:rgba(232,213,192,0.6); margin-bottom:30px;">"The spice must flow — but never for free." — OCB 6:66</p>
 
   <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; max-width:1100px; margin:0 auto;">
 
-    <!-- TIER 0: FREE -->
     <div style="border:1px solid rgba(232,213,192,0.2); border-radius:12px; padding:24px; text-align:center; background:rgba(255,255,255,0.02); position:relative;">
       <div style="font-size:2em; margin-bottom:8px;">🥪</div>
       <h3 style="font-family:'Cinzel Decorative',serif; color:#e8d5c0; font-size:1.1em; letter-spacing:2px;">THE FOOL</h3>
@@ -742,7 +734,6 @@ function denyGate() {
       <div style="margin-top:16px; font-size:0.8em; font-style:italic; color:rgba(180,40,20,0.6);">"Walk naked into the desert."</div>
     </div>
 
-    <!-- TIER 1: MELANGE -->
     <div style="border:2px solid rgba(180,40,20,0.5); border-radius:12px; padding:24px; text-align:center; background:rgba(180,40,20,0.05); position:relative;">
       <div style="font-size:2em; margin-bottom:8px;">🍹</div>
       <h3 style="font-family:'Cinzel Decorative',serif; color:#e85040; font-size:1.1em; letter-spacing:2px;">MELANGE</h3>
@@ -761,7 +752,6 @@ function denyGate() {
       <div style="margin-top:12px; font-size:0.8em; font-style:italic; color:rgba(180,40,20,0.6);">"Mix. Drink. See."</div>
     </div>
 
-    <!-- TIER 2: IRULAN -->
     <div style="border:2px solid rgba(212,175,55,0.5); border-radius:12px; padding:24px; text-align:center; background:rgba(212,175,55,0.05); position:relative;">
       <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#0a0006; padding:2px 16px; border:1px solid rgba(212,175,55,0.5); border-radius:20px; font-size:0.7em; color:#d4af37; letter-spacing:3px; font-family:'Cinzel Decorative',serif;">POPULAR</div>
       <div style="font-size:2em; margin-bottom:8px;">👑</div>
@@ -780,7 +770,6 @@ function denyGate() {
       <div style="margin-top:12px; font-size:0.8em; font-style:italic; color:rgba(212,175,55,0.6);">"She held the heir. Then she chose."</div>
     </div>
 
-    <!-- TIER 3: SSS -->
     <div style="border:2px solid rgba(232,213,192,0.5); border-radius:12px; padding:24px; text-align:center; background:rgba(232,213,192,0.03); position:relative; box-shadow:0 0 30px rgba(180,40,20,0.15);">
       <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#0a0006; padding:2px 16px; border:1px solid rgba(232,213,192,0.5); border-radius:20px; font-size:0.7em; color:#e8d5c0; letter-spacing:3px; font-family:'Cinzel Decorative',serif;">💎 NOTHING HIDDEN</div>
       <div style="font-size:2em; margin-bottom:8px;">🐍🐍🐍</div>
@@ -1917,8 +1906,8 @@ if (totalReadings > 0) showReadingBadge();
 
 <div style="text-align:center;padding:12px;position:fixed;top:15px;right:15px;z-index:9999"><a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html" style="color:#d4a574;text-decoration:none;font-size:1em;background:#1a0a00;border:1px solid #5a4a3a;padding:6px 14px;border-radius:20px">🎰 ARCADE</a></div>
 <div style="text-align:center;padding:8px;font-family:monospace;font-size:.7em;border-top:1px solid #222;margin-top:10px">
-<a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> · 
-<a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> · 
+<a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> ·
+<a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> ·
 © JuX ITT</div>
 </body>
 </html>
