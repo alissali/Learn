@@ -41,6 +41,14 @@ h1{font-family:'Cinzel Decorative',serif;font-size:1.8em;color:#e8a045;text-shad
 .p-card .p-name{font-family:'Cinzel Decorative',serif;font-size:0.9em;margin-bottom:3px}
 .p-card .p-cash{color:#2ec4b6;font-size:1em}
 .p-card .p-props{font-size:0.65em;color:rgba(232,213,192,0.5);margin-top:3px}
+.p-card .p-inv{margin-top:4px;max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.p-card.open .p-inv{max-height:300px;overflow-y:auto}
+.p-card .inv-toggle{cursor:pointer;font-size:0.7em;color:#e8a045;margin-top:3px;text-decoration:underline}
+.p-card .inv-item{display:flex;align-items:center;gap:4px;font-size:0.65em;padding:2px 0;border-bottom:1px solid rgba(232,213,192,0.05)}
+.p-card .inv-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.p-card .inv-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-card .inv-val{color:#2ec4b6;font-size:0.9em}
+.p-card .inv-summary{font-size:0.65em;color:rgba(232,213,192,0.4);margin-top:3px;border-top:1px solid rgba(232,160,69,0.15);padding-top:3px}
 
 /* Controls */
 .controls{text-align:center;margin:8px 0}
@@ -350,7 +358,15 @@ function renderPlayers(){
   document.getElementById('playersPanel').innerHTML=players.map((p,i)=>{
     const act=i===currentPlayer&&!p.bankrupt?' active-player':'';
     const st=p.bankrupt?' 💀':p.inJail?' 🔒':'';
-    return `<div class="p-card${act}"><div class="p-name" style="color:${p.color}">${p.token} ${p.name}${st}</div><div class="p-cash">$${p.cash}</div><div class="p-props">${p.properties.length} properties</div></div>`;
+    // Build inventory
+    const owned=BOARD.filter(sq=>sq.owner===i&&sq.type==='property');
+    const totalVal=owned.reduce((s,sq)=>s+sq.price,0);
+    const totalRent=owned.reduce((s,sq)=>s+sq.rent,0);
+    const netWorth=p.cash+totalVal;
+    const invItems=owned.map(sq=>`<div class="inv-item"><div class="inv-dot" style="background:${sq.color}"></div><div class="inv-name">${sq.name.replace(/\n/g,' ')}</div><div class="inv-val">$${sq.rent}/r</div></div>`).join('');
+    const invSummary=owned.length>0?`<div class="inv-summary">📊 Value: $${totalVal} · Rent: $${totalRent}/turn · Net: $${netWorth}</div>`:'';
+    const toggle=owned.length>0?`<div class="inv-toggle" onclick="this.closest('.p-card').classList.toggle('open')">📋 ${owned.length} properties ▾</div>`:`<div class="p-props">No properties</div>`;
+    return `<div class="p-card${act}"><div class="p-name" style="color:${p.color}">${p.token} ${p.name}${st}</div><div class="p-cash">$${p.cash}</div>${toggle}<div class="p-inv">${invItems}${invSummary}</div></div>`;
   }).join('');
 }
 
