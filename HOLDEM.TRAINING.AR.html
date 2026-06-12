@@ -260,6 +260,12 @@ footer {
 .amber { color: var(--opal-amber); }
 .gold  { color: var(--opal-gold); }
 .violet{ color: var(--opal-violet); }
+.prizes-ar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.9);border-top:1px solid rgba(232,160,69,0.2);padding:8px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;z-index:100;direction:ltr}
+.pa{padding:4px 10px;border-radius:12px;font-size:0.7em;background:rgba(232,160,69,0.1);border:1px solid rgba(232,160,69,0.2);color:rgba(232,213,192,0.4);font-family:'IBM Plex Mono',monospace}
+.pa.won{background:rgba(232,160,69,0.25);border-color:#e8a045;color:#e8d5c0;box-shadow:0 0 8px rgba(232,160,69,0.3)}
+.stripe-bar-ar{text-align:center;padding:16px 10px;border-top:1px solid rgba(232,160,69,0.15);margin-top:3rem}
+.stripe-bar-ar a{display:inline-block;margin:0 8px;padding:8px 20px;border:1px solid rgba(232,160,69,0.3);border-radius:4px;color:#e8a045;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:0.8em;letter-spacing:1px}
+.stripe-bar-ar a:hover{background:rgba(232,160,69,0.1)}
 </style>
 </head>
 <body>
@@ -459,5 +465,19 @@ footer {
   AOS · MIT · juxitt.com · HOLDEM.TRAINING · اللغة هي البنية
 </footer>
 
+<div class="prizes-ar" id="arPrizes"></div>
+<div class="stripe-bar-ar">
+<a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html">🎰 ARCADE</a>
+<a href="https://buy.stripe.com/dRm14pdv14VQ1qT7J41wY05">🎮 CHAMPION €6.66</a>
+<a href="https://buy.stripe.com/9B628tdv15ZUglNbZk1wY06">👑 MOGUL €22</a>
+<a href="https://buy.stripe.com/5kQ9AVgHdaga3z10gC1wY07">💎 FULL ARCADE €66</a>
+</div>
+<script>
+const AP=[{id:'first_hand',n:'اليد الأولى',i:'🃏'},{id:'pair',n:'زوج',i:'👫'},{id:'two_pair',n:'زوجان',i:'✌️'},{id:'trips',n:'ثلاثة',i:'🎯'},{id:'straight',n:'تسلسل',i:'📏'},{id:'flush',n:'لون',i:'💧'},{id:'full_house',n:'بيت كامل',i:'🏠'},{id:'quads',n:'أربعة',i:'🎰'},{id:'streak',n:'سلسلة حارة',i:'🔥'}];
+let aW=new Set(JSON.parse(localStorage.getItem('holdem_ar_prizes')||'[]'));
+function aS(){localStorage.setItem('holdem_ar_prizes',JSON.stringify([...aW]))}
+function aR(){const c=document.getElementById('arPrizes');c.innerHTML=AP.map(p=>'<div class="pa'+(aW.has(p.id)?' won':'')+'">'+p.i+' '+p.n+'</div>').join('')}
+aR();
+</script>
 </body>
 </html>
