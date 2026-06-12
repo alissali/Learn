@@ -123,6 +123,9 @@ footer a{color:#e8a045;text-decoration:none}
   <div class="controls" id="controls">
     <button class="btn" id="rollBtn" onclick="rollDice()">🎲 ROLL</button>
     <button class="btn buy" id="buyBtn" onclick="buyProperty()" style="display:none">🏠 BUY</button>
+    <button class="btn" id="fightBtn" onclick="startFight()" style="display:none;border-color:#e74c3c;color:#e74c3c;background:rgba(231,76,60,0.1)">⚔️ FIGHT</button>
+    <button class="btn" id="payBtn" onclick="payRent()" style="display:none;border-color:#f39c12;color:#f39c12">💰 PAY</button>
+    <button class="btn" id="fortifyBtn" onclick="fortifyProperty()" style="display:none;border-color:#9b59b6;color:#9b59b6;background:rgba(155,89,182,0.1)">🛡️ FORTIFY</button>
     <button class="btn" id="endBtn" onclick="endTurn()" style="display:none">⏭ END</button>
   </div>
   <div class="board-container">
@@ -273,7 +276,7 @@ const CHANCE_CARDS=[
 ];
 
 // Game state
-let players=[],currentPlayer=0,numPlayers=2,gameActive=false,canBuy=false,currentSquare=null;
+let players=[],currentPlayer=0,numPlayers=2,gameActive=false,canBuy=false,currentSquare=null,pendingRent=0,pendingOwner=null,fightsWon=parseInt(localStorage.getItem('mono_fights_won')||'0'),fightsLost=0;
 
 // Prizes
 const PRIZES=[
@@ -285,7 +288,10 @@ const PRIZES=[
   {id:'taxman',name:'Taxman',icon:'💰',desc:'Pay taxes'},
   {id:'globetrotter',name:'Globetrotter',icon:'🌍',desc:'Go around the board'},
   {id:'lucky',name:'Lucky Card',icon:'🃏',desc:'Draw 5 cards'},
-  {id:'damascus',name:'Mazzeh Villat',icon:'🕌',desc:'Own Damascus'}
+  {id:'damascus',name:'Mazzeh Villat',icon:'🕌',desc:'Own Damascus'},
+  {id:'first_blood',name:'First Blood',icon:'⚔️',desc:'Win your first fight'},
+  {id:'liberator',name:'Liberator',icon:'✊',desc:'Win 3 fights'},
+  {id:'fortress',name:'Fortress',icon:'🛡️',desc:'Fortify a property'}
 ];
 let wonPrizes=new Set(JSON.parse(localStorage.getItem('mono_prizes')||'[]'));
 let cardsDrawn=parseInt(localStorage.getItem('mono_cards')||'0');
@@ -411,14 +417,104 @@ function handleSquare(p,sq){
       if(p.cash>=sq.price){canBuy=true;currentSquare=sq;document.getElementById('buyBtn').style.display='inline-block';log('💡 '+(sq.name.replace(/\n/g,' '))+' — $'+sq.price)}
     }else if(sq.owner!==currentPlayer){
       const ow=players[sq.owner];
-      if(!ow.bankrupt){p.cash-=sq.rent;ow.cash+=sq.rent;log(p.token+' pays $'+sq.rent+' rent to '+ow.token);playSound(200,0.15,'sawtooth');if(p.cash<=0)goBankrupt(p)}
-    }else{log(p.token+' is home at '+(sq.name.replace(/\n/g,' ')))}
+      if(!ow.bankrupt){
+        currentSquare=sq;pendingRent=sq.rent;pendingOwner=sq.owner;
+        log('⚔️ '+(sq.name.replace(/\n/g,' '))+' belongs to '+ow.token+' — FIGHT or PAY $'+sq.rent+'?');
+        document.getElementById('fightBtn').style.display='inline-block';
+        document.getElementById('payBtn').style.display='inline-block';
+        document.getElementById('endBtn').style.display='none';
+        return;
+      }
+    }else{
+      log(p.token+' is home at '+(sq.name.replace(/\n/g,' ')));
+      const fortCost=Math.floor(sq.price*0.5);
+      if(p.cash>=fortCost&&!sq.fortified){
+        currentSquare=sq;
+        document.getElementById('fortifyBtn').style.display='inline-block';
+        log('🛡️ FORTIFY for $'+fortCost+'? (rent ×2)');
+      }
+    }
   }
   else if(sq.type==='cc'){drawCard(p,CC_CARDS,'Community Chest','📦')}
   else if(sq.type==='chance'){drawCard(p,CHANCE_CARDS,'Chance','❓')}
   else if(sq.type==='tax'){p.cash-=200;log(p.token+' pays $200 tax');checkPrize('taxman');if(p.cash<=0)goBankrupt(p)}
   else if(sq.type==='gotojail'){sendToJail(p)}
   document.getElementById('endBtn').style.display='inline-block';
+  renderPlayers();
+}
+
+function startFight(){
+  const p=players[currentPlayer];
+  const ow=players[pendingOwner];
+  const sq=currentSquare;
+  const sn=sq.name.replace(/\n/g,' ');
+  document.getElementById('fightBtn').style.display='none';
+  document.getElementById('payBtn').style.display='none';
+  // Attacker rolls
+  const a1=Math.ceil(Math.random()*6),a2=Math.ceil(Math.random()*6);
+  const atk=a1+a2;
+  // Defender rolls
+  const d1=Math.ceil(Math.random()*6),d2=Math.ceil(Math.random()*6);
+  const def=d1+d2;
+  playSound(150,0.2,'sawtooth');
+  log('⚔️ BATTLE for '+sn+'!');
+  log(p.token+' attacks: '+a1+'+'+a2+'='+atk);
+  log(ow.token+' defends: '+d1+'+'+d2+'='+def);
+  if(atk>def){
+    // ATTACKER WINS — LIBERATE
+    sq.owner=currentPlayer;
+    p.properties.push(sq);
+    ow.properties=ow.properties.filter(s=>s!==sq);
+    fightsWon++;localStorage.setItem('mono_fights_won',fightsWon);
+    log('✊ '+p.token+' LIBERATES '+sn+'! Property seized!');
+    playSound(500,0.15);
+    showCard('⚔️ LIBERATION!',p.token+' defeats '+ow.token+' and takes '+sn+'!');
+    if(fightsWon>=3)checkPrize('liberator');
+    if(fightsWon>=1)checkPrize('first_blood');
+  }else if(atk<def){
+    // DEFENDER WINS — DOUBLE RENT
+    const dbl=pendingRent*2;
+    p.cash-=dbl;ow.cash+=dbl;
+    fightsLost++;
+    log('💀 '+p.token+' defeated! Pays DOUBLE rent $'+dbl+' to '+ow.token);
+    playSound(100,0.2,'sawtooth');
+    showCard('💀 DEFEATED!',p.token+' lost the battle.\nPays $'+dbl+' to '+ow.token);
+    if(p.cash<=0)goBankrupt(p);
+  }else{
+    // TIE — normal rent
+    p.cash-=pendingRent;ow.cash+=pendingRent;
+    log('🤝 Standoff! '+p.token+' pays normal rent $'+pendingRent);
+    showCard('🤝 STANDOFF','Equal strength. Normal rent $'+pendingRent);
+  }
+  document.getElementById('endBtn').style.display='inline-block';
+  renderBoard();renderPlayers();
+}
+
+function payRent(){
+  const p=players[currentPlayer];
+  const ow=players[pendingOwner];
+  document.getElementById('fightBtn').style.display='none';
+  document.getElementById('payBtn').style.display='none';
+  p.cash-=pendingRent;ow.cash+=pendingRent;
+  log(p.token+' pays $'+pendingRent+' rent to '+ow.token);
+  playSound(200,0.15,'sawtooth');
+  if(p.cash<=0)goBankrupt(p);
+  document.getElementById('endBtn').style.display='inline-block';
+  renderPlayers();
+}
+
+function fortifyProperty(){
+  const p=players[currentPlayer];
+  const sq=currentSquare;
+  const cost=Math.floor(sq.price*0.5);
+  document.getElementById('fortifyBtn').style.display='none';
+  p.cash-=cost;
+  sq.rent=sq.rent*2;
+  sq.fortified=true;
+  log('🛡️ '+p.token+' FORTIFIES '+(sq.name.replace(/\n/g,' '))+' for $'+cost+' — rent now $'+sq.rent);
+  playSound(400,0.12);
+  showCard('🛡️ FORTIFIED!',(sq.name.replace(/\n/g,' '))+'\nRent doubled to $'+sq.rent);
+  checkPrize('fortress');
   renderPlayers();
 }
 
