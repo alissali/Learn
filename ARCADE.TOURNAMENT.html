@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JuX ARCADE — TOURNAMENT</title>
+<meta property="og:title" content="JuX ARCADE — TOURNAMENT">
+<meta property="og:description" content="Bracket tournament across 6 games. 2-8 players. Glory awaits.">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://raw.githack.com/alissali/Learn/main/ARCADE.TOURNAMENT.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23e8a045' x='25' y='25' width='50' height='50' rx='4' transform='rotate(45 50 50)'/></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#e8d5c0;font-family:Georgia,serif;min-height:100vh;overflow-x:hidden}
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d) infinite}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+.content{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:30px 20px}
+h1{font-family:'Cinzel Decorative',serif;color:#e8a045;text-align:center;font-size:2em;letter-spacing:4px;text-shadow:0 0 30px rgba(232,160,69,.3)}
+.sub{text-align:center;color:#666;font-family:monospace;margin:8px 0 25px;letter-spacing:2px}
+.setup{background:rgba(15,15,25,.95);border:1px solid #1a1a2e;border-radius:12px;padding:25px;margin:20px 0}
+.setup h2{font-family:'Cinzel Decorative',serif;color:#e8a045;font-size:1.2em;margin-bottom:15px}
+label{display:block;font-family:monospace;color:#888;font-size:.85em;margin:10px 0 5px}
+input,select{width:100%;padding:10px;background:#0a0a12;border:1px solid #333;color:#e8d5c0;border-radius:6px;font-family:monospace;font-size:.9em}
+input:focus,select:focus{border-color:#e8a045;outline:none}
+.player-list{margin:15px 0}
+.player-row{display:flex;gap:10px;margin:5px 0;align-items:center}
+.player-row input{flex:1}
+.remove-btn{background:#e74c3c;color:#fff;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-weight:bold}
+.add-btn{display:inline-block;background:none;border:1px dashed #666;color:#666;padding:8px 20px;border-radius:6px;cursor:pointer;font-family:monospace;margin:8px 0}
+.add-btn:hover{border-color:#e8a045;color:#e8a045}
+.btn{display:block;width:100%;padding:14px;font-family:'Cinzel Decorative',serif;font-size:1.1em;font-weight:bold;border:none;border-radius:8px;cursor:pointer;letter-spacing:3px;margin:15px 0;transition:.3s}
+.btn-start{background:linear-gradient(135deg,#e8a045,#d4782f);color:#0a0a12}
+.btn-start:hover{box-shadow:0 0 25px rgba(232,160,69,.5)}
+.btn-back{background:none;border:1px solid #333;color:#888}
+.btn-back:hover{border-color:#e8a045;color:#e8a045}
+.bracket{margin:20px 0;display:none}
+.round-title{font-family:'Cinzel Decorative',serif;color:#e8a045;font-size:1.1em;margin:20px 0 10px;text-align:center}
+.match{background:rgba(15,15,25,.95);border:1px solid #1a1a2e;border-radius:10px;padding:15px;margin:10px 0}
+.match-header{font-family:monospace;color:#666;font-size:.75em;margin-bottom:8px}
+.match-game{color:#e8a045;font-weight:bold}
+.versus{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0}
+.fighter{flex:1;text-align:center;padding:12px;border:1px solid #333;border-radius:8px;cursor:pointer;transition:.3s;font-family:monospace}
+.fighter:hover{border-color:#e8a045;background:rgba(232,160,69,.05)}
+.fighter.winner{border-color:#2ecc71;background:rgba(46,204,113,.1);color:#2ecc71}
+.vs-text{font-family:'Cinzel Decorative',serif;color:#e8a045;font-size:1.2em}
+.champion-banner{display:none;text-align:center;padding:40px;margin:20px 0;border:2px solid #e8a045;border-radius:12px;background:rgba(232,160,69,.04)}
+.champion-banner h2{font-family:'Cinzel Decorative',serif;font-size:2em;color:#e8a045;margin-bottom:10px}
+.champion-banner .name{font-size:1.5em;color:#2ecc71;font-family:monospace}
+.champion-banner .trophy{font-size:4em;margin:15px}
+.back-link{display:block;text-align:center;margin:20px;color:#e8a045;font-family:monospace;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="content">
+<h1>⚔️ TOURNAMENT</h1>
+<p class="sub">BRACKET BATTLE ACROSS 6 GAMES</p>
+
+<div class="setup" id="setupPanel">
+<h2>🎮 Setup Tournament</h2>
+<label>Tournament Name</label>
+<input id="tName" value="JuX Championship" maxlength="40">
+<label>Players (2-8)</label>
+<div class="player-list" id="playerList">
+<div class="player-row"><input class="pname" placeholder="Player 1 name" value=""><span class="remove-btn" onclick="removePlayer(this)" style="visibility:hidden">&times;</span></div>
+<div class="player-row"><input class="pname" placeholder="Player 2 name" value=""><span class="remove-btn" onclick="removePlayer(this)" style="visibility:hidden">&times;</span></div>
+</div>
+<span class="add-btn" onclick="addPlayer()">+ ADD PLAYER</span>
+<label>Games to include</label>
+<div id="gameChecks" style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:8px 0">
+<label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" value="DUNE TAROT" checked> 🎴 DUNE TAROT</label>
+<label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" value="MONOPOLY" checked> 🎲 MONOPOLY</label>
+<label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" value="SNAKE" checked> 🐍 SNAKE</label>
+<label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" value="JuXYams" checked> 🎯 JuXYams</label>
+<label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" value="HOLD'EM" checked> ♠️ HOLD'EM</label>
+<label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" value="هولدم عربي" checked> 🌙 هولدم عربي</label>
+</div>
+<button class="btn btn-start" onclick="startTournament()">⚔️ START TOURNAMENT</button>
+</div>
+
+<div class="bracket" id="bracketPanel"></div>
+<div class="champion-banner" id="champBanner">
+<div class="trophy">🏆</div>
+<h2>CHAMPION</h2>
+<div class="name" id="champName"></div>
+</div>
+
+<a href="https://raw.githack.com/alissali/Learn/main/ARCADE.html" class="back-link">◀ BACK TO ARCADE</a>
+</div>
+
+<script>
+(function(){
+var s=document.getElementById('stars');for(var i=0;i<60;i++){var d=document.createElement('div');d.className='star';d.style.cssText='width:'+(.5+Math.random()*2)+'px;height:'+(.5+Math.random()*2)+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--d:'+(2+Math.random()*4)+'s';s.appendChild(d)}
+})();
+var matches=[],currentRound=0,games=[];
+function addPlayer(){
+  var list=document.getElementById('playerList');
+  if(list.children.length>=8)return;
+  var row=document.createElement('div');row.className='player-row';
+  row.innerHTML='<input class="pname" placeholder="Player '+(list.children.length+1)+' name"><span class="remove-btn" onclick="removePlayer(this)">&times;</span>';
+  list.appendChild(row);
+  updateRemoveButtons();
+}
+function removePlayer(btn){
+  var list=document.getElementById('playerList');
+  if(list.children.length<=2)return;
+  btn.parentElement.remove();
+  updateRemoveButtons();
+}
+function updateRemoveButtons(){
+  var rows=document.querySelectorAll('.player-row .remove-btn');
+  rows.forEach(function(b){b.style.visibility=rows.length>2?'visible':'hidden'});
+}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function startTournament(){
+  var inputs=document.querySelectorAll('.pname');
+  var players=[];
+  inputs.forEach(function(inp){var n=inp.value.trim();if(n)players.push(n)});
+  if(players.length<2){alert('Need at least 2 players');return}
+  var checks=document.querySelectorAll('#gameChecks input:checked');
+  games=[];checks.forEach(function(c){games.push(c.value)});
+  if(games.length===0){alert('Select at least 1 game');return}
+  // Pad to power of 2
+  var size=2;while(size<players.length)size*=2;
+  shuffle(players);
+  while(players.length<size)players.push('BYE');
+  document.getElementById('setupPanel').style.display='none';
+  buildBracket(players);
+}
+function buildBracket(players){
+  var panel=document.getElementById('bracketPanel');panel.style.display='block';panel.innerHTML='';
+  var roundNum=1,current=players;
+  while(current.length>1){
+    var rDiv=document.createElement('div');
+    rDiv.innerHTML='<div class="round-title">ROUND '+roundNum+(current.length===2?' — FINAL':'')+'</div>';
+    var nextRound=[];
+    for(var i=0;i<current.length;i+=2){
+      var game=games[Math.floor(Math.random()*games.length)];
+      var matchDiv=document.createElement('div');matchDiv.className='match';
+      var p1=current[i],p2=current[i+1];
+      if(p1==='BYE'||p2==='BYE'){
+        var winner=p1==='BYE'?p2:p1;
+        matchDiv.innerHTML='<div class="match-header">Match '+(i/2+1)+' — <span class="match-game">'+game+'</span></div><div style="text-align:center;font-family:monospace;color:#2ecc71;padding:10px">'+winner+' advances (BYE)</div>';
+        nextRound.push(winner);
+      }else{
+        var mid='m_'+roundNum+'_'+(i/2);
+        matchDiv.innerHTML='<div class="match-header">Match '+(i/2+1)+' — <span class="match-game">'+game+'</span></div><div class="versus"><div class="fighter" id="'+mid+'_a" onclick="pickWinner(\''+mid+'\',\'a\',\''+escape(p1)+'\')">'+p1+'</div><div class="vs-text">VS</div><div class="fighter" id="'+mid+'_b" onclick="pickWinner(\''+mid+'\',\'b\',\''+escape(p2)+'\')">'+p2+'</div></div>';
+        nextRound.push(null);
+      }
+      rDiv.appendChild(matchDiv);
+    }
+    panel.appendChild(rDiv);
+    if(nextRound.every(function(x){return x!==null})){current=nextRound;roundNum++}
+    else break;
+  }
+}
+window.pickWinner=function(mid,side,nameEnc){
+  var name=unescape(nameEnc);
+  document.getElementById(mid+'_a').classList.remove('winner');
+  document.getElementById(mid+'_b').classList.remove('winner');
+  document.getElementById(mid+'_'+side).classList.add('winner');
+  // Check if all matches in current visible round have winners
+  var fighters=document.querySelectorAll('.fighter.winner');
+  var allMatches=document.querySelectorAll('.match');
+  // Simple: if final round, show champion
+  var rounds=document.querySelectorAll('.round-title');
+  var lastRound=rounds[rounds.length-1];
+  if(lastRound&&lastRound.textContent.includes('FINAL')){
+    var finals=lastRound.parentElement.querySelectorAll('.fighter.winner');
+    if(finals.length===1){
+      document.getElementById('champName').textContent=name;
+      document.getElementById('champBanner').style.display='block';
+      // Audio
+      try{var a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.type='square';o.frequency.value=523;g.gain.value=.15;o.connect(g);g.connect(a.destination);o.start();o.frequency.setValueAtTime(523,a.currentTime);o.frequency.setValueAtTime(659,a.currentTime+.15);o.frequency.setValueAtTime(784,a.currentTime+.3);o.frequency.setValueAtTime(1047,a.currentTime+.45);g.gain.setValueAtTime(.15,a.currentTime+.6);g.gain.linearRampToValueAtTime(0,a.currentTime+1.2);o.stop(a.currentTime+1.2)}catch(e){}
+    }
+  }
+};
+</script>
+<div style="text-align:center;font-family:monospace;color:#333;font-size:.7em;padding:20px">
+<a href="https://juxaos.com/privacy.html" style="color:#555">Privacy</a> · <a href="https://juxaos.com/terms.html" style="color:#555">Terms</a>
+</div>
+</body>
+</html>
