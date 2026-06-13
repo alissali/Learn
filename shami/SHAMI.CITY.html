@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHAMI — Damascus — The City That Never Died</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0f08;color:#e8d5c4;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('web/SHAMI-AERIAL.jpg') center/cover;filter:brightness(0.4)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(transparent 60%,#1a0f08)}
+.hero-content{position:relative;z-index:2;padding:2rem}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#d4a574;text-shadow:0 0 40px rgba(212,165,116,0.5);margin-bottom:0.5rem;letter-spacing:0.15em}
+.hero .sub{font-size:clamp(1rem,3vw,1.8rem);color:#c9956e;margin-bottom:1rem}
+.hero .tagline{font-size:clamp(0.9rem,2vw,1.2rem);color:#a08060;font-style:italic;max-width:700px;margin:0 auto}
+.arabesque{text-align:center;padding:2rem 0;font-size:2rem;color:#d4a574;opacity:0.6}
+section{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);color:#d4a574;text-align:center;margin-bottom:0.5rem;letter-spacing:0.1em}
+.section-sub{text-align:center;color:#a08060;font-style:italic;margin-bottom:2rem;font-size:1.1rem}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:2rem 0}
+.concept-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:16/9;border:1px solid rgba(212,165,116,0.2)}
+.concept-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.concept-card:hover img{transform:scale(1.05)}
+.concept-card .label{position:absolute;bottom:0;left:0;right:0;padding:1rem;background:linear-gradient(transparent,rgba(26,15,8,0.95));font-size:1rem;color:#d4a574;letter-spacing:0.08em}
+.districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:2rem 0}
+.district{background:rgba(212,165,116,0.06);border:1px solid rgba(212,165,116,0.15);border-radius:12px;padding:1.5rem;transition:border-color 0.3s}
+.district:hover{border-color:#d4a574}
+.district-icon{font-size:2rem;margin-bottom:0.5rem}
+.district h3{color:#d4a574;font-size:1.2rem;margin-bottom:0.5rem}
+.district .fact{color:#c9956e;font-size:0.95rem;margin-bottom:0.5rem}
+.district .quote{color:#a08060;font-style:italic;font-size:0.9rem;border-left:2px solid rgba(212,165,116,0.3);padding-left:0.8rem}
+.figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:2rem 0}
+.figure{text-align:center;padding:1.2rem;background:rgba(212,165,116,0.04);border:1px solid rgba(212,165,116,0.1);border-radius:10px}
+.figure .icon{font-size:2.5rem;margin-bottom:0.5rem}
+.figure .name{color:#d4a574;font-weight:bold;font-size:1rem}
+.figure .role{color:#a08060;font-size:0.85rem;margin-top:0.3rem}
+.gifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:2rem 0}
+.gift{display:flex;align-items:center;gap:0.8rem;padding:1rem;background:rgba(212,165,116,0.04);border-radius:8px;border:1px solid rgba(212,165,116,0.1)}
+.gift .gi{font-size:1.5rem}
+.gift .gt .gn{color:#d4a574;font-weight:bold}
+.gift .gt .gd{color:#a08060;font-size:0.85rem}
+.army{margin:2rem 0}
+.army-unit{display:flex;align-items:center;gap:1rem;padding:1rem;border-bottom:1px solid rgba(212,165,116,0.1)}
+.army-unit .rank{font-size:1.5rem}
+.army-unit .info .uname{color:#d4a574;font-weight:bold}
+.army-unit .info .udesc{color:#a08060;font-size:0.9rem}
+.nav-links{display:flex;flex-wrap:wrap;justify-content:center;gap:0.8rem;margin:2rem 0}
+.nav-links a{color:#d4a574;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(212,165,116,0.3);border-radius:6px;font-size:0.85rem;transition:all 0.3s}
+.nav-links a:hover{background:rgba(212,165,116,0.15);border-color:#d4a574}
+.footer{text-align:center;padding:3rem 1rem;color:#a08060;font-size:0.9rem;border-top:1px solid rgba(212,165,116,0.1);margin-top:3rem}
+.footer a{color:#d4a574;text-decoration:none}
+#jasmine-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
+</style>
+</head>
+<body>
+<canvas id="jasmine-canvas"></canvas>
+
+<div class="hero">
+  <div class="hero-bg" role="img" aria-label="Aerial view of Damascus"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>🕌 DAMASCUS</h1>
+    <div class="sub">THE CITY THAT NEVER DIED</div>
+    <div class="tagline">"10,000 years. Every empire came. Every empire left. Damascus made them coffee and waited."</div>
+  </div>
+</div>
+
+<div class="arabesque">☪ ✦ 🌹 ✦ ☪</div>
+
+<section>
+  <h2>THE SHAMI LANDS</h2>
+  <p class="section-sub">بلاد الشام — The land where God tested everything first</p>
+  <p style="color:#c9956e;text-align:center;max-width:800px;margin:0 auto 1rem;line-height:1.8">
+    Damascus. The oldest continuously inhabited city on Earth. While Rome was mud, Damascus had glass. 
+    While London was forest, Damascus had poetry. While New York was rock, Damascus had jasmine.
+    10,000 years of continuous civilization. Conquered by everyone — Egyptians, Assyrians, Persians, Greeks, Romans, 
+    Arabs, Mongols, Ottomans, French. Each one came to conquer. Each one stayed to learn.
+    The Levant — Syria, Lebanon, Palestine, Jordan — where the alphabet was born, where bread was first baked, 
+    where wine was first poured, where three religions found their prophets.
+  </p>
+</section>
+
+<div class="arabesque">✦ 🕌 ✦</div>
+
+<section>
+  <h2>CONCEPT ART</h2>
+  <p class="section-sub">6 visions of the Shami world</p>
+  <div class="concept-grid">
+    <div class="concept-card"><img src="web/SHAMI-AERIAL.jpg" alt="Damascus from above" loading="lazy"><div class="label">DAMASCUS FROM ABOVE — 10,000 years in one frame</div></div>
+    <div class="concept-card"><img src="web/SHAMI-MOSQUE.jpg" alt="Umayyad Mosque" loading="lazy"><div class="label">THE UMAYYAD MOSQUE — Where Islam and Christianity share a wall</div></div>
+    <div class="concept-card"><img src="web/SHAMI-SOUQ.jpg" alt="Souq al-Hamidiyya" loading="lazy"><div class="label">SOUQ AL-HAMIDIYYA — Bullet holes let the light in</div></div>
+    <div class="concept-card"><img src="web/SHAMI-COURTYARD.jpg" alt="Damascene courtyard" loading="lazy"><div class="label">THE DAMASCENE HOUSE — The garden is inside</div></div>
+    <div class="concept-card"><img src="web/SHAMI-QASIOUN.jpg" alt="Mount Qasioun" loading="lazy"><div class="label">MOUNT QASIOUN — Where Cain killed Abel. The first blood.</div></div>
+    <div class="concept-card"><img src="web/SHAMI-FEAST.jpg" alt="Shami feast" loading="lazy"><div class="label">THE SHAMI TABLE — You never leave this table hungry</div></div>
+  </div>
+</section>
+
+<div class="arabesque">✦ 🌹 ✦</div>
+
+<section>
+  <h2>THE 9 QUARTERS</h2>
+  <p class="section-sub">Each quarter older than most countries</p>
+  <div class="districts">
+
+    <div class="district">
+      <div class="district-icon">🕌</div>
+      <h3>THE UMAYYAD MOSQUE</h3>
+      <div class="fact">Built 715 AD on a Roman temple on an Aramean temple. John the Baptist's head inside. Christians and Muslims prayed together for a century.</div>
+      <div class="quote">"They didn't demolish the church. They shared the wall. For a hundred years."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🏺</div>
+      <h3>SOUQ AL-HAMIDIYYA</h3>
+      <div class="fact">2,000 years of continuous trade. Iron roof shot through by French planes. The bullet holes became skylights. Nobody fixed them.</div>
+      <div class="quote">"The French shot the roof. Now the sun comes through the bullet holes. Damascus always wins."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🏡</div>
+      <h3>THE DAMASCENE HOUSE</h3>
+      <div class="fact">Plain walls outside. Paradise inside. Courtyard with fountain, jasmine, citrus trees. The ablaq stone. Black and white. The beauty is hidden.</div>
+      <div class="quote">"The ugliest door on the street. The most beautiful garden in the world."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">⛰️</div>
+      <h3>MOUNT QASIOUN</h3>
+      <div class="fact">Where Cain killed Abel. The first murder on Earth. The mountain still watches. Every night, Damascus glows beneath it like an apology.</div>
+      <div class="quote">"The mountain saw the first blood. It's been watching ever since."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🌹</div>
+      <h3>THE JASMINE QUARTER</h3>
+      <div class="fact">Damascus = City of Jasmine. The scent reaches you before the city does. Jasmine on every wall, every balcony, every doorframe. They plant it like breathing.</div>
+      <div class="quote">"You smell Damascus before you see it."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🍞</div>
+      <h3>THE BREAD OVENS</h3>
+      <div class="fact">The Levant invented bread. 14,000 years ago. Before agriculture. Before pottery. Flatbread on a dome oven. The smell hasn't changed.</div>
+      <div class="quote">"They invented bread before they invented farming. Priorities."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">☕</div>
+      <h3>THE COFFEE HOUSES</h3>
+      <div class="fact">Arabic coffee with cardamom. Served in tiny cups. One cup = one hour of conversation. The original social network. 500 years before the internet.</div>
+      <div class="quote">"One cup. One hour. One truth. Repeat."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">⚔️</div>
+      <h3>DAMASCUS STEEL</h3>
+      <div class="fact">The legendary sword steel. Watered pattern. Could cut a silk scarf falling through the air. The recipe was lost. Modern metallurgy still can't fully replicate it.</div>
+      <div class="quote">"They made a blade that cut silk in the air. Then forgot how."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">📜</div>
+      <h3>THE ALPHABET QUARTER</h3>
+      <div class="fact">Ugarit (Syria) gave the world the first alphabet. 30 letters. 1400 BC. Every word you're reading now started here. The Phoenicians carried it to Greece. Greece gave it to Rome. Rome gave it to you.</div>
+      <div class="quote">"Every word in every language on Earth passed through here first."</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="arabesque">✦ ☪ ✦</div>
+
+<section>
+  <h2>THE IMMORTALS OF THE LEVANT</h2>
+  <p class="section-sub">They walked these streets</p>
+  <div class="figures">
+    <div class="figure"><div class="icon">⚔️</div><div class="name">SALADIN</div><div class="role">Took Jerusalem back. Then opened the gates to everyone.</div></div>
+    <div class="figure"><div class="icon">📜</div><div class="name">IBN ARABI</div><div class="role">The Greatest Sheikh. Wrote 800 books. Mystic. Love is the religion.</div></div>
+    <div class="figure"><div class="icon">🕌</div><div class="name">UMAYYADS</div><div class="role">First Islamic dynasty. Made Damascus capital of the world. 661-750 AD.</div></div>
+    <div class="figure"><div class="icon">📖</div><div class="name">PAUL</div><div class="role">Blinded on the road to Damascus. Saw again. Changed the world.</div></div>
+    <div class="figure"><div class="icon">🌹</div><div class="name">NIZAR QABBANI</div><div class="role">Poet of Damascus. Wrote love like a wound. The city's voice.</div></div>
+    <div class="figure"><div class="icon">🔬</div><div class="name">AL-RAZI</div><div class="role">Father of medicine. Wrote 200 books. Distinguished measles from smallpox.</div></div>
+  </div>
+</section>
+
+<div class="arabesque">✦ 🌹 ✦</div>
+
+<section>
+  <h2>THE SHAMI ARMY</h2>
+  <p class="section-sub">10,000 years of surviving everyone</p>
+  <div class="army">
+    <div class="army-unit"><div class="rank">⚔️</div><div class="info"><div class="uname">DAMASCUS STEEL</div><div class="udesc">Blades that cut falling silk. Lost recipe. Crusaders couldn't replicate. Carried from Syria to the world.</div></div></div>
+    <div class="army-unit"><div class="rank">🏇</div><div class="info"><div class="uname">ARAB CAVALRY</div><div class="udesc">Arabian horse — the original warhorse. 4,500 years of breeding. Speed + endurance. Every racehorse on Earth carries this blood.</div></div></div>
+    <div class="army-unit"><div class="rank">🏰</div><div class="info"><div class="uname">KRAK DES CHEVALIERS</div><div class="udesc">The greatest castle ever built. In Syria. Crusaders built it. Saladin looked at it and waited. Eventually it fell. Everything falls in the Levant. Eventually.</div></div></div>
+    <div class="army-unit"><div class="rank">📐</div><div class="info"><div class="uname">THE ENGINEERS</div><div class="udesc">Aqueducts, waterwheels of Hama, irrigation. They moved water before Rome existed. The norias still turn.</div></div></div>
+    <div class="army-unit"><div class="rank">🕊️</div><div class="info"><div class="uname">THE SURVIVORS</div><div class="udesc">Conquered by 14 empires. Outlasted every single one. The greatest army is the one that's still here.</div></div></div>
+  </div>
+</section>
+
+<div class="arabesque">✦ 🍞 ✦</div>
+
+<section>
+  <h2>WHAT THE SHAMI GAVE THE WORLD</h2>
+  <p class="section-sub">You use these every day. You're welcome.</p>
+  <div class="gifts">
+    <div class="gift"><div class="gi">📜</div><div class="gt"><div class="gn">THE ALPHABET</div><div class="gd">Ugarit, Syria. 1400 BC. Every letter on Earth.</div></div></div>
+    <div class="gift"><div class="gi">🍞</div><div class="gt"><div class="gn">BREAD</div><div class="gd">14,000 years ago. Before farming. The original.</div></div></div>
+    <div class="gift"><div class="gi">🍷</div><div class="gt"><div class="gn">WINE</div><div class="gd">6,000 BC. Lebanon/Syria. The first vineyard.</div></div></div>
+    <div class="gift"><div class="gi">⚔️</div><div class="gt"><div class="gn">DAMASCUS STEEL</div><div class="gd">The blade that couldn't be matched. Still can't.</div></div></div>
+    <div class="gift"><div class="gi">🌹</div><div class="gt"><div class="gn">DAMASCENE ROSE</div><div class="gd">Rose water. Rose oil. Perfume. Baklava. Everything.</div></div></div>
+    <div class="gift"><div class="gi">🧪</div><div class="gt"><div class="gn">GLASS</div><div class="gd">Syrian glassblowing. 50 BC. The world could finally see through.</div></div></div>
+    <div class="gift"><div class="gi">🎵</div><div class="gt"><div class="gn">MUSICAL NOTATION</div><div class="gd">Ugarit. 1400 BC. The oldest known melody on Earth.</div></div></div>
+    <div class="gift"><div class="gi">☕</div><div class="gt"><div class="gn">COFFEE CULTURE</div><div class="gd">Arabic coffee with cardamom. The social network before WiFi.</div></div></div>
+  </div>
+</section>
+
+<div class="arabesque">✦ ☪ ✦</div>
+
+<section>
+  <h2>THE SHAMI TABLE</h2>
+  <p class="section-sub">You never leave this table. Nobody has. Nobody will.</p>
+  <p style="color:#c9956e;text-align:center;max-width:800px;margin:0 auto 1rem;line-height:1.8">
+    Kibbeh — raw lamb with bulgur, shaped by hand, eaten with family. Hummus — chickpeas, tahini, olive oil, 
+    a river of gold on top. Tabbouleh — more parsley than bulgur, the rule is sacred. 
+    Fattoush — bread that refused to die, became a salad. Baklava — 40 layers of filo, pistachios, orange blossom syrup.
+    Knafeh — stretchy cheese under crisp pastry drowned in sugar syrup. Arak — anise, water, ice. It turns white. 
+    The conversation turns honest. Shawarma — the world stole it. The world can't make it right.
+    Arabic coffee — cardamom, no sugar. The cup is small. The conversation is long.
+    The Shami table is the one table on Earth where everyone sits down and nobody stands up.
+  </p>
+</section>
+
+<div class="arabesque">✦ 🌹 ✦</div>
+
+<section>
+  <h2>🌍 THE CIVILIZATIONS</h2>
+  <p class="section-sub">From the Dreaming to the Departure</p>
+  <div class="nav-links">
+    <a href="../aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal</a>
+    <a href="../yabroud/YABROUD.CITY.html">🏛️ Yabroud</a>
+    <a href="../egypt/EGYPT.CITY.html">☀️ Egypt</a>
+    <a href="#">🕌 Damascus ★</a>
+    <a href="../india/INDIA.CITY.html">☸️ India</a>
+    <a href="../china/CHINA.CITY.html">🐉 China</a>
+    <a href="../greece/GREECE.CITY.html">🏛️ Greece</a>
+    <a href="../aztec/AZTEC.CITY.html">🦅 Aztec</a>
+    <a href="../arctic/ARCTIC.CITY.html">❄️ Inuit</a>
+    <a href="../zulu/ZULU.CITY.html">🛡️ Zulu</a>
+    <a href="../viking/VIKING.CITY.html">⚡ Viking</a>
+    <a href="../london/LONDON.CITY.html">👑 London</a>
+    <a href="../newyork/NEWYORK.CITY.html">🗽 New York</a>
+    <a href="../brasilia/BRASILIA.CITY.html">✈️ Brasília</a>
+    <a href="../tokyo/TOKYO.CITY.html">🗼 Tokyo</a>
+    <a href="../yabroud/MORDOR.NET.html">🔥 Mordor</a>
+    <a href="../departure/DEPARTURE.CITY.html">🚀 Departure</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>🕌 DAMASCUS — THE CITY THAT NEVER DIED</p>
+  <p style="margin-top:0.5rem">"10,000 years. Every empire came. Every empire left. The jasmine stayed."</p>
+  <p style="margin-top:1rem"><a href="https://juxaos.com">JuXAOS.com</a> · <a href="https://juxitt.com">JuXITT.com</a></p>
+  <p style="margin-top:0.5rem;font-size:0.8rem">© 2026 JuX ITT · Shami Culture · بلاد الشام</p>
+</footer>
+
+<script>
+// Jasmine petals + warm dust particles
+const c=document.getElementById('jasmine-canvas'),x=c.getContext('2d');
+function R(){c.width=innerWidth;c.height=innerHeight}R();addEventListener('resize',R);
+const P=[];for(let i=0;i<80;i++)P.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,s:Math.random()*3+1,v:Math.random()*0.5+0.2,d:Math.random()*2-1,o:Math.random()*0.5+0.2,c:['#fff','#d4a574','#c9956e','#f5e6d3','#e8c9a0'][Math.floor(Math.random()*5)],r:Math.random()*360,rv:Math.random()*2-1});
+function A(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{x.save();x.translate(p.x,p.y);x.rotate(p.r*Math.PI/180);x.globalAlpha=p.o;x.fillStyle=p.c;if(p.s>2){x.beginPath();x.ellipse(0,0,p.s,p.s*0.6,0,0,Math.PI*2);x.fill()}else{x.fillRect(-p.s/2,-p.s/2,p.s,p.s)}x.restore();p.y+=p.v;p.x+=p.d*0.3;p.r+=p.rv;if(p.y>c.height+10){p.y=-10;p.x=Math.random()*c.width}if(p.x<-10)p.x=c.width+10;if(p.x>c.width+10)p.x=-10});requestAnimationFrame(A)}A();
+</script>
+</body>
+</html>
