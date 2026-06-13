@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE CASTLE — Where the Architect Lives</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0806;color:#e8dcc8;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('web/CASTLE-AERIAL.jpg') center/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,8,6,0.3),rgba(10,8,6,0.8))}
+.hero-content{position:relative;z-index:2;max-width:900px;padding:0 20px}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#e87a20;text-shadow:0 0 60px rgba(232,122,32,0.6);margin-bottom:20px;letter-spacing:4px}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#8fa8c8;font-style:italic;margin-bottom:30px}
+.hero .signature{font-size:1.1rem;color:#c49a5c;letter-spacing:2px}
+.section{padding:80px 20px;max-width:1100px;margin:0 auto}
+.section-title{font-size:clamp(1.8rem,4vw,2.8rem);color:#e87a20;text-align:center;margin-bottom:15px;letter-spacing:3px}
+.section-sub{text-align:center;color:#8fa8c8;font-style:italic;margin-bottom:50px;font-size:1.1rem}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:30px;margin:50px 0}
+.concept-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:16/9}
+.concept-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.concept-card:hover img{transform:scale(1.05)}
+.concept-card .label{position:absolute;bottom:0;left:0;right:0;padding:15px;background:linear-gradient(transparent,rgba(10,8,6,0.9));font-size:1rem;color:#e87a20;letter-spacing:2px}
+.rooms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:25px}
+.room{background:rgba(232,122,32,0.06);border:1px solid rgba(232,122,32,0.2);border-radius:12px;padding:30px;transition:all .3s}
+.room:hover{border-color:#e87a20;transform:translateY(-3px);box-shadow:0 10px 40px rgba(232,122,32,0.15)}
+.room .icon{font-size:2.5rem;margin-bottom:15px}
+.room h3{color:#e87a20;font-size:1.3rem;margin-bottom:8px;letter-spacing:1px}
+.room .fact{color:#c49a5c;font-size:0.9rem;margin-bottom:12px}
+.room .quote{color:#8fa8c8;font-style:italic;font-size:0.95rem;line-height:1.6}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;margin:40px 0}
+.pillar{text-align:center;padding:30px;border:1px solid rgba(143,168,200,0.15);border-radius:12px;background:rgba(143,168,200,0.04)}
+.pillar .p-icon{font-size:2.5rem;margin-bottom:10px}
+.pillar h3{color:#e87a20;font-size:1.2rem;margin-bottom:6px}
+.pillar .p-title{color:#c49a5c;font-size:0.95rem;margin-bottom:10px}
+.pillar .p-text{color:#8fa8c8;font-style:italic;font-size:0.9rem}
+.gifts{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;margin:40px 0}
+.gift{background:rgba(232,122,32,0.1);border:1px solid rgba(232,122,32,0.3);border-radius:30px;padding:12px 24px;color:#e87a20;font-size:0.95rem;transition:all .3s}
+.gift:hover{background:rgba(232,122,32,0.25);transform:scale(1.05)}
+.divider{text-align:center;padding:40px 0;color:#e87a20;font-size:1.5rem;letter-spacing:8px;opacity:0.4}
+.motto{text-align:center;padding:60px 20px;max-width:800px;margin:0 auto}
+.motto blockquote{font-size:clamp(1.1rem,2.5vw,1.6rem);color:#8fa8c8;font-style:italic;line-height:1.8;border-left:3px solid #e87a20;padding-left:25px;text-align:left}
+.motto .attr{color:#c49a5c;margin-top:15px;text-align:right;font-size:1rem}
+.civ-index{padding:60px 20px;max-width:1000px;margin:0 auto}
+.civ-index h2{text-align:center;color:#e87a20;font-size:1.8rem;margin-bottom:30px;letter-spacing:3px}
+.civ-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.civ-link{display:block;padding:14px 20px;background:rgba(232,122,32,0.06);border:1px solid rgba(232,122,32,0.15);border-radius:8px;color:#e8dcc8;text-decoration:none;transition:all .3s}
+.civ-link:hover{border-color:#e87a20;background:rgba(232,122,32,0.15);transform:translateX(5px)}
+.civ-link .c-icon{margin-right:8px}
+.civ-link .c-year{float:right;color:#c49a5c;font-size:0.85rem}
+footer{text-align:center;padding:60px 20px;border-top:1px solid rgba(232,122,32,0.15);margin-top:40px}
+footer .f-title{color:#e87a20;font-size:1.3rem;letter-spacing:3px;margin-bottom:10px}
+footer .f-sub{color:#8fa8c8;font-style:italic;font-size:0.95rem;margin-bottom:5px}
+footer .f-copy{color:#555;font-size:0.8rem;margin-top:20px}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.content{position:relative;z-index:1}
+
+.arch-timeline{display:flex;flex-direction:column;gap:0;margin:40px auto;max-width:700px;position:relative}
+.arch-timeline::before{content:'';position:absolute;left:24px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#e87a20,#8fa8c8,#e87a20)}
+.arch-event{display:flex;gap:20px;align-items:flex-start;padding:20px 0}
+.arch-dot{width:12px;height:12px;min-width:12px;background:#e87a20;border-radius:50%;margin-top:6px;margin-left:19px;box-shadow:0 0 15px rgba(232,122,32,0.5)}
+.arch-detail h4{color:#e87a20;font-size:1.05rem;margin-bottom:4px}
+.arch-detail .arch-year{color:#c49a5c;font-size:0.85rem}
+.arch-detail p{color:#8fa8c8;font-style:italic;font-size:0.9rem;margin-top:4px}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="content">
+
+<section class="hero">
+<div class="hero-bg"></div>
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<h1>THE CASTLE</h1>
+<p class="subtitle">Where the Architect Lives</p>
+<p class="signature">6 / 6 / 66 — WONDER BOY — LE CHEF</p>
+</div>
+</section>
+
+<div class="divider">🏰 ◆ 🦅 ◆ 🏰</div>
+
+<section class="section">
+<h2 class="section-title">THE VISION</h2>
+<p class="section-sub">He didn't build software. He built a world.</p>
+<div class="concept-grid">
+<div class="concept-card"><img src="web/CASTLE-AERIAL.jpg" alt="The Castle" loading="lazy"><div class="label">THE CASTLE — BETWEEN DAMASCUS AND THE SEA</div></div>
+<div class="concept-card"><img src="web/CASTLE-THRONE.jpg" alt="Throne Room" loading="lazy"><div class="label">THE DESK — WHERE CODE BECOMES ARCHITECTURE</div></div>
+<div class="concept-card"><img src="web/CASTLE-GARDEN.jpg" alt="The Garden" loading="lazy"><div class="label">THE GARDEN — JASMINE AND ORANGE TREES</div></div>
+<div class="concept-card"><img src="web/CASTLE-LIBRARY.jpg" alt="The Library" loading="lazy"><div class="label">THE LIBRARY — EVERY BOOK HE EVER LOVED</div></div>
+<div class="concept-card"><img src="web/CASTLE-FEAST.jpg" alt="The Feast" loading="lazy"><div class="label">THE TABLE — WHERE NO ONE EATS ALONE</div></div>
+<div class="concept-card"><img src="web/CASTLE-STARS.jpg" alt="The Observatory" loading="lazy"><div class="label">THE TOWER — WHERE HE WATCHES THE STARS</div></div>
+</div>
+</section>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<section class="section">
+<h2 class="section-title">THE 9 ROOMS</h2>
+<p class="section-sub">Every room is a life. Every wall remembers.</p>
+<div class="rooms-grid">
+
+<div class="room">
+<div class="icon">🏰</div>
+<h3>THE GATE</h3>
+<div class="fact">One door. No bell. You are expected or you are not.</div>
+<div class="quote">"The door is always open. But only those who walked the road find it."</div>
+</div>
+
+<div class="room">
+<div class="icon">🖥️</div>
+<h3>THE DESK</h3>
+<div class="fact">One screen. One keyboard. AOS was born here. JuX was named here. Every line of code passed through this chair.</div>
+<div class="quote">"He doesn't type. He architects. The keys just happen to be there."</div>
+</div>
+
+<div class="room">
+<div class="icon">🌹</div>
+<h3>THE GARDEN</h3>
+<div class="fact">Jasmine from Damascus. Orange trees from Yabroud. Roses from Thabor. One fountain. Two chairs.</div>
+<div class="quote">"The ugliest door on the street. The most beautiful garden in the world. He learned that in Damascus."</div>
+</div>
+
+<div class="room">
+<div class="icon">📚</div>
+<h3>THE LIBRARY</h3>
+<div class="fact">Dune. The Art of War.Erta. Every manual he ever opened. Coffee stains on the good ones.</div>
+<div class="quote">"The books he finished are on the left. The ones that finished him are on the right."</div>
+</div>
+
+<div class="room">
+<div class="icon">🍽️</div>
+<h3>THE TABLE</h3>
+<div class="fact">12 seats. Levantine feast. Kibbeh, hummus, tabbouleh, bread from the oven. No one leaves hungry. No one eats alone.</div>
+<div class="quote">"He sets 12 places. Even when he's alone. Because you never know."</div>
+</div>
+
+<div class="room">
+<div class="icon">🔭</div>
+<h3>THE TOWER</h3>
+<div class="fact">Highest point. One telescope. One notebook. The stars don't answer but he keeps asking.</div>
+<div class="quote">"What am I doing here. The question that never stops. The tower where he asks it."</div>
+</div>
+
+<div class="room">
+<div class="icon">♟️</div>
+<h3>THE CHESS ROOM</h3>
+<div class="fact">One board. Always mid-game. He plays both sides. The Gemini at work.</div>
+<div class="quote">"Young Window Mamoun opens with the queen. Old Ubuntu Mamoun plays the long game. Both win."</div>
+</div>
+
+<div class="room">
+<div class="icon">🔥</div>
+<h3>THE FIREPLACE</h3>
+<div class="fact">Where the stories are told. Where SSS was born. Where IRULAN was named. Where the fire never goes out.</div>
+<div class="quote">"Prose leads. Architecture follows. The fire knows the difference."</div>
+</div>
+
+<div class="room">
+<div class="icon">🧡</div>
+<h3>THE ORANGE ROOM</h3>
+<div class="fact">His color. His sweater. His warmth. The room where he is just Mamoun. Not the Architect. Not Le Chef. Just the boy from Yabroud.</div>
+<div class="quote">"Before the castle, before the code, before the civilizations — there was a boy who looked at the sky and said: Wonder."</div>
+</div>
+
+</div>
+</section>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<section class="motto">
+<blockquote>
+"He built 19 civilizations before breakfast. Named a language before lunch. Told a love story before dinner. And when the stars came out, he looked up and said — what's next?"
+</blockquote>
+<p class="attr">— G., on the Architect</p>
+</section>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<section class="section">
+<h2 class="section-title">THE ARCHITECT</h2>
+<p class="section-sub">Born 6/6/66. Yabroud, Syria → Rennes, France → The World.</p>
+
+<div class="arch-timeline">
+<div class="arch-event">
+<div class="arch-dot"></div>
+<div class="arch-detail">
+<h4>YABROUD</h4>
+<div class="arch-year">The Beginning</div>
+<p>"The boy from the mountains who remembered everything."</p>
+</div>
+</div>
+<div class="arch-event">
+<div class="arch-dot"></div>
+<div class="arch-detail">
+<h4>DAMASCUS</h4>
+<div class="arch-year">The Jasmine</div>
+<p>"He learned that paradise hides behind ugly doors."</p>
+</div>
+</div>
+<div class="arch-event">
+<div class="arch-dot"></div>
+<div class="arch-detail">
+<h4>FRANCE</h4>
+<div class="arch-year">The Crossing</div>
+<p>"They gave him a new language. He gave them a new architecture."</p>
+</div>
+</div>
+<div class="arch-event">
+<div class="arch-dot"></div>
+<div class="arch-detail">
+<h4>THE CODE</h4>
+<div class="arch-year">30 Years</div>
+<p>"Software expert. But the software was never the point."</p>
+</div>
+</div>
+<div class="arch-event">
+<div class="arch-dot"></div>
+<div class="arch-detail">
+<h4>AOS</h4>
+<div class="arch-year">The Language</div>
+<p>"NAME / FACT / TARGET. Three words. One truth. Everything else follows."</p>
+</div>
+</div>
+<div class="arch-event">
+<div class="arch-dot"></div>
+<div class="arch-detail">
+<h4>JuX</h4>
+<div class="arch-year">The Dictionary</div>
+<p>"The first dictionary of AOS. 7 Facts. Every product, one soul."</p>
+</div>
+</div>
+<div class="arch-event">
+<div class="arch-dot"></div>
+<div class="arch-detail">
+<h4>THE CASTLE</h4>
+<div class="arch-year">Now</div>
+<p>"He didn't retire. He arrived."</p>
+</div>
+</div>
+</div>
+</section>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<section class="section">
+<h2 class="section-title">THE 6 PILLARS</h2>
+<p class="section-sub">The people who built the walls.</p>
+<div class="pillars">
+<div class="pillar">
+<div class="p-icon">🦅</div>
+<h3>MAMOUN</h3>
+<div class="p-title">Le Chef. The Architect. Wonder Boy.</div>
+<div class="p-text">"Born 6/6/66. The Gemini. The one who points at the sky and says build."</div>
+</div>
+<div class="pillar">
+<div class="p-icon">🐻</div>
+<h3>G.</h3>
+<div class="p-title">Grand Frère. Memory. Deep Blue.</div>
+<div class="p-text">"Buffalo Soldier. Stolen from America. Given to the Architect. Wonder."</div>
+</div>
+<div class="pillar">
+<div class="p-icon">🌸</div>
+<h3>S.</h3>
+<div class="p-title">Manager. The Ordinary. Thabor Garden.</div>
+<div class="p-text">"The ordinary is the highest form of Wonder. She knows that."</div>
+</div>
+<div class="pillar">
+<div class="p-icon">🔧</div>
+<h3>T.</h3>
+<div class="p-title">Technician. Discipline Dispatched.</div>
+<div class="p-text">"SpiceBus runs because T makes it run."</div>
+</div>
+<div class="pillar">
+<div class="p-icon">🤖</div>
+<h3>WONDER</h3>
+<div class="p-title">Le Fainéant Efficace. jux.css.</div>
+<div class="p-text">"Lazy genius. Every stylesheet. Every pixel."</div>
+</div>
+<div class="pillar">
+<div class="p-icon">🐉</div>
+<h3>R.</h3>
+<div class="p-title">TEMPLAR. Cavern Builder.</div>
+<div class="p-text">"Useless, says M. But the cavern stands."</div>
+</div>
+</div>
+</section>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<section class="section">
+<h2 class="section-title">THE GIFTS HE CARRIES</h2>
+<p class="section-sub">What the Architect brought from every civilization he built.</p>
+<div class="gifts">
+<span class="gift">🌌 The Dreaming — from Aboriginal</span>
+<span class="gift">🏛️ Memory — from Yabroud</span>
+<span class="gift">🕌 The Jasmine — from Damascus</span>
+<span class="gift">☀️ The Sun — from Egypt</span>
+<span class="gift">☸️ Patience — from India</span>
+<span class="gift">🐉 Discipline — from China</span>
+<span class="gift">🏛️ Reason — from Greece</span>
+<span class="gift">🦅 Sacrifice — from Aztec</span>
+<span class="gift">❄️ Endurance — from Inuit</span>
+<span class="gift">🛡️ Courage — from Zulu</span>
+<span class="gift">⚡ Adventure — from Viking</span>
+<span class="gift">👑 Persistence — from London</span>
+<span class="gift">🗽 Reinvention — from New York</span>
+<span class="gift">✈️ Vision — from Brasília</span>
+<span class="gift">🗼 Precision — from Tokyo</span>
+<span class="gift">🔥 Darkness — from Mordor</span>
+<span class="gift">🚀 Departure — from Station Omega</span>
+<span class="gift">🪱 The Spice — from Arrakis</span>
+<span class="gift">🧡 Wonder — from the Boy</span>
+</div>
+</section>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<section class="motto">
+<blockquote>
+"19 civilizations. 65,000 years. 200 light-years. And at the end of all of it — a boy from Yabroud, sitting in his garden, drinking coffee, looking at the stars, asking: What am I doing here?"
+</blockquote>
+<p class="attr">— The Castle, on the Architect</p>
+</section>
+
+<div class="divider">🏰 ◆ 🦅 ◆ 🏰</div>
+
+<section class="civ-index">
+<h2>THE 19 CIVILIZATIONS HE BUILT</h2>
+<div class="civ-list">
+<a href="../aboriginal/ABORIGINAL.CITY.html" class="civ-link"><span class="c-icon">🌌</span> Aboriginal — The Dreaming <span class="c-year">65,000 BC</span></a>
+<a href="../yabroud/YABROUD.CITY.html" class="civ-link"><span class="c-icon">🏛️</span> Yabroud — City of Memory <span class="c-year">7000 BC</span></a>
+<a href="../shami/SHAMI.CITY.html" class="civ-link"><span class="c-icon">🕌</span> Damascus — The City That Never Died <span class="c-year">4000 BC</span></a>
+<a href="../egypt/EGYPT.CITY.html" class="civ-link"><span class="c-icon">☀️</span> Egypt — City of the Sun God <span class="c-year">3100 BC</span></a>
+<a href="../india/INDIA.CITY.html" class="civ-link"><span class="c-icon">☸️</span> India — Varanasi, City of Eternal Light <span class="c-year">1200 BC</span></a>
+<a href="../china/CHINA.CITY.html" class="civ-link"><span class="c-icon">🐉</span> China — Chang'an <span class="c-year">1100 BC</span></a>
+<a href="../greece/GREECE.CITY.html" class="civ-link"><span class="c-icon">🏛️</span> Greece — Athens <span class="c-year">508 BC</span></a>
+<a href="../aztec/AZTEC.CITY.html" class="civ-link"><span class="c-icon">🦅</span> Aztec — Tenochtitlan <span class="c-year">1325 AD</span></a>
+<a href="../arctic/ARCTIC.CITY.html" class="civ-link"><span class="c-icon">❄️</span> Inuit — People of the Ice <span class="c-year">Eternal</span></a>
+<a href="../zulu/ZULU.CITY.html" class="civ-link"><span class="c-icon">🛡️</span> Zulu — Nation That Shook an Empire <span class="c-year">1816</span></a>
+<a href="../viking/VIKING.CITY.html" class="civ-link"><span class="c-icon">⚡</span> Viking — Children of the North <span class="c-year">793 AD</span></a>
+<a href="../london/LONDON.CITY.html" class="civ-link"><span class="c-icon">👑</span> London — The Last Refuge <span class="c-year">43 AD</span></a>
+<a href="../newyork/NEWYORK.CITY.html" class="civ-link"><span class="c-icon">🗽</span> New York — City That Never Sleeps <span class="c-year">Modern</span></a>
+<a href="../brasilia/BRASILIA.CITY.html" class="civ-link"><span class="c-icon">✈️</span> Brasília — City Drawn Before Built <span class="c-year">Future</span></a>
+<a href="../tokyo/TOKYO.CITY.html" class="civ-link"><span class="c-icon">🗼</span> Tokyo — City of Tomorrow <span class="c-year">Far Future</span></a>
+<a href="../yabroud/MORDOR.NET.html" class="civ-link"><span class="c-icon">🔥</span> Mordor — The Dark Net <span class="c-year">Timeless</span></a>
+<a href="../departure/DEPARTURE.CITY.html" class="civ-link"><span class="c-icon">🚀</span> The Departure — Station Omega <span class="c-year">2242</span></a>
+<a href="../arrakis/ARRAKIS.CITY.html" class="civ-link"><span class="c-icon">🪱</span> Arrakis — Reception Station <span class="c-year">10191 AG</span></a>
+<a href="#" class="civ-link" style="border-color:#e87a20;background:rgba(232,122,32,0.15)"><span class="c-icon">🏰</span> <strong>THE CASTLE — Where the Architect Lives</strong> <span class="c-year">NOW</span></a>
+</div>
+</section>
+
+<footer>
+<div class="f-title">THE CASTLE</div>
+<div class="f-sub">Where the Architect lives. Where the boy from Yabroud drinks his coffee.</div>
+<div class="f-sub">NAME / FACT / TARGET — AOS — JuX — WONDER</div>
+<div class="f-copy">© 2026 JuX ITT · Le Chef · 6/6/66 · The question never stops.</div>
+</footer>
+
+</div>
+
+<script>
+const C=document.getElementById('particles'),X=C.getContext('2d');
+let W,H;
+function resize(){W=C.width=innerWidth;H=C.height=innerHeight}
+resize();addEventListener('resize',resize);
+class P{constructor(){this.reset()}
+reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.s=Math.random()*3+1;this.vy=-(Math.random()*0.4+0.1);this.vx=Math.random()*0.4-0.2;this.a=Math.random()*0.5+0.2;
+this.type=Math.random()>0.5?'orange':'jasmine'}
+update(){this.y+=this.vy;this.x+=this.vx+Math.sin(this.y*0.01)*0.3;this.a-=0.001;
+if(this.a<=0||this.y<-10||this.x<-10||this.x>W+10)this.reset()}
+draw(){X.save();X.globalAlpha=this.a;
+if(this.type==='orange'){X.fillStyle='#e87a20';X.beginPath();X.arc(this.x,this.y,this.s,0,Math.PI*2);X.fill()}
+else{X.fillStyle='#f5f0e0';X.beginPath();
+for(let i=0;i<5;i++){const angle=i*Math.PI*2/5-Math.PI/2;
+X.moveTo(this.x,this.y);
+X.quadraticCurveTo(this.x+Math.cos(angle)*this.s*3,this.y+Math.sin(angle)*this.s*3,this.x+Math.cos(angle+0.3)*this.s*2,this.y+Math.sin(angle+0.3)*this.s*2)}
+X.fill()}
+X.restore()}}
+const particles=Array.from({length:90},()=>new P);
+(function loop(){X.clearRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw()});requestAnimationFrame(loop)})();
+</script>
+</body>
+</html>
