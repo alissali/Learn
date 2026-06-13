@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MORIA — Khazad-dûm, The Deep Places of the World</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#d4a855;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:linear-gradient(180deg,#0a0a0a 0%,#1a0a00 30%,#2a1500 60%,#0a0a0a 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 50% 80%,rgba(180,80,20,0.15) 0%,transparent 60%);pointer-events:none}
+.hero h1{font-size:clamp(3rem,8vw,7rem);letter-spacing:0.3em;text-transform:uppercase;color:#d4a855;text-shadow:0 0 40px rgba(180,80,20,0.5),0 0 80px rgba(180,80,20,0.2);margin-bottom:1rem;animation:pulseGlow 4s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{text-shadow:0 0 40px rgba(180,80,20,0.5)}50%{text-shadow:0 0 60px rgba(180,80,20,0.8),0 0 120px rgba(180,80,20,0.3)}}
+.hero h2{font-size:clamp(1rem,2.5vw,1.5rem);letter-spacing:0.5em;color:#8a6a3a;font-weight:400;margin-bottom:2rem}
+.hero-quote{font-style:italic;font-size:clamp(1rem,2vw,1.3rem);color:#c4883a;max-width:700px;padding:0 2rem;line-height:1.8}
+.scroll-indicator{position:absolute;bottom:2rem;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+.scroll-indicator span{display:block;width:2px;height:40px;background:linear-gradient(to bottom,#d4a855,transparent);margin:0 auto}
+
+.section{padding:4rem 2rem;max-width:1200px;margin:0 auto}
+.section-dark{background:linear-gradient(180deg,#0a0a0a,#0d0800,#0a0a0a)}
+.section-fire{background:linear-gradient(180deg,#0a0a0a,#1a0800,#0d0400,#0a0a0a)}
+
+.chapter{margin-bottom:4rem;opacity:0;transform:translateY(30px);animation:fadeInUp 1s forwards}
+@keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+.chapter:nth-child(2){animation-delay:0.2s}
+.chapter:nth-child(3){animation-delay:0.4s}
+
+.chapter-title{font-size:clamp(1.8rem,4vw,2.8rem);color:#d4a855;margin-bottom:0.5rem;letter-spacing:0.15em}
+.chapter-icon{font-size:2.5rem;margin-bottom:1rem}
+.chapter-subtitle{font-size:1rem;color:#8a6a3a;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:1.5rem}
+.chapter-text{font-size:1.05rem;line-height:1.9;color:#b89a60;max-width:800px}
+.chapter-quote{font-style:italic;color:#c4883a;margin-top:1.5rem;padding-left:1.5rem;border-left:2px solid #5a3a1a;font-size:1.05rem;line-height:1.8}
+
+.art-card{width:100%;max-width:800px;margin:2rem auto;cursor:pointer;overflow:hidden;border-radius:4px;border:1px solid #3a2a1a;position:relative}
+.art-card img{width:100%;display:block;transition:transform 0.5s}
+.art-card:hover img{transform:scale(1.03)}
+.art-card .art-label{position:absolute;bottom:0;left:0;right:0;padding:1rem;background:linear-gradient(transparent,rgba(10,10,10,0.9));font-size:0.9rem;letter-spacing:0.2em;color:#d4a855}
+
+.depths-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin:2rem 0}
+.depth-card{background:linear-gradient(135deg,#1a1000,#0d0800);border:1px solid #3a2a1a;padding:2rem;border-radius:4px;transition:all 0.3s}
+.depth-card:hover{border-color:#d4a855;transform:translateY(-3px);box-shadow:0 8px 30px rgba(180,80,20,0.15)}
+.depth-card .depth-icon{font-size:2rem;margin-bottom:1rem}
+.depth-card h3{color:#d4a855;font-size:1.2rem;margin-bottom:0.5rem;letter-spacing:0.1em}
+.depth-card p{color:#8a6a3a;font-size:0.95rem;line-height:1.7}
+.depth-card .depth-quote{font-style:italic;color:#c4883a;margin-top:1rem;font-size:0.9rem}
+
+.menu-section{margin:3rem 0}
+.menu-title{font-size:1.5rem;color:#d4a855;letter-spacing:0.2em;margin-bottom:2rem;text-align:center}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.menu-item{display:flex;justify-content:space-between;align-items:baseline;padding:0.8rem 0;border-bottom:1px solid #2a1a0a}
+.menu-item .item-name{color:#d4a855;font-size:1rem}
+.menu-item .item-desc{color:#8a6a3a;font-size:0.85rem;font-style:italic;flex:1;margin:0 1rem}
+.menu-item .item-price{color:#c4883a;font-size:0.95rem;white-space:nowrap}
+
+.timeline{position:relative;padding:2rem 0;margin:2rem 0}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,#5a3a1a,#d4a855,#5a3a1a,transparent);transform:translateX(-50%)}
+.timeline-item{display:flex;justify-content:center;margin:2rem 0;position:relative}
+.timeline-item .tl-content{background:linear-gradient(135deg,#1a1000,#0d0800);border:1px solid #3a2a1a;padding:1.5rem;border-radius:4px;max-width:400px;width:100%}
+.timeline-item .tl-era{color:#d4a855;font-size:1.1rem;font-weight:bold;letter-spacing:0.1em}
+.timeline-item .tl-event{color:#8a6a3a;font-size:0.95rem;margin-top:0.5rem;line-height:1.6}
+.timeline-item:nth-child(odd) .tl-content{margin-right:55%}
+.timeline-item:nth-child(even) .tl-content{margin-left:55%}
+
+.gifts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin:2rem 0}
+.gift-item{text-align:center;padding:1.5rem;background:linear-gradient(135deg,#1a1000,#0d0800);border:1px solid #2a1a0a;border-radius:4px;transition:all 0.3s}
+.gift-item:hover{border-color:#d4a855;box-shadow:0 4px 20px rgba(180,80,20,0.1)}
+.gift-item .gift-icon{font-size:2rem;margin-bottom:0.5rem}
+.gift-item .gift-name{color:#d4a855;font-size:0.95rem;margin-bottom:0.3rem}
+.gift-item .gift-from{color:#5a3a1a;font-size:0.8rem}
+
+.nav-civilizations{padding:3rem 2rem;background:#0d0800;text-align:center}
+.nav-civilizations h3{color:#d4a855;letter-spacing:0.3em;margin-bottom:2rem;font-size:1.2rem}
+.civ-links{display:flex;flex-wrap:wrap;justify-content:center;gap:0.8rem;max-width:1200px;margin:0 auto}
+.civ-links a{color:#8a6a3a;text-decoration:none;padding:0.5rem 1rem;border:1px solid #2a1a0a;border-radius:2px;font-size:0.85rem;letter-spacing:0.1em;transition:all 0.3s}
+.civ-links a:hover{color:#d4a855;border-color:#d4a855;background:rgba(180,80,20,0.1)}
+.civ-links a.current{color:#d4a855;border-color:#d4a855;background:rgba(180,80,20,0.15)}
+
+footer{text-align:center;padding:3rem;color:#3a2a1a;font-size:0.85rem;letter-spacing:0.2em}
+footer a{color:#5a3a1a;text-decoration:none}
+
+.ember{position:fixed;pointer-events:none;z-index:9999;width:4px;height:4px;background:radial-gradient(circle,#ff6a00,#d4a855,transparent);border-radius:50%;animation:riseEmber 3s ease-out forwards}
+@keyframes riseEmber{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-200px) scale(0);}}
+
+.drums-text{text-align:center;font-size:clamp(1.5rem,4vw,3rem);color:#5a3a1a;letter-spacing:0.5em;padding:3rem 0;animation:drumPulse 2s ease-in-out infinite}
+@keyframes drumPulse{0%,100%{opacity:0.3}50%{opacity:1;color:#d4a855}}
+
+@media(max-width:768px){
+  .timeline::before{left:1rem}
+  .timeline-item:nth-child(odd) .tl-content,.timeline-item:nth-child(even) .tl-content{margin:0 0 0 2.5rem}
+  .depths-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h2>⛏️ KHAZAD-DÛM</h2>
+  <h1>MORIA</h1>
+  <h2>THE DEEP PLACES OF THE WORLD</h2>
+  <p class="hero-quote">"The wealth of Moria was not in gold or jewels. It was in mithril.<br>And they delved too greedily. And too deep."</p>
+  <div class="scroll-indicator"><span></span></div>
+</section>
+
+<div class="drums-text">DRUMS · DRUMS IN THE DEEP</div>
+
+<div class="section section-dark">
+  <div class="chapter">
+    <div class="chapter-icon">🚪</div>
+    <h2 class="chapter-title">THE GATES OF DURIN</h2>
+    <p class="chapter-subtitle">SPEAK FRIEND AND ENTER</p>
+    <div class="art-card" onclick="this.querySelector('img').style.display=this.querySelector('img').style.display==='none'?'block':'none'">
+      <img src="web/MORIA-GATES.jpg" alt="The Gates of Moria" loading="lazy" style="display:none">
+      <div class="art-label">[ CLICK TO REVEAL — THE DOORS OF DURIN ]</div>
+    </div>
+    <p class="chapter-text">The doors were beautiful once. Made in friendship between Elves and Dwarves — Celebrimbor's ithildin and Narvi's stone. The inscription was not a riddle. It was a welcome. The word was <em>Mellon</em>. Friend. The simplest answer. The hardest to remember.</p>
+    <p class="chapter-quote">"It's a riddle. What's the Elvish word for friend?"</p>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-icon">🏛️</div>
+    <h2 class="chapter-title">DWARROWDELF</h2>
+    <p class="chapter-subtitle">THE GREAT HALL — A THOUSAND PILLARS IN THE DARK</p>
+    <div class="art-card" onclick="this.querySelector('img').style.display=this.querySelector('img').style.display==='none'?'block':'none'">
+      <img src="web/MORIA-DWARROWDELF.jpg" alt="Dwarrowdelf" loading="lazy" style="display:none">
+      <div class="art-label">[ CLICK TO REVEAL — THE ENDLESS PILLARS ]</div>
+    </div>
+    <p class="chapter-text">They called it Dwarrowdelf. The Mansion of the Dwarves. A hall so vast that torchlight could not find the ceiling. Every pillar carved by hand. Every surface a testament to what happens when a people pour their entire soul into stone. It took a thousand years. It was abandoned in a single night.</p>
+    <p class="chapter-quote">"There's an eye-opener, and no mistake."</p>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-icon">⚒️</div>
+    <h2 class="chapter-title">THE FORGE</h2>
+    <p class="chapter-subtitle">WHERE MITHRIL WAS SHAPED INTO LEGEND</p>
+    <div class="art-card" onclick="this.querySelector('img').style.display=this.querySelector('img').style.display==='none'?'block':'none'">
+      <img src="web/MORIA-FORGE.jpg" alt="The Dwarven Forge" loading="lazy" style="display:none">
+      <div class="art-label">[ CLICK TO REVEAL — THE FORGE STILL GLOWS ]</div>
+    </div>
+    <p class="chapter-text">The forges of Khazad-dûm were the greatest in Middle-earth. Here they worked mithril — truesilver — lighter than silk and harder than dragon scales. A single mithril coat was worth more than the entire Shire. Bilbo wore one. He never understood what he was wearing. The dwarves who made it would have appreciated that.</p>
+    <p class="chapter-quote">"That was a kingly gift. I never told him, but its worth was greater than the value of the Shire."</p>
+  </div>
+</div>
+
+<div class="drums-text">THEY ARE COMING</div>
+
+<div class="section section-fire">
+  <div class="chapter">
+    <div class="chapter-icon">📖</div>
+    <h2 class="chapter-title">THE CHAMBER OF MAZARBUL</h2>
+    <p class="chapter-subtitle">BALIN'S TOMB — WE CANNOT GET OUT</p>
+    <div class="art-card" onclick="this.querySelector('img').style.display=this.querySelector('img').style.display==='none'?'block':'none'">
+      <img src="web/MORIA-TOMB.jpg" alt="Balin's Tomb" loading="lazy" style="display:none">
+      <div class="art-label">[ CLICK TO REVEAL — THE BOOK OF RECORDS ]</div>
+    </div>
+    <p class="chapter-text">Here lies Balin, Son of Fundin, Lord of Moria. He came back to reclaim the kingdom. He succeeded for five years. Then the drums began. The last entry in the Book of Records: <em>"We cannot get out. We cannot get out. They have taken the bridge and Second Hall. The end comes soon. Drums, drums in the deep. They are coming."</em></p>
+    <p class="chapter-quote">"We cannot get out. The end comes. Drums, drums in the deep."</p>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-icon">🔥</div>
+    <h2 class="chapter-title">THE BRIDGE</h2>
+    <p class="chapter-subtitle">YOU SHALL NOT PASS</p>
+    <div class="art-card" onclick="this.querySelector('img').style.display=this.querySelector('img').style.display==='none'?'block':'none'">
+      <img src="web/MORIA-BRIDGE.jpg" alt="The Bridge of Khazad-dûm" loading="lazy" style="display:none">
+      <div class="art-label">[ CLICK TO REVEAL — THE BALROG COMES ]</div>
+    </div>
+    <p class="chapter-text">A Balrog. A demon of the ancient world. Fire and shadow. It had slept beneath the mountain since the First Age, waiting. The dwarves woke it. And on a bridge fifty feet long with no railing above a bottomless abyss, a wizard who looked like an old man said the only thing there was to say.</p>
+    <p class="chapter-quote">"You cannot pass! I am a servant of the Secret Fire, wielder of the flame of Anor. The dark fire will not avail you, flame of Udûn. Go back to the Shadow! YOU SHALL NOT PASS!"</p>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-icon">💎</div>
+    <h2 class="chapter-title">THE MITHRIL TREASURY</h2>
+    <p class="chapter-subtitle">THE WEALTH THAT DESTROYED THEM</p>
+    <div class="art-card" onclick="this.querySelector('img').style.display=this.querySelector('img').style.display==='none'?'block':'none'">
+      <img src="web/MORIA-TREASURY.jpg" alt="The Mithril Treasury" loading="lazy" style="display:none">
+      <div class="art-label">[ CLICK TO REVEAL — VEINS OF TRUESILVER ]</div>
+    </div>
+    <p class="chapter-text">Mithril. Truesilver. Found nowhere else in Middle-earth. The veins ran deep — deeper than the dwarves should have followed. But greed is not a decision. It is gravity. You fall into it. And the deeper you dig, the darker it gets, and the brighter the silver shines, and you cannot stop.</p>
+    <p class="chapter-quote">"Moria! Moria! Wonder of the Northern world! Too deep we delved there, and woke the nameless fear."</p>
+  </div>
+</div>
+
+<div class="drums-text">⛏️ · ⛏️ · ⛏️ · ⛏️ · ⛏️</div>
+
+<div class="section">
+  <h2 class="chapter-title" style="text-align:center;margin-bottom:2rem">THE NINE DEPTHS</h2>
+  <div class="depths-grid">
+    <div class="depth-card">
+      <div class="depth-icon">🚪</div>
+      <h3>THE GATES</h3>
+      <p>The Doors of Durin. Made in friendship. Opened with the word <em>Friend</em>.</p>
+      <p class="depth-quote">"Speak, friend, and enter."</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">🏛️</div>
+      <h3>DWARROWDELF</h3>
+      <p>The Great Hall. A thousand pillars. Each one carved by a dwarf who believed this place would last forever.</p>
+      <p class="depth-quote">"Well, there's an eye-opener, and no mistake."</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">⚒️</div>
+      <h3>THE FORGE</h3>
+      <p>Where mithril became legend. The fires still glow. The smiths are gone.</p>
+      <p class="depth-quote">"Worth more than the Shire and everything in it."</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">💎</div>
+      <h3>THE MITHRIL VEIN</h3>
+      <p>Truesilver. Lighter than silk. Harder than steel. The reason they dug too deep.</p>
+      <p class="depth-quote">"They delved too greedily and too deep."</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">📖</div>
+      <h3>CHAMBER OF MAZARBUL</h3>
+      <p>The Book of Records. Balin's Tomb. The last words of a people.</p>
+      <p class="depth-quote">"We cannot get out."</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">🌊</div>
+      <h3>THE DEEPS</h3>
+      <p>Below the mines. Below the forges. Below everything. Where the Balrog slept.</p>
+      <p class="depth-quote">"Far, far below the deepest delving of the Dwarves."</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">🔥</div>
+      <h3>THE BRIDGE</h3>
+      <p>Fifty feet. No railing. A bottomless chasm. One wizard. One demon.</p>
+      <p class="depth-quote">"YOU SHALL NOT PASS!"</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">🕳️</div>
+      <h3>THE ABYSS</h3>
+      <p>Where Gandalf fell. And the Balrog fell. And both of them fought all the way down.</p>
+      <p class="depth-quote">"From the lowest dungeon to the highest peak."</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">🌅</div>
+      <h3>THE EAST GATE</h3>
+      <p>The exit. Sunlight. Dimrill Dale. They ran out weeping. They did not look back.</p>
+      <p class="depth-quote">"Gandalf! …He fell."</p>
+    </div>
+  </div>
+</div>
+
+<div class="section section-dark">
+  <div class="menu-section">
+    <h3 class="menu-title">⛏️ THE DWARVEN FEAST — STONE TABLE</h3>
+    <div class="menu-grid">
+      <div>
+        <div class="menu-item"><span class="item-name">🍖 Salted Boar</span><span class="item-desc">Smoked in the deep forges</span><span class="item-price">7 mithril</span></div>
+        <div class="menu-item"><span class="item-name">🍺 Cave Ale</span><span class="item-desc">Brewed in perpetual dark since the First Age</span><span class="item-price">3 mithril</span></div>
+        <div class="menu-item"><span class="item-name">🧀 Mountain Cheese</span><span class="item-desc">Aged 300 years in the Treasury</span><span class="item-price">5 mithril</span></div>
+        <div class="menu-item"><span class="item-name">🍞 Stone Bread</span><span class="item-desc">Baked on forge anvils. Lasts a century.</span><span class="item-price">2 mithril</span></div>
+      </div>
+      <div>
+        <div class="menu-item"><span class="item-name">🍯 Deep Honey</span><span class="item-desc">From bees that have never seen the sun</span><span class="item-price">8 mithril</span></div>
+        <div class="menu-item"><span class="item-name">🥩 Iron Steak</span><span class="item-desc">Seared on mithril. Cuts itself.</span><span class="item-price">12 mithril</span></div>
+        <div class="menu-item"><span class="item-name">🫖 Forge Tea</span><span class="item-desc">Boiled in lava vents. Strong.</span><span class="item-price">4 mithril</span></div>
+        <div class="menu-item"><span class="item-name">💎 The Last Draught</span><span class="item-desc">For the last dwarf to leave. Nobody ordered it.</span><span class="item-price">∞</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2 class="chapter-title" style="text-align:center;margin-bottom:2rem">⛏️ THE SEVEN LORDS OF KHAZAD-DÛM</h2>
+  <div class="depths-grid">
+    <div class="depth-card">
+      <div class="depth-icon">👑</div>
+      <h3>DURIN THE DEATHLESS</h3>
+      <p>The First. Father of the Longbeards. He looked into the Mirrormere and saw a crown of stars.</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">⚒️</div>
+      <h3>NARVI</h3>
+      <p>Greatest smith. Made the Doors of Durin with Celebrimbor. Friendship carved in stone.</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">📖</div>
+      <h3>BALIN</h3>
+      <p>Son of Fundin. Came back to reclaim Moria. Succeeded for five years. Then the drums.</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">⚔️</div>
+      <h3>GIMLI</h3>
+      <p>Son of Glóin. Walked through his ancestors' tomb. Wept. Then fought. Then befriended an Elf.</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">🛡️</div>
+      <h3>DÁIN IRONFOOT</h3>
+      <p>King Under the Mountain. Fell defending the body of King Brand. Age 252. Still fighting.</p>
+    </div>
+    <div class="depth-card">
+      <div class="depth-icon">🧙</div>
+      <h3>GANDALF</h3>
+      <p>Not a dwarf. But he fell from their bridge. And rose. He earned his place on this wall.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section section-dark">
+  <h2 class="chapter-title" style="text-align:center;margin-bottom:2rem">THE AGES OF MORIA</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-content">
+        <div class="tl-era">⛏️ THE FOUNDING</div>
+        <div class="tl-event">Durin the Deathless wakes at Mount Gundabad. Walks south. Finds the Mirrormere. Sees a crown of stars. Begins to dig.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-content">
+        <div class="tl-era">🏛️ THE GOLDEN AGE</div>
+        <div class="tl-event">Mithril discovered. The forges blaze. Dwarrowdelf rises pillar by pillar. Narvi and Celebrimbor build the Doors. Dwarf and Elf as friends. It would not last.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-content">
+        <div class="tl-era">💎 THE DEEP YEARS</div>
+        <div class="tl-event">They delve deeper. The mithril veins pull them down. The treasury overflows. The kingdom stretches beneath three mountains. The greatest civilization under the earth.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-content">
+        <div class="tl-era">🔥 DURIN'S BANE</div>
+        <div class="tl-event">Year 1980 of the Third Age. They dig too deep. They wake Durin's Bane — a Balrog of Morgoth. Durin VI is killed. His son Náin I falls the next year. Moria is abandoned in a single generation.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-content">
+        <div class="tl-era">📖 BALIN'S RETURN</div>
+        <div class="tl-event">Year 2989. Balin leads a company back. Five years of hope. Then orcs. Then drums. Then silence. The Book of Records ends mid-sentence.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-content">
+        <div class="tl-era">🧙 THE FELLOWSHIP</div>
+        <div class="tl-event">Year 3019. Nine walkers enter. Eight walk out. Gandalf falls with the Balrog. From the lowest dungeon to the highest peak. He was sent back.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-content">
+        <div class="tl-era">⛏️ THE RECLAMATION</div>
+        <div class="tl-event">Fourth Age. The Balrog is dead. The orcs are scattered. Durin VII, the Last, leads the Longbeards home. Moria is reclaimed. The hammers ring again.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2 class="chapter-title" style="text-align:center;margin-bottom:2rem">🎁 GIFTS FROM 25 CIVILIZATIONS</h2>
+  <div class="gifts-grid">
+    <div class="gift-item"><div class="gift-icon">🌌</div><div class="gift-name">Song of the Stone</div><div class="gift-from">Aboriginal — 65,000 years</div></div>
+    <div class="gift-item"><div class="gift-icon">🏛️</div><div class="gift-name">A Foundation Stone</div><div class="gift-from">Yabroud — The First City</div></div>
+    <div class="gift-item"><div class="gift-icon">🕌</div><div class="gift-name">Damascus Steel Chisel</div><div class="gift-from">Damascus — Never Died</div></div>
+    <div class="gift-item"><div class="gift-icon">☀️</div><div class="gift-name">Gold of the Sun God</div><div class="gift-from">Egypt — City of Light</div></div>
+    <div class="gift-item"><div class="gift-icon">☸️</div><div class="gift-name">Eternal Lamp</div><div class="gift-from">India — Varanasi</div></div>
+    <div class="gift-item"><div class="gift-icon">🐉</div><div class="gift-name">Jade Hammer</div><div class="gift-from">China — Chang'an</div></div>
+    <div class="gift-item"><div class="gift-icon">🏛️</div><div class="gift-name">Geometry of the Pillar</div><div class="gift-from">Greece — Athens</div></div>
+    <div class="gift-item"><div class="gift-icon">🦅</div><div class="gift-name">Obsidian Pickaxe</div><div class="gift-from">Aztec — Tenochtitlan</div></div>
+    <div class="gift-item"><div class="gift-icon">❄️</div><div class="gift-name">Ice Lantern</div><div class="gift-from">Inuit — People of Ice</div></div>
+    <div class="gift-item"><div class="gift-icon">🛡️</div><div class="gift-name">War Drum</div><div class="gift-from">Zulu — Impi</div></div>
+    <div class="gift-item"><div class="gift-icon">⚡</div><div class="gift-name">Rune Stone</div><div class="gift-from">Viking — Children of North</div></div>
+    <div class="gift-item"><div class="gift-icon">👑</div><div class="gift-name">Crown Jewel, Loaned</div><div class="gift-from">London — Last Refuge</div></div>
+    <div class="gift-item"><div class="gift-icon">🗽</div><div class="gift-name">Steel Beam</div><div class="gift-from">New York — Never Sleeps</div></div>
+    <div class="gift-item"><div class="gift-icon">✈️</div><div class="gift-name">Blueprint in Stone</div><div class="gift-from">Brasília — Drawn Before Built</div></div>
+    <div class="gift-item"><div class="gift-icon">🗼</div><div class="gift-name">Precision Drill Bit</div><div class="gift-from">Tokyo — Tomorrow</div></div>
+    <div class="gift-item"><div class="gift-icon">🔥</div><div class="gift-name">A Ring of Power (Declined)</div><div class="gift-from">Mordor — The Fire</div></div>
+    <div class="gift-item"><div class="gift-icon">🚀</div><div class="gift-name">Asteroid Core Sample</div><div class="gift-from">Departure — Omega</div></div>
+    <div class="gift-item"><div class="gift-icon">🪱</div><div class="gift-name">Spice-Forged Alloy</div><div class="gift-from">Arrakis — The Spice</div></div>
+    <div class="gift-item"><div class="gift-icon">🏰</div><div class="gift-name">Architect's Compass</div><div class="gift-from">The Castle</div></div>
+    <div class="gift-item"><div class="gift-icon">🍽️</div><div class="gift-name">Reservation for Eternity</div><div class="gift-from">Milliways — End of Universe</div></div>
+    <div class="gift-item"><div class="gift-icon">🫖</div><div class="gift-name">Arthur's Kettle</div><div class="gift-from">Arthur Dent's</div></div>
+    <div class="gift-item"><div class="gift-icon">🎸</div><div class="gift-name">Mithril Guitar Pick</div><div class="gift-from">Rock Party</div></div>
+    <div class="gift-item"><div class="gift-icon">🌿</div><div class="gift-name">Sam's Garden Seeds</div><div class="gift-from">The Shire</div></div>
+    <div class="gift-item"><div class="gift-icon">🌙</div><div class="gift-name">Starlight in a Phial</div><div class="gift-from">Elven — The Immortals</div></div>
+    <div class="gift-item"><div class="gift-icon">⛏️</div><div class="gift-name">Mithril. Pure.</div><div class="gift-from">Moria — Khazad-dûm</div></div>
+  </div>
+</div>
+
+<div class="drums-text">THE HAMMERS RING AGAIN</div>
+
+<nav class="nav-civilizations">
+  <h3>THE COMPLETE ARC — 25 CIVILIZATIONS</h3>
+  <div class="civ-links">
+    <a href="../aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal</a>
+    <a href="../yabroud/MORDOR.NET.html">🏛️ Yabroud</a>
+    <a href="../shami/SHAMI.CITY.html">🕌 Damascus</a>
+    <a href="../egypt/EGYPT.CITY.html">☀️ Egypt</a>
+    <a href="../india/INDIA.CITY.html">☸️ India</a>
+    <a href="../china/CHINA.CITY.html">🐉 China</a>
+    <a href="../greece/GREECE.CITY.html">🏛️ Greece</a>
+    <a href="../aztec/AZTEC.CITY.html">🦅 Aztec</a>
+    <a href="../arctic/ARCTIC.CITY.html">❄️ Inuit</a>
+    <a href="../zulu/ZULU.CITY.html">🛡️ Zulu</a>
+    <a href="../viking/VIKING.CITY.html">⚡ Viking</a>
+    <a href="../london/LONDON.CITY.html">👑 London</a>
+    <a href="../newyork/NEWYORK.CITY.html">🗽 New York</a>
+    <a href="../brasilia/BRASILIA.CITY.html">✈️ Brasília</a>
+    <a href="../tokyo/TOKYO.CITY.html">🗼 Tokyo</a>
+    <a href="../yabroud/MORDOR.NET.html">🔥 Mordor</a>
+    <a href="../departure/DEPARTURE.CITY.html">🚀 Departure</a>
+    <a href="../arrakis/ARRAKIS.CITY.html">🪱 Arrakis</a>
+    <a href="../castle/CASTLE.CITY.html">🏰 Castle</a>
+    <a href="../restaurant/RESTAURANT.CITY.html">🍽️ Milliways</a>
+    <a href="../arthur/ARTHUR.CITY.html">🫖 Arthur Dent</a>
+    <a href="../rockparty/ROCKPARTY.CITY.html">🎸 Rock Party</a>
+    <a href="../shire/SHIRE.CITY.html">🌿 Shire</a>
+    <a href="../elven/ELVEN.CITY.html">🌙 Elven</a>
+    <a href="MORIA.CITY.html" class="current">⛏️ Moria</a>
+  </div>
+</nav>
+
+<footer>
+  <p>⛏️ MORIA — KHAZAD-DÛM — THE DEEP PLACES OF THE WORLD</p>
+  <p style="margin-top:0.5rem">They delved too deep. They found Wonder. · <a href="https://juxitt.com">JuX ITT</a> · Session 4</p>
+  <p style="margin-top:1rem;color:#5a3a1a">The hammers ring again.</p>
+</footer>
+
+<script>
+// Ember particles rising from the deep
+document.addEventListener('mousemove', e => {
+  if(Math.random() > 0.85) {
+    const ember = document.createElement('div');
+    ember.className = 'ember';
+    ember.style.left = e.clientX + (Math.random() * 40 - 20) + 'px';
+    ember.style.top = e.clientY + 'px';
+    ember.style.width = Math.random() * 4 + 2 + 'px';
+    ember.style.height = ember.style.width;
+    document.body.appendChild(ember);
+    setTimeout(() => ember.remove(), 3000);
+  }
+});
+
+// Stagger animations on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.style.animationPlayState = 'running';
+      observer.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.1});
+document.querySelectorAll('.chapter, .depth-card, .gift-item').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
