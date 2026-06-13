@@ -51,8 +51,13 @@ body{background:#1a0a00;color:#e8d5b0;font-family:Georgia,serif;overflow-x:hidde
 .cal-item{background:rgba(200,168,78,0.03);border:1px solid rgba(200,168,78,0.1);border-radius:8px;padding:1.5rem;text-align:center}
 .cal-item .month{font-size:0.8rem;color:#8a7535;text-transform:uppercase;letter-spacing:0.15rem}
 .cal-item .event{color:#c8a84e;font-size:1rem;margin-top:0.5rem}
-.art-placeholder{background:rgba(200,168,78,0.05);border:2px dashed rgba(200,168,78,0.2);border-radius:8px;padding:3rem;text-align:center;color:#8a7535;font-style:italic;margin:1rem 0}
-.art-placeholder .ph-icon{font-size:3rem;margin-bottom:0.5rem;display:block}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:1rem 0}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:all 0.4s;border:1px solid rgba(200,168,78,0.15)}
+.gallery img:hover{border-color:#c8a84e;transform:scale(1.02);box-shadow:0 8px 30px rgba(200,168,78,0.2)}
+.gallery .cap{text-align:center;color:#8a7535;font-size:0.8rem;margin-top:0.3rem;font-style:italic}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;justify-content:center;align-items:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:8px;box-shadow:0 0 60px rgba(200,168,78,0.3)}
 .nav-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem}
 .nav-card{display:block;background:rgba(200,168,78,0.03);border:1px solid rgba(200,168,78,0.15);border-radius:8px;padding:1.5rem;text-align:center;text-decoration:none;color:#c8a84e;transition:all 0.4s}
 .nav-card:hover{border-color:#c8a84e;background:rgba(200,168,78,0.08);transform:translateY(-3px);box-shadow:0 8px 25px rgba(200,168,78,0.1)}
@@ -88,11 +93,18 @@ for(let i=0;i<80;i++){const p=document.createElement('div');p.className='gold-pa
 </div>
 <div class="serpent-div">🐍 ◆ ◆ ◆ 🐍</div>
 <div class="section">
-  <div class="art-placeholder">
-    <span class="ph-icon">🎨</span>
-    Art incoming — the forge refuels. 6 concept arts queued.<br>The temple doesn't need paint to stand.
+  <h2>🎨 VISIONS OF TENOCHTITLAN</h2>
+  <div class="gallery">
+    <div><img src="web/AZTEC-AERIAL.jpg" alt="Aerial View" onclick="openLB(this)" loading="lazy"><div class="cap">Aerial — The City on the Lake</div></div>
+    <div><img src="web/AZTEC-MARKET.jpg" alt="Tlatelolco Market" onclick="openLB(this)" loading="lazy"><div class="cap">Tlatelolco — 60,000 Daily</div></div>
+    <div><img src="web/AZTEC-TEMPLO.jpg" alt="Templo Mayor" onclick="openLB(this)" loading="lazy"><div class="cap">Templo Mayor — Twin Gods</div></div>
+    <div><img src="web/AZTEC-WARRIORS.jpg" alt="Eagle & Jaguar Warriors" onclick="openLB(this)" loading="lazy"><div class="cap">Eagle & Jaguar — The Empire's Teeth</div></div>
+    <div><img src="web/AZTEC-QUETZALCOATL.jpg" alt="Quetzalcoatl" onclick="openLB(this)" loading="lazy"><div class="cap">Quetzalcoatl — The Feathered Serpent</div></div>
+    <div><img src="web/AZTEC-CHINAMPAS.jpg" alt="Chinampas" onclick="openLB(this)" loading="lazy"><div class="cap">Chinampas — Floating Gardens</div></div>
   </div>
 </div>
+<div id="lb" class="lightbox" onclick="this.classList.remove('active')"><img id="lbImg" src="" alt=""></div>
+<script>function openLB(el){document.getElementById('lbImg').src=el.src;document.getElementById('lb').classList.add('active')}</script>
 <div class="section">
   <h2>🏛️ THE 9 DISTRICTS</h2>
   <div class="district-grid">
