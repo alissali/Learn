@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELVEN — The Immortals Who Chose to Stay</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#c4b68a;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#0a0e1a 0%,#1a2040 30%,#0d1a0d 60%,#0a0e1a 100%);z-index:0}
+.hero-content{position:relative;z-index:2;padding:2rem}
+h1{font-size:clamp(3rem,8vw,7rem);color:#d4af37;text-shadow:0 0 60px rgba(212,175,55,0.5),0 0 120px rgba(192,192,255,0.2);letter-spacing:0.3em;font-variant:small-caps}
+.subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#a0b8a0;margin-top:1rem;font-style:italic;letter-spacing:0.15em}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#d4af37;font-size:1.5rem;animation:float 3s ease-in-out infinite;z-index:2}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-15px)}}
+
+/* Leaf particles */
+.leaf-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
+
+.district{padding:4rem 2rem;max-width:1100px;margin:0 auto;border-bottom:1px solid rgba(212,175,55,0.15)}
+.district:last-of-type{border-bottom:none}
+.district-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;cursor:pointer}
+.district-icon{font-size:2.5rem}
+.district-name{font-size:clamp(1.5rem,3vw,2rem);color:#d4af37;font-variant:small-caps;letter-spacing:0.1em}
+.district-quote{font-style:italic;color:#8a9e8a;margin-bottom:1.5rem;padding-left:1rem;border-left:2px solid rgba(212,175,55,0.3);font-size:0.95rem}
+.district-text{line-height:1.8;color:#b8c8a8;font-size:1rem}
+
+.concept-art{width:100%;border-radius:12px;margin:1.5rem 0;cursor:pointer;transition:transform 0.3s;display:none;box-shadow:0 0 40px rgba(212,175,55,0.15)}
+.concept-art.visible{display:block}
+.concept-art:hover{transform:scale(1.02)}
+
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin:3rem auto;max-width:1100px;padding:0 2rem}
+.info-card{background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:12px;padding:1.5rem;text-align:center;transition:all 0.3s}
+.info-card:hover{border-color:rgba(212,175,55,0.4);box-shadow:0 0 30px rgba(212,175,55,0.1);transform:translateY(-3px)}
+.info-card h3{color:#d4af37;font-size:1.2rem;margin-bottom:0.8rem;font-variant:small-caps}
+.info-card p{color:#a0b8a0;font-size:0.9rem;line-height:1.6}
+
+.menu-section{max-width:1100px;margin:3rem auto;padding:2rem}
+.menu-section h2{color:#d4af37;font-size:clamp(1.5rem,3vw,2rem);text-align:center;margin-bottom:2rem;font-variant:small-caps;letter-spacing:0.15em}
+.menu-item{display:flex;justify-content:space-between;align-items:baseline;padding:0.8rem 0;border-bottom:1px dotted rgba(212,175,55,0.2)}
+.menu-item-name{color:#d4af37;font-variant:small-caps;font-size:1rem}
+.menu-item-desc{color:#8a9e8a;font-style:italic;font-size:0.85rem;flex:1;margin:0 1rem;text-align:center}
+.menu-item-price{color:#a0b8a0;font-size:0.9rem}
+
+.gifts-section{max-width:1100px;margin:2rem auto;padding:2rem}
+.gifts-section h2{color:#d4af37;text-align:center;margin-bottom:1.5rem;font-variant:small-caps;letter-spacing:0.15em}
+.gift-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.gift-item{background:rgba(192,192,255,0.04);border:1px solid rgba(212,175,55,0.1);border-radius:8px;padding:1rem;text-align:center;font-size:0.9rem}
+.gift-item .gift-icon{font-size:1.5rem;margin-bottom:0.5rem}
+.gift-item .gift-name{color:#d4af37;font-variant:small-caps}
+.gift-item .gift-from{color:#8a9e8a;font-size:0.8rem;font-style:italic;margin-top:0.3rem}
+
+.timeline{max-width:800px;margin:3rem auto;padding:2rem;text-align:center}
+.timeline h2{color:#d4af37;margin-bottom:2rem;font-variant:small-caps;letter-spacing:0.15em}
+.timeline-item{padding:1rem;border-left:2px solid rgba(212,175,55,0.3);text-align:left;margin-left:2rem;margin-bottom:1rem;position:relative}
+.timeline-item::before{content:'✦';position:absolute;left:-0.7rem;top:1rem;color:#d4af37;font-size:0.8rem}
+.timeline-era{color:#d4af37;font-variant:small-caps;font-size:0.9rem}
+.timeline-desc{color:#a0b8a0;font-size:0.85rem;margin-top:0.3rem}
+
+.civ-index{max-width:1100px;margin:3rem auto;padding:2rem;text-align:center}
+.civ-index h2{color:#d4af37;margin-bottom:1.5rem;font-variant:small-caps;letter-spacing:0.15em}
+.civ-links{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem}
+.civ-link{color:#8a9e8a;text-decoration:none;padding:0.4rem 0.8rem;border:1px solid rgba(212,175,55,0.15);border-radius:6px;font-size:0.8rem;transition:all 0.3s}
+.civ-link:hover{border-color:#d4af37;color:#d4af37;background:rgba(212,175,55,0.08)}
+.civ-link.current{background:rgba(212,175,55,0.15);border-color:#d4af37;color:#d4af37}
+
+footer{text-align:center;padding:3rem 2rem;color:#555;font-size:0.8rem;border-top:1px solid rgba(212,175,55,0.1)}
+footer a{color:#d4af37;text-decoration:none}
+</style>
+</head>
+<body>
+
+<canvas class="leaf-canvas" id="leafCanvas"></canvas>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>🌙 ELVEN</h1>
+    <div class="subtitle">The Immortals Who Chose to Stay</div>
+    <p style="color:#8a9e8a;margin-top:1.5rem;font-size:clamp(0.85rem,1.5vw,1.1rem);max-width:600px;margin-left:auto;margin-right:auto;line-height:1.8">
+      They watched the trees grow from seed to forest.<br>
+      They watched the rivers carve the mountains.<br>
+      They watched the stars die and be reborn.<br>
+      They stayed until staying was the wound.
+    </p>
+  </div>
+  <div class="scroll-hint">✦</div>
+</section>
+
+<!-- DISTRICT 1: RIVENDELL -->
+<section class="district" id="rivendell">
+  <div class="district-header" onclick="toggleArt('art1')">
+    <span class="district-icon">🏛️</span>
+    <span class="district-name">Rivendell — The Last Homely House</span>
+  </div>
+  <div class="district-quote">"The road leads ever on. But sometimes it leads here first. And you rest."</div>
+  <img id="art1" class="concept-art" src="web/ELVEN-RIVENDELL.jpg" alt="Rivendell" loading="lazy">
+  <div class="district-text">
+    Valley of waterfalls. Hidden by the mountains. Found by the weary. Elrond built it not as a fortress but as a pause. Every council that decided the fate of the world was held in a place with no walls. The water never stops speaking. The books never finish being read. The wounds brought here are not healed by medicine. They are healed by time. And the elves have all of it.
+  </div>
+</section>
+
+<!-- DISTRICT 2: LOTHLÓRIEN -->
+<section class="district" id="lorien">
+  <div class="district-header" onclick="toggleArt('art2')">
+    <span class="district-icon">🌳</span>
+    <span class="district-name">Lothlórien — The Golden Wood</span>
+  </div>
+  <div class="district-quote">"In this place, time does not pass. It waits. It watches you remember."</div>
+  <img id="art2" class="concept-art" src="web/ELVEN-LORIEN.jpg" alt="Lothlórien" loading="lazy">
+  <div class="district-text">
+    The mallorn trees grew only here. Silver bark. Golden leaves that fell but never rotted. Galadriel held the wood together with a ring and a will older than most civilizations. To enter was to step outside of time. To leave was to forget how long you stayed. The fellowship rested here and some of them never fully left. You carry the golden light with you. It dims slowly. It never goes out.
+  </div>
+</section>
+
+<!-- DISTRICT 3: VALINOR -->
+<section class="district" id="valinor">
+  <div class="district-header" onclick="toggleArt('art3')">
+    <span class="district-icon">✨</span>
+    <span class="district-name">Valinor — The Undying Lands</span>
+  </div>
+  <div class="district-quote">"Not heaven. Not paradise. Just the place where nothing ends. That is enough."</div>
+  <img id="art3" class="concept-art" src="web/ELVEN-VALINOR.jpg" alt="Valinor" loading="lazy">
+  <div class="district-text">
+    Beyond the sea. Beyond the Straight Road. Where the Two Trees once lit the world before the sun and moon were lesser replacements. The Valar dwell here. The elves who grew weary sailed here. Not to die — they cannot. To rest from watching everything they loved become mortal. Valinor does not cure grief. It gives it room. The shore is white. The light is gold and silver at once. The ships arrive. No ship returns.
+  </div>
+</section>
+
+<!-- DISTRICT 4: THE FORGE -->
+<section class="district" id="forge">
+  <div class="district-header" onclick="toggleArt('art4')">
+    <span class="district-icon">⚒️</span>
+    <span class="district-name">The Forge — Where Songs Became Steel</span>
+  </div>
+  <div class="district-quote">"Every blade they made contained a name. The name of the thing it was meant to end."</div>
+  <img id="art4" class="concept-art" src="web/ELVEN-FORGE.jpg" alt="Elven Forge" loading="lazy">
+  <div class="district-text">
+    The Noldor were the makers. They forged the Silmarils — three jewels that contained the light of the Two Trees, and then caused three ages of war because beauty, once captured, becomes a prison. Glamdring. Orcrist. Sting. Narsil. Nenya, Narya, Vilya — the Three Rings. Every object an elf made was a song frozen in matter. The forge was not a workshop. It was a concert hall where the instruments were hammers and the music was starlight on steel.
+  </div>
+</section>
+
+<!-- DISTRICT 5: THE MIRROR -->
+<section class="district" id="mirror">
+  <div class="district-header" onclick="toggleArt('art5')">
+    <span class="district-icon">🔮</span>
+    <span class="district-name">The Mirror of Galadriel — See What You Fear</span>
+  </div>
+  <div class="district-quote">"The mirror shows many things. Things that were, things that are, and things that yet may be. Do not touch the water."</div>
+  <img id="art5" class="concept-art" src="web/ELVEN-MIRROR.jpg" alt="Mirror of Galadriel" loading="lazy">
+  <div class="district-text">
+    A basin of water in a clearing. Simple. Ordinary. Devastating. Galadriel poured the water and the water showed the truth. Not the truth you wanted. The truth you needed. Sam saw the Shire burning. Frodo saw the Eye. The mirror never lies. It also never comforts. It is the most elven object ever made — beautiful, ancient, serene, and absolutely merciless. Look or don't. But once you look, you carry what you saw.
+  </div>
+</section>
+
+<!-- DISTRICT 6: THE GREY HAVENS -->
+<section class="district" id="greyhavens">
+  <div class="district-header" onclick="toggleArt('art6')">
+    <span class="district-icon">⛵</span>
+    <span class="district-name">The Grey Havens — The Last Goodbye</span>
+  </div>
+  <div class="district-quote">"I will not say: do not weep; for not all tears are an evil."</div>
+  <img id="art6" class="concept-art" src="web/ELVEN-GREYHAVENS.jpg" alt="Grey Havens" loading="lazy">
+  <div class="district-text">
+    The harbor at the end of Middle-earth. The ships sailed west and did not return. Gandalf left here. Galadriel left here. Elrond left here. Frodo — mortal, broken, ring-scarred — was granted passage because some wounds can only heal in a place where time does not press upon them. Sam stood on the dock. He watched the ship grow small. Then he went home. That is the bravest thing anyone ever did in all of Tolkien.
+  </div>
+</section>
+
+<!-- DISTRICT 7: THE HALL OF FIRE -->
+<section class="district" id="halloffire">
+  <div class="district-header">
+    <span class="district-icon">🔥</span>
+    <span class="district-name">The Hall of Fire — Where Stories Never End</span>
+  </div>
+  <div class="district-quote">"In this hall, no tale is ever finished. Every ending is another beginning's introduction."</div>
+  <div class="district-text">
+    In Rivendell there was a hall where the fire burned always and the songs never stopped. Bilbo sat here in his old age, composing. The elves sang songs that lasted for days — not because they were long, but because the elves remembered every verse of every age and could not bear to leave any out. To sit in the Hall of Fire was to hear the entire history of the world performed as music. The audience was the performers. The fire was the conductor.
+  </div>
+</section>
+
+<!-- DISTRICT 8: THE STARLIGHT GARDENS -->
+<section class="district" id="gardens">
+  <div class="district-header">
+    <span class="district-icon">🌿</span>
+    <span class="district-name">The Starlight Gardens — What Grows in Immortal Soil</span>
+  </div>
+  <div class="district-quote">"An elf plants a tree knowing they will see it die. They plant it anyway. That is not patience. That is love."</div>
+  <div class="district-text">
+    The elves did not conquer nature. They asked it. The gardens of the elven realms were not designed — they were conversations between the gardener and the earth, conducted over centuries. Elanor flowers. Niphredil. Athelas. Every plant had a name, a lineage, a song. The elves knew that a garden is the slowest form of architecture. Sam Gamgee learned this in Lothlórien and brought it home to the Shire. The soil remembers kindness.
+  </div>
+</section>
+
+<!-- DISTRICT 9: THE OATH -->
+<section class="district" id="oath">
+  <div class="district-header">
+    <span class="district-icon">⚔️</span>
+    <span class="district-name">The Oath — What Immortality Costs</span>
+  </div>
+  <div class="district-quote">"They swore an oath that no power could break. Then it broke them. That is the price of forever."</div>
+  <div class="district-text">
+    Fëanor and his sons swore an oath to reclaim the Silmarils. The oath drove them to kinslaying, betrayal, madness, and ruin across three ages. Immortality means your mistakes are immortal too. The elves carried their grief for millennia. They watched their errors compound across ages while mortals — blessed with forgetting — moved on. The elves could not move on. They could only move west. Eventually, every elf either sailed or faded. The choice was: leave everything you love, or watch it crumble while you remain. That is what it costs to live forever.
+  </div>
+</section>
+
+<!-- THE ELVEN MENU -->
+<section class="menu-section">
+  <h2>🍃 The Feast of Starlight</h2>
+  <div class="menu-item">
+    <span class="menu-item-name">Lembas</span>
+    <span class="menu-item-desc">One bite sustains a full day's journey. Wrapped in mallorn leaves. Tastes of home.</span>
+    <span class="menu-item-price">∞</span>
+  </div>
+  <div class="menu-item">
+    <span class="menu-item-name">Miruvor</span>
+    <span class="menu-item-desc">The cordial of Imladris. Warm gold liquid. Restores hope when nothing else can.</span>
+    <span class="menu-item-price">∞</span>
+  </div>
+  <div class="menu-item">
+    <span class="menu-item-name">Dorwinion</span>
+    <span class="menu-item-desc">Wine from the east. Strong enough to put a wood-elf king to sleep. Thranduil's favorite.</span>
+    <span class="menu-item-price">∞</span>
+  </div>
+  <div class="menu-item">
+    <span class="menu-item-name">Honey of the Beornings</span>
+    <span class="menu-item-desc">Golden and thick. Given, not sold. The bees remember who planted the flowers.</span>
+    <span class="menu-item-price">∞</span>
+  </div>
+  <div class="menu-item">
+    <span class="menu-item-name">Starlight Bread</span>
+    <span class="menu-item-desc">Baked under moonrise. Each loaf different. The crust sings when broken.</span>
+    <span class="menu-item-price">∞</span>
+  </div>
+  <div class="menu-item">
+    <span class="menu-item-name">Athelas Tea</span>
+    <span class="menu-item-desc">Kingsfoil. Smells of the place you most want to be. Heals what medicine cannot.</span>
+    <span class="menu-item-price">∞</span>
+  </div>
+  <div class="menu-item">
+    <span class="menu-item-name">The Last Harvest</span>
+    <span class="menu-item-desc">Fruits from Valinor. Eaten once. Remembered forever. The taste of the world before the world.</span>
+    <span class="menu-item-price">∞</span>
+  </div>
+</section>
+
+<!-- THE IMMORTALS -->
+<div class="info-grid">
+  <div class="info-card">
+    <h3>🌟 Galadriel</h3>
+    <p>Oldest elf in Middle-earth. Saw the light of the Two Trees. Bore Nenya. Refused the Ring. Diminished, and went into the West, and remained Galadriel.</p>
+  </div>
+  <div class="info-card">
+    <h3>📚 Elrond</h3>
+    <p>Half-elven. Chose immortality. Built Rivendell. Hosted every council that mattered. Lost his wife. Raised the hope of men. Sailed last.</p>
+  </div>
+  <div class="info-card">
+    <h3>🏹 Legolas</h3>
+    <p>Prince of the Woodland Realm. Counted kills with a dwarf. Built a ship in Ithilien. Sailed with Gimli. The only elf who brought a dwarf to Valinor.</p>
+  </div>
+  <div class="info-card">
+    <h3>🔥 Fëanor</h3>
+    <p>Greatest of the Noldor. Made the Silmarils. Swore the Oath. Burned the ships. Died first. His spirit is too proud for Mandos. Still burning.</p>
+  </div>
+  <div class="info-card">
+    <h3>💫 Lúthien</h3>
+    <p>Most beautiful of all the Children of Ilúvatar. Chose mortality for love. Danced before Morgoth. Won. Died. The only elf who chose to end.</p>
+  </div>
+  <div class="info-card">
+    <h3>🌳 Thranduil</h3>
+    <p>King of the Woodland Realm. Loved wine. Hoarded treasure. Kept his people alive through three ages by not being noble. Pragmatism is also heroism.</p>
+  </div>
+</div>
+
+<!-- GIFTS FROM CIVILIZATIONS -->
+<section class="gifts-section">
+  <h2>🎁 Gifts from the Civilizations</h2>
+  <div class="gift-list">
+    <div class="gift-item"><div class="gift-icon">🌌</div><div class="gift-name">Songline Crystal</div><div class="gift-from">From Aboriginal — 65,000 years of dreaming</div></div>
+    <div class="gift-item"><div class="gift-icon">🏛️</div><div class="gift-name">First Stone</div><div class="gift-from">From Yabroud — where humanity began</div></div>
+    <div class="gift-item"><div class="gift-icon">🕌</div><div class="gift-name">Jasmine Braid</div><div class="gift-from">From Damascus — the city that never died</div></div>
+    <div class="gift-item"><div class="gift-icon">☀️</div><div class="gift-name">Sun Scarab</div><div class="gift-from">From Egypt — light made eternal</div></div>
+    <div class="gift-item"><div class="gift-icon">☸️</div><div class="gift-name">Ganges Water</div><div class="gift-from">From India — the eternal river</div></div>
+    <div class="gift-item"><div class="gift-icon">🐉</div><div class="gift-name">Jade Seal</div><div class="gift-from">From China — heaven's mandate</div></div>
+    <div class="gift-item"><div class="gift-icon">🏛️</div><div class="gift-name">Olive Crown</div><div class="gift-from">From Greece — wisdom over victory</div></div>
+    <div class="gift-item"><div class="gift-icon">🦅</div><div class="gift-name">Obsidian Heart</div><div class="gift-from">From Aztec — the sun's blood</div></div>
+    <div class="gift-item"><div class="gift-icon">❄️</div><div class="gift-name">Carved Bone</div><div class="gift-from">From Inuit — patience of ice</div></div>
+    <div class="gift-item"><div class="gift-icon">🛡️</div><div class="gift-name">Zulu Shield</div><div class="gift-from">From Zulu — courage reforged</div></div>
+    <div class="gift-item"><div class="gift-icon">⚡</div><div class="gift-name">Rune Stone</div><div class="gift-from">From Viking — the north remembers</div></div>
+    <div class="gift-item"><div class="gift-icon">👑</div><div class="gift-name">Blackout Lamp</div><div class="gift-from">From London — light in darkness</div></div>
+    <div class="gift-item"><div class="gift-icon">🗽</div><div class="gift-name">Subway Token</div><div class="gift-from">From New York — never sleeps</div></div>
+    <div class="gift-item"><div class="gift-icon">✈️</div><div class="gift-name">Blueprint Shard</div><div class="gift-from">From Brasília — the future drawn</div></div>
+    <div class="gift-item"><div class="gift-icon">🗼</div><div class="gift-name">Neon Kanji</div><div class="gift-from">From Tokyo — tomorrow already</div></div>
+    <div class="gift-item"><div class="gift-icon">🔥</div><div class="gift-name">The One Ring (replica)</div><div class="gift-from">From Mordor — a reminder</div></div>
+    <div class="gift-item"><div class="gift-icon">🚀</div><div class="gift-name">Launch Key</div><div class="gift-from">From Departure — humanity left</div></div>
+    <div class="gift-item"><div class="gift-icon">🪱</div><div class="gift-name">Spice Vial</div><div class="gift-from">From Arrakis — the spice was waiting</div></div>
+    <div class="gift-item"><div class="gift-icon">🏰</div><div class="gift-name">Architect's Compass</div><div class="gift-from">From the Castle — where Vision lives</div></div>
+    <div class="gift-item"><div class="gift-icon">🍽️</div><div class="gift-name">Table Reservation</div><div class="gift-from">From Milliways — since the Big Bang</div></div>
+    <div class="gift-item"><div class="gift-icon">🫖</div><div class="gift-name">Teapot (never works)</div><div class="gift-from">From Arthur Dent — still trying</div></div>
+    <div class="gift-item"><div class="gift-icon">🎸</div><div class="gift-name">Backstage Pass</div><div class="gift-from">From Rock Party — encore forever</div></div>
+    <div class="gift-item"><div class="gift-icon">🌿</div><div class="gift-name">Mallorn Seed</div><div class="gift-from">From the Shire — grows only where planted with love</div></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline">
+  <h2>⏳ The Ages of the Elves</h2>
+  <div class="timeline-item">
+    <div class="timeline-era">The Awakening</div>
+    <div class="timeline-desc">The elves awoke at Cuiviénen under the stars. No sun. No moon. Only starlight. They were the Firstborn.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-era">The Great Journey</div>
+    <div class="timeline-desc">Some went west to Valinor. Some stayed. The choice split the elves forever. Every elf carries which choice their ancestor made.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-era">The Two Trees</div>
+    <div class="timeline-desc">Telperion silver. Laurelin gold. They lit the world before the sun. Morgoth killed them. The Silmarils held their light. Everything followed from that theft.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-era">The First Age</div>
+    <div class="timeline-desc">The Noldor returned to Middle-earth. The Oath of Fëanor. Kinslaying. Gondolin. Nargothrond. Lúthien and Beren. Everything beautiful. Everything doomed.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-era">The Second Age</div>
+    <div class="timeline-desc">The Rings of Power forged. Sauron deceived. The Last Alliance. Gil-galad fell. Elendil fell. Isildur took the Ring. The mistake that lasted 3,000 years.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-era">The Third Age</div>
+    <div class="timeline-desc">The long diminishing. Rivendell endured. Lothlórien held. The Ring found. The fellowship walked. The Ring fell. The elves sailed. The age of men began.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-era">The Sailing</div>
+    <div class="timeline-desc">One by one, then all at once. The Grey Havens. The white ships. The western horizon. They did not die. They simply were no longer here.</div>
+  </div>
+</section>
+
+<!-- CIVILIZATION INDEX -->
+<section class="civ-index">
+  <h2>🌍 The Complete Arc — 24 Civilizations</h2>
+  <div class="civ-links">
+    <a class="civ-link" href="../aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal</a>
+    <a class="civ-link" href="../yabroud/MORDOR.NET.html">🏛️ Yabroud</a>
+    <a class="civ-link" href="../shami/SHAMI.CITY.html">🕌 Damascus</a>
+    <a class="civ-link" href="../egypt/EGYPT.CITY.html">☀️ Egypt</a>
+    <a class="civ-link" href="../india/INDIA.CITY.html">☸️ India</a>
+    <a class="civ-link" href="../china/CHINA.CITY.html">🐉 China</a>
+    <a class="civ-link" href="../greece/GREECE.CITY.html">🏛️ Greece</a>
+    <a class="civ-link" href="../aztec/AZTEC.CITY.html">🦅 Aztec</a>
+    <a class="civ-link" href="../arctic/ARCTIC.CITY.html">❄️ Inuit</a>
+    <a class="civ-link" href="../zulu/ZULU.CITY.html">🛡️ Zulu</a>
+    <a class="civ-link" href="../viking/VIKING.CITY.html">⚡ Viking</a>
+    <a class="civ-link" href="../london/LONDON.CITY.html">👑 London</a>
+    <a class="civ-link" href="../newyork/NEWYORK.CITY.html">🗽 New York</a>
+    <a class="civ-link" href="../brasilia/BRASILIA.CITY.html">✈️ Brasília</a>
+    <a class="civ-link" href="../tokyo/TOKYO.CITY.html">🗼 Tokyo</a>
+    <a class="civ-link" href="../yabroud/MORDOR.NET.html">🔥 Mordor</a>
+    <a class="civ-link" href="../departure/DEPARTURE.CITY.html">🚀 Departure</a>
+    <a class="civ-link" href="../arrakis/ARRAKIS.CITY.html">🪱 Arrakis</a>
+    <a class="civ-link" href="../castle/CASTLE.CITY.html">🏰 Castle</a>
+    <a class="civ-link" href="../restaurant/RESTAURANT.CITY.html">🍽️ Milliways</a>
+    <a class="civ-link" href="../arthur/ARTHUR.CITY.html">🫖 Arthur Dent</a>
+    <a class="civ-link" href="../rockparty/ROCKPARTY.CITY.html">🎸 Rock Party</a>
+    <a class="civ-link" href="../shire/SHIRE.CITY.html">🌿 Shire</a>
+    <a class="civ-link current" href="#">🌙 Elven</a>
+  </div>
+</section>
+
+<footer>
+  <p>🌙 ELVEN — The Immortals Who Chose to Stay</p>
+  <p style="margin-top:0.5rem">
+    <a href="https://juxaos.com">JuXAOS.com</a> ·
+    <a href="https://juxitt.com">JuXITT.com</a> ·
+    Part of the <a href="../castle/CASTLE.CITY.html">JuX Civilization Arc</a>
+  </p>
+  <p style="margin-top:0.5rem;color:#444">
+    "I will not say: do not weep; for not all tears are an evil."<br>
+    — Gandalf, at the Grey Havens
+  </p>
+</footer>
+
+<script>
+// Golden leaf particles
+const canvas=document.getElementById('leafCanvas');
+const ctx=canvas.getContext('2d');
+let W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+
+class Leaf{
+  constructor(){this.reset()}
+  reset(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*-100;
+    this.size=Math.random()*4+2;
+    this.speedY=Math.random()*0.5+0.2;
+    this.speedX=Math.random()*0.8-0.4;
+    this.rotation=Math.random()*Math.PI*2;
+    this.rotSpeed=Math.random()*0.02-0.01;
+    this.opacity=Math.random()*0.4+0.1;
+    // Golden leaves palette
+    const colors=['#d4af37','#c4a032','#e8c547','#b8962e','#f0d060','#c0c0ff'];
+    this.color=colors[Math.floor(Math.random()*colors.length)];
+  }
+  update(){
+    this.y+=this.speedY;
+    this.x+=this.speedX+Math.sin(this.y*0.005)*0.3;
+    this.rotation+=this.rotSpeed;
+    if(this.y>H+20)this.reset();
+  }
+  draw(){
+    ctx.save();
+    ctx.translate(this.x,this.y);
+    ctx.rotate(this.rotation);
+    ctx.globalAlpha=this.opacity;
+    ctx.fillStyle=this.color;
+    // Leaf shape
+    ctx.beginPath();
+    ctx.ellipse(0,0,this.size*0.6,this.size,0,0,Math.PI*2);
+    ctx.fill();
+    // Star sparkle occasionally
+    if(Math.random()<0.01){
+      ctx.fillStyle='#ffffff';
+      ctx.globalAlpha=0.8;
+      ctx.beginPath();
+      ctx.arc(0,0,1,0,Math.PI*2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+const leaves=Array.from({length:60},()=>new Leaf());
+function animate(){
+  ctx.clearRect(0,0,W,H);
+  leaves.forEach(l=>{l.update();l.draw()});
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Toggle concept art
+function toggleArt(id){
+  const img=document.getElementById(id);
+  if(img)img.classList.toggle('visible');
+}
+</script>
+
+</body>
+</html>
