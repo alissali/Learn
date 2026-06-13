@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚔️ ARMY OF MORDOR YABROUD — Forces of the Dark Lord</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0505;color:#c8b8a0;font-family:'Palatino Linotype','Book Antiqua',Palatino,serif;overflow-x:hidden}
+.bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;background:radial-gradient(circle,rgba(180,40,20,0.8),transparent);border-radius:50%;animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(100vh) scale(0);opacity:0}20%{opacity:1}100%{transform:translateY(-20vh) scale(1);opacity:0}}
+
+.header{text-align:center;padding:80px 20px 40px;position:relative;z-index:1}
+.header h1{font-size:clamp(2.5rem,6vw,4.5rem);color:#ff3300;text-shadow:0 0 40px rgba(255,50,0,0.6),0 0 80px rgba(255,50,0,0.3);letter-spacing:6px;margin-bottom:15px}
+.header .subtitle{font-size:1.2rem;color:#8a7a6a;font-style:italic;letter-spacing:3px}
+.war-count{display:flex;justify-content:center;gap:40px;margin-top:30px;flex-wrap:wrap}
+.war-stat{text-align:center;padding:20px}
+.war-stat .num{font-size:3rem;color:#ff4400;font-weight:bold;text-shadow:0 0 20px rgba(255,68,0,0.5)}
+.war-stat .label{font-size:0.85rem;color:#6a5a4a;text-transform:uppercase;letter-spacing:2px;margin-top:5px}
+
+.forces{max-width:1200px;margin:0 auto;padding:20px}
+.force-card{background:linear-gradient(135deg,rgba(30,15,10,0.95),rgba(20,10,5,0.98));border:1px solid rgba(180,40,20,0.3);border-radius:12px;margin:40px 0;overflow:hidden;position:relative;z-index:1;transition:border-color 0.3s}
+.force-card:hover{border-color:rgba(255,50,0,0.6)}
+.force-img{width:100%;cursor:pointer;transition:transform 0.3s}
+.force-img:hover{transform:scale(1.02)}
+.force-info{padding:30px}
+.force-name{font-size:2rem;color:#ff4400;margin-bottom:8px;text-shadow:0 0 15px rgba(255,68,0,0.4)}
+.force-title{font-size:1rem;color:#8a6a4a;font-style:italic;margin-bottom:20px;letter-spacing:2px}
+.force-desc{color:#a89880;line-height:1.8;font-size:1.05rem;margin-bottom:20px}
+.force-quote{color:#cc6633;font-style:italic;font-size:1.1rem;border-left:3px solid #ff4400;padding-left:15px;margin:20px 0}
+
+.spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:20px}
+.spec-item{background:rgba(40,20,10,0.6);border:1px solid rgba(180,40,20,0.2);border-radius:8px;padding:15px;text-align:center}
+.spec-item .spec-label{font-size:0.75rem;color:#6a5a4a;text-transform:uppercase;letter-spacing:2px}
+.spec-item .spec-value{font-size:1.3rem;color:#ff6644;margin-top:5px;font-weight:bold}
+
+.rank-bar{display:flex;gap:3px;justify-content:center;margin-top:10px}
+.rank-pip{width:20px;height:6px;border-radius:3px;background:rgba(80,40,20,0.5)}
+.rank-pip.active{background:#ff4400;box-shadow:0 0 8px rgba(255,68,0,0.5)}
+
+.order-of-battle{max-width:1200px;margin:60px auto;padding:20px}
+.oob-title{font-size:2rem;color:#ff3300;text-align:center;margin-bottom:30px;text-shadow:0 0 30px rgba(255,50,0,0.4)}
+.oob-table{width:100%;border-collapse:collapse}
+.oob-table th{background:rgba(180,40,20,0.3);color:#ff6644;padding:12px;text-align:left;font-size:0.85rem;text-transform:uppercase;letter-spacing:2px}
+.oob-table td{padding:12px;border-bottom:1px solid rgba(100,50,30,0.2);color:#a89880}
+.oob-table tr:hover td{background:rgba(180,40,20,0.1)}
+
+.footer{text-align:center;padding:60px 20px;border-top:1px solid rgba(180,40,20,0.2);margin-top:60px;position:relative;z-index:1}
+.footer a{color:#ff6644;text-decoration:none;margin:0 15px;transition:color 0.3s}
+.footer a:hover{color:#ff9966}
+.footer .copy{color:#4a3a2a;margin-top:20px;font-size:0.85rem}
+
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;justify-content:center;align-items:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:8px}
+
+@media(max-width:768px){
+  .war-count{gap:20px}
+  .war-stat .num{font-size:2rem}
+  .force-name{font-size:1.5rem}
+  .spec-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-particles" id="particles"></div>
+
+<div class="header">
+  <h1>⚔️ ARMY OF MORDOR</h1>
+  <div class="subtitle">FORCES OF THE DARK LORD — YABROUD GARRISON</div>
+  <div class="war-count">
+    <div class="war-stat"><div class="num" data-target="250000">0</div><div class="label">Total Forces</div></div>
+    <div class="war-stat"><div class="num" data-target="9">0</div><div class="label">Nazgûl Commanders</div></div>
+    <div class="war-stat"><div class="num" data-target="6">0</div><div class="label">Division Types</div></div>
+    <div class="war-stat"><div class="num" data-target="1">0</div><div class="label">Dark Lord</div></div>
+  </div>
+</div>
+
+<div class="forces">
+
+  <!-- ORC HORDE -->
+  <div class="force-card">
+    <img src="web/ARMY-ORC-HORDE.jpg" alt="Orc Horde" class="force-img" loading="lazy" onclick="openLightbox(this)">
+    <div class="force-info">
+      <div class="force-name">🗡️ THE ORC LEGIONS</div>
+      <div class="force-title">The Expendable Millions — Backbone of Mordor</div>
+      <div class="force-desc">Born in darkness, bred for war. The orcs of Mordor are not soldiers — they are a FLOOD. They don't win battles through skill. They win through numbers that make the earth tremble. Each one is afraid. Together they are fear itself.</div>
+      <div class="force-quote">"They don't fight for Sauron. They fight because the alternative is Sauron."</div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="spec-label">Numbers</div><div class="spec-value">200,000+</div></div>
+        <div class="spec-item"><div class="spec-label">Morale</div><div class="spec-value">FEAR</div></div>
+        <div class="spec-item"><div class="spec-label">Weapons</div><div class="spec-value">Scimitar + Spear</div></div>
+        <div class="spec-item"><div class="spec-label">Diet</div><div class="spec-value">Maggoty bread</div></div>
+      </div>
+      <div class="rank-bar"><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip"></div><div class="rank-pip"></div><div class="rank-pip"></div></div>
+    </div>
+  </div>
+
+  <!-- URUK-HAI -->
+  <div class="force-card">
+    <img src="web/ARMY-URUK-HAI.jpg" alt="Uruk-hai" class="force-img" loading="lazy" onclick="openLightbox(this)">
+    <div class="force-info">
+      <div class="force-name">⚔️ THE URUK-HAI</div>
+      <div class="force-title">Bred to Perfection — The Elite</div>
+      <div class="force-desc">Not born. MANUFACTURED. Saruman's darkest gift to Mordor — orcs crossed with goblin-men, immune to sunlight, disciplined, fearless. Where regular orcs scatter, the Uruk-hai hold the line. They don't just fight. They conquer.</div>
+      <div class="force-quote">"We are the fighting Uruk-hai! We do not stop. We do not sleep. We DO NOT DIET."</div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="spec-label">Numbers</div><div class="spec-value">10,000</div></div>
+        <div class="spec-item"><div class="spec-label">Sun Immune</div><div class="spec-value">YES</div></div>
+        <div class="spec-item"><div class="spec-label">Top Speed</div><div class="spec-value">45 km/h</div></div>
+        <div class="spec-item"><div class="spec-label">Discipline</div><div class="spec-value">MILITARY</div></div>
+      </div>
+      <div class="rank-bar"><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip"></div></div>
+    </div>
+  </div>
+
+  <!-- MOUTH OF SAURON -->
+  <div class="force-card">
+    <img src="web/ARMY-MOUTH-OF-SAURON.jpg" alt="Mouth of Sauron" class="force-img" loading="lazy" onclick="openLightbox(this)">
+    <div class="force-info">
+      <div class="force-name">👄 THE MOUTH OF SAURON</div>
+      <div class="force-title">Lieutenant of Barad-dûr — He Who Speaks for the Eye</div>
+      <div class="force-desc">A Man. Once. His name is forgotten — even by himself. He entered Sauron's service so long ago that he became the voice of the tower. He doesn't fight. He NEGOTIATES. And his negotiations always end the same way: surrender or die.</div>
+      <div class="force-quote">"My master Sauron the Great bids thee welcome. Is there anyone in this rout with authority to treat with me? Or indeed with wit to understand me?"</div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="spec-label">Role</div><div class="spec-value">DIPLOMAT</div></div>
+        <div class="spec-item"><div class="spec-label">Age</div><div class="spec-value">UNKNOWN</div></div>
+        <div class="spec-item"><div class="spec-label">Face Visible</div><div class="spec-value">MOUTH ONLY</div></div>
+        <div class="spec-item"><div class="spec-label">Negotiations Won</div><div class="spec-value">ALL</div></div>
+      </div>
+      <div class="rank-bar"><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div></div>
+    </div>
+  </div>
+
+  <!-- GROND -->
+  <div class="force-card">
+    <img src="web/ARMY-GROND.jpg" alt="Grond" class="force-img" loading="lazy" onclick="openLightbox(this)">
+    <div class="force-info">
+      <div class="force-name">🐺 GROND</div>
+      <div class="force-title">The Hammer of the Underworld — Siege Engine Supreme</div>
+      <div class="force-desc">Named after Morgoth's own weapon. 60 feet of black iron forged in the shape of a snarling wolf. Carried by hundreds. Swung by trolls. Fire in its jaws. Spells on its hull. No gate in Middle-earth has survived GROND. The chant begins. GROND. GROND. GROND.</div>
+      <div class="force-quote">"GROND! GROND! GROND! — The only prayer Mordor knows."</div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="spec-label">Length</div><div class="spec-value">60 ft / 18m</div></div>
+        <div class="spec-item"><div class="spec-label">Weight</div><div class="spec-value">100 TONS</div></div>
+        <div class="spec-item"><div class="spec-label">Crew</div><div class="spec-value">200 orcs + trolls</div></div>
+        <div class="spec-item"><div class="spec-label">Gates Broken</div><div class="spec-value">ALL OF THEM</div></div>
+      </div>
+      <div class="rank-bar"><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div></div>
+    </div>
+  </div>
+
+  <!-- HARADRIM -->
+  <div class="force-card">
+    <img src="web/ARMY-HARADRIM.jpg" alt="Haradrim" class="force-img" loading="lazy" onclick="openLightbox(this)">
+    <div class="force-info">
+      <div class="force-name">🐘 THE HARADRIM</div>
+      <div class="force-title">Southron Warriors — Desert Sons of Yabroud</div>
+      <div class="force-desc">They came from the south. From the desert. From YABROUD. The Haradrim ride the Mûmakil — 40-ton war elephants that turn battlefields into graveyards. They don't serve Sauron out of fear. They serve because the desert taught them: conquer or starve.</div>
+      <div class="force-quote">"The desert doesn't make soldiers. It makes SURVIVORS. Then it sends them north."</div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="spec-label">Cavalry</div><div class="spec-value">MÛMAKIL</div></div>
+        <div class="spec-item"><div class="spec-label">Origin</div><div class="spec-value">YABROUD</div></div>
+        <div class="spec-item"><div class="spec-label">Weapons</div><div class="spec-value">Bow + Spear</div></div>
+        <div class="spec-item"><div class="spec-label">Allegiance</div><div class="spec-value">THE DESERT</div></div>
+      </div>
+      <div class="rank-bar"><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip active"></div><div class="rank-pip"></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ORDER OF BATTLE -->
+<div class="order-of-battle">
+  <div class="oob-title">📋 ORDER OF BATTLE — YABROUD GARRISON</div>
+  <table class="oob-table">
+    <tr><th>Division</th><th>Commander</th><th>Strength</th><th>Station</th><th>Status</th></tr>
+    <tr><td>🗡️ 1st Orc Legion</td><td>Gothmog</td><td>80,000</td><td>Gorgoroth Forges</td><td style="color:#00ff44">DEPLOYED</td></tr>
+    <tr><td>🗡️ 2nd Orc Legion</td><td>Shagrat</td><td>60,000</td><td>Black Gate</td><td style="color:#00ff44">DEPLOYED</td></tr>
+    <tr><td>🗡️ 3rd Orc Legion</td><td>Gorbag</td><td>60,000</td><td>Minas Morgul</td><td style="color:#ffaa00">RESERVE</td></tr>
+    <tr><td>⚔️ Uruk-hai Elite</td><td>Uglúk</td><td>10,000</td><td>Udûn Terraces</td><td style="color:#ff0000">VANGUARD</td></tr>
+    <tr><td>🐘 Haradrim Corps</td><td>Serpent Lord</td><td>18,000</td><td>Sea of Nûrn</td><td style="color:#00ff44">DEPLOYED</td></tr>
+    <tr><td>🪨 Troll Regiment</td><td>Olog Chieftain</td><td>2,000</td><td>Shelob's Lair</td><td style="color:#ffaa00">RESERVE</td></tr>
+    <tr><td>🐺 Warg Riders</td><td>Pack Alpha</td><td>5,000</td><td>The Watchers</td><td style="color:#00ff44">DEPLOYED</td></tr>
+    <tr><td>👻 Nazgûl Command</td><td>Witch-King</td><td>9</td><td>Barad-dûr</td><td style="color:#ff0000">AIRBORNE</td></tr>
+    <tr><td>🐺 GROND Battery</td><td>Siege Master</td><td>200 crew</td><td>Black Gate</td><td style="color:#ffaa00">STANDBY</td></tr>
+    <tr><td>👁️ Sauron</td><td>—</td><td>1</td><td>Barad-dûr, Floor 66</td><td style="color:#ff0000">ALWAYS WATCHING</td></tr>
+  </table>
+</div>
+
+<div class="footer">
+  <a href="YABROUD.MORDOR.html">💀 MORDOR</a>
+  <a href="SAURON.html">👁️ SAURON</a>
+  <a href="BESTIARY.html">🐉 BESTIARY</a>
+  <a href="MAP.html">🗺️ MAP</a>
+  <a href="YABROUD.CITY.html">🌴 ORIGINAL</a>
+  <div class="copy">ARMY OF MORDOR YABROUD — 250,000 souls, 1 Dark Lord — Built by JuX ITT — Born 6/6/66 + 60</div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="Full view">
+</div>
+
+<script>
+// Particles
+(function(){const c=document.getElementById('particles');for(let i=0;i<30;i++){const p=document.createElement('div');p.className='particle';p.style.cssText=`left:${Math.random()*100}%;width:${3+Math.random()*6}px;height:${3+Math.random()*6}px;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*4}s`;c.appendChild(p)}})();
+
+// Counter animation
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target;const target=parseInt(el.dataset.target);const duration=2000;const start=performance.now();const animate=now=>{const progress=Math.min((now-start)/duration,1);el.textContent=Math.floor(progress*target).toLocaleString();if(progress<1)requestAnimationFrame(animate)};requestAnimationFrame(animate);observer.unobserve(el)}})},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>observer.observe(el));
+
+// Lightbox
+function openLightbox(img){const lb=document.getElementById('lightbox');document.getElementById('lightboxImg').src=img.src.replace('web/','');lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🗺️ MAP OF MORDOR YABROUD — The Dark Lands</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d0805;color:#c8b8a0;font-family:'Palatino Linotype','Book Antiqua',Palatino,serif;overflow-x:hidden}
+.header{text-align:center;padding:80px 20px 40px}
+.header h1{font-size:clamp(2.5rem,6vw,4.5rem);color:#d4a056;text-shadow:0 0 40px rgba(212,160,86,0.4);letter-spacing:6px;margin-bottom:15px}
+.header .subtitle{font-size:1.2rem;color:#8a7a6a;font-style:italic;letter-spacing:3px}
+
+.map-container{max-width:1400px;margin:40px auto;padding:0 20px;position:relative}
+.map-frame{border:3px solid rgba(212,160,86,0.4);border-radius:12px;overflow:hidden;box-shadow:0 0 60px rgba(180,120,40,0.2);position:relative}
+.map-frame img{width:100%;display:block;cursor:pointer}
+.map-frame:hover{border-color:rgba(212,160,86,0.7)}
+
+.legend{max-width:1200px;margin:60px auto;padding:0 20px}
+.legend-title{font-size:2rem;color:#d4a056;text-align:center;margin-bottom:30px;text-shadow:0 0 20px rgba(212,160,86,0.3)}
+.legend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.legend-item{background:linear-gradient(135deg,rgba(30,20,10,0.95),rgba(20,15,8,0.98));border:1px solid rgba(212,160,86,0.2);border-radius:10px;padding:25px;transition:border-color 0.3s,transform 0.3s}
+.legend-item:hover{border-color:rgba(212,160,86,0.5);transform:translateY(-3px)}
+.legend-icon{font-size:2rem;margin-bottom:10px}
+.legend-name{font-size:1.3rem;color:#ff6644;margin-bottom:5px}
+.legend-coords{font-size:0.8rem;color:#6a5a4a;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+.legend-desc{color:#a89880;line-height:1.7;font-size:0.95rem}
+
+.distances{max-width:1200px;margin:60px auto;padding:0 20px}
+.dist-title{font-size:1.5rem;color:#d4a056;text-align:center;margin-bottom:20px}
+.dist-table{width:100%;border-collapse:collapse;max-width:800px;margin:0 auto}
+.dist-table th{background:rgba(212,160,86,0.15);color:#d4a056;padding:12px;text-align:left;font-size:0.8rem;text-transform:uppercase;letter-spacing:2px}
+.dist-table td{padding:12px;border-bottom:1px solid rgba(100,70,30,0.2);color:#a89880}
+
+.terrain{max-width:1200px;margin:60px auto;padding:0 20px}
+.terrain-title{font-size:1.5rem;color:#d4a056;text-align:center;margin-bottom:20px}
+.terrain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.terrain-card{background:rgba(30,20,10,0.8);border:1px solid rgba(100,70,30,0.3);border-radius:8px;padding:20px;text-align:center}
+.terrain-card .t-icon{font-size:2.5rem;margin-bottom:10px}
+.terrain-card .t-name{color:#d4a056;font-size:1.1rem;margin-bottom:5px}
+.terrain-card .t-info{color:#8a7a6a;font-size:0.85rem}
+.terrain-card .t-bar{height:6px;border-radius:3px;background:rgba(60,40,20,0.5);margin-top:10px;overflow:hidden}
+.terrain-card .t-fill{height:100%;border-radius:3px}
+
+.footer{text-align:center;padding:60px 20px;border-top:1px solid rgba(212,160,86,0.15);margin-top:60px}
+.footer a{color:#d4a056;text-decoration:none;margin:0 15px;transition:color 0.3s}
+.footer a:hover{color:#ff9966}
+.footer .copy{color:#4a3a2a;margin-top:20px;font-size:0.85rem}
+
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;justify-content:center;align-items:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain}
+
+@media(max-width:768px){.legend-grid{grid-template-columns:1fr}.terrain-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🗺️ MAP OF MORDOR</h1>
+  <div class="subtitle">CARTOGRAPHY OF THE DARK LANDS — YABROUD QALAMOUN</div>
+</div>
+
+<div class="map-container">
+  <div class="map-frame">
+    <img src="web/MAP-YABROUD-MORDOR.jpg" alt="Map of Mordor Yabroud" onclick="openLightbox(this)" loading="lazy">
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-title">📍 KEY LOCATIONS</div>
+  <div class="legend-grid">
+    <div class="legend-item">
+      <div class="legend-icon">🗼</div>
+      <div class="legend-name">BARAD-DÛR</div>
+      <div class="legend-coords">39°N 36°E — Altitude 1,200m — 66 floors</div>
+      <div class="legend-desc">The Dark Tower. Sauron's seat. The Eye watches from floor 66. Foundation laid upon the One Ring — if the Ring falls, the tower falls. Until then: OPERATIONAL.</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-icon">🌋</div>
+      <div class="legend-name">MOUNT DOOM</div>
+      <div class="legend-coords">Center of Mordor — 1,400m — ACTIVE</div>
+      <div class="legend-desc">Orodruin. The only forge that can unmake the One Ring. The only place anyone would walk into voluntarily. Temperature: 1,200°C. Tourism: discouraged.</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-icon">🚪</div>
+      <div class="legend-name">THE BLACK GATE</div>
+      <div class="legend-coords">Northwest — The Morannon</div>
+      <div class="legend-desc">Main entrance. Triple iron. 10,000 garrison. The welcome mat says "GO AWAY" in seven languages. Entry fee: your soul. No refunds.</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-icon">🕷️</div>
+      <div class="legend-name">SHELOB'S LAIR</div>
+      <div class="legend-coords">Western Pass — Cirith Ungol</div>
+      <div class="legend-desc">The "secret" entrance. Sauron allows it because Shelob eats anyone who uses it. Free pest control. No employment contract needed.</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-icon">👻</div>
+      <div class="legend-name">MINAS MORGUL</div>
+      <div class="legend-coords">Western Border — Tower of Sorcery</div>
+      <div class="legend-desc">Once Minas Ithil, Tower of the Moon. Now it glows green and everything near it dies. Witch-King's residence. HOA violations: infinite.</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-icon">⚒️</div>
+      <div class="legend-name">GORGOROTH</div>
+      <div class="legend-coords">Central Plateau — The Forges</div>
+      <div class="legend-desc">420 forges. 10,000 blades per day. The industrial heart of Mordor. No OSHA compliance. No lunch break. No lunch.</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-icon">🔥</div>
+      <div class="legend-name">UDÛN</div>
+      <div class="legend-coords">Northern Valley — The Terraces</div>
+      <div class="legend-desc">Where the lava meets the iron. Molten terraces cascading down the mountain. Uruk-hai training grounds. Beautiful in a "everything is on fire" way.</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-icon">🌊</div>
+      <div class="legend-name">SEA OF NÛRN</div>
+      <div class="legend-coords">Southern Mordor — The Breadbasket</div>
+      <div class="legend-desc">Slave-worked farmland. Black wheat. Dark water. Feeds 250,000 troops. The only green thing in Mordor, and even it looks depressed.</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-icon">🔭</div>
+      <div class="legend-name">THE WATCHERS</div>
+      <div class="legend-coords">Eastern Peaks — Observation</div>
+      <div class="legend-desc">Not watching stars. Watching for eagles. The early warning system of Mordor. Report directly to the Eye. Career satisfaction: they'd rather not say.</div>
+    </div>
+  </div>
+</div>
+
+<div class="distances">
+  <div class="dist-title">📏 DISTANCES (approximate)</div>
+  <table class="dist-table">
+    <tr><th>From</th><th>To</th><th>Distance</th><th>Travel Time (Orc March)</th></tr>
+    <tr><td>🚪 Black Gate</td><td>🗼 Barad-dûr</td><td>160 km</td><td>4 days</td></tr>
+    <tr><td>🗼 Barad-dûr</td><td>🌋 Mount Doom</td><td>50 km</td><td>1.5 days</td></tr>
+    <tr><td>🚪 Black Gate</td><td>🌋 Mount Doom</td><td>180 km</td><td>5 days</td></tr>
+    <tr><td>🕷️ Shelob's Lair</td><td>🗼 Barad-dûr</td><td>120 km</td><td>3 days (if alive)</td></tr>
+    <tr><td>👻 Minas Morgul</td><td>🕷️ Shelob's Lair</td><td>30 km</td><td>1 day</td></tr>
+    <tr><td>🌊 Sea of Nûrn</td><td>⚒️ Gorgoroth</td><td>200 km</td><td>6 days (supply wagons)</td></tr>
+  </table>
+</div>
+
+<div class="terrain">
+  <div class="terrain-title">🏔️ TERRAIN ANALYSIS</div>
+  <div class="terrain-grid">
+    <div class="terrain-card">
+      <div class="t-icon">🌋</div>
+      <div class="t-name">Volcanic</div>
+      <div class="t-info">Active lava fields</div>
+      <div class="t-bar"><div class="t-fill" style="width:90%;background:linear-gradient(90deg,#ff3300,#ff6600)"></div></div>
+    </div>
+    <div class="terrain-card">
+      <div class="t-icon">🏜️</div>
+      <div class="t-name">Ash Desert</div>
+      <div class="t-info">Choking dust storms</div>
+      <div class="t-bar"><div class="t-fill" style="width:75%;background:linear-gradient(90deg,#8a6a4a,#c8a060)"></div></div>
+    </div>
+    <div class="terrain-card">
+      <div class="t-icon">🏔️</div>
+      <div class="t-name">Mountains</div>
+      <div class="t-info">Ephel Dúath + Ered Lithui</div>
+      <div class="t-bar"><div class="t-fill" style="width:85%;background:linear-gradient(90deg,#4a4a4a,#7a7a7a)"></div></div>
+    </div>
+    <div class="terrain-card">
+      <div class="t-icon">💀</div>
+      <div class="t-name">Dead Marshes</div>
+      <div class="t-info">Don't follow the lights</div>
+      <div class="t-bar"><div class="t-fill" style="width:40%;background:linear-gradient(90deg,#2a4a2a,#4a8a4a)"></div></div>
+    </div>
+    <div class="terrain-card">
+      <div class="t-icon">🌾</div>
+      <div class="t-name">Farmland</div>
+      <div class="t-info">Sea of Nûrn — slave-worked</div>
+      <div class="t-bar"><div class="t-fill" style="width:25%;background:linear-gradient(90deg,#3a5a2a,#5a8a3a)"></div></div>
+    </div>
+    <div class="terrain-card">
+      <div class="t-icon">🕳️</div>
+      <div class="t-name">Cave Systems</div>
+      <div class="t-info">Shelob's domain</div>
+      <div class="t-bar"><div class="t-fill" style="width:60%;background:linear-gradient(90deg,#2a1a2a,#5a3a5a)"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <a href="YABROUD.MORDOR.html">💀 MORDOR</a>
+  <a href="SAURON.html">👁️ SAURON</a>
+  <a href="BESTIARY.html">🐉 BESTIARY</a>
+  <a href="ARMY.html">⚔️ ARMY</a>
+  <a href="YABROUD.CITY.html">🌴 ORIGINAL</a>
+  <div class="copy">MAP OF MORDOR YABROUD — 12 km² of ash, fire, and zoning violations — Built by JuX ITT — Born 6/6/66 + 60</div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(img){const lb=document.getElementById('lightbox');document.getElementById('lightboxImg').src=img.src.replace('web/','');lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
