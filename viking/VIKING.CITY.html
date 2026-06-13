@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ VIKING — Children of the North</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#c8d6e5;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('web/VIKING-FJORD.jpg') center/cover;filter:brightness(0.35)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,26,0.3) 0%,rgba(10,14,26,0.8) 100%)}
+.hero-content{position:relative;z-index:2;padding:2rem}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#7ec8e3;text-shadow:0 0 40px rgba(126,200,227,0.5);margin-bottom:0.5rem;letter-spacing:3px}
+.hero .sub{font-size:clamp(1rem,3vw,1.5rem);color:#a0b9cd;font-style:italic}
+.hero .epoch{font-size:1rem;color:#5a7a8a;margin-top:1rem;letter-spacing:2px}
+
+.canvas-particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:4rem 1.5rem}
+h2{font-size:clamp(1.5rem,4vw,2.2rem);color:#7ec8e3;margin-bottom:2rem;text-align:center;text-shadow:0 0 20px rgba(126,200,227,0.3)}
+h3{color:#9fc5e8;font-size:1.3rem;margin-bottom:0.5rem}
+
+.intro{text-align:center;font-size:1.15rem;line-height:1.9;max-width:800px;margin:0 auto;color:#a0b9cd}
+.intro strong{color:#7ec8e3}
+
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:3rem 0}
+.gallery img{width:100%;border-radius:12px;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;border:2px solid #1a2a3a}
+.gallery img:hover{transform:scale(1.03);box-shadow:0 0 30px rgba(126,200,227,0.3)}
+
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:8px}
+
+.districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;margin-top:2rem}
+.district{background:linear-gradient(135deg,rgba(20,30,50,0.9),rgba(10,20,35,0.9));border:1px solid #1a3050;border-radius:16px;padding:2rem;transition:transform 0.3s,box-shadow 0.3s}
+.district:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(126,200,227,0.15)}
+.district .icon{font-size:2.5rem;margin-bottom:0.5rem}
+.district .fact{color:#5a8aaa;font-size:0.85rem;margin:0.5rem 0;letter-spacing:1px;text-transform:uppercase}
+.district .quote{color:#7ec8e3;font-style:italic;font-size:0.95rem;border-left:3px solid #2a4a6a;padding-left:1rem;margin-top:1rem}
+
+.gods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
+.god-card{background:linear-gradient(135deg,rgba(15,25,45,0.9),rgba(10,15,30,0.9));border:1px solid #1a3050;border-radius:12px;padding:1.5rem;text-align:center}
+.god-card .symbol{font-size:2rem;margin-bottom:0.5rem}
+.god-card h4{color:#9fc5e8;margin-bottom:0.3rem}
+.god-card p{color:#6a8aaa;font-size:0.9rem}
+
+.army{background:linear-gradient(135deg,rgba(20,15,30,0.9),rgba(15,10,25,0.9));border:1px solid #2a1a3a;border-radius:16px;padding:2.5rem;margin:3rem 0}
+.army h3{color:#9fc5e8;text-align:center;font-size:1.5rem;margin-bottom:1.5rem}
+.army-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.army-unit{text-align:center;padding:1rem;border:1px solid #1a2a4a;border-radius:8px}
+.army-unit .emoji{font-size:1.8rem}
+.army-unit h4{color:#7ec8e3;font-size:0.95rem;margin:0.3rem 0}
+.army-unit p{color:#5a7a9a;font-size:0.8rem}
+
+.gifts{background:linear-gradient(135deg,rgba(10,25,15,0.9),rgba(5,20,10,0.9));border:1px solid #1a3a2a;border-radius:16px;padding:2.5rem;margin:3rem 0}
+.gifts h3{color:#7ec8e3;text-align:center;font-size:1.5rem;margin-bottom:1.5rem}
+.gifts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.gift{text-align:center;padding:1rem}
+.gift .emoji{font-size:1.5rem}
+.gift h4{color:#9fc5e8;font-size:0.9rem;margin:0.3rem 0}
+.gift p{color:#5a8a7a;font-size:0.8rem}
+
+.nav{position:fixed;bottom:2rem;right:2rem;z-index:100}
+.nav a{display:inline-block;background:rgba(126,200,227,0.15);color:#7ec8e3;padding:0.6rem 1.2rem;border-radius:25px;text-decoration:none;font-size:0.85rem;backdrop-filter:blur(10px);border:1px solid rgba(126,200,227,0.2);transition:all 0.3s}
+.nav a:hover{background:rgba(126,200,227,0.3)}
+
+.footer{text-align:center;padding:3rem 1rem;color:#3a5a6a;font-size:0.85rem;border-top:1px solid #1a2a3a;margin-top:4rem}
+.footer a{color:#7ec8e3;text-decoration:none}
+
+.back-link{position:fixed;top:1.5rem;left:1.5rem;z-index:100}
+.back-link a{color:#5a8aaa;text-decoration:none;font-size:0.9rem;padding:0.5rem 1rem;background:rgba(10,14,26,0.8);border-radius:20px;border:1px solid #1a3050;backdrop-filter:blur(10px);transition:all 0.3s}
+.back-link a:hover{color:#7ec8e3;border-color:#7ec8e3}
+
+@media(max-width:600px){
+  .hero h1{font-size:2.2rem}
+  .districts{grid-template-columns:1fr}
+  section{padding:2rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="back-link"><a href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">🔥 ← MORDOR.NET</a></div>
+
+<canvas class="canvas-particles" id="particles"></canvas>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>⚡ VIKING</h1>
+    <div class="sub">Children of the North — Where the Maps Ended</div>
+    <div class="epoch">793 AD – 1066 AD · SCANDINAVIA · 273 YEARS OF THUNDER</div>
+  </div>
+</section>
+
+<section>
+  <p class="intro">
+    They came from the <strong>frozen fjords</strong> where the sun disappears for months.
+    They built ships so perfect they could cross <strong>oceans</strong> and sail up <strong>rivers</strong>.
+    They discovered <strong>America 500 years before Columbus</strong>.
+    They had <strong>parliament</strong> before England.
+    They wrote their laws in <strong>stone</strong>.
+    Europe prayed: <em>"From the fury of the Northmen, deliver us, O Lord."</em>
+    Nobody delivered them.
+  </p>
+</section>
+
+<section>
+  <h2>⚡ Concept Arts</h2>
+  <div class="gallery">
+    <img src="web/VIKING-FJORD.jpg" alt="Viking Fjord Settlement" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/VIKING-LONGSHIPS.jpg" alt="Viking Longships" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/VIKING-YGGDRASIL.jpg" alt="Yggdrasil World Tree" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/VIKING-HALL.jpg" alt="Viking Great Hall" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/VIKING-RUNES.jpg" alt="Viking Rune Stones" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/VIKING-SHIELDWALL.jpg" alt="Viking Shield Wall" loading="lazy" onclick="openLightbox(this)">
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Full view">
+</div>
+
+<section>
+  <h2>⚡ The 9 Territories of the North</h2>
+  <div class="districts">
+
+    <div class="district">
+      <div class="icon">⚓</div>
+      <h3>THE FJORD</h3>
+      <div class="fact">Deep-water harbors carved by glaciers · 1,190 fjords in Norway alone</div>
+      <p>Where the mountains meet the sea. Every fjord a fortress. Every inlet a shipyard. The geography itself was a weapon — you couldn't invade a people whose address kept changing.</p>
+      <div class="quote">"The sea was their highway. The fjord was their garage."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🚢</div>
+      <h3>THE LONGSHIP YARDS</h3>
+      <div class="fact">30m long · 60 oars · draft so shallow it sailed up rivers · flexible keel</div>
+      <p>The greatest naval engineering of the medieval world. Clinker-built, oak-ribbed, dragon-prowed. It could cross the Atlantic AND park on a beach. No other civilization had anything close.</p>
+      <div class="quote">"A ship that crosses oceans and parks on beaches. Try that with a galleon."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🏛️</div>
+      <h3>THE THING</h3>
+      <div class="fact">Althing of Iceland · 930 AD · oldest parliament still running</div>
+      <p>Democracy before England had a word for it. Free men gathered at Thingvellir to settle disputes, make laws, and judge crimes. No king decided alone. The assembly was the law.</p>
+      <div class="quote">"Parliament. 930 AD. No wigs required."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🌳</div>
+      <h3>YGGDRASIL GROVE</h3>
+      <div class="fact">The World Tree · 9 realms · Odin hung 9 days for wisdom</div>
+      <p>One tree holds everything. Asgard above. Hel below. Midgard in the middle. A serpent gnaws the roots while an eagle watches from the crown. The squirrel Ratatoskr carries insults between them. The universe runs on gossip.</p>
+      <div class="quote">"The universe is a tree. The news travels by squirrel."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🍺</div>
+      <h3>THE GREAT HALL</h3>
+      <div class="fact">Heorot-style mead halls · 50m long · central hearth · skald poetry</div>
+      <p>Where warriors ate, drank, boasted, and listened to poets. The skald sang your deeds — if you had none, you sat in silence. Reputation was currency. The hall was the bank.</p>
+      <div class="quote">"If the skald doesn't sing your name, you were never here."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">ᚱ</div>
+      <h3>THE RUNE STONES</h3>
+      <div class="fact">Elder Futhark · 24 characters · carved in stone, bone, wood · magic + memory</div>
+      <p>Not just an alphabet. Each rune was a spell, a name, a memory. They carved them on swords for victory, on stones for the dead, on doors for protection. Writing was enchantment.</p>
+      <div class="quote">"Every letter was a spell. Every word was a weapon."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🛡️</div>
+      <h3>THE SHIELD WALL</h3>
+      <div class="fact">Interlocking shields · berserkers in front · axe + sword + spear</div>
+      <p>The formation that broke armies. Shields overlapping, axes swinging overhead, berserkers in bear skins screaming at the front. The wall moved as one. If one man broke, all died. Trust was the armor.</p>
+      <div class="quote">"The shield wall has one rule: nobody leaves."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🧭</div>
+      <h3>THE NAVIGATOR'S POST</h3>
+      <div class="fact">Sunstone navigation · discovered Iceland, Greenland, America · 500 years before Columbus</div>
+      <p>No compass. No charts. A calcite crystal that found the sun through clouds, the stars, the wave patterns, the whale migrations. They sailed to Newfoundland and called it Vinland. Columbus was late.</p>
+      <div class="quote">"Columbus discovered a place that already had Viking graffiti."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">⚒️</div>
+      <h3>THE FORGE</h3>
+      <div class="fact">Pattern-welded swords · Ulfberht blades · steel purity matching modern standards</div>
+      <p>The Ulfberht sword contained crucible steel so pure that metallurgists couldn't explain it until the 20th century. A medieval blade with modern chemistry. The smiths were 800 years ahead.</p>
+      <div class="quote">"Medieval sword. Modern steel. Nobody knows how."</div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2>⚡ The Norse Pantheon</h2>
+  <div class="gods-grid">
+    <div class="god-card">
+      <div class="symbol">👁️</div>
+      <h4>ODIN</h4>
+      <p>Allfather. Gave an eye for wisdom. Hung on Yggdrasil 9 days. Two ravens bring him the news.</p>
+    </div>
+    <div class="god-card">
+      <div class="symbol">⚡</div>
+      <h4>THOR</h4>
+      <p>God of thunder. Mjölnir never misses. Protector of mankind. Red beard. Short temper.</p>
+    </div>
+    <div class="god-card">
+      <div class="symbol">🐺</div>
+      <h4>FENRIR</h4>
+      <p>The wolf that will swallow Odin at Ragnarök. Bound by a ribbon made of impossible things.</p>
+    </div>
+    <div class="god-card">
+      <div class="symbol">🔥</div>
+      <h4>LOKI</h4>
+      <p>Trickster. Shape-shifter. Father of Fenrir, Hel, and the World Serpent. Chaos incarnate.</p>
+    </div>
+    <div class="god-card">
+      <div class="symbol">💀</div>
+      <h4>HEL</h4>
+      <p>Queen of the dead. Half alive, half corpse. Rules Niflheim. Those who die of sickness go to her.</p>
+    </div>
+    <div class="god-card">
+      <div class="symbol">❄️</div>
+      <h4>SKADI</h4>
+      <p>Goddess of winter, mountains, and hunting. Married a god by choosing the wrong feet. Stayed anyway.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="army">
+    <h3>⚔️ The Viking War Machine</h3>
+    <div class="army-grid">
+      <div class="army-unit">
+        <div class="emoji">🛡️</div>
+        <h4>SHIELD WALL</h4>
+        <p>Core formation. Interlocking. Unbreakable until someone runs.</p>
+      </div>
+      <div class="army-unit">
+        <div class="emoji">🐻</div>
+        <h4>BERSERKERS</h4>
+        <p>Bear-skin warriors. No armor. No fear. Possibly mushrooms.</p>
+      </div>
+      <div class="army-unit">
+        <div class="emoji">🚢</div>
+        <h4>LONGSHIP RAIDERS</h4>
+        <p>Hit the coast. Grab everything. Gone before the army arrives.</p>
+      </div>
+      <div class="army-unit">
+        <div class="emoji">🏹</div>
+        <h4>ARCHERS</h4>
+        <p>Behind the shield wall. Elm bows. Fire arrows. Rain of death.</p>
+      </div>
+      <div class="army-unit">
+        <div class="emoji">⚔️</div>
+        <h4>VARANGIAN GUARD</h4>
+        <p>Viking mercenaries guarding the Byzantine Emperor. Elite of the elite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="gifts">
+    <h3>🌍 What the Vikings Gave the World</h3>
+    <div class="gifts-grid">
+      <div class="gift">
+        <div class="emoji">🧭</div>
+        <h4>NAVIGATION</h4>
+        <p>Sunstone + star + wave reading — crossed oceans without instruments</p>
+      </div>
+      <div class="gift">
+        <div class="emoji">🏛️</div>
+        <h4>PARLIAMENT</h4>
+        <p>Althing, 930 AD — democratic assembly 300 years before Magna Carta</p>
+      </div>
+      <div class="gift">
+        <div class="emoji">🚢</div>
+        <h4>SHIPBUILDING</h4>
+        <p>Clinker-built longships — flexible, fast, shallow draft, ocean-worthy</p>
+      </div>
+      <div class="gift">
+        <div class="emoji">ᚱ</div>
+        <h4>RUNES</h4>
+        <p>Writing system that doubled as magic — carved on everything</p>
+      </div>
+      <div class="gift">
+        <div class="emoji">📖</div>
+        <h4>SAGAS</h4>
+        <p>Icelandic sagas — the first novels. History told as story.</p>
+      </div>
+      <div class="gift">
+        <div class="emoji">🗺️</div>
+        <h4>DISCOVERY</h4>
+        <p>Iceland, Greenland, Vinland (America) — 500 years before Columbus</p>
+      </div>
+      <div class="gift">
+        <div class="emoji">⚖️</div>
+        <h4>JURY TRIAL</h4>
+        <p>Thing assemblies judged crimes by peer jury — exported to England</p>
+      </div>
+      <div class="gift">
+        <div class="emoji">📅</div>
+        <h4>WEEKDAYS</h4>
+        <p>Tuesday (Tyr), Wednesday (Odin), Thursday (Thor), Friday (Freya)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>⚡ Ragnarök</h2>
+  <p class="intro">
+    They knew the world would end. <strong>Ragnarök</strong> — the twilight of the gods.
+    Fenrir swallows Odin. The serpent poisons Thor. The sun goes dark.
+    But after the fire — <strong>a new world rises from the sea</strong>.
+    Green. Clean. Two survivors.
+    <em>They didn't fear the end. They planned what comes after.</em>
+  </p>
+</section>
+
+<div class="nav"><a href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">🔥 MORDOR.NET</a></div>
+
+<footer class="footer">
+  <p>⚡ VIKING — Children of the North · <a href="https://juxaos.com">JuXAOS</a></p>
+  <p style="margin-top:0.5rem">From the fury of the Northmen, deliver us — <em>Nobody delivered them</em></p>
+  <p style="margin-top:0.5rem;color:#2a4a5a">JuX — NAME / FACT / TARGET</p>
+</footer>
+
+<script>
+// Aurora + snowfall particles
+const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+let W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+window.addEventListener('resize',resize);resize();
+
+class Snow{
+  constructor(){this.reset()}
+  reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*2.5+0.5;this.speed=Math.random()*1.5+0.3;this.wind=Math.random()*0.5-0.25;this.alpha=Math.random()*0.5+0.2}
+  update(){this.y+=this.speed;this.x+=this.wind;if(this.y>H)this.reset(),this.y=0;if(this.x>W)this.x=0;if(this.x<0)this.x=W}
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(200,220,240,${this.alpha})`;ctx.fill()}
+}
+
+class Aurora{
+  constructor(y){this.y=y;this.phase=Math.random()*Math.PI*2;this.speed=Math.random()*0.003+0.001;this.amplitude=Math.random()*30+20;this.hue=Math.random()>0.5?140:200;this.alpha=Math.random()*0.08+0.03}
+  update(){this.phase+=this.speed}
+  draw(){ctx.beginPath();ctx.moveTo(0,this.y);for(let x=0;x<=W;x+=10){ctx.lineTo(x,this.y+Math.sin(x*0.005+this.phase)*this.amplitude)}ctx.strokeStyle=`hsla(${this.hue},70%,50%,${this.alpha})`;ctx.lineWidth=40;ctx.stroke()}
+}
+
+const snowflakes=Array.from({length:120},()=>new Snow());
+const auroras=Array.from({length:5},(_,i)=>new Aurora(80+i*60));
+
+function animate(){
+  ctx.clearRect(0,0,W,H);
+  auroras.forEach(a=>{a.update();a.draw()});
+  snowflakes.forEach(s=>{s.update();s.draw()});
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Lightbox
+function openLightbox(img){const lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=img.src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
