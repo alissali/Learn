@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛡️ ZULU — The Nation That Shook an Empire</title>
+<meta name="description" content="The Zulu Kingdom — discipline, spears, and a short weapon that changed warfare forever. A JuX civilization.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0a00;color:#e8d5b0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('web/ZULU-AERIAL.jpg') center/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,10,0,.3) 0%,rgba(26,10,0,.7) 60%,#1a0a00 100%)}
+.hero-content{position:relative;z-index:2;max-width:900px;padding:0 2rem}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#d4a017;text-shadow:0 0 40px rgba(212,160,23,.5);margin-bottom:.5rem;letter-spacing:.15em}
+.hero .sub{font-size:clamp(1rem,2.5vw,1.4rem);color:#c8b080;font-style:italic}
+.hero .date{color:#8b7355;margin-top:1rem;font-size:.9rem}
+section{max-width:1100px;margin:0 auto;padding:4rem 2rem}
+h2{font-size:clamp(1.5rem,4vw,2.5rem);color:#d4a017;text-align:center;margin-bottom:2rem;letter-spacing:.1em}
+h2 span{color:#c0392b}
+.intro{text-align:center;max-width:800px;margin:0 auto 3rem;font-size:1.1rem;line-height:1.8;color:#c8b080}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:2rem 0}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,box-shadow .3s;border:2px solid #8b6914}
+.gallery img:hover{transform:scale(1.03);box-shadow:0 0 30px rgba(212,160,23,.4)}
+.district{background:linear-gradient(135deg,rgba(139,105,20,.1),rgba(26,10,0,.8));border:1px solid #8b6914;border-radius:12px;padding:2rem;margin:1.5rem 0;transition:transform .3s}
+.district:hover{transform:translateY(-3px)}
+.district h3{color:#d4a017;font-size:1.4rem;margin-bottom:.5rem}
+.district .icon{font-size:2rem;float:left;margin-right:1rem}
+.district .fact{color:#b8860b;font-size:.95rem;margin-bottom:.5rem;font-weight:bold}
+.district .quote{color:#8b7355;font-style:italic;border-left:3px solid #c0392b;padding-left:1rem;margin-top:.75rem}
+.gods{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0}
+.god{background:rgba(139,105,20,.15);border:1px solid #5c4a1e;border-radius:8px;padding:1.5rem;text-align:center}
+.god .emoji{font-size:2.5rem}
+.god h4{color:#d4a017;margin:.5rem 0 .25rem}
+.god p{color:#8b7355;font-size:.85rem}
+.gifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:2rem 0}
+.gift{display:flex;align-items:start;gap:1rem;padding:1rem;background:rgba(192,57,43,.08);border-radius:8px;border-left:3px solid #c0392b}
+.gift .num{color:#c0392b;font-weight:bold;font-size:1.3rem;min-width:30px}
+.gift p{color:#c8b080;font-size:.9rem}
+.army{background:linear-gradient(135deg,rgba(192,57,43,.1),rgba(26,10,0,.9));border:1px solid #c0392b;border-radius:12px;padding:2rem;margin:1.5rem 0}
+.army h3{color:#c0392b;font-size:1.3rem;margin-bottom:.5rem}
+.army p{color:#c8b080;font-size:.95rem}
+.back-link{text-align:center;padding:2rem;margin-top:2rem}
+.back-link a{color:#d4a017;text-decoration:none;font-size:1.1rem;border:1px solid #8b6914;padding:.75rem 2rem;border-radius:8px;transition:all .3s}
+.back-link a:hover{background:#d4a017;color:#1a0a00}
+footer{text-align:center;padding:2rem;color:#5c4a1e;font-size:.8rem;border-top:1px solid #2a1a0a}
+
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95vw;max-height:95vh;border-radius:8px;border:2px solid #d4a017}
+
+#particles-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+section,footer,.hero-content,.back-link{position:relative;z-index:1}
+</style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>🛡️ ZULU</h1>
+    <p class="sub">The Nation That Shook an Empire</p>
+    <p class="date">KwaZulu-Natal · est. ~1709 · Shaka's Reign 1816–1828</p>
+  </div>
+</div>
+
+<section>
+  <h2>The <span>Short Spear</span> That Changed Everything</h2>
+  <p class="intro">
+    Before Shaka, they threw spears from a distance and called it war. Shaka said no. Get close. Stab. Keep the spear. He replaced the long throwing assegai with the short iklwa — named after the sound it makes leaving a body. In 12 years he built a nation of 250,000 warriors, unified 100 clans, and created a military machine that made the British Empire bleed. The Zulu didn't have gunpowder. They didn't need it.
+  </p>
+  <div class="gallery">
+    <img src="web/ZULU-AERIAL.jpg" alt="Zulu kraal aerial view" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/ZULU-IMPI.jpg" alt="Zulu impi formation" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/ZULU-SHIELDS.jpg" alt="Zulu shields and weapons" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/ZULU-DANCE.jpg" alt="Zulu ceremonial dance" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/ZULU-BATTLE.jpg" alt="Battle of Isandlwana" loading="lazy" onclick="openLightbox(this)">
+    <img src="web/ZULU-SANGOMA.jpg" alt="Zulu sangoma healer" loading="lazy" onclick="openLightbox(this)">
+  </div>
+</section>
+
+<section>
+  <h2>The 9 <span>Territories</span> of the Kingdom</h2>
+
+  <div class="district">
+    <div class="icon">🛡️</div>
+    <h3>THE GREAT KRAAL — uLundi</h3>
+    <p class="fact">1,400+ huts in concentric circles. The king at the center. 30,000 cattle in the inner ring.</p>
+    <p>The capital of the Zulu Kingdom. Not a city — a statement. Every hut placed with military precision. The king's isigodlo at the heart, surrounded by regiments arranged by age. You didn't walk in. You were summoned.</p>
+    <p class="quote">"The city is a circle. The king is the center. Everything else is the wall."</p>
+  </div>
+
+  <div class="district">
+    <div class="icon">⚔️</div>
+    <h3>THE TRAINING GROUNDS — iKhanda</h3>
+    <p class="fact">Boys entered at 14. Warriors emerged at 19. No one left the same.</p>
+    <p>Shaka's military academies. Every male between 14 and 40 served in an age-based regiment — the amabutho. They trained barefoot to harden their feet. They ran 80 km in a day. They ate once. The regiment that arrived last at battle didn't eat at all.</p>
+    <p class="quote">"Shoes are for people who plan to run away."</p>
+  </div>
+
+  <div class="district">
+    <div class="icon">🐄</div>
+    <h3>THE CATTLE ENCLOSURE — iSibaya</h3>
+    <p class="fact">Cattle = currency, status, marriage, religion. A man's worth measured in heads.</p>
+    <p>The Zulu economy ran on cattle. Lobola (bride-price) paid in cows. Justice settled in cows. Ancestors honored with cattle sacrifice. A kraal without cattle was a kraal without a soul. The king's herds numbered in the tens of thousands.</p>
+    <p class="quote">"Count a man's cattle. Now you know his name."</p>
+  </div>
+
+  <div class="district">
+    <div class="icon">🔥</div>
+    <h3>THE FORGE — uMkhonto</h3>
+    <p class="fact">The iklwa: 45cm blade, 75cm shaft. Short. Lethal. Never thrown.</p>
+    <p>Zulu blacksmiths forged weapons from iron smelted in clay furnaces. The iklwa was Shaka's revolution — a short stabbing spear designed for close combat. The isihlangu shield was as tall as a man, made from a single cowhide, color-coded by regiment. The knobkerrie club for finishing blows. Three weapons. Zero mercy.</p>
+    <p class="quote">"A spear you throw is a spear you don't have."</p>
+  </div>
+
+  <div class="district">
+    <div class="icon">💀</div>
+    <h3>THE BULL HORN — iMpondo zaNkomo</h3>
+    <p class="fact">The formation that destroyed 1,300 British soldiers at Isandlwana. 22 January 1879.</p>
+    <p>Shaka's tactical masterpiece. The chest (isiFuba) pins the enemy. Two horns (izimpondo) encircle from the flanks. The loins (umuVa) sit in reserve, backs to the battle so they don't get excited. At Isandlwana, 20,000 Zulu warriors executed this formation against British rifles and artillery. The British camp ceased to exist.</p>
+    <p class="quote">"They had guns. We had geometry."</p>
+  </div>
+
+  <div class="district">
+    <div class="icon">🦴</div>
+    <h3>THE SANGOMA'S HUT — uMphande</h3>
+    <p class="fact">Sangomas: healers, seers, intermediaries with 300+ medicinal plants.</p>
+    <p>Spiritual advisors who spoke to the amadlozi (ancestors) through bone-throwing divination. They diagnosed illness, predicted battle outcomes, and sniffed out sorcery. Their word could save or condemn. Training took years — some say the ancestors chose you through illness or dreams. You didn't apply.</p>
+    <p class="quote">"The bones don't lie. The bones don't care."</p>
+  </div>
+
+  <div class="district">
+    <div class="icon">💃</div>
+    <h3>THE DANCE ARENA — iNdlamu</h3>
+    <p class="fact">Warriors kicked higher than their heads. In formation. In unison. For hours.</p>
+    <p>The Indlamu war dance: high-leg kicks, thunderous foot-stomping, shields crashing in rhythm. Not entertainment — military coordination disguised as ceremony. The Reed Dance (Umhlanga) brought thousands of maidens before the king. The Zulu body was the instrument. The earth was the drum.</p>
+    <p class="quote">"When the ground shakes, it's not an earthquake. It's a rehearsal."</p>
+  </div>
+
+  <div class="district">
+    <div class="icon">🪶</div>
+    <h3>THE BEAD QUARTERS — uBuhlalu</h3>
+    <p class="fact">7 colors. Each means something. A love letter you wear.</p>
+    <p>Zulu beadwork was a language. White = purity/love. Black = marriage/darkness. Red = passion/anger. Blue = faithfulness. Yellow = wealth. Green = jealousy/home. Pink = poverty/promise. A woman's beaded message could propose, reject, or declare war on a man's heart. No words needed.</p>
+    <p class="quote">"She didn't say a word. The beads said everything."</p>
+  </div>
+
+  <div class="district">
+    <div class="icon">🍺</div>
+    <h3>THE BEER CIRCLE — uTshwala</h3>
+    <p class="fact">Sorghum beer brewed by women. Shared from one pot. Disputes settled over a drink.</p>
+    <p>Utshwala — traditional sorghum beer — was the glue of Zulu society. Brewed for three days, served in a communal clay pot, drunk through shared gourds. Court cases heard over beer. Alliances sealed over beer. Ancestors invoked by pouring beer on the ground. The circle was the original boardroom.</p>
+    <p class="quote">"You can't fight a man you just shared a drink with. That's the point."</p>
+  </div>
+</section>
+
+<section>
+  <h2>The <span>Ancestors</span> and Spirits</h2>
+  <div class="gods">
+    <div class="god"><div class="emoji">🌍</div><h4>uNkulunkulu</h4><p>The Great-Great-One. Creator of all things. Emerged from a reed bed.</p></div>
+    <div class="god"><div class="emoji">🌾</div><h4>uNomkhubulwane</h4><p>Goddess of rain, fertility, and the harvest. The Zulu Demeter.</p></div>
+    <div class="god"><div class="emoji">💀</div><h4>Amadlozi</h4><p>The ancestor spirits. They watch. They guide. They punish. Never ignore them.</p></div>
+    <div class="god"><div class="emoji">🐍</div><h4>iNkanyamba</h4><p>The storm serpent. Tornado dragon. Lives in waterfalls. Commands the lightning.</p></div>
+    <div class="god"><div class="emoji">🌙</div><h4>uMvelinqangi</h4><p>He-Who-Was-Before. The primordial being. Even the Creator has a Creator.</p></div>
+    <div class="god"><div class="emoji">⚡</div><h4>uNomhoyi</h4><p>The Lightning Bird. Strikes the ground. Where it hits, sangomas dig for medicine.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Shaka's <span>War Machine</span></h2>
+  <div class="army">
+    <h3>⚔️ THE IMPI — Age Regiments (amaButho)</h3>
+    <p>Every male drafted at puberty into age-based regiments. Celibacy enforced until the king granted marriage rights. A regiment of 1,000–2,000 warriors fought, farmed, and died as one unit. Peak strength: 40,000 active warriors.</p>
+  </div>
+  <div class="army">
+    <h3>🛡️ THE BULL HORN — iMpondo zaNkomo</h3>
+    <p>Shaka's signature. Chest pins. Horns encircle. Loins reserve. Younger warriors on the horns (fastest runners), veterans in the chest (hardest fighters). Communication by runner and hand signal. No retreat. Ever.</p>
+  </div>
+  <div class="army">
+    <h3>🦶 THE BAREFOOT MARCH</h3>
+    <p>Warriors ran barefoot over thorns until their feet were hardened leather. They covered 80 km/day carrying shield, spear, and sleeping mat. Supply lines? The boys (uDibi) carried rations. The army moved faster than mounted cavalry.</p>
+  </div>
+  <div class="army">
+    <h3>💀 ISANDLWANA — 22 January 1879</h3>
+    <p>20,000 Zulu vs 1,800 British. The British had Martini-Henry rifles, rockets, and artillery. The Zulu had spears, shields, and the bull horn. The Zulu won. 1,300 British dead. The worst British defeat by an indigenous force. Ever.</p>
+  </div>
+  <div class="army">
+    <h3>🏔️ RORKE'S DRIFT — The Day After</h3>
+    <p>150 British vs 3,000 Zulu. The British held — barely — behind mealie bags and biscuit boxes. 11 Victoria Crosses awarded. The Zulu had already won the war that morning. This was the aftershock.</p>
+  </div>
+</section>
+
+<section>
+  <h2>8 Gifts to <span>the World</span></h2>
+  <div class="gifts">
+    <div class="gift"><div class="num">1</div><p><strong>The Bull Horn Formation</strong> — Military tactics studied at West Point and Sandhurst to this day</p></div>
+    <div class="gift"><div class="num">2</div><p><strong>Beadwork Language</strong> — A complete communication system worn on the body</p></div>
+    <div class="gift"><div class="num">3</div><p><strong>Age-Regiment System</strong> — Social organization that turned a collection of clans into a nation</p></div>
+    <div class="gift"><div class="num">4</div><p><strong>Indlamu Dance</strong> — War dance tradition alive today, performed at every major Zulu event</p></div>
+    <div class="gift"><div class="num">5</div><p><strong>Ubuntu Philosophy</strong> — "I am because we are" — the foundation of communal ethics</p></div>
+    <div class="gift"><div class="num">6</div><p><strong>Oral History Tradition</strong> — Izibongo praise poetry preserving centuries of history without writing</p></div>
+    <div class="gift"><div class="num">7</div><p><strong>Sangoma Medicine</strong> — 300+ medicinal plants, many now validated by modern pharmacology</p></div>
+    <div class="gift"><div class="num">8</div><p><strong>Proof</strong> — That discipline beats technology. Every time.</p></div>
+  </div>
+</section>
+
+<div class="back-link">
+  <a href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">🔥 Return to MORDOR.NET</a>
+</div>
+
+<footer>
+  <p>🛡️ ZULU — The Nation That Shook an Empire · A JuX Civilization</p>
+  <p style="margin-top:.5rem">Built by <strong>JuX ITT</strong> · Forged by Wonder Boy · Architecture by G.</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(el){const lb=document.getElementById('lightbox');document.getElementById('lb-img').src=el.src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+
+// Ember + red dust particles
+const canvas=document.getElementById('particles-canvas');const ctx=canvas.getContext('2d');
+let W,H;function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+window.addEventListener('resize',resize);resize();
+class Particle{constructor(){this.reset()}
+reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*2.5+.5;
+this.dy=-(Math.random()*.3+.1);this.dx=Math.random()*.4-.2;
+this.a=Math.random()*.6+.2;this.fade=Math.random()*.003+.001;
+this.type=Math.random()>.5?'ember':'dust'}
+update(){this.x+=this.dx;this.y+=this.dy;this.a-=this.fade;
+if(this.a<=0||this.y<0||this.x<0||this.x>W)this.reset()}
+draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+if(this.type==='ember'){ctx.fillStyle=`rgba(212,160,23,${this.a})`;ctx.shadowColor='rgba(192,57,43,.3)';ctx.shadowBlur=6}
+else{ctx.fillStyle=`rgba(192,57,43,${this.a*.5})`;ctx.shadowColor='transparent';ctx.shadowBlur=0}
+ctx.fill()}}
+const pts=Array.from({length:120},()=>new Particle());
+function animate(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(animate)}
+animate();
+</script>
+</body>
+</html>
