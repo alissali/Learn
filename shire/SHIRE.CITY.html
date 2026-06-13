@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE SHIRE — Home Is Behind, the World Ahead</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a2e0a;color:#e8dcc8;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a2e0a 0%,#2d4a12 30%,#4a6e20 60%,#2d4a12 100%);z-index:0}
+.hero-content{position:relative;z-index:2;padding:2rem}
+h1{font-size:clamp(2.5rem,7vw,5rem);color:#8fbc3c;text-shadow:0 0 40px rgba(143,188,60,0.5);margin-bottom:0.5rem;letter-spacing:0.1em}
+.subtitle{font-size:clamp(1rem,3vw,1.5rem);color:#c4d89e;font-style:italic;margin-bottom:1rem}
+.tagline{font-size:clamp(0.9rem,2vw,1.1rem);color:#a0b878;max-width:700px;margin:0 auto;line-height:1.6}
+.nav-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;padding:1rem;background:rgba(26,46,10,0.95);border-bottom:2px solid #4a6e20;position:sticky;top:0;z-index:100}
+.nav-bar a{color:#8fbc3c;text-decoration:none;padding:0.4rem 0.8rem;border:1px solid #4a6e20;border-radius:4px;font-size:0.85rem;transition:all 0.3s}
+.nav-bar a:hover{background:#4a6e20;color:#fff}
+section{padding:3rem 1.5rem;max-width:1100px;margin:0 auto}
+h2{font-size:clamp(1.5rem,4vw,2.2rem);color:#8fbc3c;text-align:center;margin-bottom:2rem;text-shadow:0 0 20px rgba(143,188,60,0.3)}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:2rem 0}
+.concept-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:16/9;background:#2d4a12;border:2px solid #4a6e20}
+.concept-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.concept-card:hover img{transform:scale(1.05)}
+.concept-card .label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,46,10,0.95));padding:1rem;font-size:1.1rem;color:#c4d89e}
+.district{background:rgba(45,74,18,0.4);border:1px solid #4a6e20;border-radius:12px;padding:1.5rem;margin:1rem 0;transition:transform 0.3s}
+.district:hover{transform:translateY(-3px);border-color:#8fbc3c}
+.district-header{display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem}
+.district-icon{font-size:2rem}
+.district-name{font-size:1.3rem;color:#8fbc3c;font-weight:bold}
+.district-fact{color:#c4d89e;font-size:0.95rem;margin-bottom:0.5rem}
+.district-quote{color:#a0b878;font-style:italic;font-size:0.9rem;border-left:3px solid #4a6e20;padding-left:1rem}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin:2rem 0}
+.pillar{background:rgba(45,74,18,0.3);border:1px solid #4a6e20;border-radius:12px;padding:1.5rem;text-align:center}
+.pillar-icon{font-size:2.5rem;margin-bottom:0.5rem}
+.pillar-name{color:#8fbc3c;font-size:1.1rem;font-weight:bold;margin-bottom:0.5rem}
+.pillar-desc{color:#c4d89e;font-size:0.85rem}
+.menu-section{background:rgba(45,74,18,0.3);border:1px solid #4a6e20;border-radius:12px;padding:2rem;margin:2rem 0}
+.menu-item{display:flex;justify-content:space-between;padding:0.8rem 0;border-bottom:1px solid rgba(74,110,32,0.3)}
+.menu-item:last-child{border-bottom:none}
+.menu-item-name{color:#c4d89e;font-weight:bold}
+.menu-item-desc{color:#a0b878;font-size:0.85rem;font-style:italic}
+.gifts{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:2rem 0}
+.gift{background:rgba(45,74,18,0.4);border:1px solid #4a6e20;padding:0.8rem 1.2rem;border-radius:8px;text-align:center}
+.gift-icon{font-size:1.5rem}
+.gift-name{color:#c4d89e;font-size:0.8rem;margin-top:0.3rem}
+.timeline{position:relative;padding:2rem 0;margin:2rem 0}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:3px;background:#4a6e20;transform:translateX(-50%)}
+.timeline-item{position:relative;padding:1rem 0;width:45%;margin-bottom:1rem}
+.timeline-item:nth-child(odd){margin-left:5%}
+.timeline-item:nth-child(even){margin-left:50%}
+.timeline-content{background:rgba(45,74,18,0.4);border:1px solid #4a6e20;border-radius:8px;padding:1rem}
+.timeline-date{color:#8fbc3c;font-weight:bold;font-size:0.9rem}
+.timeline-text{color:#c4d89e;font-size:0.85rem;margin-top:0.3rem}
+.civ-index{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.5rem;margin:2rem 0}
+.civ-link{display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:rgba(45,74,18,0.3);border:1px solid #4a6e20;border-radius:6px;color:#c4d89e;text-decoration:none;font-size:0.85rem;transition:all 0.3s}
+.civ-link:hover{background:#4a6e20;color:#fff}
+.footer{text-align:center;padding:3rem 1.5rem;background:rgba(26,46,10,0.95);border-top:2px solid #4a6e20;color:#a0b878;font-style:italic}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;cursor:pointer;padding:2rem}
+.lightbox.active{display:flex;align-items:center;justify-content:center}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:8px}
+@media(max-width:768px){.timeline::before{left:1rem}.timeline-item,.timeline-item:nth-child(even){width:calc(100% - 3rem);margin-left:3rem}.concept-grid{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('active')"><img id="lb-img" src="" alt=""></div>
+
+<canvas id="particles"></canvas>
+
+<div class="hero">
+<div class="hero-bg"></div>
+<div class="hero-content">
+<div style="font-size:4rem;margin-bottom:1rem">🌿🏡</div>
+<h1>THE SHIRE</h1>
+<div class="subtitle">Home Is Behind, the World Ahead</div>
+<div class="tagline">"It's a dangerous business, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to."<br>— Bilbo Baggins</div>
+<div style="margin-top:1.5rem;color:#a0b878;font-size:0.9rem">Est. First Age · Population: ~10,000 · Meals per day: 7 · Adventures wanted: 0</div>
+</div>
+</div>
+
+<nav class="nav-bar">
+<a href="#gallery">Gallery</a>
+<a href="#districts">Neighborhoods</a>
+<a href="#hobbits">Notable Hobbits</a>
+<a href="#meals">The Menu</a>
+<a href="#calendar">Calendar</a>
+<a href="#gifts">Gifts</a>
+<a href="#index">Civilization Index</a>
+</nav>
+
+<section id="gallery">
+<h2>🎨 The Shire — Six Views</h2>
+<div class="concept-grid">
+<div class="concept-card" onclick="showImg(this)"><img src="web/SHIRE-AERIAL.jpg" alt="The Shire aerial" loading="lazy"><div class="label">The Rolling Hills — Green Goes On Forever</div></div>
+<div class="concept-card" onclick="showImg(this)"><img src="web/SHIRE-BAGEND.jpg" alt="Bag End" loading="lazy"><div class="label">Bag End — The Round Green Door</div></div>
+<div class="concept-card" onclick="showImg(this)"><img src="web/SHIRE-INTERIOR.jpg" alt="Hobbit hole interior" loading="lazy"><div class="label">Inside — Low Ceilings, High Standards</div></div>
+<div class="concept-card" onclick="showImg(this)"><img src="web/SHIRE-GREENDRAGON.jpg" alt="The Green Dragon" loading="lazy"><div class="label">The Green Dragon — Best Ale East of Bree</div></div>
+<div class="concept-card" onclick="showImg(this)"><img src="web/SHIRE-PARTY.jpg" alt="Birthday party" loading="lazy"><div class="label">Bilbo's Party — 111 Years. One Speech. One Ring.</div></div>
+<div class="concept-card" onclick="showImg(this)"><img src="web/SHIRE-MORNING.jpg" alt="Morning in the Shire" loading="lazy"><div class="label">Morning — The Road Goes Ever On</div></div>
+</div>
+</section>
+
+<section id="districts">
+<h2>🗺️ The Nine Neighborhoods</h2>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">🏡</span><span class="district-name">BAG END — Hobbiton</span></div>
+<div class="district-fact">The finest hobbit hole in the Shire. Built by Bungo Baggins. Inherited by Bilbo. Inherited by Frodo. One ring passed through that round green door and changed everything.</div>
+<div class="district-quote">"In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole. A very comfortable hole."</div>
+</div>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">🍺</span><span class="district-name">THE GREEN DRAGON — Bywater</span></div>
+<div class="district-fact">The finest pub in the four farthings. Ale brewed on site. Gossip brewed faster. Sam's favorite. Where adventures are discussed but never desired.</div>
+<div class="district-quote">"You can drink your fancy ales. You can drink them by the flagon. But the only brew for the brave and true comes from the Green Dragon."</div>
+</div>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">🌾</span><span class="district-name">FARMER MAGGOT'S FIELDS — Marish</span></div>
+<div class="district-fact">Mushrooms. The best in the Shire. Hobbits have been stealing them for generations. Maggot has three dogs. The dogs have won every argument.</div>
+<div class="district-quote">"Short cuts make long delays. But mushrooms make everything forgivable."</div>
+</div>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">🌳</span><span class="district-name">THE PARTY TREE — Hobbiton Hill</span></div>
+<div class="district-fact">The great oak under which Bilbo gave his 111th birthday speech. Disappeared in a flash. The tree stayed. The tree always stays.</div>
+<div class="district-quote">"I don't know half of you half as well as I should like, and I like less than half of you half as well as you deserve."</div>
+</div>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">📬</span><span class="district-name">THE POST OFFICE — Michel Delving</span></div>
+<div class="district-fact">Capital of the Shire. Home of the Mayor. The Mayor's primary duty: presiding over banquets. Government as it should be.</div>
+<div class="district-quote">"The Mayor's job is to eat. The Shire's finest constitutional achievement."</div>
+</div>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">🌻</span><span class="district-name">SAM'S GARDEN — 3 Bagshot Row</span></div>
+<div class="district-fact">The most important garden in Middle-earth. Tended by Samwise Gamgee. He replanted the Shire with Galadriel's gift. The real hero's real weapon: a box of dirt and a silver seed.</div>
+<div class="district-quote">"I can't carry it for you. But I can carry you."</div>
+</div>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">🍄</span><span class="district-name">BUCKLAND — East of the Brandywine</span></div>
+<div class="district-fact">Where the wild hobbits live. East of the river. They swim. SWIM. Other hobbits consider this suspicious at best, unnatural at worst.</div>
+<div class="district-quote">"They're queer folk in Buckland. They do things differently there. They swim."</div>
+</div>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">🧙</span><span class="district-name">GANDALF'S CART — The Road</span></div>
+<div class="district-fact">He arrives precisely when he means to. The cart is full of fireworks. The fireworks are full of magic. The magic is full of trouble. The trouble is full of wonder.</div>
+<div class="district-quote">"A wizard is never late. Nor is he early. He arrives precisely when he means to."</div>
+</div>
+
+<div class="district">
+<div class="district-header"><span class="district-icon">🛤️</span><span class="district-name">THE ROAD — Going Ever On</span></div>
+<div class="district-fact">It starts at Bag End. It doesn't end. Every hobbit who stepped on it came back changed. Some didn't come back at all. But the road remembers all of them.</div>
+<div class="district-quote">"The Road goes ever on and on, down from the door where it began."</div>
+</div>
+</section>
+
+<section id="hobbits">
+<h2>🧑‍🌾 The Six Hobbits Who Changed Everything</h2>
+<div class="pillars">
+<div class="pillar">
+<div class="pillar-icon">💍</div>
+<div class="pillar-name">BILBO BAGGINS</div>
+<div class="pillar-desc">Found a ring. Wrote a book. Gave a speech. Disappeared. Lived to 131. The first hobbit to prove that small feet can walk far.</div>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🌋</div>
+<div class="pillar-name">FRODO BAGGINS</div>
+<div class="pillar-desc">Carried the Ring to Mount Doom. The weight broke him. He saved the world and couldn't stay in it. The wound that never healed.</div>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🌱</div>
+<div class="pillar-name">SAMWISE GAMGEE</div>
+<div class="pillar-desc">Gardener. Ring-bearer. The real hero. Carried Frodo up the mountain. Then went home and planted a tree. Mayor for 49 years. Father of 13.</div>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🗡️</div>
+<div class="pillar-name">MERRY BRANDYBUCK</div>
+<div class="pillar-desc">Helped kill the Witch-king. Came home. Became Master of Buckland. Proved that courage comes in all sizes.</div>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🛡️</div>
+<div class="pillar-name">PIPPIN TOOK</div>
+<div class="pillar-desc">Fool of a Took. Guard of the Citadel. Looked into the palantír. Survived. The youngest, the bravest, the hungriest.</div>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🧙</div>
+<div class="pillar-name">GANDALF</div>
+<div class="pillar-desc">Not a hobbit. But the Shire was his favorite place in Middle-earth. He chose hobbits to save the world. He was right.</div>
+</div>
+</div>
+</section>
+
+<section id="meals">
+<h2>🍽️ The Seven Meals — A Hobbit's Sacred Duty</h2>
+<div class="menu-section">
+<div class="menu-item"><span class="menu-item-name">🌅 First Breakfast — 7:00 AM</span><span class="menu-item-desc">Eggs, bacon, sausages, toast, mushrooms, tomatoes, black pudding</span></div>
+<div class="menu-item"><span class="menu-item-name">🥞 Second Breakfast — 9:00 AM</span><span class="menu-item-desc">Pancakes, honey, seed cake, apple butter, porridge</span></div>
+<div class="menu-item"><span class="menu-item-name">🫖 Elevenses — 11:00 AM</span><span class="menu-item-desc">Tea, scones, jam, clotted cream, shortbread</span></div>
+<div class="menu-item"><span class="menu-item-name">🥧 Luncheon — 1:00 PM</span><span class="menu-item-desc">Pork pie, cheese, crusty bread, pickled onions, cold meats</span></div>
+<div class="menu-item"><span class="menu-item-name">☕ Afternoon Tea — 3:30 PM</span><span class="menu-item-desc">Sandwiches, fruit cake, cream puffs, more tea</span></div>
+<div class="menu-item"><span class="menu-item-name">🍖 Dinner — 6:00 PM</span><span class="menu-item-desc">Roast chicken, potatoes (boil 'em mash 'em stick 'em in a stew), vegetables, gravy, ale</span></div>
+<div class="menu-item"><span class="menu-item-name">🧁 Supper — 9:00 PM</span><span class="menu-item-desc">Cold cuts, bread, cheese, ale, pipe-weed, stories by the fire</span></div>
+</div>
+<p style="text-align:center;color:#a0b878;font-style:italic;margin-top:1rem">"What about second breakfast?" — "I don't think he knows about second breakfast, Pip."</p>
+</section>
+
+<section id="calendar">
+<h2>📅 The Shire Calendar of Essential Events</h2>
+<div class="menu-section">
+<div class="menu-item"><span class="menu-item-name">🎂 Bilbo & Frodo's Birthday</span><span class="menu-item-desc">September 22 — The date that changed Middle-earth</span></div>
+<div class="menu-item"><span class="menu-item-name">🌸 Spring Planting</span><span class="menu-item-desc">Sam's favorite day. Dirt under the fingernails. Life beginning.</span></div>
+<div class="menu-item"><span class="menu-item-name">🍺 Harvest Festival</span><span class="menu-item-desc">The ale flows. The dancing starts. The Gaffer complains. Tradition.</span></div>
+<div class="menu-item"><span class="menu-item-name">🎆 Free Fair</span><span class="menu-item-desc">Michel Delving. Every 7 years. The Mayor eats. Everyone else watches.</span></div>
+<div class="menu-item"><span class="menu-item-name">🎄 Yule</span><span class="menu-item-desc">Two days of feasting. Gifts given AND received. Hobbits invented Christmas better.</span></div>
+<div class="menu-item"><span class="menu-item-name">🌿 Tree Planting Day</span><span class="menu-item-desc">Sam planted the mallorn. The only one west of the Mountains. Galadriel smiled.</span></div>
+</div>
+</section>
+
+<section id="gifts">
+<h2>🎁 The Gifts the Shire Gave the Universe</h2>
+<div class="gifts">
+<div class="gift"><div class="gift-icon">🏡</div><div class="gift-name">Home</div></div>
+<div class="gift"><div class="gift-icon">🍖</div><div class="gift-name">Second Breakfast</div></div>
+<div class="gift"><div class="gift-icon">🌱</div><div class="gift-name">Gardening</div></div>
+<div class="gift"><div class="gift-icon">🍺</div><div class="gift-name">Good Ale</div></div>
+<div class="gift"><div class="gift-icon">💍</div><div class="gift-name">Courage</div></div>
+<div class="gift"><div class="gift-icon">🤝</div><div class="gift-name">Friendship</div></div>
+<div class="gift"><div class="gift-icon">📖</div><div class="gift-name">Story</div></div>
+<div class="gift"><div class="gift-icon">🌻</div><div class="gift-name">Simplicity</div></div>
+</div>
+<p style="text-align:center;color:#a0b878;font-style:italic;margin-top:1rem">"Even the smallest person can change the course of the future."</p>
+</section>
+
+<section>
+<h2>🧭 The Shire's Place in the Arc</h2>
+<div style="background:rgba(45,74,18,0.3);border:1px solid #4a6e20;border-radius:12px;padding:2rem;text-align:center">
+<p style="color:#c4d89e;font-size:1rem;line-height:1.8">
+They crossed 65,000 years of history.<br>
+They walked every civilization from the Dreaming to the Stars.<br>
+They fought in Mordor. They left on the Departure. They arrived on Arrakis.<br>
+They built a Castle. They ate at Milliways. They had tea with Arthur.<br>
+They rocked the Universe.<br><br>
+<span style="color:#8fbc3c;font-size:1.2rem;font-weight:bold">And then they came HOME.</span><br><br>
+Green hills. Round door. Second breakfast at 9.<br>
+The kettle's on. The garden needs tending.<br>
+The road goes ever on — but it always leads back here.
+</p>
+</div>
+</section>
+
+<section id="index">
+<h2>🌍 The Civilization Index — 23 Chapters</h2>
+<div class="civ-index">
+<a href="../aboriginal/ABORIGINAL.CITY.html" class="civ-link">🌌 Aboriginal — The Dreaming</a>
+<a href="../yabroud/YABROUD.CITY.html" class="civ-link">🏛️ Yabroud — First Memory</a>
+<a href="../shami/SHAMI.CITY.html" class="civ-link">🕌 Damascus — Never Died</a>
+<a href="../egypt/EGYPT.CITY.html" class="civ-link">☀️ Egypt — Sun God</a>
+<a href="../india/INDIA.CITY.html" class="civ-link">☸️ India — Eternal Light</a>
+<a href="../china/CHINA.CITY.html" class="civ-link">🐉 China — Chang'an</a>
+<a href="../greece/GREECE.CITY.html" class="civ-link">🏛️ Greece — Athens</a>
+<a href="../aztec/AZTEC.CITY.html" class="civ-link">🦅 Aztec — Tenochtitlan</a>
+<a href="../arctic/ARCTIC.CITY.html" class="civ-link">❄️ Inuit — People of Ice</a>
+<a href="../zulu/ZULU.CITY.html" class="civ-link">🛡️ Zulu — Shook an Empire</a>
+<a href="../viking/VIKING.CITY.html" class="civ-link">⚡ Viking — Children of North</a>
+<a href="../london/LONDON.CITY.html" class="civ-link">👑 London — Last Refuge</a>
+<a href="../newyork/NEWYORK.CITY.html" class="civ-link">🗽 New York — Never Sleeps</a>
+<a href="../brasilia/BRASILIA.CITY.html" class="civ-link">✈️ Brasília — Drawn Before Built</a>
+<a href="../tokyo/TOKYO.CITY.html" class="civ-link">🗼 Tokyo — Far Future</a>
+<a href="../yabroud/MORDOR.NET.html" class="civ-link">🔥 Mordor — The Dark Lord</a>
+<a href="../departure/DEPARTURE.CITY.html" class="civ-link">🚀 Departure — Station Omega</a>
+<a href="../arrakis/ARRAKIS.CITY.html" class="civ-link">🪱 Arrakis — Reception</a>
+<a href="../castle/CASTLE.CITY.html" class="civ-link">🏰 The Castle — Architect</a>
+<a href="../restaurant/RESTAURANT.CITY.html" class="civ-link">🍽️ Milliways — End of Universe</a>
+<a href="../arthur/ARTHUR.CITY.html" class="civ-link">🫖 Arthur Dent — Ordinary</a>
+<a href="../rockparty/ROCKPARTY.CITY.html" class="civ-link">🎸 Rock Party — One Stage</a>
+<a href="#" class="civ-link" style="background:#4a6e20;color:#fff">🌿 The Shire — You Are Here</a>
+</div>
+</section>
+
+<footer class="footer">
+<p style="font-size:1.2rem;color:#8fbc3c;margin-bottom:1rem">"My dear Frodo, you asked me once if I had told you everything there was to know about my adventures. Well, I can honestly say I have now told you the truth — I may not have told you all of it."</p>
+<p>THE SHIRE — JuX Civilization Arc · Chapter 23 of 23</p>
+<p style="margin-top:0.5rem">The road goes ever on. But the kettle is always on too.</p>
+<p style="margin-top:1rem;font-size:0.8rem;color:#6a8a44">Built by G. · Pointed by Wonder Boy · Home at last</p>
+</footer>
+
+<script>
+function showImg(card){const img=card.querySelector('img');const lb=document.getElementById('lightbox');document.getElementById('lb-img').src=img.src;lb.classList.add('active')}
+const c=document.getElementById('particles'),x=c.getContext('2d');
+function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+window.addEventListener('resize',resize);resize();
+class Leaf{constructor(){this.reset()}
+reset(){this.x=Math.random()*c.width;this.y=-10-Math.random()*c.height;this.size=Math.random()*6+3;this.speedY=Math.random()*1+0.3;this.speedX=Math.random()*1-0.5;this.wobble=Math.random()*Math.PI*2;this.wobbleSpeed=Math.random()*0.02+0.01;this.rotation=Math.random()*Math.PI*2;this.rotSpeed=Math.random()*0.02-0.01;this.type=Math.random()>0.4?'leaf':'petal';this.alpha=Math.random()*0.6+0.2}
+update(){this.y+=this.speedY;this.wobble+=this.wobbleSpeed;this.x+=this.speedX+Math.sin(this.wobble)*0.5;this.rotation+=this.rotSpeed;if(this.y>c.height+10)this.reset()}
+draw(){x.save();x.translate(this.x,this.y);x.rotate(this.rotation);x.globalAlpha=this.alpha;if(this.type==='leaf'){x.fillStyle='#6a8a44';x.beginPath();x.ellipse(0,0,this.size*0.4,this.size,0,0,Math.PI*2);x.fill()}else{x.fillStyle='#c4d89e';x.beginPath();x.ellipse(0,0,this.size*0.3,this.size*0.6,0,0,Math.PI*2);x.fill()}x.restore()}}
+const leaves=Array.from({length:60},()=>new Leaf());
+function animate(){x.clearRect(0,0,c.width,c.height);leaves.forEach(l=>{l.update();l.draw()});requestAnimationFrame(animate)}
+animate();
+</script>
+</body>
+</html>
