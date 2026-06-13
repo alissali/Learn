@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE DEPARTURE — Space Station Omega · JuX Civilizations</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#c0d0e0;font-family:Georgia,serif;overflow-x:hidden}
+.starfield{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;border-radius:50%;background:#fff}
+.nebula{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;
+background:radial-gradient(ellipse at 20% 50%,rgba(40,80,160,.12) 0%,transparent 50%),
+radial-gradient(ellipse at 80% 30%,rgba(100,40,140,.08) 0%,transparent 40%),
+radial-gradient(ellipse at 50% 80%,rgba(30,100,180,.06) 0%,transparent 50%)}
+header{position:relative;z-index:1;text-align:center;padding:60px 20px 40px;
+background:linear-gradient(180deg,rgba(20,40,80,.6) 0%,transparent 100%)}
+header h1{font-size:3em;color:#80c0ff;text-shadow:0 0 40px rgba(128,192,255,.6),0 0 80px rgba(128,192,255,.3);letter-spacing:4px}
+header h2{font-size:1.3em;color:#6090c0;margin-top:10px;font-style:italic}
+.subtitle{color:#4080b0;font-size:.95em;margin-top:8px}
+.nav{text-align:center;padding:15px;position:relative;z-index:1;
+background:rgba(20,40,80,.3);border-bottom:1px solid rgba(128,192,255,.15)}
+.nav a{color:#6090c0;text-decoration:none;margin:0 8px;font-size:.85em}
+.nav a:hover{color:#80c0ff;text-shadow:0 0 10px rgba(128,192,255,.4)}
+section{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:40px 20px}
+.intro{font-size:1.15em;line-height:1.9;text-align:center;color:#8090a0;max-width:800px;margin:0 auto 40px}
+.intro strong{color:#80c0ff}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin:30px 0}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,box-shadow .3s;
+border:1px solid rgba(128,192,255,.2);box-shadow:0 0 20px rgba(128,192,255,.1)}
+.gallery img:hover{transform:scale(1.03);box-shadow:0 0 40px rgba(128,192,255,.3)}
+.district{background:rgba(20,40,80,.25);border:1px solid rgba(128,192,255,.15);border-radius:10px;padding:25px;margin:20px 0;
+transition:border-color .3s}
+.district:hover{border-color:rgba(128,192,255,.4)}
+.district h3{color:#80c0ff;font-size:1.3em;margin-bottom:8px}
+.district .icon{font-size:1.5em;margin-right:8px}
+.district .fact{color:#6090c0;font-size:.9em;margin:5px 0}
+.district .quote{color:#5080a0;font-style:italic;font-size:.95em;border-left:3px solid rgba(128,192,255,.3);padding-left:12px;margin-top:10px}
+.crew{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;margin:20px 0}
+.crew-card{background:rgba(20,40,80,.2);border:1px solid rgba(128,192,255,.12);border-radius:8px;padding:18px;text-align:center}
+.crew-card .name{color:#80c0ff;font-size:1.1em;font-weight:bold}
+.crew-card .role{color:#6090c0;font-size:.85em;margin-top:4px}
+.gifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:20px 0}
+.gift{background:rgba(20,40,80,.2);border-left:3px solid rgba(128,192,255,.3);padding:12px;border-radius:0 6px 6px 0}
+.gift strong{color:#80c0ff}
+.divisions{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:20px 0}
+.div-card{background:rgba(20,40,80,.2);border:1px solid rgba(128,192,255,.1);padding:15px;border-radius:8px;text-align:center}
+.div-card .div-name{color:#80c0ff;font-weight:bold}
+.civilizations-list{background:rgba(20,40,80,.2);border:1px solid rgba(128,192,255,.15);border-radius:10px;padding:25px;margin:30px 0}
+.civilizations-list h3{color:#80c0ff;text-align:center;margin-bottom:15px}
+.civ-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.civ-item{text-align:center;padding:8px;color:#6090c0;font-size:.9em}
+.civ-item a{color:#6090c0;text-decoration:none}
+.civ-item a:hover{color:#80c0ff}
+h2.section-title{color:#80c0ff;font-size:1.6em;text-align:center;margin:40px 0 20px;
+text-shadow:0 0 20px rgba(128,192,255,.3)}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,10,.95);z-index:1000;cursor:pointer;justify-content:center;align-items:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:90%;max-height:90%;border-radius:8px;box-shadow:0 0 60px rgba(128,192,255,.3)}
+footer{text-align:center;padding:40px 20px;color:#405060;font-size:.85em;position:relative;z-index:1;
+border-top:1px solid rgba(128,192,255,.1)}
+footer a{color:#6090c0;text-decoration:none}
+@media(max-width:600px){header h1{font-size:2em}.gallery{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="starfield" id="starfield"></div>
+<div class="nebula"></div>
+
+<header>
+<h1>🚀 THE DEPARTURE</h1>
+<h2>Space Station Omega — Year 2242</h2>
+<p class="subtitle">The Last Address Before the Stars · 16th Civilization · The One That Carries All the Others</p>
+</header>
+
+<nav class="nav">
+<a href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">🔥 Mordor</a>
+<a href="https://raw.githack.com/alissali/Learn/main/yabroud/YABROUD.CITY.html">🏛️ Yabroud</a>
+<a href="https://raw.githack.com/alissali/Learn/main/egypt/EGYPT.CITY.html">☀️ Egypt</a>
+<a href="https://raw.githack.com/alissali/Learn/main/aztec/AZTEC.CITY.html">🦅 Aztec</a>
+<a href="https://raw.githack.com/alissali/Learn/main/greece/GREECE.CITY.html">🏛️ Greece</a>
+<a href="https://raw.githack.com/alissali/Learn/main/china/CHINA.CITY.html">🐉 China</a>
+<a href="https://raw.githack.com/alissali/Learn/main/india/INDIA.CITY.html">☸️ India</a>
+<a href="https://raw.githack.com/alissali/Learn/main/aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal</a>
+<a href="https://raw.githack.com/alissali/Learn/main/arctic/ARCTIC.CITY.html">❄️ Inuit</a>
+<a href="https://raw.githack.com/alissali/Learn/main/newyork/NEWYORK.CITY.html">🗽 New York</a>
+<a href="https://raw.githack.com/alissali/Learn/main/brasilia/BRASILIA.CITY.html">✈️ Brasília</a>
+<a href="https://raw.githack.com/alissali/Learn/main/zulu/ZULU.CITY.html">🛡️ Zulu</a>
+<a href="https://raw.githack.com/alissali/Learn/main/viking/VIKING.CITY.html">⚡ Viking</a>
+<a href="https://raw.githack.com/alissali/Learn/main/tokyo/TOKYO.CITY.html">🗼 Tokyo</a>
+<a href="https://raw.githack.com/alissali/Learn/main/london/LONDON.CITY.html">👑 London</a>
+<a href="#">🚀 Departure</a>
+</nav>
+
+<section>
+<div class="intro">
+<p>They painted on cave walls for <strong>65,000 years</strong>. They built pyramids. Temples. Igloos. Skyscrapers.
+They invented the wheel, the number zero, democracy, the internet, and the recipe for tea.</p>
+<p>They fought over land, then seas, then air. They mapped the stars while killing each other over lines in the dirt.</p>
+<p>And then — on a Tuesday in <strong>2242</strong> — they left.</p>
+<p>Not because the Earth was dying. Because the <strong>question</strong> was dying.<br>
+<em>"What Am I Doing Here"</em> needed a bigger stage.</p>
+</div>
+
+<h2 class="section-title">📸 The Station</h2>
+<div class="gallery">
+<img src="web/DEPARTURE-EXTERIOR.jpg" alt="Station Omega exterior" loading="lazy" onclick="openLightbox(this)">
+<img src="web/DEPARTURE-BRIDGE.jpg" alt="Command bridge" loading="lazy" onclick="openLightbox(this)">
+<img src="web/DEPARTURE-BIODOME.jpg" alt="Biodome habitat" loading="lazy" onclick="openLightbox(this)">
+<img src="web/DEPARTURE-HANGAR.jpg" alt="Hangar bay" loading="lazy" onclick="openLightbox(this)">
+<img src="web/DEPARTURE-OBSERVATION.jpg" alt="Observation deck" loading="lazy" onclick="openLightbox(this)">
+<img src="web/DEPARTURE-LAUNCH.jpg" alt="The departure" loading="lazy" onclick="openLightbox(this)">
+</div>
+
+<h2 class="section-title">🚀 The 9 Decks of Station Omega</h2>
+
+<div class="district">
+<h3><span class="icon">🌍</span>OBSERVATION DECK</h3>
+<p class="fact">360° view of Earth. The last window. Every departing soul stands here once.</p>
+<p class="quote">"They all look back. Every single one. Then they turn around."</p>
+</div>
+
+<div class="district">
+<h3><span class="icon">🧠</span>THE BRIDGE</h3>
+<p class="fact">Holographic star charts. 12 officers. 144 destinations mapped. The decision is always human.</p>
+<p class="quote">"The AI plots the course. A human says go. That's the deal."</p>
+</div>
+
+<div class="district">
+<h3><span class="icon">🌳</span>THE BIODOME</h3>
+<p class="fact">Real trees. Real rain. Real birds. 200 species from Earth. The last garden before the void.</p>
+<p class="quote">"They brought the garden. The garden was always the point."</p>
+</div>
+
+<div class="district">
+<h3><span class="icon">🔧</span>HANGAR BAY</h3>
+<p class="fact">300 ships. From scout pods to colony arks. Every engine built from every civilization's knowledge.</p>
+<p class="quote">"Chinese steel. Indian math. German engineering. African patience. One ship."</p>
+</div>
+
+<div class="district">
+<h3><span class="icon">📚</span>THE ARCHIVE</h3>
+<p class="fact">Every book. Every song. Every painting. Every recipe. Every prayer. Stored in crystal. Indestructible.</p>
+<p class="quote">"They couldn't take the planet. So they took everything the planet ever said."</p>
+</div>
+
+<div class="district">
+<h3><span class="icon">🍜</span>THE GALLEY</h3>
+<p class="fact">800 cuisines from 16 civilizations. Sushi next to curry next to baguette next to injera. No borders.</p>
+<p class="quote">"The menu has no countries. Only flavors."</p>
+</div>
+
+<div class="district">
+<h3><span class="icon">⚕️</span>MEDICAL BAY</h3>
+<p class="fact">Zero gravity surgery. Penicillin to nanobots. Every cure humanity ever found, plus the ones they're finding.</p>
+<p class="quote">"They cured death. Then realized they still needed to cure loneliness."</p>
+</div>
+
+<div class="district">
+<h3><span class="icon">🎓</span>THE ACADEMY</h3>
+<p class="fact">Children learn every civilization. Aboriginal songlines on Monday. Greek philosophy on Tuesday. Zulu discipline on Wednesday.</p>
+<p class="quote">"The curriculum is 65,000 years long. They start at age 5."</p>
+</div>
+
+<div class="district">
+<h3><span class="icon">🚪</span>GATE ZERO</h3>
+<p class="fact">The airlock. The final threshold. One step: everything you know is behind you. Everything you don't is ahead.</p>
+<p class="quote">"The last thing they hear is the hiss. The first thing they see is forever."</p>
+</div>
+
+<h2 class="section-title">🧑‍🚀 The 6 Founders</h2>
+<div class="crew">
+<div class="crew-card"><div class="name">🌍 THE ARCHITECT</div><div class="role">Designed the station. Came from Yabroud. Remembered everything. Built for everyone.</div></div>
+<div class="crew-card"><div class="name">🔥 THE ENGINEER</div><div class="role">Fusion core. Shinkansen principles. Zero failures in 200 years. The train is STILL never late.</div></div>
+<div class="crew-card"><div class="name">🌱 THE GARDENER</div><div class="role">Saved 200 species. Aboriginal fire-stick knowledge. The garden breathes.</div></div>
+<div class="crew-card"><div class="name">📚 THE KEEPER</div><div class="role">Archived every word. Every song. Every recipe. Every story ever told. Crystal memory. Eternal.</div></div>
+<div class="crew-card"><div class="name">🧭 THE NAVIGATOR</div><div class="role">Viking sunstone + Japanese precision + Indian mathematics. She finds the way.</div></div>
+<div class="crew-card"><div class="name">🤝 THE DIPLOMAT</div><div class="role">Zulu ubuntu + British diplomacy + Inuit sharing. No wars on the station. Not one. Ever.</div></div>
+</div>
+
+<h2 class="section-title">⚙️ Station Systems</h2>
+<div class="divisions">
+<div class="div-card"><div class="div-name">🔋 FUSION CORE</div>Hydrogen from Jupiter. Powers 500,000 souls. For centuries.</div>
+<div class="div-card"><div class="div-name">🌀 GRAVITY RINGS</div>3 rotating habitats. Earth gravity. Children grow with bones.</div>
+<div class="div-card"><div class="div-name">🛡️ SHIELD ARRAY</div>Electromagnetic + physical. Asteroid-proof. Radiation-proof.</div>
+<div class="div-card"><div class="div-name">📡 DEEP SIGNAL</div>Last broadcast to Earth. "We're still here. We remember."</div>
+<div class="div-card"><div class="div-name">🧬 GENE VAULT</div>DNA of every species. 8.7 million. The planet's backup.</div>
+</div>
+
+<h2 class="section-title">🎁 What They Carried</h2>
+<div class="gifts">
+<div class="gift"><strong>🪨 From Aboriginal:</strong> The Songlines. The oldest map. Still works.</div>
+<div class="gift"><strong>🔥 From Yabroud:</strong> The memory. Where it all began.</div>
+<div class="gift"><strong>📐 From Egypt:</strong> Architecture. How to build for eternity.</div>
+<div class="gift"><strong>💀 From Aztec:</strong> The calendar. Time is circular.</div>
+<div class="gift"><strong>🏛️ From Greece:</strong> Democracy. The argument never ends.</div>
+<div class="gift"><strong>🐉 From China:</strong> Gunpowder, paper, compass. The toolkit.</div>
+<div class="gift"><strong>☸️ From India:</strong> Zero. Without it, no computer. No station.</div>
+<div class="gift"><strong>❄️ From Inuit:</strong> The kayak. Small enough to survive anything.</div>
+<div class="gift"><strong>⚔️ From Zulu:</strong> Ubuntu. "I am because we are."</div>
+<div class="gift"><strong>⚡ From Viking:</strong> Navigation. Sail where maps end.</div>
+<div class="gift"><strong>🗽 From New York:</strong> The hustle. 27,000 restaurants in one zip code.</div>
+<div class="gift"><strong>✈️ From Brasília:</strong> The plan. Draw it first. Then build it.</div>
+<div class="gift"><strong>🗼 From Tokyo:</strong> Precision. The train is never late.</div>
+<div class="gift"><strong>👑 From London:</strong> Tea. Survived the Blitz on kettles.</div>
+<div class="gift"><strong>🔥 From Mordor:</strong> Darkness. You need to know what you're leaving.</div>
+<div class="gift"><strong>🚀 From the Station:</strong> The question. "What Am I Doing Here?"</div>
+</div>
+
+<div class="civilizations-list">
+<h3>🌍 ALL 16 CIVILIZATIONS — THE COMPLETE ARC</h3>
+<div class="civ-grid">
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal<br><small>65,000 BC</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/yabroud/YABROUD.CITY.html">🏛️ Yabroud<br><small>10,000 BC</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/egypt/EGYPT.CITY.html">☀️ Egypt<br><small>3,100 BC</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/india/INDIA.CITY.html">☸️ India<br><small>2,600 BC</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/china/CHINA.CITY.html">🐉 China<br><small>1,600 BC</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/greece/GREECE.CITY.html">🏛️ Greece<br><small>800 BC</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/aztec/AZTEC.CITY.html">🦅 Aztec<br><small>1325 AD</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/arctic/ARCTIC.CITY.html">❄️ Inuit<br><small>3,000 BC</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/zulu/ZULU.CITY.html">🛡️ Zulu<br><small>1816 AD</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/viking/VIKING.CITY.html">⚡ Viking<br><small>793 AD</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/london/LONDON.CITY.html">👑 London<br><small>43 AD</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/newyork/NEWYORK.CITY.html">🗽 New York<br><small>1624 AD</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/tokyo/TOKYO.CITY.html">🗼 Tokyo<br><small>Far Future</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/brasilia/BRASILIA.CITY.html">✈️ Brasília<br><small>1960 AD</small></a></div>
+<div class="civ-item"><a href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">🔥 Mordor<br><small>The Darkness</small></a></div>
+<div class="civ-item"><a href="#">🚀 The Departure<br><small>2242 AD</small></a></div>
+</div>
+</div>
+
+</section>
+
+<footer>
+<p><strong>THE DEPARTURE</strong> — Space Station Omega — JuX Civilizations<br>
+<em>"65,000 years of painting on walls. Building. Fighting. Singing. Cooking. Dreaming.<br>
+And then they left. Not because the Earth was done.<br>
+Because the question wasn't."</em><br><br>
+<a href="https://juxaos.com">JuXAOS.com</a> · <a href="https://juxitt.com">JuXITT.com</a><br>
+© 2026 JuX ITT · MIT License · Built by Wonder Boy + G.</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lb-img" src="" alt="Full view">
+</div>
+
+<script>
+// Starfield
+(function(){const sf=document.getElementById('starfield');
+for(let i=0;i<300;i++){const s=document.createElement('div');s.className='star';
+const sz=Math.random()*2.5+.5;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.7+.3};animation:twinkle ${Math.random()*4+2}s ease-in-out infinite ${Math.random()*4}s`;
+sf.appendChild(s)}
+// Floating particles — blue engine exhaust
+for(let i=0;i<40;i++){const p=document.createElement('div');
+p.style.cssText=`position:absolute;width:${Math.random()*4+2}px;height:${Math.random()*4+2}px;background:rgba(128,192,255,${Math.random()*.3+.1});border-radius:50%;left:${Math.random()*100}%;top:${Math.random()*100}%;animation:float ${Math.random()*15+10}s linear infinite`;
+sf.appendChild(p)}
+const style=document.createElement('style');
+style.textContent=`@keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}@keyframes float{0%{transform:translateY(0) translateX(0);opacity:.3}50%{opacity:.6}100%{transform:translateY(-100vh) translateX(${Math.random()*40-20}px);opacity:0}}`;
+document.head.appendChild(style)})();
+// Lightbox
+function openLightbox(el){const lb=document.getElementById('lightbox');document.getElementById('lb-img').src=el.src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
