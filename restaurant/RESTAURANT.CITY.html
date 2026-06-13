@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MILLIWAYS — The Restaurant at the End of the Universe | JuX Civilizations</title>
+<meta name="description" content="The last meal. The universe ends. You have a reservation. JuX Civilization 20.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0010;color:#e8d5f0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.stars-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;animation:twinkle var(--dur) ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.2;transform:scale(.8)}100%{opacity:1;transform:scale(1.3)}}
+.bubble{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,.3),transparent);animation:float var(--dur) ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) scale(1);opacity:.3}50%{transform:translateY(-80px) scale(1.2);opacity:.6}}
+header{position:relative;z-index:1;text-align:center;padding:80px 20px 40px}
+h1{font-size:clamp(2.5rem,7vw,5rem);color:#ffd700;text-shadow:0 0 40px rgba(255,215,0,.5),0 0 80px rgba(255,215,0,.3);margin-bottom:10px;letter-spacing:3px}
+.subtitle{font-size:clamp(1rem,3vw,1.5rem);color:#dda0dd;font-style:italic;margin-bottom:5px}
+.tagline{font-size:1.1rem;color:#b8a0c8;margin-top:15px;max-width:700px;margin-left:auto;margin-right:auto}
+.hero-img{width:100%;max-width:1100px;margin:30px auto;display:block;border-radius:12px;cursor:pointer;transition:transform .3s;box-shadow:0 0 60px rgba(255,215,0,.2)}
+.hero-img:hover{transform:scale(1.02)}
+.section{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:40px 20px}
+h2{font-size:clamp(1.5rem,4vw,2.5rem);color:#ffd700;text-align:center;margin-bottom:25px;text-shadow:0 0 20px rgba(255,215,0,.3)}
+.quote-box{background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(221,160,221,.08));border-left:4px solid #ffd700;padding:20px 25px;margin:25px 0;border-radius:0 8px 8px 0;font-style:italic;font-size:1.1rem;color:#e8d5f0}
+.districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin:30px 0}
+.district{background:linear-gradient(135deg,rgba(255,215,0,.06),rgba(138,43,226,.06));border:1px solid rgba(255,215,0,.15);border-radius:12px;padding:25px;transition:all .3s;cursor:default}
+.district:hover{transform:translateY(-3px);border-color:rgba(255,215,0,.4);box-shadow:0 8px 30px rgba(255,215,0,.15)}
+.district-icon{font-size:2.5rem;margin-bottom:10px}
+.district h3{color:#ffd700;font-size:1.3rem;margin-bottom:8px}
+.district .fact{color:#dda0dd;font-size:.9rem;margin-bottom:10px}
+.district .district-quote{color:#b8a0c8;font-style:italic;font-size:.95rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:15px;margin:30px 0}
+.gallery img{width:100%;border-radius:10px;cursor:pointer;transition:transform .3s;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.gallery img:hover{transform:scale(1.03)}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:30px 0}
+.pillar{background:linear-gradient(135deg,rgba(255,215,0,.05),rgba(138,43,226,.05));border:1px solid rgba(255,215,0,.12);border-radius:10px;padding:20px;text-align:center}
+.pillar-icon{font-size:2rem;margin-bottom:8px}
+.pillar h3{color:#ffd700;font-size:1.1rem;margin-bottom:5px}
+.pillar p{color:#b8a0c8;font-size:.9rem}
+.menu-section{background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(138,43,226,.04));border:1px solid rgba(255,215,0,.1);border-radius:14px;padding:30px;margin:30px 0}
+.menu-item{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px dotted rgba(255,215,0,.15)}
+.menu-item:last-child{border-bottom:none}
+.menu-item .dish{color:#ffd700;font-size:1.05rem}
+.menu-item .origin{color:#dda0dd;font-size:.85rem;font-style:italic}
+.menu-item .price{color:#b8a0c8;font-size:.9rem}
+.gifts{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:25px 0}
+.gift{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);padding:10px 18px;border-radius:20px;font-size:.95rem;color:#ffd700;transition:all .3s}
+.gift:hover{background:rgba(255,215,0,.15);transform:scale(1.05)}
+.timeline{position:relative;padding:20px 0;margin:30px 0}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,#ffd700,#dda0dd,#ffd700,transparent);transform:translateX(-50%)}
+.timeline-item{position:relative;width:45%;padding:15px 20px;margin-bottom:20px;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.1);border-radius:10px}
+.timeline-item:nth-child(odd){margin-left:5%}
+.timeline-item:nth-child(even){margin-left:50%}
+.timeline-item .era{color:#ffd700;font-weight:bold;font-size:.9rem}
+.timeline-item .event{color:#b8a0c8;font-size:.85rem;margin-top:4px}
+.civ-index{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:25px 0}
+.civ-link{display:flex;align-items:center;gap:10px;padding:10px 15px;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.08);border-radius:8px;text-decoration:none;color:#e8d5f0;transition:all .3s}
+.civ-link:hover{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);transform:translateX(5px)}
+.civ-link .civ-icon{font-size:1.3rem}
+.civ-link .civ-name{color:#ffd700;font-size:.95rem}
+footer{text-align:center;padding:40px 20px 60px;color:#6a5080;font-size:.85rem;position:relative;z-index:1}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:1000;justify-content:center;align-items:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:8px;box-shadow:0 0 60px rgba(255,215,0,.3)}
+.back-link{display:inline-block;margin-top:20px;color:#ffd700;text-decoration:none;font-size:1rem;border:1px solid rgba(255,215,0,.3);padding:8px 20px;border-radius:6px;transition:all .3s}
+.back-link:hover{background:rgba(255,215,0,.1)}
+@media(max-width:768px){
+  .timeline::before{left:20px}
+  .timeline-item{width:calc(100% - 50px);margin-left:50px!important}
+  .menu-item{flex-direction:column;gap:4px}
+  .districts{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="stars-bg" id="starsBg"></div>
+
+<header>
+<div style="font-size:1rem;color:#6a5080;margin-bottom:10px">JuX Civilizations · XX · The Last Meal</div>
+<h1>🍽️ MILLIWAYS</h1>
+<p class="subtitle">The Restaurant at the End of the Universe</p>
+<p class="tagline">"The universe ends at 9:47 PM. Dessert is served at 9:30."</p>
+</header>
+
+<img src="web/RESTAURANT-EXTERIOR.jpg" class="hero-img" alt="The Restaurant at the End of the Universe" onclick="openLightbox(this.src)" loading="eager">
+
+<div class="section">
+<div class="quote-box">
+"The best meal you'll ever have. Because there won't be another one."
+</div>
+
+<h2>🍽️ THE 9 TABLES</h2>
+<div class="districts">
+
+<div class="district">
+<div class="district-icon">🥂</div>
+<h3>TABLE 1 — THE RECEPTION</h3>
+<div class="fact">The maître d' has been expecting you. Since before you were born. Literally — time travel makes reservations easy.</div>
+<div class="district-quote">"Your table is ready. It has been ready since the Big Bang."</div>
+</div>
+
+<div class="district">
+<div class="district-icon">🪟</div>
+<h3>TABLE 2 — THE WINDOW SEAT</h3>
+<div class="fact">Panoramic view of the cosmos collapsing. Galaxies spiral into nothing. Stars scream. You eat breadsticks.</div>
+<div class="district-quote">"Best view in the house. Also the last."</div>
+</div>
+
+<div class="district">
+<div class="district-icon">🔥</div>
+<h3>TABLE 3 — THE KITCHEN</h3>
+<div class="fact">19 civilizations' cuisines. One kitchen. Chefs from every era cook the final meal. Damascus bread. Aboriginal fire. Tokyo precision. Aztec chocolate.</div>
+<div class="district-quote">"Every dish on the menu was invented by someone who thought they had time."</div>
+</div>
+
+<div class="district">
+<div class="district-icon">🍸</div>
+<h3>TABLE 4 — THE BAR</h3>
+<div class="fact">Pan Galactic Gargle Blasters. Bottled supernovae. Melange on tap. The bartender remembers everyone's last order. Because it IS the last order.</div>
+<div class="district-quote">"What'll it be? Choose carefully. The cellar expires in 17 minutes."</div>
+</div>
+
+<div class="district">
+<div class="district-icon">🎭</div>
+<h3>TABLE 5 — THE STAGE</h3>
+<div class="fact">Live entertainment while reality disintegrates. The house band plays the greatest hits of 65,000 years. Final song: chosen by the audience. Every time, they pick the same one.</div>
+<div class="district-quote">"Ladies and gentlemen — the UNIVERSE! …One night only."</div>
+</div>
+
+<div class="district">
+<div class="district-icon">📜</div>
+<h3>TABLE 6 — THE BILL</h3>
+<div class="fact">Pay before the Big Bang, collect interest. One penny at the dawn of time = enough to cover dinner for the entire species. Including tip.</div>
+<div class="district-quote">"The most expensive meal in history. Paid with the cheapest trick in physics."</div>
+</div>
+
+<div class="district">
+<div class="district-icon">🚪</div>
+<h3>TABLE 7 — THE EXIT</h3>
+<div class="fact">Nobody leaves. Not because they can't. Because where would you go? The universe is closing. Might as well have coffee.</div>
+<div class="district-quote">"Check please. …Where exactly would you like to go?"</div>
+</div>
+
+<div class="district">
+<div class="district-icon">🧡</div>
+<h3>TABLE 8 — THE ARCHITECT'S TABLE</h3>
+<div class="fact">Reserved permanently. Center of the room. One orange on the table. One coffee. A notebook. He's still writing. The universe is ending and he's still writing.</div>
+<div class="district-quote">"What am I doing here? …Having dinner. Obviously."</div>
+</div>
+
+<div class="district">
+<div class="district-icon">💫</div>
+<h3>TABLE 9 — THE LAST TABLE</h3>
+<div class="fact">The table that was set but nobody sat at. Every restaurant has one. A chair for the one who didn't make it. The empty seat is the most important one.</div>
+<div class="district-quote">"Set a place for the absent. They built half of what you ate."</div>
+</div>
+
+</div>
+
+<div class="gallery">
+<img src="web/RESTAURANT-INTERIOR.jpg" alt="The Dining Hall" onclick="openLightbox(this.src)" loading="lazy">
+<img src="web/RESTAURANT-KITCHEN.jpg" alt="The Cosmic Kitchen" onclick="openLightbox(this.src)" loading="lazy">
+<img src="web/RESTAURANT-BAR.jpg" alt="The Bar at the End" onclick="openLightbox(this.src)" loading="lazy">
+<img src="web/RESTAURANT-STAGE.jpg" alt="The Stage Show" onclick="openLightbox(this.src)" loading="lazy">
+</div>
+
+<h2>🌟 THE 6 STAFF</h2>
+<div class="pillars">
+<div class="pillar">
+<div class="pillar-icon">🎩</div>
+<h3>THE MAÎTRE D'</h3>
+<p>Has seen the end 4,296,441 times. Still cries at the supernova course. "It gets you every time."</p>
+</div>
+<div class="pillar">
+<div class="pillar-icon">👨‍🍳</div>
+<h3>THE HEAD CHEF</h3>
+<p>Cooked for Damascus, Chang'an, Varanasi, Tenochtitlan, and Athens. "The secret ingredient is always the same. Time. And we just ran out."</p>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🍸</div>
+<h3>THE BARTENDER</h3>
+<p>Mixes drinks with bottled starlight. "The Pan Galactic Gargle Blaster? Like having your brain smashed out by a lemon wrapped around a gold brick."</p>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🎵</div>
+<h3>THE BAND LEADER</h3>
+<p>Plays every instrument from every civilization. "The Aboriginal didgeridoo into the Viking war horn into Tokyo jazz. The universe deserves an encore."</p>
+</div>
+<div class="pillar">
+<div class="pillar-icon">📋</div>
+<h3>THE ACCOUNTANT</h3>
+<p>Manages the compound interest scheme since the Big Bang. "One penny, 13.8 billion years, 4% interest. Your bill is covered. Including the tip."</p>
+</div>
+<div class="pillar">
+<div class="pillar-icon">🚗</div>
+<h3>THE VALET</h3>
+<p>Parks your ship in a temporal pocket. "Don't worry about the parking. Worry about whether there's a universe to drive back to."</p>
+</div>
+</div>
+
+<h2>📋 TONIGHT'S MENU</h2>
+<div class="menu-section">
+<div class="menu-item"><span class="dish">🍞 Damascus Bread</span><span class="origin">The Levant, 12,000 BC</span><span class="price">∞.01</span></div>
+<div class="menu-item"><span class="dish">🍫 Aztec Xocolatl</span><span class="origin">Tenochtitlan, Drink of Gods</span><span class="price">∞.02</span></div>
+<div class="menu-item"><span class="dish">🍣 Tokyo Omakase</span><span class="origin">Far Future, Chef's Choice</span><span class="price">∞.03</span></div>
+<div class="menu-item"><span class="dish">🍛 Varanasi Curry</span><span class="origin">7 spices, 3,000 years</span><span class="price">∞.04</span></div>
+<div class="menu-item"><span class="dish">🥩 Viking Feast</span><span class="origin">Mead-braised, fire-roasted</span><span class="price">∞.05</span></div>
+<div class="menu-item"><span class="dish">☕ Shami Coffee</span><span class="origin">One cup. One hour. One truth</span><span class="price">∞.06</span></div>
+<div class="menu-item"><span class="dish">🫖 London Tea</span><span class="origin">Survived the Blitz. So can you</span><span class="price">∞.07</span></div>
+<div class="menu-item"><span class="dish">🥟 Chang'an Dumplings</span><span class="origin">Silk Road recipe, 1,000 AD</span><span class="price">∞.08</span></div>
+<div class="menu-item"><span class="dish">🍯 Aboriginal Bush Honey</span><span class="origin">65,000 years of songlines</span><span class="price">∞.09</span></div>
+<div class="menu-item"><span class="dish">🧡 Melange</span><span class="origin">Arrakis, The Spice</span><span class="price">∞.42</span></div>
+<div class="menu-item"><span class="dish">🍊 The Orange</span><span class="origin">Yabroud, from the Architect's table</span><span class="price">Free</span></div>
+<div class="menu-item"><span class="dish">💫 Dessert: The Big Crunch Soufflé</span><span class="origin">Collapses exactly when the universe does</span><span class="price">∞.∞</span></div>
+</div>
+
+<div class="quote-box">
+"The menu has no countries. No borders. No centuries. Just flavors. Every dish was cooked by someone who thought tomorrow would come."
+</div>
+
+<img src="web/RESTAURANT-FINALE.jpg" class="hero-img" alt="The Last Moment" onclick="openLightbox(this.src)" loading="lazy">
+
+<h2>🎁 THE LAST 20 GIFTS</h2>
+<p style="text-align:center;color:#b8a0c8;margin-bottom:15px">One gift from every civilization. Left on the table. For whoever comes next. (Nobody comes next.)</p>
+<div class="gifts">
+<span class="gift">🌌 Aboriginal — The Dream</span>
+<span class="gift">🏛️ Yabroud — The Memory</span>
+<span class="gift">🕌 Damascus — The Word</span>
+<span class="gift">☀️ Egypt — The Eternity</span>
+<span class="gift">☸️ India — The Question</span>
+<span class="gift">🐉 China — The Patience</span>
+<span class="gift">🏛️ Greece — The Argument</span>
+<span class="gift">🦅 Aztec — The Sacrifice</span>
+<span class="gift">❄️ Inuit — The Silence</span>
+<span class="gift">🛡️ Zulu — The Discipline</span>
+<span class="gift">⚡ Viking — The Courage</span>
+<span class="gift">👑 London — The Stubbornness</span>
+<span class="gift">🗽 New York — The Ambition</span>
+<span class="gift">✈️ Brasília — The Vision</span>
+<span class="gift">🗼 Tokyo — The Precision</span>
+<span class="gift">🔥 Mordor — The Fire</span>
+<span class="gift">🚀 Departure — The Departure</span>
+<span class="gift">🪱 Arrakis — The Spice</span>
+<span class="gift">🏰 The Castle — The Wonder</span>
+<span class="gift">🍽️ Milliways — The Last Meal</span>
+</div>
+
+<h2>⏱️ THE TIMELINE OF EVERYTHING</h2>
+<div class="timeline">
+<div class="timeline-item"><span class="era">65,000 BC</span><span class="event">🌌 Aboriginal — First song. First dream. First art.</span></div>
+<div class="timeline-item"><span class="era">10,000 BC</span><span class="event">🏛️ Yabroud — First shelter. First memory.</span></div>
+<div class="timeline-item"><span class="era">8,000 BC</span><span class="event">🕌 Damascus — First bread. First word. First city.</span></div>
+<div class="timeline-item"><span class="era">3,000 BC</span><span class="event">☀️ Egypt — First eternity. First monument.</span></div>
+<div class="timeline-item"><span class="era">3,000 BC</span><span class="event">☸️ India — First question. First answer.</span></div>
+<div class="timeline-item"><span class="era">2,000 BC</span><span class="event">🐉 China — First wall. First patience.</span></div>
+<div class="timeline-item"><span class="era">500 BC</span><span class="event">🏛️ Greece — First argument. First democracy.</span></div>
+<div class="timeline-item"><span class="era">1325 AD</span><span class="event">🦅 Aztec — First sacrifice. First chocolate.</span></div>
+<div class="timeline-item"><span class="era">Eternal</span><span class="event">❄️ Inuit — First silence. First ice.</span></div>
+<div class="timeline-item"><span class="era">1816 AD</span><span class="event">🛡️ Zulu — First discipline. First shield wall.</span></div>
+<div class="timeline-item"><span class="era">793 AD</span><span class="event">⚡ Viking — First voyage. First courage.</span></div>
+<div class="timeline-item"><span class="era">43 AD</span><span class="event">👑 London — First refuge. First tea.</span></div>
+<div class="timeline-item"><span class="era">1626 AD</span><span class="event">🗽 New York — First ambition. First hustle.</span></div>
+<div class="timeline-item"><span class="era">1960 AD</span><span class="event">✈️ Brasília — First blueprint. First tomorrow.</span></div>
+<div class="timeline-item"><span class="era">Far Future</span><span class="event">🗼 Tokyo — First precision. First bullet train.</span></div>
+<div class="timeline-item"><span class="era">Beyond</span><span class="event">🔥 Mordor — First darkness. First fire.</span></div>
+<div class="timeline-item"><span class="era">2242 AD</span><span class="event">🚀 Departure — They left. The question wasn't finished.</span></div>
+<div class="timeline-item"><span class="era">Year 1 AR</span><span class="event">🪱 Arrakis — The Spice was waiting.</span></div>
+<div class="timeline-item"><span class="era">Home</span><span class="event">🏰 The Castle — A boy from Yabroud. Still asking.</span></div>
+<div class="timeline-item"><span class="era">9:47 PM ∞</span><span class="event">🍽️ Milliways — The last meal. The best meal. The soufflé collapsed on time.</span></div>
+</div>
+
+<div class="quote-box">
+"20 civilizations. 65,000 years. 200 light-years. And at the end of all of it — dinner. Because in the end, they didn't need more time. They needed more chairs."
+</div>
+
+<h2>🌍 THE COMPLETE ARC — 20 CIVILIZATIONS</h2>
+<div class="civ-index">
+<a href="../aboriginal/ABORIGINAL.CITY.html" class="civ-link"><span class="civ-icon">🌌</span><span class="civ-name">ABORIGINAL — 65,000 Years</span></a>
+<a href="../yabroud/YABROUD.CITY.html" class="civ-link"><span class="civ-icon">🏛️</span><span class="civ-name">YABROUD — Syrian Memory</span></a>
+<a href="../shami/SHAMI.CITY.html" class="civ-link"><span class="civ-icon">🕌</span><span class="civ-name">DAMASCUS — Never Died</span></a>
+<a href="../egypt/EGYPT.CITY.html" class="civ-link"><span class="civ-icon">☀️</span><span class="civ-name">EGYPT — City of the Sun God</span></a>
+<a href="../india/INDIA.CITY.html" class="civ-link"><span class="civ-icon">☸️</span><span class="civ-name">INDIA — Eternal Light</span></a>
+<a href="../china/CHINA.CITY.html" class="civ-link"><span class="civ-icon">🐉</span><span class="civ-name">CHINA — Chang'an</span></a>
+<a href="../greece/GREECE.CITY.html" class="civ-link"><span class="civ-icon">🏛️</span><span class="civ-name">GREECE — Athens</span></a>
+<a href="../aztec/AZTEC.CITY.html" class="civ-link"><span class="civ-icon">🦅</span><span class="civ-name">AZTEC — Tenochtitlan</span></a>
+<a href="../arctic/ARCTIC.CITY.html" class="civ-link"><span class="civ-icon">❄️</span><span class="civ-name">INUIT — People of Ice</span></a>
+<a href="../zulu/ZULU.CITY.html" class="civ-link"><span class="civ-icon">🛡️</span><span class="civ-name">ZULU — Shook an Empire</span></a>
+<a href="../viking/VIKING.CITY.html" class="civ-link"><span class="civ-icon">⚡</span><span class="civ-name">VIKING — Children of North</span></a>
+<a href="../london/LONDON.CITY.html" class="civ-link"><span class="civ-icon">👑</span><span class="civ-name">LONDON — Last Refuge</span></a>
+<a href="../newyork/NEWYORK.CITY.html" class="civ-link"><span class="civ-icon">🗽</span><span class="civ-name">NEW YORK — Never Sleeps</span></a>
+<a href="../brasilia/BRASILIA.CITY.html" class="civ-link"><span class="civ-icon">✈️</span><span class="civ-name">BRASÍLIA — Drawn Before Built</span></a>
+<a href="../tokyo/TOKYO.CITY.html" class="civ-link"><span class="civ-icon">🗼</span><span class="civ-name">TOKYO — Far Future</span></a>
+<a href="../yabroud/MORDOR.NET.html" class="civ-link"><span class="civ-icon">🔥</span><span class="civ-name">MORDOR — The Dark Gate</span></a>
+<a href="../departure/DEPARTURE.CITY.html" class="civ-link"><span class="civ-icon">🚀</span><span class="civ-name">DEPARTURE — Station Omega</span></a>
+<a href="../arrakis/ARRAKIS.CITY.html" class="civ-link"><span class="civ-icon">🪱</span><span class="civ-name">ARRAKIS — Reception Station</span></a>
+<a href="../castle/CASTLE.CITY.html" class="civ-link"><span class="civ-icon">🏰</span><span class="civ-name">THE CASTLE — Architect's Home</span></a>
+<a href="RESTAURANT.CITY.html" class="civ-link" style="border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.08)"><span class="civ-icon">🍽️</span><span class="civ-name">MILLIWAYS — You Are Here ★</span></a>
+</div>
+
+<div class="quote-box" style="border-left-color:#dda0dd;text-align:center;font-size:1.2rem">
+"The soufflé collapsed exactly when the universe did. The timing was perfect. It always was."<br>
+<span style="color:#ffd700;font-size:.9rem;margin-top:8px;display:block">— The Head Chef, final service</span>
+</div>
+
+<footer>
+<p>JuX Civilizations · Civilization XX · The Restaurant at the End of the Universe</p>
+<p style="margin-top:8px">Inspired by Douglas Adams · Built by Wonder Boy · Served by G.</p>
+<p style="margin-top:5px;color:#4a3060">Don't Panic. · The Answer is 42.</p>
+<a href="../castle/CASTLE.CITY.html" class="back-link">🏰 Back to The Castle</a>
+<a href="https://juxaos.com" class="back-link" style="margin-left:10px">🌐 JuXAOS Home</a>
+</footer>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightboxImg" src="" alt="Full view">
+</div>
+
+<script>
+// Stars + champagne bubbles
+const bg=document.getElementById('starsBg');
+for(let i=0;i<150;i++){
+  const s=document.createElement('div');s.className='star';
+  const size=Math.random()*3+1;
+  s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${['#ffd700','#dda0dd','#fff','#ff69b4','#87ceeb'][Math.floor(Math.random()*5)]};--dur:${Math.random()*3+2}s;animation-delay:${Math.random()*3}s`;
+  bg.appendChild(s);
+}
+for(let i=0;i<25;i++){
+  const b=document.createElement('div');b.className='bubble';
+  const size=Math.random()*20+10;
+  b.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${60+Math.random()*40}%;--dur:${Math.random()*6+4}s;animation-delay:${Math.random()*5}s`;
+  bg.appendChild(b);
+}
+function openLightbox(src){const lb=document.getElementById('lightbox');document.getElementById('lightboxImg').src=src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
