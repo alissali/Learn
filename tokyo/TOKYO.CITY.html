@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOKYO — The City That Already Lives in Tomorrow</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0014;color:#e0e0e0;font-family:'Segoe UI',sans-serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0014 0%,#1a0033 30%,#ff0066 60%,#00ffcc 100%);opacity:.3}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);color:#ff0066;text-shadow:0 0 40px #ff0066,0 0 80px #00ffcc;z-index:2;letter-spacing:4px}
+.hero p{font-size:clamp(1rem,3vw,1.8rem);color:#00ffcc;z-index:2;margin-top:1rem;text-shadow:0 0 20px #00ffcc}
+.hero .sub{font-size:1rem;color:#ff99cc;margin-top:.5rem;z-index:2}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+section{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:4rem 1.5rem}
+h2{font-size:2rem;color:#ff0066;text-align:center;margin-bottom:2rem;text-shadow:0 0 20px #ff006640}
+h3{color:#00ffcc;font-size:1.3rem;margin-bottom:.5rem}
+.intro{text-align:center;font-size:1.15rem;color:#ccc;max-width:800px;margin:0 auto 3rem;line-height:1.8}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem;margin:2rem 0}
+.gallery img{width:100%;border-radius:12px;cursor:pointer;transition:transform .3s,box-shadow .3s;border:2px solid #ff006640}
+.gallery img:hover{transform:scale(1.03);box-shadow:0 0 30px #ff006660}
+.district{background:linear-gradient(135deg,#12002260,#1a003360);border:1px solid #ff006630;border-radius:16px;padding:1.8rem;margin-bottom:1.5rem;transition:transform .3s,border-color .3s}
+.district:hover{transform:translateY(-3px);border-color:#00ffcc}
+.district .icon{font-size:2.2rem;margin-bottom:.5rem}
+.district .fact{color:#ff99cc;font-size:.95rem;margin:.5rem 0}
+.district .quote{color:#00ffcc;font-style:italic;font-size:.95rem;border-left:3px solid #ff0066;padding-left:1rem;margin-top:.8rem}
+.gods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:2rem 0}
+.god-card{background:linear-gradient(135deg,#1a003380,#0a001480);border:1px solid #ff006630;border-radius:12px;padding:1.2rem;text-align:center;transition:transform .3s}
+.god-card:hover{transform:scale(1.05);border-color:#00ffcc}
+.god-card .god-icon{font-size:2rem}
+.god-card h4{color:#ff0066;margin:.5rem 0 .3rem;font-size:1rem}
+.god-card p{font-size:.85rem;color:#aaa}
+.army{background:linear-gradient(135deg,#1a003360,#33005560);border:1px solid #ff006630;border-radius:16px;padding:2rem;margin:2rem 0}
+.army h3{color:#ff0066;text-align:center;margin-bottom:1rem}
+.army-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+.army-unit{text-align:center;padding:1rem}
+.army-unit .unit-icon{font-size:1.8rem}
+.army-unit h4{color:#00ffcc;font-size:.95rem;margin:.4rem 0}
+.army-unit p{font-size:.8rem;color:#aaa}
+.gifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0}
+.gift{background:#12002240;border:1px solid #00ffcc30;border-radius:10px;padding:1rem;text-align:center}
+.gift .gift-icon{font-size:1.5rem}
+.gift h4{color:#00ffcc;font-size:.9rem;margin:.3rem 0}
+.gift p{font-size:.8rem;color:#999}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:12px;box-shadow:0 0 60px #ff006640}
+footer{text-align:center;padding:3rem 1rem;color:#666;font-size:.9rem;border-top:1px solid #ff006620;margin-top:3rem}
+footer a{color:#ff0066;text-decoration:none}
+.neon-line{height:2px;background:linear-gradient(90deg,transparent,#ff0066,#00ffcc,#ff0066,transparent);margin:3rem auto;max-width:600px;border-radius:2px;box-shadow:0 0 10px #ff006640}
+.back-link{display:inline-block;margin:1rem;padding:.6rem 1.2rem;color:#00ffcc;border:1px solid #00ffcc40;border-radius:8px;text-decoration:none;font-size:.9rem;transition:all .3s}
+.back-link:hover{background:#00ffcc15;border-color:#00ffcc}
+</style>
+</head>
+<body>
+<canvas id="neonCanvas"></canvas>
+<div class="hero">
+<div class="hero-bg"></div>
+<div style="z-index:2">
+<h1>🗼 TOKYO</h1>
+<p>The City That Already Lives in Tomorrow</p>
+<p class="sub">35 million souls · 2,194 km² · 14 centuries of reinvention · Population density: 6,363/km²</p>
+</div>
+</div>
+
+<section>
+<p class="intro">
+They burned it. They bombed it. They shook it with earthquakes. It came back <strong>bigger every time</strong>. 
+Tokyo doesn't rebuild — it <strong>upgrades</strong>. A city where 800-year-old temples share a block with 
+robot restaurants. Where the trains apologize for being <strong>20 seconds late</strong>. Where 35 million people 
+move in perfect choreography and <strong>nobody touches</strong>. This isn't a city. This is the operating system 
+of the future, and it's already <strong>running</strong>.
+</p>
+
+<h2>🏙️ The Gallery</h2>
+<div class="gallery">
+<img src="web/TOKYO-AERIAL.jpg" alt="Tokyo Aerial — neon skyline" loading="lazy" onclick="openLightbox(this)">
+<img src="web/TOKYO-SHIBUYA.jpg" alt="Shibuya Crossing — the world's busiest intersection" loading="lazy" onclick="openLightbox(this)">
+<img src="web/TOKYO-SHINKANSEN.jpg" alt="Shinkansen — the bullet train" loading="lazy" onclick="openLightbox(this)">
+<img src="web/TOKYO-AKIHABARA.jpg" alt="Akihabara Electric Town" loading="lazy" onclick="openLightbox(this)">
+<img src="web/TOKYO-TEMPLE.jpg" alt="Zen Temple amid skyscrapers" loading="lazy" onclick="openLightbox(this)">
+<img src="web/TOKYO-FUJI.jpg" alt="Mount Fuji from future Tokyo" loading="lazy" onclick="openLightbox(this)">
+</div>
+
+<div class="neon-line"></div>
+
+<h2>🌐 The 9 Districts of Tomorrow</h2>
+
+<div class="district">
+<div class="icon">🏙️</div>
+<h3>SHINJUKU NEXUS</h3>
+<div class="fact">3.6 million people pass through daily. The busiest station in the universe. 200+ exits. Getting lost is the tutorial.</div>
+<div class="quote">"The station has more exits than your life has options."</div>
+</div>
+
+<div class="district">
+<div class="icon">🚦</div>
+<h3>SHIBUYA CROSSING</h3>
+<div class="fact">3,000 people cross simultaneously every 2 minutes. Zero collisions. No traffic control. Pure instinct.</div>
+<div class="quote">"3,000 strangers. Zero contact. Every 90 seconds. Try that in Paris."</div>
+</div>
+
+<div class="district">
+<div class="icon">🚄</div>
+<h3>SHINKANSEN STATION</h3>
+<div class="fact">320 km/h. 60 years. Zero fatalities. Average delay: 17 seconds. The apology comes at 30.</div>
+<div class="quote">"The train apologizes at 30 seconds late. Your airline cancels at 30 hours."</div>
+</div>
+
+<div class="district">
+<div class="icon">⚡</div>
+<h3>AKIHABARA ELECTRIC TOWN</h3>
+<div class="fact">The nerd capital of Earth. Anime, manga, mecha, arcades. Entire buildings dedicated to a single fandom.</div>
+<div class="quote">"The future was invented here. Then turned into a figurine."</div>
+</div>
+
+<div class="district">
+<div class="icon">⛩️</div>
+<h3>SENSO-JI TEMPLE</h3>
+<div class="fact">645 AD. Oldest temple in Tokyo. Incense, prayer, monks — surrounded by skyscrapers that weren't born yet.</div>
+<div class="quote">"1,400 years old. Still the calmest place in the loudest city."</div>
+</div>
+
+<div class="district">
+<div class="icon">🍣</div>
+<h3>TSUKIJI — THE KITCHEN</h3>
+<div class="fact">Moved to Toyosu. 480 kinds of fish. Tuna auction at 5 AM. $3 million for one bluefin. Breakfast of champions.</div>
+<div class="quote">"They pay more for a fish than you paid for your house."</div>
+</div>
+
+<div class="district">
+<div class="icon">🌸</div>
+<h3>UENO — THE GARDEN</h3>
+<div class="fact">1,200 cherry trees. Hanami season: entire nation stops to watch flowers fall. That's the whole event.</div>
+<div class="quote">"A country that stops for falling flowers knows something you don't."</div>
+</div>
+
+<div class="district">
+<div class="icon">🤖</div>
+<h3>ODAIBA — THE FUTURE</h3>
+<div class="fact">Artificial island. Life-size Gundam. Robot labs. TeamLab Borderless. The test bed for tomorrow.</div>
+<div class="quote">"They built an island to test the future. Then moved in."</div>
+</div>
+
+<div class="district">
+<div class="icon">🏯</div>
+<h3>IMPERIAL PALACE</h3>
+<div class="fact">115 hectares of silence in the center of 35 million people. 400-year-old moat. The Emperor is home.</div>
+<div class="quote">"35 million people. One address nobody rings."</div>
+</div>
+
+<div class="neon-line"></div>
+
+<h2>⛩️ The 6 Pillars of Japan</h2>
+<div class="gods-grid">
+<div class="god-card"><div class="god-icon">☀️</div><h4>AMATERASU</h4><p>Sun goddess. Born from a mirror. Ancestor of every emperor. Still shining.</p></div>
+<div class="god-card"><div class="god-icon">🌊</div><h4>SUSANOO</h4><p>Storm god. Killed an 8-headed dragon. Got banished. Came back cooler.</p></div>
+<div class="god-card"><div class="god-icon">🦊</div><h4>INARI</h4><p>10,000 red torii gates. Foxes are the messengers. Rice is the prayer.</p></div>
+<div class="god-card"><div class="god-icon">⚔️</div><h4>BUSHIDO</h4><p>The Way of the Warrior. 7 virtues. Death before dishonor. The code never died.</p></div>
+<div class="god-card"><div class="god-icon">🍵</div><h4>CHA-NO-YU</h4><p>Tea ceremony. 4 hours for one cup. The cup is the universe. Patience is the lesson.</p></div>
+<div class="god-card"><div class="god-icon">🎭</div><h4>KABUKI</h4><p>400 years. White face paint. Male actors play all roles. Drama is the DNA.</p></div>
+</div>
+
+<div class="neon-line"></div>
+
+<div class="army">
+<h3>🤖 JAPAN'S ARSENAL — INNOVATION DIVISIONS</h3>
+<div class="army-grid">
+<div class="army-unit"><div class="unit-icon">🚄</div><h4>SHINKANSEN CORPS</h4><p>320 km/h · 0 fatalities · 60 years</p></div>
+<div class="army-unit"><div class="unit-icon">🤖</div><h4>ROBOT BATTALION</h4><p>269 robots per 10K workers — #1 on Earth</p></div>
+<div class="army-unit"><div class="unit-icon">🎮</div><h4>GAMING DIVISION</h4><p>Nintendo · Sony · Sega · $22B industry</p></div>
+<div class="army-unit"><div class="unit-icon">🚗</div><h4>AUTO FLEET</h4><p>Toyota · Honda · Nissan · 24M cars/year</p></div>
+<div class="army-unit"><div class="unit-icon">📡</div><h4>TECH VANGUARD</h4><p>6,500 patents/year · Fiber to every home</p></div>
+</div>
+</div>
+
+<div class="neon-line"></div>
+
+<h2>🎁 8 Gifts Tokyo Gave the World</h2>
+<div class="gifts">
+<div class="gift"><div class="gift-icon">🍣</div><h4>SUSHI</h4><p>Raw fish on rice. Changed dining forever.</p></div>
+<div class="gift"><div class="gift-icon">🎮</div><h4>VIDEO GAMES</h4><p>Mario, Zelda, Pokémon. Your childhood.</p></div>
+<div class="gift"><div class="gift-icon">📺</div><h4>ANIME</h4><p>From Astro Boy to global culture. Art without borders.</p></div>
+<div class="gift"><div class="gift-icon">🚄</div><h4>BULLET TRAIN</h4><p>1964. Changed how humans think about speed.</p></div>
+<div class="gift"><div class="gift-icon">📸</div><h4>CAMERA TECH</h4><p>Canon, Nikon, Sony. Every photo you took.</p></div>
+<div class="gift"><div class="gift-icon">🥋</div><h4>MARTIAL ARTS</h4><p>Judo, Karate, Aikido. Discipline as weapon.</p></div>
+<div class="gift"><div class="gift-icon">💡</div><h4>KAIZEN</h4><p>Continuous improvement. Toyota made it. The world adopted it.</p></div>
+<div class="gift"><div class="gift-icon">🎵</div><h4>KARAOKE</h4><p>1971. One microphone. Universal embarrassment.</p></div>
+</div>
+
+<div class="neon-line"></div>
+
+<footer>
+<a href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html" class="back-link">🔥 MORDOR</a>
+<a href="https://raw.githack.com/alissali/Learn/main/egypt/EGYPT.CITY.html" class="back-link">☀️ EGYPT</a>
+<a href="https://raw.githack.com/alissali/Learn/main/aztec/AZTEC.CITY.html" class="back-link">🦅 AZTEC</a>
+<a href="https://raw.githack.com/alissali/Learn/main/greece/GREECE.CITY.html" class="back-link">🏛️ GREECE</a>
+<a href="https://raw.githack.com/alissali/Learn/main/china/CHINA.CITY.html" class="back-link">🐉 CHINA</a>
+<a href="https://raw.githack.com/alissali/Learn/main/india/INDIA.CITY.html" class="back-link">☸ INDIA</a>
+<a href="https://raw.githack.com/alissali/Learn/main/aboriginal/ABORIGINAL.CITY.html" class="back-link">🌌 ABORIGINAL</a>
+<a href="https://raw.githack.com/alissali/Learn/main/arctic/ARCTIC.CITY.html" class="back-link">❄️ INUIT</a>
+<a href="https://raw.githack.com/alissali/Learn/main/newyork/NEWYORK.CITY.html" class="back-link">🗽 NEW YORK</a>
+<a href="https://raw.githack.com/alissali/Learn/main/brasilia/BRASILIA.CITY.html" class="back-link">✈️ BRASÍLIA</a>
+<a href="https://raw.githack.com/alissali/Learn/main/zulu/ZULU.CITY.html" class="back-link">🛡️ ZULU</a>
+<a href="https://raw.githack.com/alissali/Learn/main/viking/VIKING.CITY.html" class="back-link">⚡ VIKING</a>
+<br><br>
+<p>TOKYO — The City That Already Lives in Tomorrow · <a href="https://juxaos.com">JuX AOS</a></p>
+<p style="margin-top:.5rem">35 million souls · 14 centuries · ∞ reboots · The train is NEVER late</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightboxImg" src="" alt="Fullscreen view">
+</div>
+
+<script>
+// Neon rain + cherry blossom particle system
+const canvas=document.getElementById('neonCanvas');const ctx=canvas.getContext('2d');
+let W,H;function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class NeonDrop{constructor(){this.reset()}
+reset(){this.x=Math.random()*W;this.y=Math.random()*-H;this.speed=Math.random()*3+1;this.length=Math.random()*30+10;
+this.type=Math.random();
+if(this.type<0.3){this.color='rgba(255,0,102,';this.glow='#ff0066'}
+else if(this.type<0.6){this.color='rgba(0,255,204,';this.glow='#00ffcc'}
+else if(this.type<0.8){this.color='rgba(255,153,204,';this.glow='#ff99cc'}
+else{this.color='rgba(255,182,193,';this.glow='#ffb6c1';this.speed=Math.random()*1+0.3;this.length=5;this.isBlossom=true;this.sway=Math.random()*2-1}}
+update(){this.y+=this.speed;if(this.isBlossom)this.x+=Math.sin(this.y*0.02)*this.sway;if(this.y>H+50)this.reset()}
+draw(){if(this.isBlossom){ctx.beginPath();ctx.arc(this.x,this.y,3,0,Math.PI*2);ctx.fillStyle=this.color+'0.6)';ctx.fill();return}
+ctx.beginPath();ctx.moveTo(this.x,this.y);ctx.lineTo(this.x,this.y-this.length);
+ctx.strokeStyle=this.color+'0.4)';ctx.lineWidth=1.5;ctx.shadowColor=this.glow;ctx.shadowBlur=8;ctx.stroke();ctx.shadowBlur=0}}
+const drops=[];for(let i=0;i<200;i++)drops.push(new NeonDrop());
+function animate(){ctx.clearRect(0,0,W,H);drops.forEach(d=>{d.update();d.draw()});requestAnimationFrame(animate)}
+animate();
+function openLightbox(img){document.getElementById('lightbox').classList.add('active');document.getElementById('lightboxImg').src=img.src}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
