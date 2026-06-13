@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BESTIARY — Creatures of Yabroud Mordor</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,700;1,400&display=swap');
+:root{--lava:#ff4500;--ember:#ff6b35;--obsidian:#0d0d0d;--bone:#d4c5a9;--morgul:#00ff88;--blood:#8b0000;--shadow:#1a1a1a}
+body{background:var(--obsidian);color:var(--bone);font-family:'Crimson Text',serif;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Cinzel',serif;letter-spacing:2px}
+
+/* HERO */
+.hero{height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 20%,var(--obsidian) 70%)}
+.hero-bg{position:absolute;inset:0;background:url('web/CREATURE-BALROG.jpg') center/cover;filter:brightness(0.3) saturate(1.5)}
+.hero-content{position:relative;z-index:2}
+.hero h1{font-size:clamp(3rem,8vw,6rem);color:var(--lava);text-shadow:0 0 60px rgba(255,69,0,0.8);animation:pulse-lava 3s ease-in-out infinite;margin-bottom:1rem}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:var(--ember);letter-spacing:6px;text-transform:uppercase}
+.hero .count{font-size:1rem;color:var(--bone);opacity:.5;margin-top:1rem;letter-spacing:4px}
+@keyframes pulse-lava{0%,100%{text-shadow:0 0 60px rgba(255,69,0,0.8)}50%{text-shadow:0 0 100px rgba(255,69,0,1)}}
+
+/* PARTICLES */
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;background:radial-gradient(circle,#ff4400,transparent);border-radius:50%;animation:float linear infinite;opacity:0}
+@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}20%{opacity:.5}80%{opacity:.2}100%{transform:translateY(-20vh) scale(1);opacity:0}}
+
+/* NAV */
+.creature-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;padding:2rem;background:var(--shadow);border-bottom:1px solid rgba(255,69,0,0.2);position:sticky;top:0;z-index:100}
+.creature-nav a{color:var(--bone);text-decoration:none;font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:2px;padding:.5rem 1rem;border:1px solid transparent;transition:all .3s}
+.creature-nav a:hover{border-color:var(--lava);color:var(--lava)}
+
+/* CREATURE CARDS */
+.creature{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.creature:nth-child(even){direction:rtl}
+.creature:nth-child(even) > *{direction:ltr}
+@media(max-width:900px){.creature,.creature:nth-child(even){grid-template-columns:1fr;direction:ltr}.creature > *{direction:ltr}}
+.creature-img{overflow:hidden;cursor:pointer;position:relative}
+.creature-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.creature-img:hover img{transform:scale(1.05)}
+.creature-img::after{content:'CLICK TO ENLARGE';position:absolute;bottom:1rem;right:1rem;background:rgba(0,0,0,.7);color:var(--bone);padding:.3rem .8rem;font-size:.7rem;letter-spacing:2px;font-family:'Cinzel',serif;opacity:0;transition:opacity .3s}
+.creature-img:hover::after{opacity:1}
+
+.creature-info{display:flex;flex-direction:column;justify-content:center;padding:4rem;background:var(--shadow)}
+.creature-info .icon{font-size:4rem;margin-bottom:1rem}
+.creature-info h2{font-size:clamp(1.8rem,3vw,2.8rem);color:var(--lava);margin-bottom:.5rem}
+.creature-info .title{color:var(--ember);font-size:1rem;letter-spacing:4px;text-transform:uppercase;margin-bottom:2rem}
+.creature-info .bio{color:#aaa;line-height:1.8;margin-bottom:2rem;font-size:1.05rem}
+.creature-info .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.creature-info .spec{padding:1rem;background:rgba(0,0,0,.3);border:1px solid rgba(255,69,0,.15);text-align:center}
+.creature-info .spec .val{font-size:1.5rem;color:var(--lava);font-family:'Cinzel',serif}
+.creature-info .spec .label{font-size:.7rem;color:#666;letter-spacing:2px;margin-top:.3rem}
+.creature-info .quote{margin-top:2rem;padding:1.5rem;border-left:3px solid var(--lava);font-style:italic;color:var(--bone);opacity:.7;font-size:.95rem}
+
+/* DANGER RATING */
+.danger{display:flex;gap:2px;margin:1rem 0}
+.danger .skull{font-size:1.2rem;transition:all .3s}
+.danger .skull.active{filter:drop-shadow(0 0 6px #ff4400)}
+.danger .skull.inactive{opacity:.2}
+
+/* SEPARATOR */
+.separator{text-align:center;padding:2rem;font-size:2rem;color:var(--lava);opacity:.3}
+
+/* FOOTER */
+footer{text-align:center;padding:4rem 2rem;border-top:2px solid var(--lava);background:var(--obsidian)}
+footer .eye{font-size:4rem;margin-bottom:1rem;animation:pulse-lava 3s ease-in-out infinite}
+footer h2{color:var(--lava);font-size:1.5rem;margin-bottom:1rem}
+footer p{color:var(--bone);opacity:.5;max-width:600px;margin:0 auto;line-height:1.8;font-size:.9rem}
+footer a{color:var(--lava);text-decoration:none}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:1000;display:none;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain}
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1>BESTIARY</h1>
+    <div class="subtitle">Creatures of Yabroud Mordor</div>
+    <div class="count">6 SPECIMENS · 0 SURVIVORS</div>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="creature-nav">
+  <a href="#nazgul">👻 NAZGÛL</a>
+  <a href="#shelob">🕷️ SHELOB</a>
+  <a href="#balrog">🔥 BALROG</a>
+  <a href="#troll">🪨 TROLL</a>
+  <a href="#wargs">🐺 WARGS</a>
+  <a href="#mumakil">🐘 MÛMAKIL</a>
+</nav>
+
+<!-- NAZGÛL -->
+<section class="creature" id="nazgul">
+  <div class="creature-img" onclick="openLB(this.querySelector('img'))">
+    <img src="web/CREATURE-NAZGUL.jpg" alt="Nazgûl on Fell Beast" loading="lazy">
+  </div>
+  <div class="creature-info">
+    <div class="icon">👻</div>
+    <h2>THE NAZGÛL</h2>
+    <div class="title">Ringwraiths · The Nine · Fell Riders</div>
+    <div class="bio">Nine kings of Men. They took the rings. They became the rings. Neither living nor dead — existing in the wraith-world between breath and shadow. They ride Fell Beasts now — winged serpents bred in the pits of Udûn. The scream alone stops hearts.</div>
+    <div class="danger">
+      <span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span>
+    </div>
+    <div class="spec-grid">
+      <div class="spec"><div class="val">9</div><div class="label">WRAITHS</div></div>
+      <div class="spec"><div class="val">9</div><div class="label">RINGS</div></div>
+      <div class="spec"><div class="val">∞</div><div class="label">LIFESPAN</div></div>
+      <div class="spec"><div class="val">0</div><div class="label">MERCY</div></div>
+    </div>
+    <div class="quote">"They were once Men. Great kings. Then Sauron gave them nine rings. Now they're middle management with wings."</div>
+  </div>
+</section>
+
+<div class="separator">⚔️</div>
+
+<!-- SHELOB -->
+<section class="creature" id="shelob">
+  <div class="creature-img" onclick="openLB(this.querySelector('img'))">
+    <img src="web/CREATURE-SHELOB.jpg" alt="Shelob" loading="lazy">
+  </div>
+  <div class="creature-info">
+    <div class="icon">🕷️</div>
+    <h2>SHELOB</h2>
+    <div class="title">The Last Child of Ungoliant · Her Ladyship</div>
+    <div class="bio">Older than Sauron. Older than the rings. Daughter of Ungoliant who devoured the Two Trees. She doesn't serve the Dark Lord — she tolerates him. Her lair is the back door to Mordor. She eats orcs, elves, men — anything that walks into her web. The only creature in Mordor that Sauron avoids.</div>
+    <div class="danger">
+      <span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span>
+    </div>
+    <div class="spec-grid">
+      <div class="spec"><div class="val">1</div><div class="label">SPECIMEN</div></div>
+      <div class="spec"><div class="val">8</div><div class="label">EYES</div></div>
+      <div class="spec"><div class="val">8</div><div class="label">LEGS</div></div>
+      <div class="spec"><div class="val">∞</div><div class="label">HUNGER</div></div>
+    </div>
+    <div class="quote">"She doesn't need a ring. She was ancient when Sauron was still making jewelry. The spider answers to no one."</div>
+  </div>
+</section>
+
+<div class="separator">⚔️</div>
+
+<!-- BALROG -->
+<section class="creature" id="balrog">
+  <div class="creature-img" onclick="openLB(this.querySelector('img'))">
+    <img src="web/CREATURE-BALROG.jpg" alt="Balrog" loading="lazy">
+  </div>
+  <div class="creature-info">
+    <div class="icon">🔥</div>
+    <h2>THE BALROG</h2>
+    <div class="title">Durin's Bane · Shadow and Flame · Valaraukar</div>
+    <div class="bio">A corrupted Maia — same order as Sauron himself, same order as Gandalf. Fire wrapped in shadow. It slept beneath the mountains for five thousand years until the dwarves dug too deep. It carries a sword of flame and a whip of many thongs. It killed a wizard. The wizard came back. The Balrog didn't.</div>
+    <div class="danger">
+      <span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span>
+    </div>
+    <div class="spec-grid">
+      <div class="spec"><div class="val">20ft</div><div class="label">HEIGHT</div></div>
+      <div class="spec"><div class="val">2</div><div class="label">WEAPONS</div></div>
+      <div class="spec"><div class="val">1,200°C</div><div class="label">TEMP</div></div>
+      <div class="spec"><div class="val">1</div><div class="label">WIZARD KILLED</div></div>
+    </div>
+    <div class="quote">"You shall not pass. — Gandalf. He passed anyway. Then they both fell. Only the wizard got back up."</div>
+  </div>
+</section>
+
+<div class="separator">⚔️</div>
+
+<!-- CAVE TROLL -->
+<section class="creature" id="troll">
+  <div class="creature-img" onclick="openLB(this.querySelector('img'))">
+    <img src="web/CREATURE-TROLL.jpg" alt="Cave Troll" loading="lazy">
+  </div>
+  <div class="creature-info">
+    <div class="icon">🪨</div>
+    <h2>OLOG-HAI</h2>
+    <div class="title">War Trolls of Mordor · Stone-Born · Gate Breakers</div>
+    <div class="bio">Bred by Sauron from the original trolls. Bigger. Smarter. Sunlight-resistant. They wear bolted-on armor because they can't work buckles. They carry war hammers that weigh more than horses. At the Black Gate, they ARE the gate openers — nothing else is strong enough. IQ: low. Damage: catastrophic.</div>
+    <div class="danger">
+      <span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull inactive">💀</span>
+    </div>
+    <div class="spec-grid">
+      <div class="spec"><div class="val">12ft</div><div class="label">HEIGHT</div></div>
+      <div class="spec"><div class="val">2 tons</div><div class="label">WEIGHT</div></div>
+      <div class="spec"><div class="val">LOW</div><div class="label">IQ</div></div>
+      <div class="spec"><div class="val">HIGH</div><div class="label">DAMAGE</div></div>
+    </div>
+    <div class="quote">"They have one job: hit things until they stop moving. Employee of the month, every month."</div>
+  </div>
+</section>
+
+<div class="separator">⚔️</div>
+
+<!-- WARGS -->
+<section class="creature" id="wargs">
+  <div class="creature-img" onclick="openLB(this.querySelector('img'))">
+    <img src="web/CREATURE-WARGS.jpg" alt="Warg Pack" loading="lazy">
+  </div>
+  <div class="creature-info">
+    <div class="icon">🐺</div>
+    <h2>THE WARGS</h2>
+    <div class="title">Giant Wolves · Orc Mounts · The Hungry Ones</div>
+    <div class="bio">Not wolves. Not dogs. Something older, meaner, and entirely too large. The size of horses with the temperament of chainsaws. Orcs ride them because nothing else is fast enough and cruel enough. They hunt in packs of thirty. They eat their riders when hungry enough. Loyalty is conditional on food supply.</div>
+    <div class="danger">
+      <span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull inactive">💀</span><span class="skull inactive">💀</span>
+    </div>
+    <div class="spec-grid">
+      <div class="spec"><div class="val">30+</div><div class="label">PACK SIZE</div></div>
+      <div class="spec"><div class="val">60km/h</div><div class="label">SPEED</div></div>
+      <div class="spec"><div class="val">300kg</div><div class="label">WEIGHT</div></div>
+      <div class="spec"><div class="val">YES</div><div class="label">EATS RIDER</div></div>
+    </div>
+    <div class="quote">"The orcs think they ride the wargs. The wargs let them think that. Until dinner."</div>
+  </div>
+</section>
+
+<div class="separator">⚔️</div>
+
+<!-- MÛMAKIL -->
+<section class="creature" id="mumakil">
+  <div class="creature-img" onclick="openLB(this.querySelector('img'))">
+    <img src="web/CREATURE-MUMAKIL.jpg" alt="Mûmakil War Elephant" loading="lazy">
+  </div>
+  <div class="creature-info">
+    <div class="icon">🐘</div>
+    <h2>MÛMAKIL</h2>
+    <div class="title">Oliphaunts · War Elephants of Harad · Walking Fortresses</div>
+    <div class="bio">Sixty feet tall. Tusks wrapped in spiked iron. A wooden war tower on its back carries fifty Haradrim archers. When a Mûmak charges, the ground shakes a mile away. Cavalry breaks. Infantry scatters. The only thing that stops one is another one. Sauron didn't build them — he just pointed them at the enemy. Nature did the rest.</div>
+    <div class="danger">
+      <span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull active">💀</span><span class="skull inactive">💀</span>
+    </div>
+    <div class="spec-grid">
+      <div class="spec"><div class="val">60ft</div><div class="label">HEIGHT</div></div>
+      <div class="spec"><div class="val">50</div><div class="label">ARCHERS</div></div>
+      <div class="spec"><div class="val">40 tons</div><div class="label">WEIGHT</div></div>
+      <div class="spec"><div class="val">1 mile</div><div class="label">TREMOR RANGE</div></div>
+    </div>
+    <div class="quote">"That still only counts as one! — Gimli, after watching Legolas bring one down. Technically correct. The best kind of correct."</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="eye">👁️</div>
+  <h2>THE DARK LORD'S MENAGERIE</h2>
+  <p>6 creatures. 0 mercy. All accounted for in the Yabroud Mordor municipal registry. Shelob has tax-exempt status.</p>
+  <p style="margin-top:2rem">
+    <a href="SAURON.html">👁️ SAURON</a> · 
+    <a href="YABROUD.MORDOR.html">💀 MORDOR</a> · 
+    <a href="YABROUD.CITY.html">🌴 YABROUD ORIGINAL</a>
+  </p>
+  <p style="margin-top:2rem;opacity:.3;font-size:.8rem">BESTIARY — A JuX Vision · The Architect · 2026</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('active')">
+  <img id="lb-img" src="" alt="Fullscreen">
+</div>
+
+<script>
+// Particles
+const pc=document.getElementById('particles');
+for(let i=0;i<30;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.left=Math.random()*100+'%';
+  p.style.width=p.style.height=Math.random()*5+2+'px';
+  p.style.animationDuration=Math.random()*8+4+'s';
+  p.style.animationDelay=Math.random()*6+'s';
+  pc.appendChild(p);
+}
+
+// Lightbox
+function openLB(img){
+  document.getElementById('lb-img').src=img.src;
+  document.getElementById('lightbox').classList.add('active');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lightbox').classList.remove('active')});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
