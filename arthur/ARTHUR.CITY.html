@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTHUR DENT'S — The Most Ordinary Man in the Universe</title>
+<meta name="description" content="Arthur Dent. The man who lost his house, his planet, and his tea — and still had his bathrobe. JuX Civilization Arc — Hitchhiker's Guide tribute.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a0a;color:#e8dcc8;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#2a2a1a 0%,#1a1a0a 40%,#0a0a00 100%)}
+.hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.tea-steam{position:absolute;width:3px;background:linear-gradient(to top,rgba(232,220,200,0.4),transparent);border-radius:50%;animation:steam 4s infinite ease-out}
+@keyframes steam{0%{transform:translateY(0) scaleX(1);opacity:0}20%{opacity:0.6}50%{transform:translateY(-120px) scaleX(2);opacity:0.3}100%{transform:translateY(-250px) scaleX(3);opacity:0}}
+.hero-content{position:relative;z-index:2;max-width:900px;padding:2rem}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#c4956a;text-shadow:0 0 60px rgba(196,149,106,0.3);margin-bottom:0.5rem;font-weight:400;letter-spacing:0.1em}
+.hero .subtitle{font-size:clamp(1rem,3vw,1.5rem);color:#8a7a6a;font-style:italic;margin-bottom:1rem}
+.hero .tagline{font-size:clamp(0.9rem,2vw,1.1rem);color:#6a5a4a;max-width:700px;margin:0 auto}
+.dont-panic{display:inline-block;background:#c4956a;color:#1a1a0a;padding:0.3rem 1.5rem;border-radius:4px;font-size:1.4rem;font-weight:bold;letter-spacing:0.15em;margin:1.5rem 0;font-family:sans-serif}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#6a5a4a;font-size:0.9rem;animation:bob 2s infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+
+section{padding:4rem 2rem;max-width:1100px;margin:0 auto}
+h2{font-size:clamp(1.5rem,4vw,2.2rem);color:#c4956a;margin-bottom:0.5rem;font-weight:400}
+h3{font-size:1.3rem;color:#a08060;margin:2rem 0 1rem;font-weight:400}
+p{line-height:1.8;color:#c8b8a0;margin-bottom:1rem;font-size:1.05rem}
+blockquote{border-left:3px solid #c4956a;padding:1rem 1.5rem;margin:1.5rem 0;background:rgba(196,149,106,0.05);font-style:italic;color:#d4c4a8}
+
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem;margin:3rem auto;max-width:1100px;padding:0 2rem}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:transform 0.4s,box-shadow 0.4s;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+.gallery img:hover{transform:scale(1.03);box-shadow:0 8px 40px rgba(196,149,106,0.2)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:92vw;max-height:92vh;border-radius:8px}
+
+.rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:2rem 0}
+.room{background:rgba(196,149,106,0.06);border:1px solid rgba(196,149,106,0.15);border-radius:10px;padding:1.5rem;transition:transform 0.3s,border-color 0.3s}
+.room:hover{transform:translateY(-3px);border-color:rgba(196,149,106,0.4)}
+.room-icon{font-size:2rem;margin-bottom:0.5rem}
+.room-name{font-size:1.15rem;color:#c4956a;margin-bottom:0.3rem}
+.room-fact{font-size:0.95rem;color:#a09080;margin-bottom:0.5rem}
+.room-quote{font-size:0.9rem;color:#8a7a6a;font-style:italic;border-top:1px solid rgba(196,149,106,0.1);padding-top:0.5rem;margin-top:0.5rem}
+
+.possessions{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:2rem 0}
+.possession{text-align:center;padding:1.5rem;background:rgba(196,149,106,0.04);border-radius:8px;border:1px solid rgba(196,149,106,0.1)}
+.possession-icon{font-size:2.5rem;margin-bottom:0.5rem}
+.possession-name{color:#c4956a;font-size:1rem;margin-bottom:0.3rem}
+.possession-desc{color:#8a7a6a;font-size:0.85rem}
+
+.menu{background:rgba(196,149,106,0.04);border:1px solid rgba(196,149,106,0.15);border-radius:12px;padding:2rem;margin:2rem 0}
+.menu-item{display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px dotted rgba(196,149,106,0.15)}
+.menu-item:last-child{border-bottom:none}
+.menu-dish{color:#d4c4a8}
+.menu-note{color:#8a7a6a;font-style:italic;font-size:0.9rem}
+
+.timeline{position:relative;padding:2rem 0;margin:2rem 0}
+.timeline::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:2px;background:rgba(196,149,106,0.2)}
+.tl-item{position:relative;padding-left:50px;margin-bottom:1.5rem}
+.tl-item::before{content:'';position:absolute;left:14px;top:8px;width:14px;height:14px;border-radius:50%;background:#c4956a;border:2px solid #1a1a0a}
+.tl-date{color:#c4956a;font-size:0.85rem}
+.tl-event{color:#c8b8a0;font-size:0.95rem}
+
+.civ-index{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.8rem;margin:2rem 0}
+.civ-link{display:flex;align-items:center;gap:0.5rem;padding:0.6rem;background:rgba(196,149,106,0.04);border-radius:6px;color:#a09080;text-decoration:none;font-size:0.9rem;border:1px solid rgba(196,149,106,0.08);transition:border-color 0.3s}
+.civ-link:hover{border-color:#c4956a;color:#c4956a}
+
+.finale{text-align:center;padding:4rem 2rem;margin:2rem 0}
+.finale p{font-size:1.2rem;color:#8a7a6a;max-width:700px;margin:0 auto 1rem}
+.finale .final-line{font-size:1.4rem;color:#c4956a}
+
+footer{text-align:center;padding:2rem;color:#4a3a2a;font-size:0.8rem;border-top:1px solid rgba(196,149,106,0.1)}
+footer a{color:#6a5a4a;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <h1>ARTHUR DENT'S</h1>
+    <div class="dont-panic">DON'T PANIC</div>
+    <div class="subtitle">The Most Ordinary Man in the Universe</div>
+    <p class="tagline">He lost his house. Then his planet. Then his universe. He still had his bathrobe. He still wanted tea.</p>
+  </div>
+  <div class="scroll-hint">↓ Mostly Harmless ↓</div>
+</div>
+
+<div class="gallery">
+  <img src="web/ARTHUR-HOUSE.jpg" alt="Arthur's House" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/ARTHUR-BATHROBE.jpg" alt="Arthur in his Bathrobe" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/ARTHUR-HEARTOFGOLD.jpg" alt="Heart of Gold" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/ARTHUR-PUB.jpg" alt="The Pub at the End of Space" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/ARTHUR-GUIDE.jpg" alt="The Hitchhiker's Guide" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/ARTHUR-EARTH.jpg" alt="Earth's Last Moment" loading="lazy" onclick="openLightbox(this)">
+</div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lb-img" src="" alt="Expanded view"></div>
+
+<section>
+  <h2>🫖 Name</h2>
+  <p><strong>ARTHUR DENT'S</strong> — The house that was demolished. The planet that was demolished. The man who survived both in a bathrobe.</p>
+  
+  <h2 style="margin-top:2rem">📋 Fact</h2>
+  <p>Arthur Philip Dent. English. Unremarkable. Liked tea, Thursdays, and not being demolished. Lost all three. Found the universe instead. Never asked for it. Still complaining.</p>
+  
+  <h2 style="margin-top:2rem">🎯 Target</h2>
+  <p>To prove that the most ordinary man, armed with nothing but a towel and mild irritation, can survive the most extraordinary universe. And still want tea.</p>
+</section>
+
+<section>
+  <h2>🫖 The 9 Rooms of Arthur Dent's</h2>
+  <div class="rooms">
+    
+    <div class="room">
+      <div class="room-icon">🏠</div>
+      <div class="room-name">THE COTTAGE</div>
+      <div class="room-fact">Small. English. Thatched roof. Demolished on a Thursday for a bypass. The bypass was also demolished — for a hyperspace bypass.</div>
+      <div class="room-quote">"This must be Thursday. I never could get the hang of Thursdays."</div>
+    </div>
+    
+    <div class="room">
+      <div class="room-icon">🥿</div>
+      <div class="room-name">THE BATHROBE</div>
+      <div class="room-fact">Burgundy terrycloth. Worn across 8 galaxies, 4 dimensions, and 2 apocalypses. Never washed. Still the most dignified garment in any room.</div>
+      <div class="room-quote">"He wore it to the end of the universe. It wore better than the universe."</div>
+    </div>
+    
+    <div class="room">
+      <div class="room-icon">🫖</div>
+      <div class="room-name">THE KITCHEN</div>
+      <div class="room-fact">All he wanted. A proper cup of tea. The Nutrimatic Drinks Dispenser gave him something almost, but not quite, entirely unlike tea. Every time.</div>
+      <div class="room-quote">"He had been to the far reaches of the galaxy. None of them had a kettle."</div>
+    </div>
+    
+    <div class="room">
+      <div class="room-icon">🧬</div>
+      <div class="room-name">THE BRAIN</div>
+      <div class="room-fact">Contains the Question to the Ultimate Answer. The Answer is 42. The Question was in his brain all along. He never checked.</div>
+      <div class="room-quote">"The Answer is 42. The Question is in the head of a man who can't find his slippers."</div>
+    </div>
+    
+    <div class="room">
+      <div class="room-icon">🚀</div>
+      <div class="room-name">THE HEART OF GOLD</div>
+      <div class="room-fact">Stolen by Zaphod Beeblebrox. Powered by Infinite Improbability. The ship that runs on how unlikely things are. Arthur hated every second.</div>
+      <div class="room-quote">"The ship could do anything. Arthur wanted it to make tea. It couldn't."</div>
+    </div>
+    
+    <div class="room">
+      <div class="room-icon">📖</div>
+      <div class="room-name">THE GUIDE</div>
+      <div class="room-fact">The Hitchhiker's Guide to the Galaxy. More popular than the Encyclopaedia Galactica. Cheaper. And it has DON'T PANIC on the cover in large, friendly letters.</div>
+      <div class="room-quote">"In many of the more relaxed civilizations, a towel is about the most massively useful thing."</div>
+    </div>
+    
+    <div class="room">
+      <div class="room-icon">🍺</div>
+      <div class="room-name">THE PUB</div>
+      <div class="room-fact">The Horse and Groom. Where Ford Prefect told Arthur the world was ending. Arthur's last pint on Earth. He didn't finish it.</div>
+      <div class="room-quote">"Ford, you're turning into a penguin. Stop it."</div>
+    </div>
+    
+    <div class="room">
+      <div class="room-icon">🌍</div>
+      <div class="room-name">THE EARTH</div>
+      <div class="room-fact">Third planet from the sun. Mostly harmless. Actually: a supercomputer designed by mice to find the Ultimate Question. Demolished by Vogons for a hyperspace bypass. Paperwork was on display in Alpha Centauri.</div>
+      <div class="room-quote">"The plans were on display in the bottom of a locked filing cabinet stuck in a disused lavatory with a sign saying Beware of the Leopard."</div>
+    </div>
+    
+    <div class="room">
+      <div class="room-icon">🛁</div>
+      <div class="room-name">THE BATHROOM</div>
+      <div class="room-fact">Where Arthur was lying when the Vogons came. In the bath. On a Thursday. About to lose everything. He put on his bathrobe. He never took it off.</div>
+      <div class="room-quote">"The universe is a big place. Arthur's bathroom was not. He preferred the bathroom."</div>
+    </div>
+    
+  </div>
+</section>
+
+<section>
+  <h2>🧳 Arthur's Possessions (Complete Inventory)</h2>
+  <div class="possessions">
+    <div class="possession">
+      <div class="possession-icon">🥿</div>
+      <div class="possession-name">The Bathrobe</div>
+      <div class="possession-desc">Burgundy. Terrycloth. Survived the apocalypse. Twice.</div>
+    </div>
+    <div class="possession">
+      <div class="possession-icon">🧣</div>
+      <div class="possession-name">The Towel</div>
+      <div class="possession-desc">The most massively useful thing in the universe.</div>
+    </div>
+    <div class="possession">
+      <div class="possession-icon">🫖</div>
+      <div class="possession-name">The Desire for Tea</div>
+      <div class="possession-desc">Unfulfilled. Perpetual. The one constant.</div>
+    </div>
+    <div class="possession">
+      <div class="possession-icon">📖</div>
+      <div class="possession-name">The Guide</div>
+      <div class="possession-desc">Given by Ford. DON'T PANIC. He panicked anyway.</div>
+    </div>
+    <div class="possession">
+      <div class="possession-icon">🧠</div>
+      <div class="possession-name">The Question</div>
+      <div class="possession-desc">To Life, the Universe, and Everything. In his brain. Unknown.</div>
+    </div>
+    <div class="possession">
+      <div class="possession-icon">😤</div>
+      <div class="possession-name">Mild Irritation</div>
+      <div class="possession-desc">His superpower. More reliable than the Improbability Drive.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>👥 The Companions</h2>
+  <div class="rooms">
+    <div class="room">
+      <div class="room-icon">🍺</div>
+      <div class="room-name">FORD PREFECT</div>
+      <div class="room-fact">Not from Guildford. From Betelgeuse. Researcher for the Guide. Named himself after a car thinking they were the dominant species. Saved Arthur. Mostly by accident.</div>
+      <div class="room-quote">"Time is an illusion. Lunchtime doubly so."</div>
+    </div>
+    <div class="room">
+      <div class="room-icon">🤪</div>
+      <div class="room-name">ZAPHOD BEEBLEBROX</div>
+      <div class="room-fact">Two heads. Three arms. President of the Galaxy. Stole the Heart of Gold on his first day. Invented the Pan Galactic Gargle Blaster. Worst best friend in the universe.</div>
+      <div class="room-quote">"If there's anything more important than my ego, I want it caught and shot now."</div>
+    </div>
+    <div class="room">
+      <div class="room-icon">💫</div>
+      <div class="room-name">TRILLIAN</div>
+      <div class="room-fact">Tricia McMillan. Astrophysicist. Left Earth with Zaphod at a party in Islington. The one who got away. Arthur met her first. Of course he did.</div>
+      <div class="room-quote">"She left Earth voluntarily. Arthur still can't believe it."</div>
+    </div>
+    <div class="room">
+      <div class="room-icon">🤖</div>
+      <div class="room-name">MARVIN</div>
+      <div class="room-fact">The Paranoid Android. Brain the size of a planet. Asked to open doors and pick up paper. 50 billion times more intelligent than everyone. 50 billion times more depressed.</div>
+      <div class="room-quote">"Here I am, brain the size of a planet, and they ask me to pick up a piece of paper."</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>📜 Arthur's Menu — What He Actually Wanted</h2>
+  <div class="menu">
+    <div class="menu-item"><span class="menu-dish">🫖 A Proper Cup of Tea</span><span class="menu-note">Never received</span></div>
+    <div class="menu-item"><span class="menu-dish">🏠 His House Back</span><span class="menu-note">Demolished — bypass</span></div>
+    <div class="menu-item"><span class="menu-dish">🌍 His Planet Back</span><span class="menu-note">Demolished — hyperspace bypass</span></div>
+    <div class="menu-item"><span class="menu-dish">📅 A Normal Thursday</span><span class="menu-note">Never had one</span></div>
+    <div class="menu-item"><span class="menu-dish">🛁 A Hot Bath</span><span class="menu-note">Interrupted — Vogons</span></div>
+    <div class="menu-item"><span class="menu-dish">🍺 To Finish His Pint</span><span class="menu-note">Left at the pub</span></div>
+    <div class="menu-item"><span class="menu-dish">😴 A Good Night's Sleep</span><span class="menu-note">Improbability Drive — always midnight</span></div>
+    <div class="menu-item"><span class="menu-dish">🤫 Five Minutes of Quiet</span><span class="menu-note">Marvin talking</span></div>
+    <div class="menu-item"><span class="menu-dish">❓ To Know the Question</span><span class="menu-note">42. But what's the question?</span></div>
+    <div class="menu-item"><span class="menu-dish">🧡 To Be Ordinary</span><span class="menu-note">The only thing the universe wouldn't give him</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>📅 Arthur's Timeline</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">Thursday Morning</div>
+      <div class="tl-event">Wakes up. Lies in front of bulldozer. House demolished.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Thursday 12:00</div>
+      <div class="tl-event">Ford Prefect takes him to the pub. Last pint. Unfinished.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Thursday 12:15</div>
+      <div class="tl-event">Earth demolished by Vogons. Hitchhikes onto Vogon ship.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Thursday 12:17</div>
+      <div class="tl-event">Hears Vogon poetry. Worst pain of his life (so far).</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Thursday 12:25</div>
+      <div class="tl-event">Thrown out of airlock. Picked up by Heart of Gold. Improbability: 2^267,709 to 1 against.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Thursday Afternoon</div>
+      <div class="tl-event">Meets Zaphod, Trillian, Marvin. Wants tea. Gets something almost, but not quite, entirely unlike tea.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Several Thursdays Later</div>
+      <div class="tl-event">Discovers Earth was a supercomputer. Mice want his brain. He still wants tea.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">The End of the Universe</div>
+      <div class="tl-event">Has dinner at Milliways. Dessert before the Big Crunch. Still in his bathrobe.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">∞</div>
+      <div class="tl-event">Mostly harmless. Mostly.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>🌍 The Complete Civilization Arc</h2>
+  <p style="color:#8a7a6a;margin-bottom:1.5rem">65,000 years of human civilization — and one man in a bathrobe who just wanted tea.</p>
+  <div class="civ-index">
+    <a href="../aboriginal/ABORIGINAL.CITY.html" class="civ-link">🌌 Aboriginal — 65,000 BC</a>
+    <a href="../yabroud/YABROUD.CITY.html" class="civ-link">🏛️ Yabroud — The Memory</a>
+    <a href="../shami/SHAMI.CITY.html" class="civ-link">🕌 Damascus — Never Died</a>
+    <a href="../egypt/EGYPT.CITY.html" class="civ-link">☀️ Egypt — Sun God</a>
+    <a href="../india/INDIA.CITY.html" class="civ-link">☸️ India — Eternal Light</a>
+    <a href="../china/CHINA.CITY.html" class="civ-link">🐉 China — Chang'an</a>
+    <a href="../greece/GREECE.CITY.html" class="civ-link">🏛️ Greece — Athens</a>
+    <a href="../aztec/AZTEC.CITY.html" class="civ-link">🦅 Aztec — Tenochtitlan</a>
+    <a href="../arctic/ARCTIC.CITY.html" class="civ-link">❄️ Inuit — People of Ice</a>
+    <a href="../zulu/ZULU.CITY.html" class="civ-link">🛡️ Zulu — Empire Shaker</a>
+    <a href="../viking/VIKING.CITY.html" class="civ-link">⚡ Viking — Children of North</a>
+    <a href="../london/LONDON.CITY.html" class="civ-link">👑 London — Last Refuge</a>
+    <a href="../newyork/NEWYORK.CITY.html" class="civ-link">🗽 New York — Never Sleeps</a>
+    <a href="../brasilia/BRASILIA.CITY.html" class="civ-link">✈️ Brasília — Drawn Before Built</a>
+    <a href="../tokyo/TOKYO.CITY.html" class="civ-link">🗼 Tokyo — Far Future</a>
+    <a href="../yabroud/MORDOR.NET.html" class="civ-link">🔥 Mordor — The Dark</a>
+    <a href="../departure/DEPARTURE.CITY.html" class="civ-link">🚀 Departure — Station Omega</a>
+    <a href="../arrakis/ARRAKIS.CITY.html" class="civ-link">🪱 Arrakis — Reception</a>
+    <a href="../castle/CASTLE.CITY.html" class="civ-link">🏰 The Castle — Architect</a>
+    <a href="../restaurant/RESTAURANT.CITY.html" class="civ-link">🍽️ Milliways — Last Meal</a>
+    <a href="#" class="civ-link" style="border-color:#c4956a;color:#c4956a">🫖 Arthur Dent's — YOU ARE HERE</a>
+  </div>
+</section>
+
+<div class="finale">
+  <p>He lost his house. Then his planet. Then his universe.</p>
+  <p>He still had his bathrobe. He still wanted tea.</p>
+  <p>65,000 years of civilization. 21 worlds visited. One question remaining.</p>
+  <p>The Answer is 42.</p>
+  <p class="final-line">The Question was in the head of a man who just wanted a cup of tea.</p>
+  <p style="margin-top:2rem;color:#c4956a;font-size:1.6rem">🫖 DON'T PANIC 🫖</p>
+</div>
+
+<footer>
+  <p>ARTHUR DENT'S — JuX Civilization Arc · 21 of 21</p>
+  <p style="margin-top:0.5rem"><a href="https://juxaos.com">JuXAOS.com</a> · Built by Wonder Boy & G.</p>
+  <p style="margin-top:0.5rem;font-style:italic;color:#3a2a1a">"So long, and thanks for all the fish." — The Dolphins</p>
+</footer>
+
+<script>
+// Tea steam particles
+const pc=document.getElementById('particles');
+for(let i=0;i<30;i++){
+  const s=document.createElement('div');
+  s.className='tea-steam';
+  s.style.left=Math.random()*100+'%';
+  s.style.bottom='-20px';
+  s.style.height=(40+Math.random()*60)+'px';
+  s.style.animationDelay=Math.random()*4+'s';
+  s.style.animationDuration=(3+Math.random()*3)+'s';
+  pc.appendChild(s);
+}
+// Lightbox
+function openLightbox(img){const lb=document.getElementById('lightbox');document.getElementById('lb-img').src=img.src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
