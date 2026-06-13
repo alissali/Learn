@@ -329,11 +329,54 @@ for(let i=0;i<20;i++){
   <div class="principle"><div class="icon">💀</div><div><h4>VI. ZONING SURVIVES EVIL</h4><p>3-story limit. Rooftop gardens mandatory. Even Sauron cannot override urban planning. The building code is older than the Ring.</p></div></div>
 </section>
 
+<!-- SAURON — THE MAYOR -->
+<section class="district" id="sauron" style="border-top:3px solid var(--lava);margin-top:4rem">
+  <div class="district-header" style="text-align:center;padding:4rem 2rem">
+    <div style="font-size:5rem;margin-bottom:1rem;animation:pulse-lava 2s ease-in-out infinite">👁️‍🗨️</div>
+    <h2 style="font-size:clamp(2.5rem,6vw,4rem);color:var(--lava)">SAURON</h2>
+    <div style="font-size:1.3rem;color:var(--ember);margin-top:.5rem;letter-spacing:4px">MAYOR OF BARAD-DÛR · DARK LORD · URBAN PLANNER</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:80vh" class="sauron-grid">
+    <div style="overflow:hidden;cursor:pointer" onclick="document.getElementById('lightbox-img').src=this.querySelector('img').src;document.getElementById('lightbox').classList.add('active')">
+      <img src="web/SAURON-PORTRAIT.jpg" alt="Sauron - Dark Lord" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .6s" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center;padding:3rem;background:#111">
+      <div style="padding:.8rem 0;border-bottom:1px solid rgba(196,164,74,0.15);color:#aaa;font-size:.95rem"><span style="color:var(--bone)">NAME:</span> Sauron · Mairon · The Deceiver · The Necromancer</div>
+      <div style="padding:.8rem 0;border-bottom:1px solid rgba(196,164,74,0.15);color:#aaa;font-size:.95rem"><span style="color:var(--bone)">RACE:</span> Maia — corrupted by Morgoth before the Sun</div>
+      <div style="padding:.8rem 0;border-bottom:1px solid rgba(196,164,74,0.15);color:#aaa;font-size:.95rem"><span style="color:var(--bone)">OFFICE:</span> Barad-dûr, Floor 66 — Penthouse (THE view)</div>
+      <div style="padding:.8rem 0;border-bottom:1px solid rgba(196,164,74,0.15);color:#aaa;font-size:.95rem"><span style="color:var(--bone)">WEAPON:</span> Black Mace + deceit + excellent zoning policy</div>
+      <div style="padding:.8rem 0;border-bottom:1px solid rgba(196,164,74,0.15);color:#aaa;font-size:.95rem"><span style="color:var(--bone)">RING:</span> The One Ring — GPS for 19 subsidiary rings</div>
+      <div style="padding:.8rem 0;border-bottom:1px solid rgba(196,164,74,0.15);color:#aaa;font-size:.95rem"><span style="color:var(--bone)">EYE:</span> Lidless. 24/7 uptime. Better than CCTV.</div>
+      <div style="padding:.8rem 0;border-bottom:1px solid rgba(196,164,74,0.15);color:#aaa;font-size:.95rem"><span style="color:var(--bone)">STYLE:</span> Micromanager. Watches EVERYTHING. Literally.</div>
+      <div style="padding:.8rem 0;border-bottom:1px solid rgba(196,164,74,0.15);color:#aaa;font-size:.95rem"><span style="color:var(--bone)">WEAKNESS:</span> Hobbits with gardener friends</div>
+      <div style="padding:.8rem 0;color:#aaa;font-size:.95rem"><span style="color:var(--bone)">BORN:</span> Before time — spiritually: 6/6/66 + 60</div>
+      <div style="margin-top:2rem;padding-top:1.5rem;border-top:2px solid var(--lava)">
+        <a href="SAURON.html" style="color:var(--lava);text-decoration:none;font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:3px">👁️ FULL SAURON GALLERY →</a>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2px">
+    <div style="cursor:pointer;overflow:hidden" onclick="document.getElementById('lightbox-img').src=this.querySelector('img').src;document.getElementById('lightbox').classList.add('active')">
+      <img src="web/SAURON-EYE.jpg" alt="The Eye" loading="lazy" style="width:100%;display:block;transition:transform .6s" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="padding:1rem;background:#111;text-align:center;color:var(--lava);font-family:'Cinzel',serif">THE EYE — It never closes</div>
+    </div>
+    <div style="cursor:pointer;overflow:hidden" onclick="document.getElementById('lightbox-img').src=this.querySelector('img').src;document.getElementById('lightbox').classList.add('active')">
+      <img src="web/SAURON-BATTLE.jpg" alt="The Battle" loading="lazy" style="width:100%;display:block;transition:transform .6s" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="padding:1rem;background:#111;text-align:center;color:var(--lava);font-family:'Cinzel',serif">THE BATTLE — The mace swings, kings fall</div>
+    </div>
+  </div>
+</section>
+
+<style>
+@media(max-width:768px){.sauron-grid{grid-template-columns:1fr !important}}
+</style>
+
 <!-- FOOTER -->
 <section class="mordor-footer">
   <div class="eye">👁️</div>
   <h2>ASH NAZG DURBATULÛK</h2>
   <p>One City to rule them all. Built where the caves of Yabroud met the fire of Orodruin. 66 floors. 66,666 souls. Born 6/6/66 + 60.</p>
+  <p style="margin-top:1rem"><a href="SAURON.html" style="color:var(--lava);text-decoration:none;letter-spacing:3px">👁️ SAURON — FULL GALLERY</a> · <a href="YABROUD.CITY.html" style="color:var(--morgul);text-decoration:none;letter-spacing:3px">🌴 YABROUD ORIGINAL</a></p>
   <p style="margin-top:2rem;opacity:0.3;font-size:0.85rem">YABROUD MORDOR — A JuX Vision · The Architect · 2026</p>
 </section>
 

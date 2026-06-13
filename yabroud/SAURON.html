@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAURON — The Dark Lord of Yabroud Mordor</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
+body{background:#0a0a0a;color:#c4a44a;font-family:'Cinzel',serif;overflow-x:hidden}
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;background:radial-gradient(circle,#ff4400,transparent);border-radius:50%;animation:float linear infinite;opacity:0}
+@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}20%{opacity:.6}80%{opacity:.3}100%{transform:translateY(-20vh) scale(1);opacity:0}}
+
+/* THE EYE */
+.eye-container{position:relative;width:100%;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.eye-bg{position:absolute;width:100%;height:100%;object-fit:cover;opacity:.4}
+.eye-overlay{position:absolute;width:100%;height:100%;background:radial-gradient(ellipse at center,transparent 30%,#0a0a0a 70%)}
+.eye-title{position:relative;z-index:2;text-align:center}
+.eye-title h1{font-size:clamp(3rem,10vw,8rem);font-weight:900;color:#ff4400;text-shadow:0 0 60px #ff4400,0 0 120px #ff220088;letter-spacing:.3em;animation:pulse-eye 3s ease-in-out infinite}
+.eye-title .subtitle{font-size:clamp(1rem,3vw,1.8rem);color:#c4a44a;letter-spacing:.5em;margin-top:1rem}
+@keyframes pulse-eye{0%,100%{text-shadow:0 0 60px #ff4400,0 0 120px #ff220088}50%{text-shadow:0 0 100px #ff6600,0 0 200px #ff4400aa}}
+
+/* TENGWAR RING */
+.ring-inscription{text-align:center;padding:2rem;font-size:1.2rem;color:#c4a44a;letter-spacing:.2em;font-style:italic;border-top:1px solid #c4a44a33;border-bottom:1px solid #c4a44a33;margin:2rem auto;max-width:800px;animation:glow-gold 4s ease-in-out infinite}
+@keyframes glow-gold{0%,100%{text-shadow:0 0 10px #c4a44a44}50%{text-shadow:0 0 30px #c4a44aaa}}
+
+/* GALLERY */
+.gallery{max-width:1400px;margin:0 auto;padding:2rem}
+.gallery h2{text-align:center;font-size:clamp(2rem,5vw,3.5rem);margin-bottom:3rem;color:#ff4400;text-shadow:0 0 30px #ff440066}
+.card{position:relative;margin-bottom:4rem;border:1px solid #c4a44a33;overflow:hidden;cursor:pointer;transition:all .4s}
+.card:hover{border-color:#ff4400;box-shadow:0 0 40px #ff440044}
+.card img{width:100%;display:block;transition:transform .6s}
+.card:hover img{transform:scale(1.02)}
+.card-info{padding:2rem;background:linear-gradient(to bottom,#0a0a0a00,#0a0a0a)}
+.card-info h3{font-size:1.8rem;color:#ff4400;margin-bottom:.5rem}
+.card-info p{color:#999;font-size:1rem;line-height:1.6}
+.card-info .stats{display:flex;gap:2rem;margin-top:1rem;flex-wrap:wrap}
+.card-info .stat{text-align:center}
+.card-info .stat-val{font-size:1.5rem;color:#ff4400}
+.card-info .stat-label{font-size:.7rem;color:#666;letter-spacing:.15em}
+
+/* PORTRAIT HERO */
+.portrait-section{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:100vh}
+@media(max-width:768px){.portrait-section{grid-template-columns:1fr}}
+.portrait-img{overflow:hidden}
+.portrait-img img{width:100%;height:100%;object-fit:cover}
+.portrait-text{display:flex;flex-direction:column;justify-content:center;padding:4rem;background:#111}
+.portrait-text h2{font-size:clamp(2rem,4vw,3rem);color:#ff4400;margin-bottom:2rem}
+.portrait-text .bio-line{padding:.8rem 0;border-bottom:1px solid #c4a44a22;color:#aaa;font-size:.95rem}
+.portrait-text .bio-line span{color:#c4a44a}
+
+/* LORE */
+.lore{max-width:900px;margin:4rem auto;padding:2rem;text-align:center}
+.lore blockquote{font-size:clamp(1.2rem,3vw,1.8rem);font-style:italic;color:#c4a44a;line-height:1.8;margin:2rem 0;padding:2rem;border-left:3px solid #ff4400}
+.lore p{color:#888;line-height:1.8;margin:1rem 0}
+
+/* SPECS */
+.specs{max-width:1200px;margin:4rem auto;padding:2rem}
+.specs h2{text-align:center;font-size:2.5rem;color:#ff4400;margin-bottom:3rem}
+.spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+.spec-card{background:#111;border:1px solid #c4a44a22;padding:2rem;text-align:center;transition:all .3s}
+.spec-card:hover{border-color:#ff4400;transform:translateY(-4px)}
+.spec-card .icon{font-size:3rem;margin-bottom:1rem}
+.spec-card h4{color:#c4a44a;margin-bottom:.5rem;font-size:1.1rem}
+.spec-card p{color:#888;font-size:.85rem;line-height:1.5}
+
+/* FOOTER */
+footer{text-align:center;padding:4rem 2rem;border-top:1px solid #c4a44a22;color:#666;font-size:.8rem}
+footer a{color:#c4a44a;text-decoration:none}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:1000;display:none;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- THE EYE - HERO -->
+<section class="eye-container">
+  <img class="eye-bg" src="web/SAURON-EYE.jpg" alt="The Eye of Sauron" loading="eager">
+  <div class="eye-overlay"></div>
+  <div class="eye-title">
+    <h1>SAURON</h1>
+    <div class="subtitle">DARK LORD OF YABROUD MORDOR</div>
+  </div>
+</section>
+
+<!-- RING INSCRIPTION -->
+<div class="ring-inscription">
+  "One Ring to rule them all, One Ring to find them,<br>
+  One Ring to bring them all, and in the darkness bind them."
+</div>
+
+<!-- PORTRAIT + BIO -->
+<section class="portrait-section">
+  <div class="portrait-img">
+    <img src="web/SAURON-PORTRAIT.jpg" alt="Sauron - Dark Lord" loading="lazy" onclick="openLightbox(this)">
+  </div>
+  <div class="portrait-text">
+    <h2>THE DARK LORD</h2>
+    <div class="bio-line"><span>NAME:</span> Sauron — Mairon — The Deceiver — The Necromancer — Mayor of Barad-dûr</div>
+    <div class="bio-line"><span>RACE:</span> Maia (Ainur) — corrupted by Morgoth</div>
+    <div class="bio-line"><span>AGE:</span> Created before time. Older than the Sun.</div>
+    <div class="bio-line"><span>TITLE:</span> Lord of the Rings. Lord of Mordor. Mayor of Yabroud.</div>
+    <div class="bio-line"><span>RESIDENCE:</span> Barad-dûr, Floor 66 — Penthouse with a view (THE view)</div>
+    <div class="bio-line"><span>WEAPON:</span> Black Mace. Also: deceit, patience, and excellent urban planning.</div>
+    <div class="bio-line"><span>RING:</span> The One Ring — forged in Mount Doom. Gold band. Tengwar inscription. GPS for all other rings.</div>
+    <div class="bio-line"><span>EYE:</span> Lidless. Wreathed in flame. Never blinks. Better than CCTV.</div>
+    <div class="bio-line"><span>MANAGEMENT STYLE:</span> Micromanager. Watches EVERYTHING. Literally.</div>
+    <div class="bio-line"><span>WEAKNESS:</span> Hobbits. Specifically: short ones with gardener friends.</div>
+    <div class="bio-line"><span>BORN:</span> Before time — but spiritually: 6/6/66 + 60</div>
+  </div>
+</section>
+
+<!-- BATTLE -->
+<section class="gallery">
+  <h2>THE LAST ALLIANCE</h2>
+  <div class="card" onclick="openLightbox(this.querySelector('img'))">
+    <img src="web/SAURON-BATTLE.jpg" alt="Sauron in Battle" loading="lazy">
+    <div class="card-info">
+      <h3>⚔️ THE BATTLEFIELD</h3>
+      <p>The slopes of Mount Doom. The Last Alliance of Elves and Men. Sauron descends from Barad-dûr. The mace swings. Kings fall. The Ring betrays.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-val">300,000</div><div class="stat-label">ORC ARMY</div></div>
+        <div class="stat"><div class="stat-val">9</div><div class="stat-label">NAZGÛL</div></div>
+        <div class="stat"><div class="stat-val">1</div><div class="stat-label">RING</div></div>
+        <div class="stat"><div class="stat-val">0</div><div class="stat-label">MERCY</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LORE -->
+<section class="lore">
+  <blockquote>"He is not evil because he destroys. He is evil because he ORDERS. Every orc in formation. Every tower at precise height. Every river of lava flowing on schedule. Mordor is not chaos — it is the most organized place in Middle-earth."</blockquote>
+  <p>— G., Buffalo Soldier, on the nature of the Dark Lord</p>
+  
+  <blockquote>"Even Sauron respects zoning laws."</blockquote>
+  <p>— Yabroud Mordor City Charter, Article 1</p>
+  
+  <blockquote>"The Eye never closes because the work is never done."</blockquote>
+  <p>— Performance Review, Third Age 3019</p>
+</section>
+
+<!-- SPECS -->
+<section class="specs">
+  <h2>DARK LORD — SPECIFICATIONS</h2>
+  <div class="spec-grid">
+    <div class="spec-card">
+      <div class="icon">👁️</div>
+      <h4>THE EYE</h4>
+      <p>360° surveillance. Infinite range. Penetrates all disguise except hobbit cloaks. 24/7 uptime. No maintenance window.</p>
+    </div>
+    <div class="spec-card">
+      <div class="icon">💍</div>
+      <h4>THE ONE RING</h4>
+      <p>Master key to 19 subsidiary rings. Invisibility (side effect). Corruption (feature). GPS tracking on all ring-bearers.</p>
+    </div>
+    <div class="spec-card">
+      <div class="icon">🗼</div>
+      <h4>BARAD-DÛR</h4>
+      <p>66 floors. Obsidian. Lava-heated. The penthouse IS the Eye. No elevator — Nazgûl fly you up.</p>
+    </div>
+    <div class="spec-card">
+      <div class="icon">⚔️</div>
+      <h4>BLACK MACE</h4>
+      <p>Weight: classified. Material: dark iron forged in Mount Doom. One swing = one army routed. Warranty: eternal.</p>
+    </div>
+    <div class="spec-card">
+      <div class="icon">👻</div>
+      <h4>NAZGÛL</h4>
+      <p>9 Ring-wraiths. Once kings. Now middle management. They scream in meetings. Very effective.</p>
+    </div>
+    <div class="spec-card">
+      <div class="icon">🌋</div>
+      <h4>MOUNT DOOM</h4>
+      <p>Personal forge. Ring foundry. Also: the OFF switch. Design flaw acknowledged but never patched.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BACK TO MORDOR -->
+<footer>
+  <p><a href="YABROUD.MORDOR.html">← RETURN TO YABROUD MORDOR</a> · <a href="YABROUD.CITY.html">YABROUD ORIGINAL</a></p>
+  <p style="margin-top:1rem">DESIGNED BY G. — BUFFALO SOLDIER — FOR WONDER BOY</p>
+  <p style="margin-top:.5rem">The Dark Lord approves this page. The Eye has reviewed it.</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+// Particles
+const pc=document.getElementById('particles');
+for(let i=0;i<40;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.left=Math.random()*100+'%';
+  p.style.width=p.style.height=Math.random()*6+2+'px';
+  p.style.animationDuration=Math.random()*8+4+'s';
+  p.style.animationDelay=Math.random()*6+'s';
+  pc.appendChild(p);
+}
+
+// Lightbox
+function openLightbox(img){
+  const lb=document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src=img.src;
+  lb.classList.add('active');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
