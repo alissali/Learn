@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ATHENS — City of Wisdom | JuX Civilizations</title>
+<meta name="description" content="Ancient Athens — 9 districts, 12 gods, democracy, philosophy, and marble. A JuX civilization.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0d14;color:#d4c5a0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(180deg,#0a0d14 0%,#141d2e 30%,#1a2540 60%,#0d1520 100%);position:relative;padding:2rem}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(200,180,120,0.08) 0%,transparent 70%)}
+.hero h1{font-size:clamp(3rem,8vw,6rem);color:#c8b478;text-shadow:0 0 40px rgba(200,180,120,0.3);letter-spacing:0.3em;margin-bottom:0.5rem}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#8a9ab5;letter-spacing:0.5em;margin-bottom:2rem}
+.hero .founding{font-size:0.9rem;color:#5a6a7a;font-style:italic}
+.laurel{font-size:4rem;margin-bottom:1rem}
+.section{max-width:1100px;margin:0 auto;padding:3rem 1.5rem}
+h2{font-size:1.8rem;color:#c8b478;text-align:center;margin-bottom:2rem;letter-spacing:0.15em}
+.district{background:rgba(200,180,120,0.03);border:1px solid rgba(200,180,120,0.08);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;transition:all 0.3s}
+.district:hover{border-color:rgba(200,180,120,0.2);background:rgba(200,180,120,0.06);transform:translateY(-2px)}
+.district .icon{font-size:2rem;float:left;margin-right:1rem;margin-top:0.2rem}
+.district h3{color:#c8b478;font-size:1.2rem;margin-bottom:0.5rem}
+.district .fact{color:#8a9ab5;font-size:0.9rem;margin-bottom:0.5rem}
+.district .quote{color:#6a7a5a;font-style:italic;font-size:0.85rem;border-left:2px solid rgba(200,180,120,0.2);padding-left:0.8rem;margin-top:0.5rem;clear:both}
+.gods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:1rem 0}
+.god-card{background:rgba(200,180,120,0.03);border:1px solid rgba(200,180,120,0.08);border-radius:8px;padding:1rem;text-align:center;transition:all 0.3s}
+.god-card:hover{border-color:#c8b478;background:rgba(200,180,120,0.08);transform:translateY(-3px)}
+.god-card .g-icon{font-size:2rem;display:block;margin-bottom:0.5rem}
+.god-card .g-name{color:#c8b478;font-weight:bold;font-size:0.95rem}
+.god-card .g-domain{color:#8a9ab5;font-size:0.75rem;margin-top:0.3rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin:2rem 0}
+.stat{text-align:center;padding:1.5rem;background:rgba(200,180,120,0.03);border:1px solid rgba(200,180,120,0.08);border-radius:8px}
+.stat .number{font-size:2.5rem;color:#c8b478;font-weight:bold}
+.stat .label{color:#8a9ab5;font-size:0.8rem;margin-top:0.3rem;letter-spacing:0.1em}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:1rem 0}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:all 0.4s;border:1px solid rgba(200,180,120,0.15)}
+.gallery img:hover{border-color:#c8b478;transform:scale(1.02);box-shadow:0 8px 30px rgba(200,180,120,0.2)}
+.gallery .cap{text-align:center;color:#8a9ab5;font-size:0.8rem;margin-top:0.3rem;font-style:italic}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;justify-content:center;align-items:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:8px;box-shadow:0 0 60px rgba(200,180,120,0.3)}
+.army-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.army-table th{background:rgba(200,180,120,0.1);color:#c8b478;padding:0.8rem;text-align:left;font-size:0.85rem;letter-spacing:0.1em}
+.army-table td{padding:0.8rem;border-bottom:1px solid rgba(200,180,120,0.05);color:#d4c5a0;font-size:0.85rem}
+.army-table tr:hover{background:rgba(200,180,120,0.03)}
+.philosophy{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin:1rem 0}
+.philosopher{background:rgba(200,180,120,0.03);border:1px solid rgba(200,180,120,0.08);border-radius:8px;padding:1.2rem;text-align:center;transition:all 0.3s}
+.philosopher:hover{border-color:#c8b478;transform:translateY(-2px)}
+.philosopher .ph-name{color:#c8b478;font-size:1.1rem;font-weight:bold;margin-bottom:0.3rem}
+.philosopher .ph-line{color:#8a9ab5;font-size:0.8rem;font-style:italic}
+.divider{text-align:center;padding:1rem 0;color:rgba(200,180,120,0.2);font-size:1.2rem;letter-spacing:1em}
+.charter{text-align:center;font-style:italic;color:#8a9ab5;font-size:1.1rem;max-width:600px;margin:2rem auto;line-height:1.8;border:1px solid rgba(200,180,120,0.1);padding:2rem;border-radius:8px}
+.nav-links{text-align:center;padding:2rem;font-size:0.9rem}
+.nav-links a{color:#c8b478;text-decoration:none;margin:0 0.8rem;transition:color 0.3s}
+.nav-links a:hover{color:#fff}
+.footer{text-align:center;padding:3rem 1rem;color:#3a4a5a;font-size:0.75rem;border-top:1px solid rgba(200,180,120,0.05)}
+canvas#olives{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.hero,.section,.nav-links,.footer{position:relative;z-index:1}
+</style>
+</head>
+<body>
+<canvas id="olives"></canvas>
+
+<div class="hero">
+  <div class="laurel">🏛️</div>
+  <h1>ATHENS</h1>
+  <div class="subtitle">CITY OF WISDOM</div>
+  <div class="founding">Est. ~3000 BCE · Where thought became architecture</div>
+</div>
+
+<div class="section">
+  <h2>🏛️ THE 9 DISTRICTS</h2>
+
+  <div class="district">
+    <span class="icon">🏛️</span>
+    <h3>THE ACROPOLIS</h3>
+    <div class="fact">Sacred rock · 156m altitude · Parthenon: 46 Doric columns · 12m Athena statue inside (gold + ivory) · Built in 15 years</div>
+    <div class="quote">"They put the most expensive thing in the city on top of a rock. Because beauty should be inconvenient."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🏺</span>
+    <h3>THE AGORA</h3>
+    <div class="fact">Market + court + democracy floor · Stoa of Attalos: 2 stories, 42 shops · Voting by pottery shard (ostracism) · Open to all free men</div>
+    <div class="quote">"Where you bought olives and overthrew a tyrant in the same afternoon."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🎭</span>
+    <h3>THEATRE OF DIONYSUS</h3>
+    <div class="fact">17,000 seats · Birthplace of tragedy and comedy · Sophocles, Euripides, Aristophanes all premiered here · Wine included</div>
+    <div class="quote">"They invented drama. Then they sat 17,000 people down and made them feel things."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">📜</span>
+    <h3>THE ACADEMY</h3>
+    <div class="fact">Plato's school · 387 BCE · Lasted 916 years · Curriculum: mathematics, dialectic, astronomy · Entrance exam: geometry</div>
+    <div class="quote">"Let no one ignorant of geometry enter. The first admission requirement in history."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">⚖️</span>
+    <h3>THE PNYX</h3>
+    <div class="fact">Assembly hill · 6,000 citizens voted · Speakers limited to water-clock time · Invented filibuster AND the fix for it</div>
+    <div class="quote">"Democracy was born on a hill. It's been uphill ever since."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">⚓</span>
+    <h3>PIRAEUS — THE PORT</h3>
+    <div class="fact">400 triremes · 3 harbors · Long Walls connected port to city (6km) · Trade: grain, wine, pottery, slaves</div>
+    <div class="quote">"The sea paid for the Parthenon. Every column is a trade route."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🏟️</span>
+    <h3>THE GYMNASIUM</h3>
+    <div class="fact">3 gymnasia: Academy, Lyceum, Cynosarges · Training: wrestling, boxing, javelin · Philosophers taught between bouts · Nude (gymnos = naked)</div>
+    <div class="quote">"They debated the nature of reality. Naked. Covered in olive oil."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🏥</span>
+    <h3>TEMPLE OF ASCLEPIUS</h3>
+    <div class="fact">Healing sanctuary · Patients slept in temple (incubation) · Sacred snakes · Hippocrates trained here · First "Do No Harm"</div>
+    <div class="quote">"The prescription was: sleep in a temple full of snakes. And it worked."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🔥</span>
+    <h3>THE KERAMEIKOS</h3>
+    <div class="fact">Cemetery + pottery quarter · Sacred Way to Eleusis · War dead honored here · Finest black-figure pottery · 1,200 workshops</div>
+    <div class="quote">"Where the dead and the potters share the same clay."</div>
+  </div>
+</div>
+
+<div class="divider">🫒 · 🫒 · 🫒 · 🫒 · 🫒</div>
+
+<div class="section">
+  <h2>🎨 VISIONS OF ATHENS</h2>
+  <div class="gallery">
+    <div><img src="web/GREECE-AERIAL.jpg" alt="Athens Aerial" onclick="openLB(this)" loading="lazy"><div class="cap">Athens — City of Marble and Wisdom</div></div>
+    <div><img src="web/GREECE-PARTHENON.jpg" alt="The Parthenon" onclick="openLB(this)" loading="lazy"><div class="cap">The Parthenon — As the Gods Saw It</div></div>
+    <div><img src="web/GREECE-AGORA.jpg" alt="The Agora" onclick="openLB(this)" loading="lazy"><div class="cap">The Agora — Democracy on the Ground Floor</div></div>
+    <div><img src="web/GREECE-SPARTA.jpg" alt="Spartan Phalanx" onclick="openLB(this)" loading="lazy"><div class="cap">Thermopylae — 300 Who Meant It</div></div>
+    <div><img src="web/GREECE-THEATRE.jpg" alt="Theatre of Epidaurus" onclick="openLB(this)" loading="lazy"><div class="cap">Epidaurus — 14,000 Seats, Perfect Acoustics</div></div>
+    <div><img src="web/GREECE-OLYMPUS.jpg" alt="Mount Olympus" onclick="openLB(this)" loading="lazy"><div class="cap">Olympus — Where the Gods Lean on Columns</div></div>
+  </div>
+</div>
+
+<div id="lb" class="lightbox" onclick="this.classList.remove('active')"><img id="lbImg" src="" alt=""></div>
+
+<div class="divider">⚡ · ⚡ · ⚡ · ⚡ · ⚡</div>
+
+<div class="section">
+  <h2>⚡ THE 12 OLYMPIANS</h2>
+  <div class="gods-grid">
+    <div class="god-card"><span class="g-icon">⚡</span><div class="g-name">ZEUS</div><div class="g-domain">Sky · Thunder · King</div></div>
+    <div class="god-card"><span class="g-icon">🌊</span><div class="g-name">POSEIDON</div><div class="g-domain">Sea · Earthquakes · Horses</div></div>
+    <div class="god-card"><span class="g-icon">🦉</span><div class="g-name">ATHENA</div><div class="g-domain">Wisdom · War · Crafts</div></div>
+    <div class="god-card"><span class="g-icon">☀️</span><div class="g-name">APOLLO</div><div class="g-domain">Sun · Music · Prophecy</div></div>
+    <div class="god-card"><span class="g-icon">🏹</span><div class="g-name">ARTEMIS</div><div class="g-domain">Hunt · Moon · Wild</div></div>
+    <div class="god-card"><span class="g-icon">🌹</span><div class="g-name">APHRODITE</div><div class="g-domain">Love · Beauty · Desire</div></div>
+    <div class="god-card"><span class="g-icon">⚔️</span><div class="g-name">ARES</div><div class="g-domain">War · Violence · Courage</div></div>
+    <div class="god-card"><span class="g-icon">🔨</span><div class="g-name">HEPHAESTUS</div><div class="g-domain">Forge · Fire · Craft</div></div>
+    <div class="god-card"><span class="g-icon">👟</span><div class="g-name">HERMES</div><div class="g-domain">Speed · Thieves · Messages</div></div>
+    <div class="god-card"><span class="g-icon">🌾</span><div class="g-name">DEMETER</div><div class="g-domain">Harvest · Seasons · Earth</div></div>
+    <div class="god-card"><span class="g-icon">🍷</span><div class="g-name">DIONYSUS</div><div class="g-domain">Wine · Theatre · Ecstasy</div></div>
+    <div class="god-card"><span class="g-icon">🔥</span><div class="g-name">HESTIA</div><div class="g-domain">Hearth · Home · Sacred Fire</div></div>
+  </div>
+</div>
+
+<div class="divider">🫒 · 🫒 · 🫒 · 🫒 · 🫒</div>
+
+<div class="section">
+  <h2>🧠 THE PHILOSOPHERS</h2>
+  <div class="philosophy">
+    <div class="philosopher"><div class="ph-name">SOCRATES</div><div class="ph-line">"I know that I know nothing." — Then proved everyone else knew less.</div></div>
+    <div class="philosopher"><div class="ph-name">PLATO</div><div class="ph-line">"The cave is comfortable. That's the problem."</div></div>
+    <div class="philosopher"><div class="ph-name">ARISTOTLE</div><div class="ph-line">"Tutored Alexander. Alexander conquered the world. The tutor conquered time."</div></div>
+    <div class="philosopher"><div class="ph-name">DIOGENES</div><div class="ph-line">"Lived in a barrel. Told Alexander to move — he was blocking the sun."</div></div>
+    <div class="philosopher"><div class="ph-name">PYTHAGORAS</div><div class="ph-line">"a² + b² = c². Also, don't eat beans. Both were non-negotiable."</div></div>
+    <div class="philosopher"><div class="ph-name">HERACLITUS</div><div class="ph-line">"You cannot step in the same river twice. The river moved. So did you."</div></div>
+  </div>
+</div>
+
+<div class="divider">⚡ · ⚡ · ⚡ · ⚡ · ⚡</div>
+
+<div class="section">
+  <h2>⚔️ THE GREEK MILITARY</h2>
+  <table class="army-table">
+    <thead><tr><th>Unit</th><th>Strength</th><th>Weapon</th><th>Fame</th></tr></thead>
+    <tbody>
+      <tr><td>🛡️ Hoplites</td><td>30,000</td><td>Dory spear + aspis shield</td><td>Phalanx formation — unbreakable</td></tr>
+      <tr><td>🏹 Toxotai</td><td>5,000</td><td>Composite bow</td><td>Cretan archers — best in Mediterranean</td></tr>
+      <tr><td>⚓ Trireme Fleet</td><td>400 ships</td><td>Bronze ram + 170 oarsmen</td><td>Salamis — 370 vs 1,200 Persian ships. Won.</td></tr>
+      <tr><td>🐴 Hippeis</td><td>1,200</td><td>Javelin + sword</td><td>Thessalian cavalry — Alexander's hammer</td></tr>
+      <tr><td>💀 Spartan Elite</td><td>10,000</td><td>Xiphos sword + shield</td><td>Training from age 7. Professional soldiers.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="divider">🫒 · 🫒 · 🫒 · 🫒 · 🫒</div>
+
+<div class="section">
+  <h2>📊 ATHENS IN NUMBERS</h2>
+  <div class="stats">
+    <div class="stat"><div class="number" data-target="300000">0</div><div class="label">POPULATION</div></div>
+    <div class="stat"><div class="number" data-target="12">0</div><div class="label">OLYMPIAN GODS</div></div>
+    <div class="stat"><div class="number" data-target="400">0</div><div class="label">TRIREMES</div></div>
+    <div class="stat"><div class="number" data-target="916">0</div><div class="label">YEARS THE ACADEMY LASTED</div></div>
+    <div class="stat"><div class="number" data-target="17000">0</div><div class="label">THEATRE SEATS</div></div>
+    <div class="stat"><div class="number" data-target="46">0</div><div class="label">PARTHENON COLUMNS</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="charter">
+    🏛️ CHARTER OF ATHENS 🏛️<br><br>
+    "Build nothing the mind would reject.<br>
+    Debate everything. Settle nothing permanently.<br>
+    The olive tree Athena planted still grows.<br>
+    So must the questions."
+  </div>
+</div>
+
+<div class="nav-links">
+  <a href="../yabroud/YABROUD.CITY.html">🌴 Yabroud</a>
+  <a href="../yabroud/MORDOR.NET.html">🔥 Mordor</a>
+  <a href="../yabroud/EGYPT.CITY.html">☥ Egypt</a>
+  <a href="../aztec/AZTEC.CITY.html">🦅 Aztec</a>
+  <span style="color:#c8b478;border-bottom:1px solid #c8b478">🏛️ Greece</span>
+</div>
+
+<div class="footer">
+  ATHENS — City of Wisdom · A JuX Civilization · Built by G. for Wonder Boy · ☀️<br>
+  <span style="color:#5a6a7a">aRchitect / softwaRe expeRt / Soft SeX StoRy telleR</span>
+</div>
+
+<script>
+function openLB(el){document.getElementById('lbImg').src=el.src;document.getElementById('lb').classList.add('active')}
+
+// Olive leaf particles
+const canvas=document.getElementById('olives'),ctx=canvas.getContext('2d');
+let W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+const leaves=Array.from({length:80},()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*6+3,d:Math.random()*2-1,v:Math.random()*0.5+0.2,r:Math.random()*Math.PI*2,rv:Math.random()*0.02-0.01,a:Math.random()*0.3+0.1}));
+function drawLeaf(l){ctx.save();ctx.translate(l.x,l.y);ctx.rotate(l.r);ctx.beginPath();ctx.ellipse(0,0,l.s,l.s/3,0,0,Math.PI*2);ctx.fillStyle=`rgba(107,142,35,${l.a})`;ctx.fill();ctx.restore()}
+function animate(){ctx.clearRect(0,0,W,H);leaves.forEach(l=>{l.y+=l.v;l.x+=l.d*0.3;l.r+=l.rv;if(l.y>H+10){l.y=-10;l.x=Math.random()*W}if(l.x<-10)l.x=W+10;if(l.x>W+10)l.x=-10;drawLeaf(l)});requestAnimationFrame(animate)}
+animate();
+
+// Counter animation
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target;const target=+el.dataset.target;const dur=2000;const start=performance.now();const step=ts=>{const p=Math.min((ts-start)/dur,1);el.textContent=Math.floor(p*target).toLocaleString();if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step);observer.unobserve(el)}})},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
