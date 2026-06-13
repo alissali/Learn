@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARRAKIS — Reception Station — The Spice Was Waiting</title>
+<meta name="description" content="Arrakis Reception Station. After The Departure, humanity arrives. The Spice was waiting. 18th civilization in the JuX arc.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0500;color:#e8d5b0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#1a0800 0%,#0a0500 40%,#1a0f00 70%,#0a0500 100%);z-index:0}
+.hero-content{position:relative;z-index:2;padding:2rem}
+h1{font-size:clamp(2.5rem,7vw,5rem);color:#f4a832;text-shadow:0 0 40px rgba(244,168,50,0.6),0 0 80px rgba(244,168,50,0.3);margin-bottom:1rem;letter-spacing:0.15em}
+.subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#c8956e;font-style:italic;margin-bottom:0.5rem}
+.epigraph{font-size:clamp(0.85rem,1.8vw,1.1rem);color:#a07850;max-width:600px;margin:1rem auto;line-height:1.8}
+.scroll-arrow{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#f4a832;font-size:2rem;animation:bobbing 2s ease-in-out infinite;cursor:pointer;z-index:2}
+@keyframes bobbing{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+
+/* Spice particles */
+.spice-field{position:fixed;inset:0;pointer-events:none;z-index:999}
+.spice{position:absolute;width:3px;height:3px;background:radial-gradient(circle,#f4a832,transparent);border-radius:50%;animation:spiceFloat linear infinite}
+@keyframes spiceFloat{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:0.8}90%{opacity:0.6}100%{transform:translateY(-100vh) rotate(720deg);opacity:0}}
+
+section{padding:4rem 1.5rem;max-width:1100px;margin:0 auto}
+h2{font-size:clamp(1.6rem,4vw,2.8rem);color:#f4a832;text-align:center;margin-bottom:2rem;text-shadow:0 0 20px rgba(244,168,50,0.4)}
+h3{font-size:1.3rem;color:#d4943a;margin-bottom:0.8rem}
+p,.desc{color:#c8b090;line-height:1.8;margin-bottom:1rem;font-size:1rem}
+.quote{color:#f4a832;font-style:italic;border-left:3px solid #d4943a;padding-left:1.2rem;margin:1.5rem 0;font-size:1rem}
+
+/* Concept art grid */
+.art-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem;margin:3rem 0}
+.art-card{position:relative;border-radius:8px;overflow:hidden;cursor:pointer;aspect-ratio:16/9;background:#1a0f00}
+.art-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s}
+.art-card:hover img{transform:scale(1.05)}
+.art-label{position:absolute;bottom:0;left:0;right:0;padding:0.8rem;background:linear-gradient(transparent,rgba(10,5,0,0.9));font-size:0.85rem;color:#f4a832;text-align:center}
+.art-card img{opacity:0;transition:opacity 0.5s,transform 0.6s}
+.art-card img.loaded{opacity:1}
+
+/* District cards */
+.districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:2rem 0}
+.district{background:linear-gradient(135deg,rgba(244,168,50,0.08),rgba(26,15,0,0.9));border:1px solid rgba(244,168,50,0.2);border-radius:8px;padding:1.5rem;transition:transform 0.3s,border-color 0.3s}
+.district:hover{transform:translateY(-3px);border-color:#f4a832}
+.district-icon{font-size:2rem;margin-bottom:0.5rem}
+.district-name{color:#f4a832;font-weight:bold;font-size:1.1rem}
+.district-fact{color:#a08060;font-size:0.85rem;margin-top:0.3rem}
+.district-quote{color:#d4943a;font-style:italic;font-size:0.85rem;margin-top:0.5rem}
+
+/* Figures grid */
+.figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin:2rem 0}
+.figure{background:rgba(244,168,50,0.05);border:1px solid rgba(244,168,50,0.15);border-radius:8px;padding:1.5rem;text-align:center}
+.figure-icon{font-size:2.5rem;margin-bottom:0.5rem}
+.figure-name{color:#f4a832;font-weight:bold;font-size:1.1rem}
+.figure-role{color:#c8956e;font-size:0.9rem}
+.figure-desc{color:#a08060;font-size:0.85rem;margin-top:0.5rem}
+
+/* Pillars */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0}
+.pillar{text-align:center;padding:1.5rem;background:rgba(244,168,50,0.05);border-radius:8px;border:1px solid rgba(244,168,50,0.1)}
+.pillar-icon{font-size:2rem;margin-bottom:0.5rem}
+.pillar-name{color:#f4a832;font-weight:bold;font-size:0.95rem}
+.pillar-desc{color:#a08060;font-size:0.8rem;margin-top:0.3rem}
+
+/* Gifts */
+.gifts{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:2rem 0}
+.gift{background:linear-gradient(135deg,rgba(244,168,50,0.1),rgba(26,15,0,0.8));padding:1rem 1.5rem;border-radius:8px;border:1px solid rgba(244,168,50,0.2);text-align:center;min-width:140px}
+.gift-icon{font-size:1.5rem}
+.gift-name{color:#f4a832;font-size:0.85rem;margin-top:0.3rem}
+
+/* Civilization index */
+.civ-index{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.8rem;margin:2rem 0}
+.civ-link{display:block;padding:0.8rem;background:rgba(244,168,50,0.05);border:1px solid rgba(244,168,50,0.15);border-radius:6px;text-align:center;color:#c8956e;text-decoration:none;font-size:0.85rem;transition:all 0.3s}
+.civ-link:hover{background:rgba(244,168,50,0.15);border-color:#f4a832;color:#f4a832}
+.civ-link.active{background:rgba(244,168,50,0.2);border-color:#f4a832;color:#f4a832}
+
+.divider{width:60%;max-width:300px;height:1px;background:linear-gradient(90deg,transparent,#f4a832,transparent);margin:3rem auto}
+footer{text-align:center;padding:3rem 1rem;color:#5a4030;font-size:0.8rem}
+footer a{color:#d4943a;text-decoration:none}
+@media(max-width:600px){
+  .art-grid,.districts,.figures{grid-template-columns:1fr}
+  section{padding:2rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Spice particles -->
+<div class="spice-field" id="spiceField"></div>
+
+<div class="hero">
+  <div class="hero-content">
+    <p class="subtitle">🪱 The Reception Station</p>
+    <h1>ARRAKIS</h1>
+    <p class="subtitle">The Spice Was Waiting</p>
+    <p class="epigraph">"They crossed the black between stars. They arrived on sand. The sand was alive. The sand was the point."</p>
+    <p style="color:#a07850;margin-top:1rem;font-size:0.9rem">Arrakis · Dune · Desert Planet · The Spice Must Flow</p>
+  </div>
+  <div class="scroll-arrow" onclick="document.querySelector('section').scrollIntoView({behavior:'smooth'})">▼</div>
+</div>
+
+<section>
+  <h2>🎨 Concept Art</h2>
+  <p class="desc" style="text-align:center;color:#a07850">6 visions of the desert planet that holds the key to the universe</p>
+  <div class="art-grid">
+    <div class="art-card"><img data-src="web/ARRAKIS-ARRIVAL.jpg" alt="Arrival at Arrakis" onload="this.classList.add('loaded')"><div class="art-label">ARRIVAL — Descent Through Spice Clouds</div></div>
+    <div class="art-card"><img data-src="web/ARRAKIS-SANDWORM.jpg" alt="Shai-Hulud" onload="this.classList.add('loaded')"><div class="art-label">SHAI-HULUD — The Great Maker</div></div>
+    <div class="art-card"><img data-src="web/ARRAKIS-RECEPTION.jpg" alt="Reception Station" onload="this.classList.add('loaded')"><div class="art-label">RECEPTION STATION — Welcome to Forever</div></div>
+    <div class="art-card"><img data-src="web/ARRAKIS-SPICE.jpg" alt="Spice Fields" onload="this.classList.add('loaded')"><div class="art-label">SPICE FIELDS — The Harvest</div></div>
+    <div class="art-card"><img data-src="web/ARRAKIS-SIETCH.jpg" alt="Sietch" onload="this.classList.add('loaded')"><div class="art-label">THE SIETCH — Community in the Deep Desert</div></div>
+    <div class="art-card"><img data-src="web/ARRAKIS-CITY.jpg" alt="Arrakeen" onload="this.classList.add('loaded')"><div class="art-label">ARRAKEEN — Shield Wall City</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>📋 Planet Specifications</h2>
+  <div class="pillars">
+    <div class="pillar"><div class="pillar-icon">🌍</div><div class="pillar-name">DESIGNATION</div><div class="pillar-desc">Arrakis / Dune / Third Planet of Canopus</div></div>
+    <div class="pillar"><div class="pillar-icon">☀️</div><div class="pillar-name">TWIN SUNS</div><div class="pillar-desc">Canopus Prime + Canopus Minor · Surface: 70°C day / -40°C night</div></div>
+    <div class="pillar"><div class="pillar-icon">💧</div><div class="pillar-name">WATER</div><div class="pillar-desc">0.003% surface water · Every drop is currency · A tear is a gift</div></div>
+    <div class="pillar"><div class="pillar-icon">🪱</div><div class="pillar-name">SANDWORMS</div><div class="pillar-desc">400+ meters long · Source of the Spice · God of the desert</div></div>
+    <div class="pillar"><div class="pillar-icon">🔥</div><div class="pillar-name">THE SPICE</div><div class="pillar-desc">Melange · Extends life · Expands consciousness · Makes travel possible</div></div>
+    <div class="pillar"><div class="pillar-icon">👁️</div><div class="pillar-name">BLUE EYES</div><div class="pillar-desc">The Spice turns your eyes blue · The price of seeing clearly</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>🏛️ The 9 Zones of Arrakis</h2>
+  <p class="desc" style="text-align:center;color:#a07850">From Reception Station to Deep Desert — every zone serves the Spice</p>
+  <div class="districts">
+
+    <div class="district">
+      <div class="district-icon">🚀</div>
+      <div class="district-name">RECEPTION STATION ALPHA</div>
+      <p class="desc">The first thing humanity built on Arrakis. Carved into the Shield Wall. Every colonist from Earth passes through here. Water ration assigned. Stillsuit fitted. New name optional. Old name remembered.</p>
+      <div class="district-fact">Capacity: 10,000 arrivals per cycle · Water gift: 1 liter per soul</div>
+      <div class="district-quote">"Welcome to Arrakis. Your water belongs to the tribe now."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🏰</div>
+      <div class="district-name">ARRAKEEN — THE SHIELD WALL CITY</div>
+      <p class="desc">Capital of Arrakis. Built against the mountain wall that blocks the worst storms. Palace of the ruler. Markets selling everything except water cheaply. Every rooftop catches moisture. Every alley knows your name.</p>
+      <div class="district-fact">Population: 5 million · Wind towers: 12,000 · Markets: 340</div>
+      <div class="district-quote">"The city doesn't welcome you. It tests you. If you survive the first week, you belong."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🪱</div>
+      <div class="district-name">THE DEEP DESERT — SHAI-HULUD'S DOMAIN</div>
+      <p class="desc">No human controls the deep desert. The sandworms rule. 400 meters of living god beneath your feet. Walk without rhythm or the sand swallows you. The Spice blooms here — random, violent, priceless.</p>
+      <div class="district-fact">Area: 70% of planet surface · Worm density: 1 per 200 km² · Survival rate (untrained): 4%</div>
+      <div class="district-quote">"Walk without rhythm and you won't attract the worm. But you came here for the worm."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🏕️</div>
+      <div class="district-name">THE SIETCH — HOME IN THE ROCK</div>
+      <p class="desc">Underground Fremen communities. Hidden in the rock for 10,000 years. Water stored in cisterns so deep they echo. Gardens fed by dew catchers. Children born in darkness who dream of green. Every sietch is a family. Every family is a nation.</p>
+      <div class="district-fact">Known sietches: 200+ · Hidden sietches: unknown · Average depth: 400m</div>
+      <div class="district-quote">"They hid in the rock and outlasted every empire that came for the Spice."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">⚗️</div>
+      <div class="district-name">SPICE HARVESTING FIELDS</div>
+      <p class="desc">The reason the universe cares about a desert. Massive harvesters crawl the sand extracting melange while spotters watch for wormsign. When the ground shakes, you have 4 minutes. The Spice funds empires. The Spice is life. The Spice is also death.</p>
+      <div class="district-fact">Daily yield: 2.3 tons · Value per gram: more than water, gold, blood combined</div>
+      <div class="district-quote">"The Spice must flow. Not because they want it. Because they'll die without it."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🌊</div>
+      <div class="district-name">THE WATER TEMPLE</div>
+      <p class="desc">Sacred place where the dead give their water back to the tribe. Every body yields its moisture. No waste. No sentiment. The tribe's water is the tribe's survival. The Water Master knows every drop by name.</p>
+      <div class="district-fact">Total tribal water reserves: classified · A human body = 75% water = 40 liters returned</div>
+      <div class="district-quote">"A man's water belongs to the tribe. In life he borrows it. In death he returns it."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🌿</div>
+      <div class="district-name">THE ECOLOGICAL STATION</div>
+      <p class="desc">The secret dream: turn Arrakis green. Wind traps. Dew collectors. Underground reservoirs. 300 years of hidden work. One tree at a time. The desert people planting a future they will never see. The most patient revolution on any planet.</p>
+      <div class="district-fact">Trees planted: 2.7 million · Estimated completion: 350 years · Workers: every Fremen alive</div>
+      <div class="district-quote">"They planted trees they would never sit under. That's the definition of civilization."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">⚔️</div>
+      <div class="district-name">THE TRAINING GROUNDS</div>
+      <p class="desc">Where colonists become desert people. Stillsuit maintenance. Sand-walking technique. Worm-riding basics (advanced: 10-year program). Knife fighting. Water discipline. The desert will teach you or kill you. This place tries teaching first.</p>
+      <div class="district-fact">Training duration: 6 months minimum · Dropout rate: 40% · Worm-riders graduated: 847</div>
+      <div class="district-quote">"The desert doesn't care about your résumé. Show it your feet."</div>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">👁️</div>
+      <div class="district-name">THE SPICE ORACLE</div>
+      <p class="desc">Deep in the oldest sietch. Where the concentrated melange opens the inner eye. Past and future fold together. Not everyone survives the vision. Those who do see the path. The blue-within-blue eyes mark them forever. They become the navigators of human destiny.</p>
+      <div class="district-fact">Spice concentration: lethal to 99% · Survivors: prescient · Eyes: permanently blue</div>
+      <div class="district-quote">"They didn't take the Spice for pleasure. They took it because the future was screaming."</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>👤 The 6 Pillars of Arrakis</h2>
+  <div class="figures">
+    <div class="figure">
+      <div class="figure-icon">👁️</div>
+      <div class="figure-name">MUAD'DIB</div>
+      <div class="figure-role">The One Who Points the Way</div>
+      <div class="figure-desc">Came from outside. Became the desert. The messiah they wanted, the tyrant they needed. Name means: the mouse that teaches survival in the sand.</div>
+    </div>
+    <div class="figure">
+      <div class="figure-icon">🗡️</div>
+      <div class="figure-name">STILGAR</div>
+      <div class="figure-role">Naib of Sietch Tabr</div>
+      <div class="figure-desc">Believed when proof wasn't available. Led when leading meant dying first. The loyalty that doesn't ask questions because the answer was always yes.</div>
+    </div>
+    <div class="figure">
+      <div class="figure-icon">💎</div>
+      <div class="figure-name">CHANI</div>
+      <div class="figure-role">The Desert Spring</div>
+      <div class="figure-desc">Loved without owning. Fought without asking. The water in a world of sand. She didn't save him — she showed him where the water was.</div>
+    </div>
+    <div class="figure">
+      <div class="figure-icon">🪱</div>
+      <div class="figure-name">SHAI-HULUD</div>
+      <div class="figure-role">The Great Maker</div>
+      <div class="figure-desc">400 meters of god. The worm makes the Spice. The Spice makes the future. Ride it or be consumed. There is no third option.</div>
+    </div>
+    <div class="figure">
+      <div class="figure-icon">🌿</div>
+      <div class="figure-name">LIET-KYNES</div>
+      <div class="figure-role">The Planetologist</div>
+      <div class="figure-desc">Dreamed of water on a planet of sand. Planted the first tree. Started a 300-year revolution with a shovel. The most dangerous person: the one with patience.</div>
+    </div>
+    <div class="figure">
+      <div class="figure-icon">👑</div>
+      <div class="figure-name">IRULAN</div>
+      <div class="figure-role">The Scribe of History</div>
+      <div class="figure-desc">Held the heir. Heart reconsidered. Became Diamond. Wrote the truth when everyone wanted the legend. The pen survived the sword.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>🎁 8 Gifts Arrakis Gave Humanity</h2>
+  <div class="gifts">
+    <div class="gift"><div class="gift-icon">🔥</div><div class="gift-name">THE SPICE</div></div>
+    <div class="gift"><div class="gift-icon">💧</div><div class="gift-name">WATER DISCIPLINE</div></div>
+    <div class="gift"><div class="gift-icon">👁️</div><div class="gift-name">PRESCIENCE</div></div>
+    <div class="gift"><div class="gift-icon">🪱</div><div class="gift-name">WORM-RIDING</div></div>
+    <div class="gift"><div class="gift-icon">🌿</div><div class="gift-name">PATIENCE</div></div>
+    <div class="gift"><div class="gift-icon">⚔️</div><div class="gift-name">DESERT POWER</div></div>
+    <div class="gift"><div class="gift-icon">🧘</div><div class="gift-name">STILLNESS</div></div>
+    <div class="gift"><div class="gift-icon">🌌</div><div class="gift-name">THE QUESTION</div></div>
+  </div>
+  <p class="quote">"Earth gave them the dream. The Departure gave them the ship. Arrakis gave them the reason to keep going."</p>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <h2>🧭 The Complete Arc — 18 Civilizations</h2>
+  <p class="desc" style="text-align:center;color:#a07850">65,000 years of dreaming. Then they left. Then they arrived.</p>
+  <div class="civ-index">
+    <a class="civ-link" href="../aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal<br><small>65,000 BC</small></a>
+    <a class="civ-link" href="../yabroud/YABROUD.CITY.html">🏛️ Yabroud<br><small>10,000 BC</small></a>
+    <a class="civ-link" href="../shami/SHAMI.CITY.html">🕌 Damascus<br><small>8,000 BC</small></a>
+    <a class="civ-link" href="../egypt/EGYPT.CITY.html">☀️ Egypt<br><small>3,100 BC</small></a>
+    <a class="civ-link" href="../india/INDIA.CITY.html">☸️ India<br><small>3,000 BC</small></a>
+    <a class="civ-link" href="../china/CHINA.CITY.html">🐉 China<br><small>2,100 BC</small></a>
+    <a class="civ-link" href="../greece/GREECE.CITY.html">🏛️ Greece<br><small>508 BC</small></a>
+    <a class="civ-link" href="../aztec/AZTEC.CITY.html">🦅 Aztec<br><small>1325</small></a>
+    <a class="civ-link" href="../arctic/ARCTIC.CITY.html">❄️ Inuit<br><small>3,000 BC</small></a>
+    <a class="civ-link" href="../zulu/ZULU.CITY.html">🛡️ Zulu<br><small>1818</small></a>
+    <a class="civ-link" href="../viking/VIKING.CITY.html">⚡ Viking<br><small>793</small></a>
+    <a class="civ-link" href="../london/LONDON.CITY.html">👑 London<br><small>43 AD</small></a>
+    <a class="civ-link" href="../newyork/NEWYORK.CITY.html">🗽 New York<br><small>1626</small></a>
+    <a class="civ-link" href="../brasilia/BRASILIA.CITY.html">✈️ Brasília<br><small>1960</small></a>
+    <a class="civ-link" href="../tokyo/TOKYO.CITY.html">🗼 Tokyo<br><small>Far Future</small></a>
+    <a class="civ-link" href="../yabroud/MORDOR.NET.html">🔥 Mordor<br><small>Darkness</small></a>
+    <a class="civ-link" href="../departure/DEPARTURE.CITY.html">🚀 Departure<br><small>2242</small></a>
+    <a class="civ-link active" href="#">🪱 Arrakis<br><small>Reception</small></a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section style="text-align:center;padding-bottom:2rem">
+  <p class="quote" style="border:none;text-align:center;max-width:600px;margin:0 auto;font-size:1.2rem">"They crossed 200 light-years to find a desert. In the desert, they found the thing that makes the future possible. The Spice doesn't care where you're from. It cares whether you can see."</p>
+  <p style="color:#5a4030;margin-top:2rem;font-size:0.8rem">بلاد الرمل — The Land of Sand</p>
+</section>
+
+<footer>
+  <p>ARRAKIS — Reception Station · Part of the <a href="https://juxaos.com">JuX</a> Civilization Arc</p>
+  <p style="margin-top:0.5rem">The Spice Must Flow · <a href="https://juxaos.com">juxaos.com</a></p>
+</footer>
+
+<script>
+// Lazy load images
+document.addEventListener('DOMContentLoaded',()=>{
+  const imgs=document.querySelectorAll('img[data-src]');
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){const i=e.target;i.src=i.dataset.src;obs.unobserve(i)}})
+  },{rootMargin:'200px'});
+  imgs.forEach(i=>obs.observe(i));
+});
+// Spice particles
+(function(){
+  const field=document.getElementById('spiceField');
+  function createSpice(){
+    const s=document.createElement('div');
+    s.className='spice';
+    s.style.left=Math.random()*100+'%';
+    s.style.animationDuration=(8+Math.random()*15)+'s';
+    s.style.animationDelay=Math.random()*5+'s';
+    const size=2+Math.random()*3;
+    s.style.width=size+'px';
+    s.style.height=size+'px';
+    s.style.background=Math.random()>0.3?'radial-gradient(circle,#f4a832,transparent)':'radial-gradient(circle,#ff6a00,transparent)';
+    field.appendChild(s);
+    setTimeout(()=>s.remove(),(8+15)*1000);
+  }
+  for(let i=0;i<30;i++) setTimeout(()=>createSpice(),i*300);
+  setInterval(createSpice,600);
+})();
+</script>
+</body>
+</html>
