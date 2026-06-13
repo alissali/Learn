@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE DREAMING — 65,000 Years Unbroken</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0a00;color:#f4e8d0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.stars-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;z-index:1}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 80%,rgba(180,60,0,0.3),transparent 70%);pointer-events:none}
+.hero-icon{font-size:6rem;margin-bottom:1rem;animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.05);filter:brightness(1.3)}}
+h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;letter-spacing:0.15em;color:#e8a040;text-shadow:0 0 40px rgba(200,100,0,0.5);margin-bottom:0.5rem}
+.subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#c89060;letter-spacing:0.3em;text-transform:uppercase}
+.tagline{font-style:italic;color:#a87040;margin-top:1rem;font-size:1.1rem}
+.divider{text-align:center;padding:1.5rem 0;font-size:1.5rem;letter-spacing:0.5em;color:#e8a040;opacity:0.6}
+.section{max-width:1000px;margin:0 auto 3rem;padding:0 1.5rem;position:relative;z-index:1}
+.section-title{font-size:clamp(1.5rem,3.5vw,2.2rem);color:#e8a040;text-align:center;margin-bottom:0.3rem;letter-spacing:0.1em}
+.section-subtitle{text-align:center;color:#a87040;font-style:italic;margin-bottom:2rem;font-size:0.95rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem}
+.card{background:rgba(180,80,0,0.08);border:1px solid rgba(200,120,40,0.2);border-radius:12px;padding:1.5rem;transition:all 0.3s ease}
+.card:hover{border-color:#e8a040;transform:translateY(-3px);box-shadow:0 8px 30px rgba(200,100,0,0.15)}
+.card-icon{font-size:2.5rem;margin-bottom:0.8rem}
+.card-name{font-size:1.2rem;color:#e8a040;font-weight:700;margin-bottom:0.3rem}
+.card-pop{font-size:0.85rem;color:#c89060;margin-bottom:0.5rem}
+.card-fact{font-size:0.9rem;color:#d4b896;line-height:1.6;margin-bottom:0.8rem}
+.card-quote{font-style:italic;color:#a87040;font-size:0.85rem;border-left:2px solid rgba(200,120,40,0.3);padding-left:0.8rem}
+.stats-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;padding:2rem 0;margin:2rem 0;border-top:1px solid rgba(200,120,40,0.15);border-bottom:1px solid rgba(200,120,40,0.15)}
+.stat{text-align:center}
+.stat-num{font-size:2rem;color:#e8a040;font-weight:700}
+.stat-label{font-size:0.8rem;color:#a87040;text-transform:uppercase;letter-spacing:0.1em}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin:2rem 0}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:transform 0.3s;border:1px solid rgba(200,120,40,0.2)}
+.gallery img:hover{transform:scale(1.03);border-color:#e8a040}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:92%;max-height:92%;border-radius:8px}
+.table-wrap{overflow-x:auto;margin:2rem 0}
+table{width:100%;border-collapse:collapse}
+th{background:rgba(180,80,0,0.2);color:#e8a040;padding:0.8rem;text-align:left;font-size:0.85rem;letter-spacing:0.05em}
+td{padding:0.8rem;border-bottom:1px solid rgba(200,120,40,0.1);font-size:0.9rem;color:#d4b896}
+tr:hover td{background:rgba(180,80,0,0.05)}
+.charter{max-width:700px;margin:2rem auto;padding:2rem;background:rgba(180,80,0,0.05);border:1px solid rgba(200,120,40,0.2);border-radius:12px;text-align:center}
+.charter p{color:#c89060;font-style:italic;font-size:1.1rem;line-height:1.8}
+.footer{text-align:center;padding:3rem 1rem;color:#a87040;font-size:0.85rem;border-top:1px solid rgba(200,120,40,0.1)}
+.footer a{color:#e8a040;text-decoration:none}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.gallery{grid-template-columns:1fr}.stats-bar{gap:1rem}}
+</style>
+</head>
+<body>
+
+<canvas class="stars-bg" id="starfield"></canvas>
+
+<header class="hero">
+  <div class="hero-icon">🌌</div>
+  <h1>THE DREAMING</h1>
+  <div class="subtitle">65,000 Years Unbroken</div>
+  <p class="tagline">"The land is not ours. We are the land's."</p>
+</header>
+
+<div class="divider">✦ 🪃 ✦ 🐍 ✦ 🪃 ✦</div>
+
+<section class="section">
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num" data-target="65000">0</div><div class="stat-label">Years Continuous</div></div>
+    <div class="stat"><div class="stat-num" data-target="500">0</div><div class="stat-label">Nations</div></div>
+    <div class="stat"><div class="stat-num" data-target="250">0</div><div class="stat-label">Languages</div></div>
+    <div class="stat"><div class="stat-num" data-target="7692024">0</div><div class="stat-label">km² Songlines</div></div>
+    <div class="stat"><div class="stat-num" data-target="0">0</div><div class="stat-label">Written Laws Needed</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">🗺️ The 9 Countries</h2>
+  <p class="section-subtitle">Not districts. Countries. Each with its own Law, Language, and Dreaming.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon">🪨</div>
+      <div class="card-name">ULURU — The Red Center</div>
+      <div class="card-pop">Anangu Country · 348m tall · 600 million years old</div>
+      <div class="card-fact">The rock that holds the continent's memory. Every crack is a story. Every shadow is a being. The tourists took photos. The Anangu kept the meaning.</div>
+      <div class="card-quote">"It was here before the mountains. It will be here after the cities."</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🐍</div>
+      <div class="card-name">RAINBOW SERPENT RIVER</div>
+      <div class="card-pop">Yolngu Country · Creation itself · Still moving</div>
+      <div class="card-fact">The Serpent carved the rivers, raised the mountains, filled the billabongs. Not mythology — geology, told first. The rivers are the proof.</div>
+      <div class="card-quote">"The rivers didn't carve themselves. Something moved."</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎨</div>
+      <div class="card-name">THE ROCK GALLERIES</div>
+      <div class="card-pop">Kakadu · 20,000+ paintings · 40,000 years of art</div>
+      <div class="card-fact">The longest continuous art gallery on Earth. X-ray paintings showing bones inside animals. Ochre pigments that outlasted every canvas in Europe.</div>
+      <div class="card-quote">"40,000 years. Same wall. Same story. Still being told."</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔥</div>
+      <div class="card-name">THE FIRE GROUNDS</div>
+      <div class="card-pop">All nations · Fire-stick farming · The first agriculture</div>
+      <div class="card-fact">They burned the land to heal it. Controlled fire farming 50,000 years before Europe discovered matches. The bush grew back stronger. Always.</div>
+      <div class="card-quote">"They didn't fight fire. They spoke to it."</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌊</div>
+      <div class="card-name">THE FISH TRAPS</div>
+      <div class="card-pop">Brewarrina · 40,000 years old · Still functional</div>
+      <div class="card-fact">The oldest human construction on Earth. Stone fish traps that predate the pyramids by 35,000 years. Still catching fish. Engineering that doesn't age.</div>
+      <div class="card-quote">"The pyramids crumbled. The fish traps work."</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⭐</div>
+      <div class="card-name">THE SKY COUNTRY</div>
+      <div class="card-pop">All nations · Emu in the Sky · First astronomers</div>
+      <div class="card-fact">They mapped the stars before telescopes existed. The dark spaces between stars formed constellations — the Emu, the Canoe. They saw what the gaps MEANT.</div>
+      <div class="card-quote">"Europe looked at the stars. They looked between them."</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🪃</div>
+      <div class="card-name">THE HUNTING PLAINS</div>
+      <div class="card-pop">Wiradjuri Country · Boomerang · The weapon that returns</div>
+      <div class="card-fact">They invented aerodynamics 10,000 years ago. The boomerang is a gyroscope, a wing, a tool, a toy. The rest of the world is still catching up.</div>
+      <div class="card-quote">"They built a thing that comes back. Nobody else thought of that."</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎵</div>
+      <div class="card-name">THE SONGLINES</div>
+      <div class="card-pop">Continent-wide · Oral GPS · No maps needed</div>
+      <div class="card-fact">They sang the continent into existence. Every path has a song. Sing the right verse, you know exactly where you are. A navigation system older than language itself.</div>
+      <div class="card-quote">"The map is a song. The song is the land. The land is alive."</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💧</div>
+      <div class="card-name">THE WATER HOLES</div>
+      <div class="card-pop">Desert nations · Sacred water · Life in the void</div>
+      <div class="card-fact">They survived the driest continent by knowing every water source by song. 500 nations sharing water law for 65,000 years. No wars over water. None.</div>
+      <div class="card-quote">"They shared water for 65,000 years. We can't share it for 5."</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦ 🪃 ✦ 🌌 ✦ 🪃 ✦</div>
+
+<section class="section">
+  <h2 class="section-title">🎨 Concept Arts</h2>
+  <p class="section-subtitle">The Dreaming — in six visions</p>
+  <div class="gallery">
+    <img src="web/ABORIGINAL-ULURU.jpg" alt="Uluru — The Red Center" loading="lazy" onclick="openLB(this)">
+    <img src="web/ABORIGINAL-DREAMTIME.jpg" alt="Dreamtime Rock Art" loading="lazy" onclick="openLB(this)">
+    <img src="web/ABORIGINAL-CORROBOREE.jpg" alt="Corroboree Ceremony" loading="lazy" onclick="openLB(this)">
+    <img src="web/ABORIGINAL-SERPENT.jpg" alt="The Rainbow Serpent" loading="lazy" onclick="openLB(this)">
+    <img src="web/ABORIGINAL-HUNTERS.jpg" alt="Hunters on Country" loading="lazy" onclick="openLB(this)">
+    <img src="web/ABORIGINAL-STARS.jpg" alt="Sky Country — Star Maps" loading="lazy" onclick="openLB(this)">
+  </div>
+</section>
+
+<div id="lb" class="lightbox" onclick="closeLB()"><img id="lb-img" src="" alt=""></div>
+
+<div class="divider">✦ 🐍 ✦ 🔥 ✦ 🐍 ✦</div>
+
+<section class="section">
+  <h2 class="section-title">🐍 The Dreaming Spirits</h2>
+  <p class="section-subtitle">Not gods. Ancestors. Still here. Still watching.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon">🌈</div>
+      <div class="card-name">THE RAINBOW SERPENT</div>
+      <div class="card-fact">Creator of rivers, mountains, and Law. Moves beneath the earth. When displeased — floods. The oldest deity still actively worshipped on Earth.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">☀️</div>
+      <div class="card-name">BILA — The Sun Woman</div>
+      <div class="card-fact">She carries a torch of fire bark across the sky every day. Dawn is when she lights it. Dusk is when she paints herself in red ochre. Night is her rest.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🦅</div>
+      <div class="card-name">BUNJIL — The Eagle Creator</div>
+      <div class="card-fact">Made the mountains, rivers, animals, and people from clay. Still watches from above. Every wedge-tailed eagle might be him. Show respect.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌙</div>
+      <div class="card-name">KIDILI — The Moon Man</div>
+      <div class="card-fact">Chased the Sun Woman. Failed. Wanes in shame every month. Returns every month. The first story about persistence and accountability.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-name">NAMARRGON — Lightning Man</div>
+      <div class="card-fact">Stone axes on his knees and elbows. When he strikes them together — lightning. The wet season is his anger. His painting is in Kakadu. 20,000 years old.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌊</div>
+      <div class="card-name">TIDDALIK — The Flood Frog</div>
+      <div class="card-fact">Drank all the water in the world. The animals had to make him laugh to release it. The first story about greed, community, and comedy as salvation.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦ 🪃 ✦ ⭐ ✦ 🪃 ✦</div>
+
+<section class="section">
+  <h2 class="section-title">🎁 Gifts to the World</h2>
+  <p class="section-subtitle">What 65,000 years of continuous knowledge produces</p>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Gift</th><th>Age</th><th>Fact</th></tr>
+      <tr><td>🪃 Boomerang</td><td>10,000 years</td><td>Aerodynamics. Gyroscopic stability. The weapon that comes BACK.</td></tr>
+      <tr><td>🔥 Fire-stick farming</td><td>50,000 years</td><td>Controlled burns to regenerate land. California learned this in 2020.</td></tr>
+      <tr><td>⭐ Astronomy</td><td>35,000 years</td><td>Dark-space constellations. Seasonal calendars from star positions.</td></tr>
+      <tr><td>🎵 Didgeridoo</td><td>2,000+ years</td><td>Oldest wind instrument still played. Circular breathing. One note. Infinite.</td></tr>
+      <tr><td>💧 Water management</td><td>40,000 years</td><td>Brewarrina fish traps. Stone aqueducts in the desert. No pumps needed.</td></tr>
+      <tr><td>🗺️ Songlines</td><td>65,000 years</td><td>Oral navigation mapping entire continent. GPS before satellites.</td></tr>
+      <tr><td>🎨 Ochre art</td><td>40,000+ years</td><td>Oldest continuous art tradition. X-ray style painting 30,000 years before MRI.</td></tr>
+      <tr><td>⚖️ Oral Law</td><td>65,000 years</td><td>Complex legal system transmitted orally. Zero courthouses. Zero prisons.</td></tr>
+    </table>
+  </div>
+</section>
+
+<div class="divider">✦ 🔥 ✦ 🪨 ✦ 🔥 ✦</div>
+
+<section class="section">
+  <h2 class="section-title">📊 Civilization Specs</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Parameter</th><th>Value</th></tr>
+      <tr><td>Duration</td><td>65,000 years (OLDEST on Earth)</td></tr>
+      <tr><td>Nations</td><td>500+ distinct nations</td></tr>
+      <tr><td>Languages</td><td>250+ (at contact); 120 still spoken</td></tr>
+      <tr><td>Territory</td><td>7,692,024 km² (entire continent)</td></tr>
+      <tr><td>Population at contact</td><td>750,000–1,000,000</td></tr>
+      <tr><td>Writing system</td><td>None needed — oral perfection</td></tr>
+      <tr><td>Wars between nations</td><td>Ritual combat — zero conquest wars</td></tr>
+      <tr><td>Monuments built</td><td>Zero — the land IS the monument</td></tr>
+      <tr><td>Technology invented</td><td>Boomerang, woomera, fire farming, fish traps</td></tr>
+      <tr><td>Survival method</td><td>65,000 years in Earth's harshest continent</td></tr>
+      <tr><td>Key principle</td><td>The land owns the people. Not the reverse.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="charter">
+    <p>"We don't own the land.<br>The land owns us.<br>We don't tell stories about the land.<br>The land tells stories through us.<br>65,000 years. Still listening."</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>THE DREAMING — 65,000 Years Unbroken</p>
+  <p>Part of the <a href="../yabroud/MORDOR.NET.html">JuX Civilization Series</a></p>
+  <p style="margin-top:0.5rem">Built by <a href="https://juxitt.com">JuX ITT</a></p>
+</footer>
+
+<script>
+// Stars / embers
+const c=document.getElementById('starfield'),x=c.getContext('2d');
+function resize(){c.width=innerWidth;c.height=innerHeight}
+resize();addEventListener('resize',resize);
+const dots=[];for(let i=0;i<200;i++)dots.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5+0.5,s:Math.random()*0.3+0.1,o:Math.random()});
+const embers=[];for(let i=0;i<50;i++)embers.push({x:Math.random()*innerWidth,y:innerHeight+Math.random()*100,r:Math.random()*2+1,s:Math.random()*0.5+0.2,o:Math.random(),c:['#e8a040','#c86020','#ff6600','#ffcc00'][Math.floor(Math.random()*4)]});
+function draw(){
+  x.clearRect(0,0,c.width,c.height);
+  dots.forEach(d=>{d.o+=Math.sin(Date.now()*0.001+d.x)*0.005;x.fillStyle=`rgba(255,220,180,${Math.max(0,Math.min(1,d.o))})`;x.beginPath();x.arc(d.x,d.y,d.r,0,Math.PI*2);x.fill()});
+  embers.forEach(e=>{e.y-=e.s;e.x+=Math.sin(Date.now()*0.002+e.y)*0.3;if(e.y<-10){e.y=c.height+10;e.x=Math.random()*c.width}x.fillStyle=e.c.replace(')',`,${Math.max(0,Math.min(1,e.o))})`).replace('rgb','rgba');x.beginPath();x.arc(e.x,e.y,e.r,0,Math.PI*2);x.fill()});
+  requestAnimationFrame(draw);
+}
+draw();
+
+// Counter
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target;const t=parseInt(el.dataset.target);const d=Math.max(1,Math.floor(t/60));let c=0;const iv=setInterval(()=>{c+=d;if(c>=t){c=t;clearInterval(iv)}el.textContent=c.toLocaleString()},16);obs.unobserve(el)}})},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>obs.observe(el));
+
+// Lightbox
+function openLB(img){const lb=document.getElementById('lb');document.getElementById('lb-img').src=img.src;lb.classList.add('active')}
+function closeLB(){document.getElementById('lb').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB()});
+</script>
+</body>
+</html>
