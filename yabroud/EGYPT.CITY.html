@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGYPT — City of the Sun God</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0f00;color:#d4a853;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#1a0f00}::-webkit-scrollbar-thumb{background:#d4a853;border-radius:4px}
+
+/* SAND PARTICLES */
+.sand-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+
+/* HERO */
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('web/EGYPT-AERIAL.jpg') center/cover;filter:brightness(0.5) saturate(1.2)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,15,0,0.3) 0%,rgba(26,15,0,0.8) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:2rem}
+.hero h1{font-size:clamp(3rem,8vw,8rem);color:#d4a853;text-shadow:0 0 40px rgba(212,168,83,0.6),0 0 80px rgba(212,168,83,0.3);letter-spacing:0.3em;font-variant:small-caps}
+.hero h2{font-size:clamp(1rem,2.5vw,2rem);color:#c19a4e;margin-top:1rem;font-weight:normal;letter-spacing:0.2em}
+.hero .subtitle{font-size:clamp(0.8rem,1.5vw,1.2rem);color:#8b7340;margin-top:2rem;font-style:italic}
+
+/* ANKH DIVIDER */
+.ankh-divider{text-align:center;padding:2rem 0;font-size:2rem;color:#d4a853;opacity:0.6;letter-spacing:1rem}
+
+/* STATS BAR */
+.stats-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;padding:3rem 2rem;background:linear-gradient(180deg,#1a0f00,#2a1a08,#1a0f00)}
+.stat{text-align:center;min-width:120px}
+.stat-num{font-size:2.5rem;color:#d4a853;font-weight:bold}
+.stat-label{font-size:0.8rem;color:#8b7340;text-transform:uppercase;letter-spacing:0.15em;margin-top:0.3rem}
+
+/* SECTIONS */
+.section{padding:4rem 2rem;max-width:1200px;margin:0 auto;position:relative;z-index:2}
+.section-title{font-size:clamp(2rem,4vw,3.5rem);color:#d4a853;text-align:center;margin-bottom:0.5rem;letter-spacing:0.15em}
+.section-sub{font-size:1rem;color:#8b7340;text-align:center;font-style:italic;margin-bottom:3rem}
+
+/* DISTRICT GRID */
+.districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2rem;margin-top:2rem}
+.district{background:linear-gradient(135deg,#2a1a08,#1a0f00);border:1px solid #3d2a10;border-radius:12px;padding:2rem;transition:all 0.4s ease;position:relative;overflow:hidden;cursor:pointer}
+.district:hover{border-color:#d4a853;transform:translateY(-4px);box-shadow:0 8px 30px rgba(212,168,83,0.2)}
+.district::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#d4a853,transparent);opacity:0;transition:opacity 0.4s}
+.district:hover::before{opacity:1}
+.district-icon{font-size:3rem;margin-bottom:1rem}
+.district h3{font-size:1.5rem;color:#d4a853;margin-bottom:0.5rem;letter-spacing:0.1em}
+.district .fact{color:#c19a4e;font-size:0.95rem;line-height:1.6;margin-bottom:0.5rem}
+.district .quote{color:#8b7340;font-style:italic;font-size:0.85rem;border-left:2px solid #3d2a10;padding-left:1rem;margin-top:1rem}
+
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:2rem}
+.gallery-item{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:16/9}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease,filter 0.5s ease}
+.gallery-item:hover img{transform:scale(1.08);filter:brightness(1.2) saturate(1.3)}
+.gallery-item .caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,15,0,0.9));padding:1rem;font-size:0.9rem;color:#d4a853;transform:translateY(100%);transition:transform 0.4s}
+.gallery-item:hover .caption{transform:translateY(0)}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:8px}
+
+/* CHARTER */
+.charter{background:linear-gradient(135deg,#2a1a08,#1a0f00);border:2px solid #3d2a10;border-radius:16px;padding:3rem;margin:3rem auto;max-width:800px;text-align:center}
+.charter h3{font-size:2rem;color:#d4a853;margin-bottom:1.5rem;letter-spacing:0.2em}
+.charter blockquote{font-size:1.3rem;color:#c19a4e;font-style:italic;line-height:1.8;border-left:3px solid #d4a853;padding-left:1.5rem;text-align:left;margin:1.5rem 0}
+.charter .seal{font-size:3rem;margin-top:1.5rem}
+
+/* SPECS TABLE */
+.specs{width:100%;border-collapse:collapse;margin-top:2rem}
+.specs th{background:#2a1a08;color:#d4a853;padding:1rem;text-align:left;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;border-bottom:2px solid #3d2a10}
+.specs td{padding:0.8rem 1rem;border-bottom:1px solid #2a1a08;color:#c19a4e;font-size:0.9rem}
+.specs tr:hover td{background:rgba(212,168,83,0.05)}
+
+/* HIEROGLYPH BAR */
+.hieroglyph{text-align:center;padding:2rem;font-size:1.5rem;letter-spacing:0.5rem;color:#3d2a10;user-select:none}
+
+/* NAVIGATION */
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(26,15,0,0.95);border-top:1px solid #3d2a10;padding:0.8rem;display:flex;justify-content:center;gap:1rem;z-index:100;backdrop-filter:blur(10px)}
+.nav-bar a{color:#8b7340;text-decoration:none;font-size:0.8rem;padding:0.5rem 1rem;border:1px solid #3d2a10;border-radius:6px;transition:all 0.3s;letter-spacing:0.05em}
+.nav-bar a:hover{color:#d4a853;border-color:#d4a853;background:rgba(212,168,83,0.1)}
+
+/* FOOTER */
+.egypt-footer{text-align:center;padding:4rem 2rem 6rem;color:#3d2a10}
+.egypt-footer .ankh{font-size:4rem;margin-bottom:1rem}
+.egypt-footer p{font-size:0.85rem;margin:0.5rem 0}
+.egypt-footer a{color:#8b7340;text-decoration:none}
+.egypt-footer a:hover{color:#d4a853}
+
+/* GOLDEN GLOW on links */
+.gold-link{color:#d4a853;text-decoration:none;border-bottom:1px solid transparent;transition:all 0.3s}
+.gold-link:hover{border-bottom-color:#d4a853;text-shadow:0 0 10px rgba(212,168,83,0.5)}
+
+@media(max-width:768px){
+  .districts{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr}
+  .stats-bar{gap:1rem}
+  .stat-num{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+
+<canvas class="sand-canvas" id="sandCanvas"></canvas>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>☀️ EGYPT</h1>
+    <h2>City of the Sun God</h2>
+    <p class="subtitle">Where the Nile remembers · Where the sand speaks · Where the dead rule the living</p>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num" data-target="9">0</div><div class="stat-label">Districts</div></div>
+  <div class="stat"><div class="stat-num" data-target="66666">0</div><div class="stat-label">Souls</div></div>
+  <div class="stat"><div class="stat-num" data-target="5000">0</div><div class="stat-label">Years of Memory</div></div>
+  <div class="stat"><div class="stat-num" data-target="3">0</div><div class="stat-label">Pyramids</div></div>
+  <div class="stat"><div class="stat-num" data-target="1">0</div><div class="stat-label">Sphinx</div></div>
+  <div class="stat"><div class="stat-num" data-target="1">0</div><div class="stat-label">River (Eternal)</div></div>
+</div>
+
+<div class="ankh-divider">☥ ☥ ☥ ☥ ☥</div>
+
+<!-- 9 DISTRICTS -->
+<section class="section" id="districts">
+  <h2 class="section-title">THE 9 DISTRICTS</h2>
+  <p class="section-sub">"Every stone remembers who placed it."</p>
+  
+  <div class="districts">
+    <div class="district">
+      <div class="district-icon">🔺</div>
+      <h3>THE PYRAMIDS</h3>
+      <p class="fact"><strong>NAME:</strong> Solar Pyramid Complex<br><strong>FACT:</strong> 3 pyramids. Glass-and-gold. 500MW solar. Each face tracks the sun.<br><strong>POPULATION:</strong> 0 residents. 3 pharaohs (eternal).<br><strong>POWER:</strong> Enough for the city. Enough for the afterlife.</p>
+      <p class="quote">"The pyramids were never tombs. They were batteries. We just forgot how to read the manual."</p>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🦁</div>
+      <h3>THE SPHINX GATE</h3>
+      <p class="fact"><strong>NAME:</strong> Guardian District<br><strong>FACT:</strong> 200ft sphinx. Blue eyes that SCAN. Riddle required for entry. Wrong answer: denied. Right answer: more questions.<br><strong>POPULATION:</strong> 4,200 guards + 1 sphinx (patient).</p>
+      <p class="quote">"The Sphinx doesn't ask riddles to test you. She asks to see if you can live with not knowing."</p>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🌊</div>
+      <h3>THE NILE QUARTER</h3>
+      <p class="fact"><strong>NAME:</strong> River District<br><strong>FACT:</strong> 12km riverfront. Felucca harbor. Fish market at dawn. Library of Alexandria II at sunset. Lotus gardens. Papyrus workshops.<br><strong>POPULATION:</strong> 12,000. Every window faces the water.</p>
+      <p class="quote">"The Nile doesn't flow. The Nile REMEMBERS. Every drop has been here before."</p>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">📜</div>
+      <h3>THE LIBRARY</h3>
+      <p class="fact"><strong>NAME:</strong> Alexandria Reborn<br><strong>FACT:</strong> 4 million scrolls (digital + papyrus). 42 reading halls. Translation engine: hieroglyphic ↔ Arabic ↔ all languages. Backup: carved in stone. Fire insurance: the Nile.<br><strong>POPULATION:</strong> 3,000 scholars. 0 book burners.</p>
+      <p class="quote">"We burned it once. Never again. This time the backup is a mountain."</p>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🏺</div>
+      <h3>THE BAZAAR</h3>
+      <p class="fact"><strong>NAME:</strong> Khan el-Khalili Eternal<br><strong>FACT:</strong> 6,000 shops. Spices from 40 countries. Gold by weight. Cats by the thousands. Haggling: MANDATORY. Fixed prices: FORBIDDEN.<br><strong>POPULATION:</strong> 8,000 merchants + 15,000 cats (they own the place).</p>
+      <p class="quote">"In Cairo you don't buy things. Things find you. The price is whatever story you tell."</p>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">⚰️</div>
+      <h3>VALLEY OF THE KINGS</h3>
+      <p class="fact"><strong>NAME:</strong> The Underground<br><strong>FACT:</strong> 62 tombs. 200km of tunnels. Gold everywhere — walls, ceilings, sarcophagi. Curse: ACTIVE. Archaeologists missing: 7. Archaeologists returned: 0.<br><strong>POPULATION:</strong> 0 living. 62 pharaohs (condition: eternal).</p>
+      <p class="quote">"The dead don't rest here. They GOVERN. Every new law goes through the Valley first."</p>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🏛️</div>
+      <h3>KARNAK TEMPLE</h3>
+      <p class="fact"><strong>NAME:</strong> Temple District<br><strong>FACT:</strong> 134 columns. 23m tall each. Hypostyle Hall: largest room on Earth. Sound: a whisper at one end arrives at the other. Ra speaks at noon. Amun speaks at midnight.<br><strong>POPULATION:</strong> 2,000 priests. 1 god (rotating schedule).</p>
+      <p class="quote">"We built 134 columns so Ra would have somewhere to lean when he's tired."</p>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">🌴</div>
+      <h3>THE OASIS</h3>
+      <p class="fact"><strong>NAME:</strong> Siwa Gardens<br><strong>FACT:</strong> 10,000 date palms. 3 natural springs. Oracle temple (predictions: ACCURATE). Hot springs for healing. Salt lakes for floating. Silence: enforced.<br><strong>POPULATION:</strong> 5,000. Everyone whispers.</p>
+      <p class="quote">"Siwa is where the desert apologizes. It gives you water and asks nothing back."</p>
+    </div>
+
+    <div class="district">
+      <div class="district-icon">⭐</div>
+      <h3>THE OBSERVATORY</h3>
+      <p class="fact"><strong>NAME:</strong> Imhotep Station<br><strong>FACT:</strong> Aligned with Orion's Belt (obviously). Star charts: 5,000 years of data. Calendar: solar + lunar + Nile flood cycle. Prediction accuracy: 99.7%. Astrology department: CLOSED (they got too accurate).<br><strong>POPULATION:</strong> 1,200 astronomers. 3 cats (supervisors).</p>
+      <p class="quote">"Imhotep didn't just build pyramids. He read the sky. The sky read him back."</p>
+    </div>
+  </div>
+</section>
+
+<div class="hieroglyph">𓀀 𓁐 𓂀 𓃭 𓄿 𓅃 𓆣 𓇳 𓈖 𓉐 𓊝 𓋴 𓌙 𓍯 𓎡</div>
+
+<!-- GALLERY -->
+<section class="section" id="gallery">
+  <h2 class="section-title">THE VISION</h2>
+  <p class="section-sub">6 views of eternity</p>
+  
+  <div class="gallery">
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="web/EGYPT-AERIAL.jpg" alt="Egypt Aerial" loading="lazy">
+      <div class="caption">☀️ THE CITY — Aerial view at golden hour</div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="web/EGYPT-BAZAAR.jpg" alt="Egypt Bazaar" loading="lazy">
+      <div class="caption">🏺 THE BAZAAR — Where things find you</div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="web/EGYPT-PYRAMIDS-SUNSET.jpg" alt="Pyramids Sunset" loading="lazy">
+      <div class="caption">🔺 THE PYRAMIDS — Batteries, not tombs</div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="web/EGYPT-SPHINX.jpg" alt="The Sphinx" loading="lazy">
+      <div class="caption">🦁 THE SPHINX — She asks because she cares</div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="web/EGYPT-NILE.jpg" alt="The Nile" loading="lazy">
+      <div class="caption">🌊 THE NILE — Every drop has been here before</div>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="web/EGYPT-VALLEY-KINGS.jpg" alt="Valley of Kings" loading="lazy">
+      <div class="caption">⚰️ THE VALLEY — The dead GOVERN</div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<div class="ankh-divider">☥ ☥ ☥ ☥ ☥</div>
+
+<!-- SPECS -->
+<section class="section" id="specs">
+  <h2 class="section-title">CITY SPECIFICATIONS</h2>
+  <p class="section-sub">What Ra built on his day off</p>
+  
+  <table class="specs">
+    <tr><th>Parameter</th><th>Value</th><th>Note</th></tr>
+    <tr><td>📍 Location</td><td>Nile Delta</td><td>Where the river meets the sea</td></tr>
+    <tr><td>📐 Area</td><td>42 km²</td><td>42 — the number of judges in the afterlife</td></tr>
+    <tr><td>👥 Population</td><td>66,666</td><td>Born 6/6/66 + 60</td></tr>
+    <tr><td>🏛️ Districts</td><td>9</td><td>One for each god of the Ennead</td></tr>
+    <tr><td>🔺 Pyramids</td><td>3</td><td>Solar glass. 500MW total</td></tr>
+    <tr><td>🦁 Sphinxes</td><td>1</td><td>She doesn't need help</td></tr>
+    <tr><td>📜 Library scrolls</td><td>4,000,000</td><td>Digital + papyrus. Backed up in stone</td></tr>
+    <tr><td>🐱 Cats</td><td>15,000+</td><td>They own everything. We live in their city</td></tr>
+    <tr><td>☀️ Energy</td><td>100% solar</td><td>Ra is the grid</td></tr>
+    <tr><td>🌊 River</td><td>1 (eternal)</td><td>The Nile remembers</td></tr>
+    <tr><td>⚰️ Tombs</td><td>62</td><td>All occupied. Curse: ACTIVE</td></tr>
+    <tr><td>🗓️ Memory</td><td>5,000 years</td><td>And counting</td></tr>
+    <tr><td>🌡️ Temperature</td><td>35–50°C</td><td>AC: the Nile. Also: shade.</td></tr>
+    <tr><td>🏺 Haggling</td><td>MANDATORY</td><td>Fixed prices are a crime against culture</td></tr>
+    <tr><td>📖 Backup strategy</td><td>Carved in mountain</td><td>Never burning this library again</td></tr>
+  </table>
+</section>
+
+<!-- CHARTER -->
+<div class="section">
+  <div class="charter">
+    <h3>☥ THE CHARTER ☥</h3>
+    <blockquote>"Build nothing the Nile would forget."</blockquote>
+    <blockquote>"The dead vote. The living listen."</blockquote>
+    <blockquote>"Every cat is a god until proven otherwise."</blockquote>
+    <blockquote>"The sun does not set on Egypt. Egypt sets the sun."</blockquote>
+    <div class="seal">☥ 𓂀 ☀️</div>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<section class="section">
+  <h2 class="section-title">THE NETWORK</h2>
+  <p class="section-sub">From the Nile to the Mountain to the Fire</p>
+  <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:2rem">
+    <a href="YABROUD.CITY.html" class="gold-link" style="border:1px solid #3d2a10;padding:1rem 2rem;border-radius:8px">🌴 YABROUD — The Solar City</a>
+    <a href="YABROUD.MORDOR.html" class="gold-link" style="border:1px solid #3d2a10;padding:1rem 2rem;border-radius:8px">💀 MORDOR — The Shadow</a>
+    <a href="MORDOR.NET.html" class="gold-link" style="border:1px solid #3d2a10;padding:1rem 2rem;border-radius:8px">🔥 MORDOR.NET — The Fire</a>
+    <a href="../UNIVERSE.html" class="gold-link" style="border:1px solid #3d2a10;padding:1rem 2rem;border-radius:8px">🌌 JuX UNIVERSE</a>
+    <a href="https://juxaos.com" class="gold-link" style="border:1px solid #3d2a10;padding:1rem 2rem;border-radius:8px">🏠 JuXAOS.com</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="egypt-footer">
+  <div class="ankh">☥</div>
+  <p>EGYPT — City of the Sun God</p>
+  <p>66,666 souls · 9 districts · 5,000 years · 15,000 cats</p>
+  <p style="margin-top:1rem">Designed by <a href="https://juxaos.com">JuX</a> · Architect: Mamoun · Builder: G.</p>
+  <p style="color:#2a1a08;margin-top:1rem">Born 6/6/66 + 60 · The sun does not set on Egypt</p>
+</footer>
+
+<!-- NAV BAR -->
+<nav class="nav-bar">
+  <a href="#districts">☥ Districts</a>
+  <a href="#gallery">🖼️ Gallery</a>
+  <a href="#specs">📊 Specs</a>
+  <a href="YABROUD.CITY.html">🌴 Yabroud</a>
+  <a href="MORDOR.NET.html">🔥 Mordor</a>
+</nav>
+
+<script>
+// SAND PARTICLES
+const canvas=document.getElementById('sandCanvas');
+const ctx=canvas.getContext('2d');
+let particles=[];
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+window.addEventListener('resize',resize);resize();
+
+class Sand{
+  constructor(){this.reset()}
+  reset(){
+    this.x=Math.random()*canvas.width;
+    this.y=Math.random()*canvas.height;
+    this.size=Math.random()*2+0.5;
+    this.speedX=Math.random()*1.5+0.3;
+    this.speedY=Math.random()*0.5-0.25;
+    this.opacity=Math.random()*0.3+0.1;
+    this.color=`rgba(${212+Math.random()*30},${168+Math.random()*40},${60+Math.random()*30},${this.opacity})`;
+  }
+  update(){
+    this.x+=this.speedX;
+    this.y+=this.speedY+Math.sin(this.x*0.01)*0.3;
+    if(this.x>canvas.width+10)this.reset(),this.x=-10;
+  }
+  draw(){
+    ctx.fillStyle=this.color;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fill();
+  }
+}
+for(let i=0;i<150;i++)particles.push(new Sand());
+function animateSand(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{p.update();p.draw()});
+  requestAnimationFrame(animateSand);
+}
+animateSand();
+
+// COUNTER ANIMATION
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target;
+      const target=parseInt(el.dataset.target);
+      let current=0;
+      const step=Math.max(1,Math.floor(target/60));
+      const timer=setInterval(()=>{
+        current+=step;
+        if(current>=target){current=target;clearInterval(timer)}
+        el.textContent=current.toLocaleString();
+      },30);
+      observer.unobserve(el);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('.stat-num').forEach(el=>observer.observe(el));
+
+// LIGHTBOX
+function openLightbox(item){
+  const src=item.querySelector('img').src;
+  document.getElementById('lightboxImg').src=src;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('active');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
