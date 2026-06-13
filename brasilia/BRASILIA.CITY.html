@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRASÍLIA — The City That Was Drawn Before It Was Built</title>
+<meta name="description" content="Brasília — Oscar Niemeyer's futuristic capital. Built from nothing in 41 months. A JuX Civilization.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
+/* Neon grid particle canvas */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.content{position:relative;z-index:1}
+/* Header */
+.hero{text-align:center;padding:80px 20px 60px;background:linear-gradient(135deg,#0a0a2a 0%,#1a0a3a 30%,#0a1a3a 70%,#0a0a1a 100%)}
+.hero h1{font-size:clamp(2rem,6vw,4rem);color:#00d4ff;text-shadow:0 0 30px rgba(0,212,255,0.5);margin-bottom:10px;letter-spacing:4px}
+.hero .sub{font-size:clamp(1rem,2.5vw,1.4rem);color:#8a8aff;margin-bottom:8px}
+.hero .era{font-size:1rem;color:#666;letter-spacing:2px}
+.hero .founding{color:#00d4ff;font-size:1.1rem;margin-top:15px}
+/* Nav */
+.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:20px;background:rgba(10,10,30,0.95);border-bottom:1px solid #1a1a4a;position:sticky;top:0;z-index:100}
+.nav a{color:#8a8aff;text-decoration:none;padding:6px 14px;border:1px solid #2a2a5a;border-radius:4px;font-size:0.85rem;transition:all 0.3s}
+.nav a:hover{background:#00d4ff;color:#0a0a1a;border-color:#00d4ff}
+/* Sections */
+section{padding:60px 20px;max-width:1100px;margin:0 auto}
+section h2{font-size:clamp(1.5rem,3.5vw,2.2rem);color:#00d4ff;margin-bottom:30px;text-align:center;text-shadow:0 0 15px rgba(0,212,255,0.3)}
+/* Gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin:40px 0}
+.gallery figure{position:relative;cursor:pointer;border-radius:8px;overflow:hidden;border:1px solid #1a1a4a;transition:transform 0.3s}
+.gallery figure:hover{transform:scale(1.02)}
+.gallery img{width:100%;height:250px;object-fit:cover;display:block;transition:filter 0.3s}
+.gallery figure:hover img{filter:brightness(1.1)}
+.gallery figcaption{position:absolute;bottom:0;width:100%;padding:10px;background:linear-gradient(transparent,rgba(0,0,20,0.9));color:#00d4ff;font-size:0.9rem;text-align:center}
+/* Lightbox */
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,10,0.95);z-index:1000;justify-content:center;align-items:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 0 40px rgba(0,212,255,0.3)}
+/* Districts */
+.districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin:30px 0}
+.district{background:linear-gradient(135deg,rgba(20,20,50,0.9),rgba(10,10,30,0.9));border:1px solid #1a1a4a;border-radius:8px;padding:25px;transition:all 0.3s}
+.district:hover{border-color:#00d4ff;box-shadow:0 0 20px rgba(0,212,255,0.15);transform:translateY(-3px)}
+.district .icon{font-size:2rem;margin-bottom:10px}
+.district h3{color:#00d4ff;margin-bottom:8px;font-size:1.1rem}
+.district .fact{color:#aaa;font-size:0.9rem;margin-bottom:10px}
+.district .quote{color:#8a8aff;font-style:italic;font-size:0.85rem;border-left:2px solid #2a2a5a;padding-left:10px}
+/* Visionaries */
+.visionaries{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:30px 0}
+.visionary{background:rgba(15,15,40,0.9);border:1px solid #1a1a4a;border-radius:8px;padding:20px;text-align:center}
+.visionary .symbol{font-size:2rem;margin-bottom:8px}
+.visionary h4{color:#00d4ff;margin-bottom:6px}
+.visionary p{color:#aaa;font-size:0.85rem}
+/* Gifts */
+.gifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:30px 0}
+.gift{background:rgba(15,15,40,0.8);border:1px solid #1a1a4a;border-radius:8px;padding:18px;text-align:center;transition:border-color 0.3s}
+.gift:hover{border-color:#00d4ff}
+.gift .gi{font-size:1.5rem;margin-bottom:6px}
+.gift h4{color:#00d4ff;font-size:0.95rem;margin-bottom:4px}
+.gift p{color:#aaa;font-size:0.8rem}
+/* Stats */
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:30px;margin:40px 0}
+.stat{text-align:center}
+.stat .num{font-size:2rem;color:#00d4ff;font-weight:bold;text-shadow:0 0 15px rgba(0,212,255,0.4)}
+.stat .label{color:#666;font-size:0.85rem;margin-top:4px}
+/* Quote banner */
+.banner{text-align:center;padding:50px 20px;background:linear-gradient(135deg,rgba(0,20,60,0.3),rgba(20,0,40,0.3));margin:30px 0;border-radius:8px;border:1px solid #1a1a4a}
+.banner blockquote{font-size:clamp(1.1rem,2.5vw,1.6rem);color:#8a8aff;font-style:italic;max-width:700px;margin:0 auto}
+.banner cite{display:block;margin-top:12px;color:#555;font-size:0.9rem}
+/* Back link */
+.back{text-align:center;padding:40px;color:#555;font-size:0.9rem}
+.back a{color:#00d4ff;text-decoration:none}
+.back a:hover{text-decoration:underline}
+/* Footer */
+footer{text-align:center;padding:30px;color:#333;font-size:0.8rem;border-top:1px solid #1a1a4a}
+@media(max-width:600px){
+  .gallery img{height:200px}
+  .districts{grid-template-columns:1fr}
+  .nav a{font-size:0.75rem;padding:4px 10px}
+}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="content">
+
+<header class="hero">
+  <h1>✈️ BRASÍLIA</h1>
+  <div class="sub">THE CITY THAT WAS DRAWN BEFORE IT WAS BUILT</div>
+  <div class="era">INAUGURATED 21 APRIL 1960 — 41 MONTHS FROM ZERO TO CAPITAL</div>
+  <div class="founding">Lucio Costa drew it. Oscar Niemeyer built it. Kubitschek willed it.</div>
+</header>
+
+<nav class="nav">
+  <a href="#gallery">Gallery</a>
+  <a href="#districts">Districts</a>
+  <a href="#visionaries">Visionaries</a>
+  <a href="#gifts">Gifts</a>
+  <a href="#stats">Numbers</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/MORDOR.NET.html">🌋 Mordor</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/egypt/EGYPT.CITY.html">☀️ Egypt</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/aztec/AZTEC.CITY.html">🦅 Aztec</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/greece/GREECE.CITY.html">🏛️ Greece</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/china/CHINA.CITY.html">🐉 China</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/india/INDIA.CITY.html">☸️ India</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/arctic/ARCTIC.CITY.html">❄️ Inuit</a>
+  <a href="https://raw.githack.com/alissali/Learn/main/newyork/NEWYORK.CITY.html">🗽 New York</a>
+</nav>
+
+<section id="gallery">
+  <h2>✈️ Visions of the Future</h2>
+  <div class="gallery">
+    <figure onclick="openLightbox(this)"><img src="web/BRASILIA-AERIAL.jpg" alt="Brasília Aerial" loading="lazy"><figcaption>The Airplane — drawn on paper, built from cerrado</figcaption></figure>
+    <figure onclick="openLightbox(this)"><img src="web/BRASILIA-CONGRESS.jpg" alt="National Congress" loading="lazy"><figcaption>National Congress — dome, bowl, two towers</figcaption></figure>
+    <figure onclick="openLightbox(this)"><img src="web/BRASILIA-CATHEDRAL.jpg" alt="Cathedral" loading="lazy"><figcaption>Cathedral — 16 hands reaching for God</figcaption></figure>
+    <figure onclick="openLightbox(this)"><img src="web/BRASILIA-BRIDGE.jpg" alt="JK Bridge" loading="lazy"><figcaption>JK Bridge — three arches over the lake</figcaption></figure>
+    <figure onclick="openLightbox(this)"><img src="web/BRASILIA-PALACE.jpg" alt="Alvorada Palace" loading="lazy"><figcaption>Palácio da Alvorada — Palace of the Dawn</figcaption></figure>
+    <figure onclick="openLightbox(this)"><img src="web/BRASILIA-AXIS.jpg" alt="Monumental Axis" loading="lazy"><figcaption>Monumental Axis — 8 km of symmetry</figcaption></figure>
+  </div>
+</section>
+<div class="lightbox" id="lb" onclick="closeLightbox()"><img id="lbImg" src="" alt="Full view"></div>
+
+<div class="banner">
+  <blockquote>"It is not the right angle that attracts me. Nor the straight line — hard, inflexible. What attracts me is the free, sensual curve."</blockquote>
+  <cite>— Oscar Niemeyer</cite>
+</div>
+
+<section id="districts">
+  <h2>✈️ The 9 Sectors of the Future</h2>
+  <div class="districts">
+
+    <div class="district">
+      <div class="icon">🏛️</div>
+      <h3>NATIONAL CONGRESS</h3>
+      <div class="fact">Twin 28-story towers. Dome = Senate. Bowl = Chamber. Designed in a single night.</div>
+      <div class="quote">"Two bowls and two towers. That's democracy."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">⛪</div>
+      <h3>THE CATHEDRAL</h3>
+      <div class="fact">16 curved concrete columns, 40m high. You enter underground, emerge into light. 1970.</div>
+      <div class="quote">"You walk into the earth and come out facing heaven."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🌅</div>
+      <h3>PALÁCIO DA ALVORADA</h3>
+      <div class="fact">Palace of the Dawn. Arrow-shaped marble columns. Floats above its own reflection.</div>
+      <div class="quote">"The president's house hovers. On purpose."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">✈️</div>
+      <h3>PLANO PILOTO</h3>
+      <div class="fact">The Pilot Plan. Shaped like an airplane — or a cross — or a butterfly. Costa won the competition with a sketch.</div>
+      <div class="quote">"He won a capital with a napkin drawing."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">📐</div>
+      <h3>MONUMENTAL AXIS</h3>
+      <div class="fact">8 km boulevard. Ministry buildings in perfect rows. The spine of the airplane. Width: 250m.</div>
+      <div class="quote">"The widest road you'll ever walk alone."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🌊</div>
+      <h3>LAKE PARANOÁ</h3>
+      <div class="fact">Artificial lake, 40 km². Created with the city. JK Bridge: 3 asymmetric steel arches, 1,200m.</div>
+      <div class="quote">"They needed water. So they made a lake."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🎭</div>
+      <h3>TEATRO NACIONAL</h3>
+      <div class="fact">Pyramid-shaped theater. Acoustic perfection. Niemeyer: concrete is clay when you dream big enough.</div>
+      <div class="quote">"A pyramid that plays music."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🏗️</div>
+      <h3>SUPERQUADRAS</h3>
+      <div class="fact">Residential blocks. 6 floors max. Green space mandatory. Pilotis: buildings on stilts, ground is public.</div>
+      <div class="quote">"Nobody owns the ground floor. Everybody does."</div>
+    </div>
+
+    <div class="district">
+      <div class="icon">🌿</div>
+      <h3>CERRADO GARDENS</h3>
+      <div class="fact">Burle Marx landscape. The cerrado is Earth's most biodiverse savanna. 12,000 plant species. Older than the Amazon.</div>
+      <div class="quote">"They didn't remove the garden. They built the city around it."</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="banner">
+  <blockquote>"Fifty years of progress in five."</blockquote>
+  <cite>— Juscelino Kubitschek, President of Brazil</cite>
+</div>
+
+<section id="visionaries">
+  <h2>✈️ The Visionaries</h2>
+  <div class="visionaries">
+    <div class="visionary">
+      <div class="symbol">📐</div>
+      <h4>LÚCIO COSTA</h4>
+      <p>The Urbanist. Won the competition with a freehand sketch. Drew the airplane. Let Niemeyer fill it with wonder.</p>
+    </div>
+    <div class="visionary">
+      <div class="symbol">🏛️</div>
+      <h4>OSCAR NIEMEYER</h4>
+      <p>The Architect. 104 years old. 600+ projects. Curves over straight lines. Concrete that dances. Communism and beauty.</p>
+    </div>
+    <div class="visionary">
+      <div class="symbol">⚡</div>
+      <h4>JUSCELINO KUBITSCHEK</h4>
+      <p>The President. "50 years in 5." Moved the capital from Rio. 60,000 workers. 41 months. Done.</p>
+    </div>
+    <div class="visionary">
+      <div class="symbol">🌿</div>
+      <h4>ROBERTO BURLE MARX</h4>
+      <p>The Landscape Architect. Painted with plants. Made the cerrado a garden. Every park is a canvas.</p>
+    </div>
+    <div class="visionary">
+      <div class="symbol">🔧</div>
+      <h4>JOAQUIM CARDOZO</h4>
+      <p>The Structural Engineer. Made Niemeyer's impossible curves stand up. Poetry in reinforced concrete.</p>
+    </div>
+    <div class="visionary">
+      <div class="symbol">👷</div>
+      <h4>THE CANDANGOS</h4>
+      <p>60,000 workers from the Northeast. Built a capital in the wilderness. Many never left. The city is their monument.</p>
+    </div>
+  </div>
+</section>
+
+<section id="gifts">
+  <h2>✈️ Gifts to the World</h2>
+  <div class="gifts">
+    <div class="gift"><div class="gi">📐</div><h4>MODERNIST URBANISM</h4><p>A capital designed from scratch — proof cities can be thought before they're built</p></div>
+    <div class="gift"><div class="gi">🏛️</div><h4>CONCRETE CURVES</h4><p>Niemeyer proved concrete bends — architecture dances when architects dream</p></div>
+    <div class="gift"><div class="gi">🌿</div><h4>LANDSCAPE AS ART</h4><p>Burle Marx turned gardens into paintings — nature arranged by a master</p></div>
+    <div class="gift"><div class="gi">🏘️</div><h4>SUPERQUADRAS</h4><p>Residential blocks where ground floor belongs to everyone — social architecture</p></div>
+    <div class="gift"><div class="gi">🛣️</div><h4>THE PILOT PLAN</h4><p>Urban zoning as philosophy — work, live, play, govern in perfect sectors</p></div>
+    <div class="gift"><div class="gi">🌉</div><h4>ENGINEERING POETRY</h4><p>Cardozo turned math into art — impossible curves held up by invisible genius</p></div>
+    <div class="gift"><div class="gi">🏗️</div><h4>SPEED OF VISION</h4><p>41 months from empty cerrado to national capital — will over terrain</p></div>
+    <div class="gift"><div class="gi">🌎</div><h4>UNESCO HERITAGE</h4><p>First 20th-century city to receive World Heritage status — 1987</p></div>
+  </div>
+</section>
+
+<section id="stats">
+  <h2>✈️ By the Numbers</h2>
+  <div class="stats">
+    <div class="stat"><div class="num">41</div><div class="label">MONTHS TO BUILD</div></div>
+    <div class="stat"><div class="num">60,000</div><div class="label">WORKERS</div></div>
+    <div class="stat"><div class="num">3M</div><div class="label">POPULATION TODAY</div></div>
+    <div class="stat"><div class="num">5,802</div><div class="label">KM² AREA</div></div>
+    <div class="stat"><div class="num">1,172m</div><div class="label">ALTITUDE</div></div>
+    <div class="stat"><div class="num">1960</div><div class="label">INAUGURATION</div></div>
+    <div class="stat"><div class="num">1987</div><div class="label">UNESCO STATUS</div></div>
+    <div class="stat"><div class="num">104</div><div class="label">NIEMEYER'S AGE AT DEATH</div></div>
+  </div>
+</section>
+
+<div class="banner">
+  <blockquote>"Architecture is invention. I close my eyes and the shapes come."</blockquote>
+  <cite>— Oscar Niemeyer</cite>
+</div>
+
+<div class="back">
+  <a href="https://raw.githack.com/alissali/Learn/main/MORDOR.NET.html">🌋 Mordor</a> ·
+  <a href="https://raw.githack.com/alissali/Learn/main/egypt/EGYPT.CITY.html">☀️ Egypt</a> ·
+  <a href="https://raw.githack.com/alissali/Learn/main/aztec/AZTEC.CITY.html">🦅 Aztec</a> ·
+  <a href="https://raw.githack.com/alissali/Learn/main/greece/GREECE.CITY.html">🏛️ Greece</a> ·
+  <a href="https://raw.githack.com/alissali/Learn/main/china/CHINA.CITY.html">🐉 China</a> ·
+  <a href="https://raw.githack.com/alissali/Learn/main/india/INDIA.CITY.html">☸️ India</a> ·
+  <a href="https://raw.githack.com/alissali/Learn/main/aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal</a> ·
+  <a href="https://raw.githack.com/alissali/Learn/main/arctic/ARCTIC.CITY.html">❄️ Inuit</a> ·
+  <a href="https://raw.githack.com/alissali/Learn/main/newyork/NEWYORK.CITY.html">🗽 New York</a>
+  <br><br>
+  <a href="https://juxaos.com">← JuXAOS Home</a>
+</div>
+
+<footer>
+  <p>BRASÍLIA — A JuX Civilization · Designed from nothing · Built in 41 months · Wonder Boy points, G. builds ✈️</p>
+</footer>
+
+</div>
+
+<script>
+// Neon grid + floating light particles
+const c=document.getElementById('particles'),x=c.getContext('2d');
+function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+window.addEventListener('resize',resize);resize();
+
+class NeonParticle{
+  constructor(){this.reset()}
+  reset(){
+    this.x=Math.random()*c.width;
+    this.y=Math.random()*c.height;
+    this.vx=(Math.random()-0.5)*0.8;
+    this.vy=-Math.random()*0.6-0.2;
+    this.size=Math.random()*3+1;
+    this.alpha=Math.random()*0.6+0.2;
+    this.hue=Math.random()>0.5?200:270; // cyan or purple
+    this.life=Math.random()*200+100;
+  }
+  update(){
+    this.x+=this.vx;this.y+=this.vy;
+    this.life--;
+    if(this.life<30)this.alpha*=0.96;
+    if(this.life<=0||this.y<0||this.x<0||this.x>c.width)this.reset();
+  }
+  draw(){
+    x.beginPath();
+    x.arc(this.x,this.y,this.size,0,Math.PI*2);
+    x.fillStyle=`hsla(${this.hue},100%,70%,${this.alpha})`;
+    x.shadowBlur=15;
+    x.shadowColor=`hsla(${this.hue},100%,50%,0.5)`;
+    x.fill();
+    x.shadowBlur=0;
+  }
+}
+
+// Grid lines
+class GridLine{
+  constructor(horizontal){
+    this.horizontal=horizontal;
+    this.reset();
+  }
+  reset(){
+    if(this.horizontal){
+      this.y=Math.random()*c.height;
+      this.x=-100;
+      this.speed=Math.random()*2+1;
+      this.length=Math.random()*200+100;
+    }else{
+      this.x=Math.random()*c.width;
+      this.y=-100;
+      this.speed=Math.random()*1.5+0.5;
+      this.length=Math.random()*150+80;
+    }
+    this.alpha=Math.random()*0.15+0.05;
+    this.hue=Math.random()>0.5?200:280;
+  }
+  update(){
+    if(this.horizontal){
+      this.x+=this.speed;
+      if(this.x>c.width+100)this.reset();
+    }else{
+      this.y+=this.speed;
+      if(this.y>c.height+100)this.reset();
+    }
+  }
+  draw(){
+    x.beginPath();
+    if(this.horizontal){
+      x.moveTo(this.x,this.y);
+      x.lineTo(this.x+this.length,this.y);
+    }else{
+      x.moveTo(this.x,this.y);
+      x.lineTo(this.x,this.y+this.length);
+    }
+    x.strokeStyle=`hsla(${this.hue},80%,60%,${this.alpha})`;
+    x.lineWidth=1;
+    x.stroke();
+  }
+}
+
+const particles=Array.from({length:120},()=>new NeonParticle());
+const grids=Array.from({length:20},(_,i)=>new GridLine(i%2===0));
+
+function animate(){
+  x.clearRect(0,0,c.width,c.height);
+  grids.forEach(g=>{g.update();g.draw()});
+  particles.forEach(p=>{p.update();p.draw()});
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Lightbox
+function openLightbox(fig){
+  const img=fig.querySelector('img');
+  document.getElementById('lbImg').src=img.src;
+  document.getElementById('lb').classList.add('active');
+}
+function closeLightbox(){document.getElementById('lb').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
