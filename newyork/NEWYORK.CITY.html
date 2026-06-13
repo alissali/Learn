@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEW YORK — The City That Never Sleeps</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:#e0e0e0;font-family:Georgia,serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,#0a0a0f 0%,#1a1a2e 50%,#0a0a0f 100%)}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);color:#FFD700;text-shadow:0 0 40px rgba(255,215,0,0.5),0 0 80px rgba(255,165,0,0.3);letter-spacing:0.15em;z-index:2}
+.hero .sub{font-size:clamp(1rem,3vw,1.6rem);color:#FF6B35;margin-top:0.5em;letter-spacing:0.3em;z-index:2}
+.hero .tagline{font-size:clamp(0.9rem,2vw,1.2rem);color:#aaa;margin-top:1em;font-style:italic;z-index:2}
+.stats-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;padding:2rem;background:rgba(255,215,0,0.03);border-top:1px solid rgba(255,215,0,0.1);border-bottom:1px solid rgba(255,215,0,0.1)}
+.stat{text-align:center}
+.stat .num{font-size:2rem;color:#FFD700;font-weight:bold}
+.stat .label{font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.1em}
+.section{max-width:1000px;margin:4rem auto;padding:0 1.5rem}
+.section h2{font-size:clamp(1.5rem,4vw,2.5rem);color:#FFD700;text-align:center;margin-bottom:0.3em;letter-spacing:0.1em}
+.section .quote{text-align:center;color:#FF6B35;font-style:italic;margin-bottom:2rem;font-size:1.1rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:3rem auto;max-width:1000px;padding:0 1.5rem}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;border:2px solid rgba(255,215,0,0.2)}
+.gallery img:hover{transform:scale(1.03);box-shadow:0 0 30px rgba(255,215,0,0.3)}
+.district{background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.15);border-radius:12px;padding:2rem;margin:1.5rem 0;transition:border-color 0.3s}
+.district:hover{border-color:rgba(255,215,0,0.4)}
+.district h3{color:#FFD700;font-size:1.4rem;margin-bottom:0.5em}
+.district .icon{font-size:2rem;float:left;margin-right:1rem}
+.district p{color:#ccc;line-height:1.8}
+.district .dist-quote{color:#FF6B35;font-style:italic;margin-top:0.5em;display:block}
+.divider{text-align:center;padding:2rem;font-size:1.5rem;letter-spacing:1rem;color:rgba(255,215,0,0.3)}
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0}
+.spec-card{background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.1);border-radius:8px;padding:1.2rem;text-align:center}
+.spec-card .val{font-size:1.5rem;color:#FFD700;font-weight:bold}
+.spec-card .key{font-size:0.8rem;color:#888;text-transform:uppercase}
+.icons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:2rem 0}
+.icon-card{background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.1);border-radius:8px;padding:1.2rem}
+.icon-card h4{color:#FFD700;margin-bottom:0.3em}
+.icon-card p{color:#aaa;font-size:0.95rem;line-height:1.6}
+footer{text-align:center;padding:3rem 1rem;color:#555;border-top:1px solid rgba(255,215,0,0.1);font-size:0.9rem}
+footer a{color:#FFD700}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;justify-content:center;align-items:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:8px}
+#city-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+</style>
+</head>
+<body>
+<canvas id="city-canvas"></canvas>
+
+<div class="hero">
+  <h1>🗽 NEW YORK</h1>
+  <div class="sub">THE CITY THAT NEVER SLEEPS</div>
+  <div class="tagline">"Eight million stories. One island. No parking."</div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="num" data-target="8336817">0</div><div class="label">Population</div></div>
+  <div class="stat"><div class="num" data-target="800">0</div><div class="label">Languages Spoken</div></div>
+  <div class="stat"><div class="num" data-target="472">0</div><div class="label">Subway Stations</div></div>
+  <div class="stat"><div class="num" data-target="6400">0</div><div class="label">Yellow Cabs</div></div>
+  <div class="stat"><div class="num" data-target="58">0</div><div class="label">Million Tourists/Year</div></div>
+</div>
+
+<div class="gallery">
+  <img src="web/NEWYORK-AERIAL.jpg" alt="Manhattan Aerial" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/NEWYORK-TIMESSQUARE.jpg" alt="Times Square" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/NEWYORK-LIBERTY.jpg" alt="Statue of Liberty" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/NEWYORK-CENTRALPARK.jpg" alt="Central Park" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/NEWYORK-BRIDGE.jpg" alt="Brooklyn Bridge" loading="lazy" onclick="openLightbox(this)">
+  <img src="web/NEWYORK-WALLSTREET.jpg" alt="Wall Street" loading="lazy" onclick="openLightbox(this)">
+</div>
+
+<div class="divider">🏙️ · 🗽 · 🌉 · 🚕 · 🎭 · 🏙️</div>
+
+<div class="section">
+  <h2>THE 9 BOROUGHS & DISTRICTS</h2>
+  <div class="quote">"Concrete jungle where dreams are made of — and rent is due on the 1st."</div>
+
+  <div class="district">
+    <div class="icon">🏙️</div>
+    <h3>MANHATTAN — The Island</h3>
+    <p>22.8 square miles that changed the world. Bought for $24 in beads (1626). Now worth $1.7 trillion. Every block a different country. Every corner a different century. The grid that taught the world how to organize chaos.</p>
+    <span class="dist-quote">"$24 in beads. History's greatest real estate deal."</span>
+  </div>
+
+  <div class="district">
+    <div class="icon">🗽</div>
+    <h3>LIBERTY ISLAND — The Promise</h3>
+    <p>305 feet of copper and steel. Gift from France (1886). 354 stairs to the crown. She's watched 12 million immigrants arrive at Ellis Island. Her torch has never gone out. She doesn't guard the harbor — she guards the IDEA.</p>
+    <span class="dist-quote">"Give me your tired, your poor, your huddled masses. I'll give them a subway card."</span>
+  </div>
+
+  <div class="district">
+    <div class="icon">💡</div>
+    <h3>TIMES SQUARE — The Crossroads</h3>
+    <p>1.5 million watts of neon. 330,000 people daily. The intersection where capitalism became a light show. Ball drops every New Year. The world watches. Nobody can afford to live here. Everyone comes anyway.</p>
+    <span class="dist-quote">"Sensory overload is the baseline."</span>
+  </div>
+
+  <div class="district">
+    <div class="icon">🌳</div>
+    <h3>CENTRAL PARK — The Lungs</h3>
+    <p>843 acres of manufactured wilderness. 42 million visitors/year. More people per square foot than most cities. 9,000 benches. Each one a memorial. The city that paved everything kept one rectangle alive.</p>
+    <span class="dist-quote">"843 acres of proof that New York has a heart."</span>
+  </div>
+
+  <div class="district">
+    <div class="icon">💰</div>
+    <h3>WALL STREET — The Engine</h3>
+    <p>$30.1 trillion in market cap. Started under a buttonwood tree (1792). The Charging Bull weighs 7,100 pounds. The exchange bell rings at 9:30 AM — the world either smiles or panics. Both happen by 9:31.</p>
+    <span class="dist-quote">"The bell doesn't care about your feelings."</span>
+  </div>
+
+  <div class="district">
+    <div class="icon">🌉</div>
+    <h3>BROOKLYN BRIDGE — The Connection</h3>
+    <p>Built 1883. Took 14 years, killed 27 people including the chief engineer. First steel-wire suspension bridge. They walked elephants across it to prove it was safe. It held. Brooklyn hasn't stopped crossing since.</p>
+    <span class="dist-quote">"They tested it with elephants. New York doesn't do small."</span>
+  </div>
+
+  <div class="district">
+    <div class="icon">🚇</div>
+    <h3>THE SUBWAY — The Bloodstream</h3>
+    <p>472 stations. 245 miles of track. 5.6 million rides daily. Runs 24/7/365. Rats, musicians, preachers, and billionaires — all on the same platform. The great equalizer costs $2.90.</p>
+    <span class="dist-quote">"Democracy is a subway car at rush hour."</span>
+  </div>
+
+  <div class="district">
+    <div class="icon">🎭</div>
+    <h3>BROADWAY — The Stage</h3>
+    <p>41 theaters. 14.8 million tickets/year. $1.8 billion gross. From Shakespeare to Hamilton. The neon marquees have been promising magic since 1750. Some promises are kept.</p>
+    <span class="dist-quote">"If you can make it here, you can make it anywhere. Most don't."</span>
+  </div>
+
+  <div class="district">
+    <div class="icon">🍕</div>
+    <h3>THE FOOD — The Identity</h3>
+    <p>27,000 restaurants. 800 languages means 800 cuisines. Pizza by the slice since 1905. Bagels that other cities can't replicate (it's the water). Hot dogs at 3 AM. The city runs on coffee and audacity.</p>
+    <span class="dist-quote">"You can eat the entire planet in one zip code."</span>
+  </div>
+</div>
+
+<div class="divider">🚕 · 🗽 · 🌉 · 🏙️ · 🎭 · 🚕</div>
+
+<div class="section">
+  <h2>THE ICONS</h2>
+  <div class="icons-grid">
+    <div class="icon-card"><h4>🏢 Empire State</h4><p>1,454 ft. Built in 410 days (1931). Still standing. Still iconic. King Kong approved.</p></div>
+    <div class="icon-card"><h4>🌐 One World Trade</h4><p>1,776 ft. Not a coincidence. Built where the towers fell. Height = the year America began.</p></div>
+    <div class="icon-card"><h4>🎄 Rockefeller Center</h4><p>The tree. The rink. The TODAY show. Christmas was invented here (approximately).</p></div>
+    <div class="icon-card"><h4>🏛️ Grand Central</h4><p>750,000 people daily. The ceiling has stars painted backwards. Nobody noticed for 100 years.</p></div>
+    <div class="icon-card"><h4>🗞️ The New York Times</h4><p>"All the news that's fit to print." Since 1851. The paper of record for a city that never stops making news.</p></div>
+    <div class="icon-card"><h4>🎵 Apollo Theater</h4><p>Harlem. Where Ella, Billie, James Brown, and everyone who mattered stood on the same stage.</p></div>
+  </div>
+</div>
+
+<div class="divider">🗽 · 🏙️ · 🚕 · 🌉 · 💰 · 🗽</div>
+
+<div class="section">
+  <h2>THE 5 BOROUGHS</h2>
+  <div class="icons-grid">
+    <div class="icon-card"><h4>🏙️ Manhattan</h4><p>The center. 1.6M people on 23 sq mi. Average rent: $4,000/month. Worth it (allegedly).</p></div>
+    <div class="icon-card"><h4>🌉 Brooklyn</h4><p>2.7M people. Was its own city until 1898. Still acts like it. Birthplace of hip-hop's rival borough.</p></div>
+    <div class="icon-card"><h4>🌍 Queens</h4><p>Most ethnically diverse place on Earth. 138 languages. The UN wishes it had this success rate.</p></div>
+    <div class="icon-card"><h4>🏟️ The Bronx</h4><p>Yankee Stadium. Hip-hop birthplace (1973). The Grand Concourse. Boogie Down.</p></div>
+    <div class="icon-card"><h4>🛳️ Staten Island</h4><p>Free ferry. Best view of Manhattan. The borough that voted to secede (1993). Still here.</p></div>
+  </div>
+</div>
+
+<div class="divider">🚕 · 🚕 · 🚕 · 🚕 · 🚕 · 🚕</div>
+
+<div class="section">
+  <h2>BY THE NUMBERS</h2>
+  <div class="specs">
+    <div class="spec-card"><div class="val">1624</div><div class="key">Founded</div></div>
+    <div class="spec-card"><div class="val">302.6 mi²</div><div class="key">Total Area</div></div>
+    <div class="spec-card"><div class="val">$1.7T</div><div class="key">GDP</div></div>
+    <div class="spec-card"><div class="val">6,400</div><div class="key">Yellow Cabs</div></div>
+    <div class="spec-card"><div class="val">13,000</div><div class="key">Yellow Taxis Pre-Uber</div></div>
+    <div class="spec-card"><div class="val">$24</div><div class="key">Purchase Price (1626)</div></div>
+    <div class="spec-card"><div class="val">24/7</div><div class="key">Subway Operation</div></div>
+    <div class="spec-card"><div class="val">800+</div><div class="key">Languages Spoken</div></div>
+    <div class="spec-card"><div class="val">58M</div><div class="key">Tourists/Year</div></div>
+    <div class="spec-card"><div class="val">$4,000</div><div class="key">Avg Monthly Rent</div></div>
+    <div class="spec-card"><div class="val">27,000</div><div class="key">Restaurants</div></div>
+    <div class="spec-card"><div class="val">$2.90</div><div class="key">Subway Ride</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>THINGS NEW YORK GAVE THE WORLD</h2>
+  <div class="icons-grid">
+    <div class="icon-card"><h4>🏙️ The Skyscraper</h4><p>Chicago started it. New York perfected it. Then wouldn't stop.</p></div>
+    <div class="icon-card"><h4>🎵 Hip-Hop</h4><p>The Bronx, 1973. DJ Kool Herc. A turntable and a block party. Now a $10 billion industry.</p></div>
+    <div class="icon-card"><h4>🍕 Pizza by the Slice</h4><p>Lombardi's, 1905. Changed lunch forever. The fold is non-negotiable.</p></div>
+    <div class="icon-card"><h4>💰 Modern Finance</h4><p>Wall Street. The NYSE. The concept of "too big to fail." You're welcome (sorry).</p></div>
+    <div class="icon-card"><h4>🗽 The American Dream</h4><p>12 million immigrants through Ellis Island. The idea that you can start over. Still loading.</p></div>
+    <div class="icon-card"><h4>🎭 Broadway Musical</h4><p>The art form where people burst into song mid-conversation. The world followed.</p></div>
+    <div class="icon-card"><h4>📰 Modern Journalism</h4><p>Pulitzer, Hearst, The Times. They invented the front page. Then filled it.</p></div>
+    <div class="icon-card"><h4>🚖 The Attitude</h4><p>"I'm walkin' here!" A city that turned impatience into a cultural export.</p></div>
+  </div>
+</div>
+
+<footer>
+  <p>🗽 NEW YORK — The City That Never Sleeps — Est. 1624</p>
+  <p style="margin-top:0.5em;color:#666">"Eight million people all trying to get somewhere. That's the whole story."</p>
+  <p style="margin-top:1em"><a href="https://juxaos.com">JuXAOS.com</a> · Built by the Architect · Session 4</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt="Full view">
+</div>
+
+<script>
+// City lights particles
+const canvas=document.getElementById('city-canvas');
+const ctx=canvas.getContext('2d');
+let W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+
+class CityLight{
+  constructor(){this.reset()}
+  reset(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*H;
+    this.size=Math.random()*2+0.5;
+    this.alpha=Math.random()*0.5+0.1;
+    this.pulse=Math.random()*0.02+0.005;
+    this.phase=Math.random()*Math.PI*2;
+    const colors=['#FFD700','#FF6B35','#FFFFFF','#87CEEB','#FF4444','#00FF88'];
+    this.color=colors[Math.floor(Math.random()*colors.length)];
+  }
+}
+const lights=Array.from({length:150},()=>new CityLight());
+
+// Yellow cab streaks
+class Cab{
+  constructor(){this.reset()}
+  reset(){
+    this.y=Math.random()*H;
+    this.x=-50;
+    this.speed=Math.random()*3+2;
+    this.len=Math.random()*60+30;
+    this.alpha=Math.random()*0.15+0.05;
+    this.dir=Math.random()>0.5?1:-1;
+    if(this.dir<0)this.x=W+50;
+  }
+}
+const cabs=Array.from({length:12},()=>new Cab());
+
+let t=0;
+function animate(){
+  ctx.clearRect(0,0,W,H);
+  t+=0.016;
+
+  // City lights
+  lights.forEach(l=>{
+    const a=l.alpha+Math.sin(t*3+l.phase)*l.pulse*5;
+    ctx.beginPath();
+    ctx.arc(l.x,l.y,l.size,0,Math.PI*2);
+    ctx.fillStyle=l.color;
+    ctx.globalAlpha=Math.max(0,a);
+    ctx.fill();
+    ctx.globalAlpha=1;
+  });
+
+  // Yellow cab streaks
+  cabs.forEach(c=>{
+    c.x+=c.speed*c.dir;
+    if((c.dir>0&&c.x>W+100)||(c.dir<0&&c.x<-100))c.reset();
+    ctx.beginPath();
+    ctx.moveTo(c.x,c.y);
+    ctx.lineTo(c.x-c.len*c.dir,c.y);
+    ctx.strokeStyle=`rgba(255,215,0,${c.alpha})`;
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Counter animation
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target;
+      const target=parseInt(el.dataset.target);
+      const duration=2000;
+      const start=performance.now();
+      function update(now){
+        const p=Math.min((now-start)/duration,1);
+        const eased=1-Math.pow(1-p,3);
+        el.textContent=Math.floor(eased*target).toLocaleString();
+        if(p<1)requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+      observer.unobserve(el);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>observer.observe(el));
+
+// Lightbox
+function openLightbox(img){
+  document.getElementById('lb-img').src=img.src;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
