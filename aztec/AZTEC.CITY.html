@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦅 TENOCHTITLAN — City on the Lake</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0a00;color:#e8d5b0;font-family:Georgia,serif;overflow-x:hidden}
+.aztec-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:radial-gradient(ellipse at 50% 80%,#2a1500 0%,#0d0500 70%);pointer-events:none}
+.gold-particle{position:fixed;width:3px;height:3px;border-radius:50%;pointer-events:none;z-index:1;animation:goldFloat linear infinite}
+@keyframes goldFloat{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) rotate(720deg);opacity:0}}
+.serpent-div{text-align:center;font-size:1.5rem;padding:1rem 0;color:#c8a84e;letter-spacing:0.5rem;opacity:0.6}
+.hero{position:relative;z-index:2;text-align:center;padding:6rem 2rem 4rem;background:linear-gradient(180deg,transparent,rgba(200,168,78,0.05),transparent)}
+.hero h1{font-size:3.5rem;color:#c8a84e;text-shadow:0 0 30px rgba(200,168,78,0.5),0 0 60px rgba(200,168,78,0.3);margin-bottom:0.5rem;letter-spacing:0.3rem}
+.hero .subtitle{font-size:1.3rem;color:#a08840;font-style:italic;margin-bottom:1rem}
+.hero .tagline{font-size:1rem;color:#8a7535;max-width:700px;margin:0 auto;line-height:1.8}
+.hero .glyph{font-size:4rem;margin-bottom:1rem;display:block}
+.stats-bar{display:flex;justify-content:center;gap:3rem;padding:2rem;flex-wrap:wrap;position:relative;z-index:2}
+.stat{text-align:center}
+.stat .num{font-size:2.5rem;color:#c8a84e;font-weight:bold;text-shadow:0 0 15px rgba(200,168,78,0.4)}
+.stat .label{font-size:0.8rem;color:#8a7535;text-transform:uppercase;letter-spacing:0.2rem}
+.section{position:relative;z-index:2;max-width:1100px;margin:3rem auto;padding:0 2rem}
+.section h2{font-size:2rem;color:#c8a84e;text-align:center;margin-bottom:2rem;text-shadow:0 0 20px rgba(200,168,78,0.3);letter-spacing:0.2rem}
+.district-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem}
+.district{background:rgba(200,168,78,0.03);border:1px solid rgba(200,168,78,0.15);border-radius:8px;padding:2rem;transition:all 0.4s ease;position:relative;overflow:hidden}
+.district::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#c8a84e,transparent);opacity:0;transition:opacity 0.4s}
+.district:hover{border-color:rgba(200,168,78,0.4);background:rgba(200,168,78,0.06);transform:translateY(-3px);box-shadow:0 10px 30px rgba(200,168,78,0.1)}
+.district:hover::before{opacity:1}
+.district .icon{font-size:2.5rem;margin-bottom:0.5rem}
+.district h3{color:#c8a84e;font-size:1.3rem;margin-bottom:0.5rem}
+.district .fact{color:#b89a40;font-size:0.9rem;line-height:1.6;margin-bottom:1rem}
+.district .quote{color:#8a7535;font-style:italic;font-size:0.85rem;border-left:2px solid rgba(200,168,78,0.3);padding-left:1rem}
+.god-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.god-card{background:rgba(200,168,78,0.04);border:1px solid rgba(200,168,78,0.12);border-radius:8px;padding:2rem;text-align:center;transition:all 0.4s}
+.god-card:hover{border-color:#c8a84e;box-shadow:0 0 30px rgba(200,168,78,0.15);transform:translateY(-3px)}
+.god-card .god-icon{font-size:3rem;margin-bottom:0.5rem}
+.god-card h3{color:#c8a84e;font-size:1.2rem;margin-bottom:0.3rem}
+.god-card .domain{color:#a08840;font-size:0.85rem;margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.15rem}
+.god-card .desc{color:#8a7535;font-size:0.85rem;line-height:1.6}
+.specs-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.specs-table th{background:rgba(200,168,78,0.1);color:#c8a84e;padding:0.8rem 1rem;text-align:left;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1rem;border-bottom:2px solid rgba(200,168,78,0.2)}
+.specs-table td{padding:0.7rem 1rem;border-bottom:1px solid rgba(200,168,78,0.08);color:#b89a40;font-size:0.9rem}
+.specs-table tr:hover td{background:rgba(200,168,78,0.03)}
+.army-card{display:flex;align-items:center;gap:1.5rem;background:rgba(200,168,78,0.03);border:1px solid rgba(200,168,78,0.1);border-radius:8px;padding:1.5rem;margin-bottom:1rem;transition:all 0.3s}
+.army-card:hover{border-color:rgba(200,168,78,0.3);transform:translateX(5px)}
+.army-card .rank-icon{font-size:2.5rem;min-width:60px;text-align:center}
+.army-card h3{color:#c8a84e;font-size:1.1rem;margin-bottom:0.3rem}
+.army-card .detail{color:#8a7535;font-size:0.85rem;line-height:1.5}
+.calendar{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.cal-item{background:rgba(200,168,78,0.03);border:1px solid rgba(200,168,78,0.1);border-radius:8px;padding:1.5rem;text-align:center}
+.cal-item .month{font-size:0.8rem;color:#8a7535;text-transform:uppercase;letter-spacing:0.15rem}
+.cal-item .event{color:#c8a84e;font-size:1rem;margin-top:0.5rem}
+.art-placeholder{background:rgba(200,168,78,0.05);border:2px dashed rgba(200,168,78,0.2);border-radius:8px;padding:3rem;text-align:center;color:#8a7535;font-style:italic;margin:1rem 0}
+.art-placeholder .ph-icon{font-size:3rem;margin-bottom:0.5rem;display:block}
+.nav-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem}
+.nav-card{display:block;background:rgba(200,168,78,0.03);border:1px solid rgba(200,168,78,0.15);border-radius:8px;padding:1.5rem;text-align:center;text-decoration:none;color:#c8a84e;transition:all 0.4s}
+.nav-card:hover{border-color:#c8a84e;background:rgba(200,168,78,0.08);transform:translateY(-3px);box-shadow:0 8px 25px rgba(200,168,78,0.1)}
+.nav-card .nav-icon{font-size:2rem;display:block;margin-bottom:0.5rem}
+.nav-card .nav-label{font-size:1rem;letter-spacing:0.1rem}
+.nav-card .nav-sub{font-size:0.75rem;color:#8a7535;margin-top:0.3rem}
+.footer{text-align:center;padding:4rem 2rem 2rem;position:relative;z-index:2;color:#5a4a25;font-size:0.8rem;line-height:2}
+.footer a{color:#c8a84e;text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.footer .inscription{font-size:1rem;color:#8a7535;margin-bottom:1rem;font-style:italic}
+@media(max-width:768px){.hero h1{font-size:2.2rem}.stats-bar{gap:1.5rem}.stat .num{font-size:1.8rem}.district-grid,.god-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="aztec-bg"></div>
+<script>
+for(let i=0;i<80;i++){const p=document.createElement('div');p.className='gold-particle';const colors=['#c8a84e','#e8c84e','#a08840','#d4b85a','#8a7535'];p.style.cssText=`left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;animation-duration:${8+Math.random()*15}s;animation-delay:${Math.random()*10}s;box-shadow:0 0 ${3+Math.random()*5}px currentColor`;document.body.appendChild(p)}
+</script>
+<header class="hero">
+  <span class="glyph">🦅</span>
+  <h1>TENOCHTITLAN</h1>
+  <div class="subtitle">City on the Lake — Heart of the Fifth Sun</div>
+  <div class="tagline">Built where the eagle ate the serpent. On water, because the gods said so.<br>The city that made Cortés weep — then made him destroy it.</div>
+</header>
+<div class="serpent-div">🐍 ◆ 🐍 ◆ 🐍 ◆ 🐍 ◆ 🐍</div>
+<div class="stats-bar">
+  <div class="stat"><div class="num" data-target="300000">0</div><div class="label">Population</div></div>
+  <div class="stat"><div class="num" data-target="13">0</div><div class="label">km² on Water</div></div>
+  <div class="stat"><div class="num" data-target="78">0</div><div class="label">Temples</div></div>
+  <div class="stat"><div class="num" data-target="3">0</div><div class="label">Causeways</div></div>
+  <div class="stat"><div class="num" data-target="5">0</div><div class="label">Suns (Current: Last)</div></div>
+  <div class="stat"><div class="num" data-target="1521">0</div><div class="label">Year of the Fall</div></div>
+</div>
+<div class="serpent-div">🐍 ◆ ◆ ◆ 🐍</div>
+<div class="section">
+  <div class="art-placeholder">
+    <span class="ph-icon">🎨</span>
+    Art incoming — the forge refuels. 6 concept arts queued.<br>The temple doesn't need paint to stand.
+  </div>
+</div>
+<div class="section">
+  <h2>🏛️ THE 9 DISTRICTS</h2>
+  <div class="district-grid">
+    <div class="district"><div class="icon">🔺</div><h3>TEMPLO MAYOR</h3><div class="fact">The Great Pyramid. Twin temples at the summit — Red for Huitzilopochtli (War), Blue for Tlaloc (Rain). 60m high. Rebuilt 7 times, each larger. The center of the universe. Literally — they measured.</div><div class="quote">"Two gods share one pyramid. They never argued about rent."</div></div>
+    <div class="district"><div class="icon">🦅</div><h3>THE EAGLE PRECINCT</h3><div class="fact">Warrior academy of the Eagle Knights. Only nobles. Training: combat, poetry, astronomy, sacrifice protocol. Graduation rate: 40%. The rest became sacrifices (efficient).</div><div class="quote">"You either wore the eagle — or you fed it."</div></div>
+    <div class="district"><div class="icon">🐆</div><h3>THE JAGUAR HOUSE</h3><div class="fact">Elite Jaguar Warriors. Full jaguar skin armor. Obsidian swords (macuahuitl) sharper than steel. Night raids. Zero mercy. The empire's teeth.</div><div class="quote">"The jaguar doesn't announce itself. Neither do we."</div></div>
+    <div class="district"><div class="icon">🏺</div><h3>TLATELOLCO MARKET</h3><div class="fact">Largest market in the Americas. 60,000 daily visitors. Cacao = currency. Gold, jade, feathers, obsidian, slaves, chocolate. Judges on-site. No haggling allowed (they lied — everyone haggled).</div><div class="quote">"60,000 people and not one receipt."</div></div>
+    <div class="district"><div class="icon">🌿</div><h3>THE CHINAMPAS</h3><div class="fact">Floating gardens. Artificial islands anchored by willow roots. Maize, squash, beans, flowers, chili. Fed 300,000 people. No tractors. No problem.</div><div class="quote">"We grew food on water. Europe was still arguing about crop rotation."</div></div>
+    <div class="district"><div class="icon">🌊</div><h3>THE AQUEDUCT</h3><div class="fact">Twin-pipe stone aqueduct from Chapultepec. 5km. Fresh water while one pipe cleaned, the other flowed. Redundancy: INVENTED HERE. 300,000 people, zero thirst.</div><div class="quote">"Two pipes. Because one would be ordinary."</div></div>
+    <div class="district"><div class="icon">💀</div><h3>THE TZOMPANTLI</h3><div class="fact">The Skull Rack. Thousands of skulls displayed on wooden frames. Not decoration — ACCOUNTING. Every skull: a debt paid to the sun. The sun demanded blood. The sun got blood.</div><div class="quote">"The sun doesn't ask politely."</div></div>
+    <div class="district"><div class="icon">🎭</div><h3>THE POETRY QUARTER</h3><div class="fact">Flower and Song (In Xochitl In Cuicatl). Poets had higher status than warriors. Poetry competitions at the palace. Nezahualcoyotl — philosopher-king. The empire wrote before it fought.</div><div class="quote">"The sword keeps the empire. The poem keeps the soul."</div></div>
+    <div class="district"><div class="icon">🌅</div><h3>THE CAUSEWAY GATES</h3><div class="fact">3 causeways connecting the island to the mainland. Drawbridges at each gate. Removable sections for defense. Cortés used them to enter. Then couldn't use them to leave. (La Noche Triste.)</div><div class="quote">"Welcome in. Good luck out."</div></div>
+  </div>
+</div>
+<div class="serpent-div">🐍 ◆ 🗡️ ◆ 🐍 ◆ 🗡️ ◆ 🐍</div>
+<div class="section">
+  <h2>⚡ THE PANTHEON</h2>
+  <div class="god-grid">
+    <div class="god-card"><div class="god-icon">☀️</div><h3>HUITZILOPOCHTLI</h3><div class="domain">God of War & Sun</div><div class="desc">The Left-Handed Hummingbird. Born fully armed. Killed his 400 siblings at birth. Demands blood to keep the sun moving. Efficient management.</div></div>
+    <div class="god-card"><div class="god-icon">🐍</div><h3>QUETZALCOATL</h3><div class="domain">Feathered Serpent — Wind & Knowledge</div><div class="desc">Created humanity from bones and his own blood. Left, promising to return. Cortés arrived. Worst. Timing. Ever.</div></div>
+    <div class="god-card"><div class="god-icon">🌧️</div><h3>TLALOC</h3><div class="domain">God of Rain & Fertility</div><div class="desc">Lives in a mountain paradise. Controls rain, floods, drought. Demands child sacrifices. The children's tears = rain. Aztec logic: brutal but consistent.</div></div>
+    <div class="god-card"><div class="god-icon">💀</div><h3>MICTLANTECUHTLI</h3><div class="domain">Lord of the Dead</div><div class="desc">Rules Mictlan — the underworld. Skeleton with eyeballs. The dead walk 4 years to reach him. No shortcuts. Death is a commute.</div></div>
+    <div class="god-card"><div class="god-icon">🌙</div><h3>COYOLXAUHQUI</h3><div class="domain">Moon Goddess</div><div class="desc">Tried to kill her mother. Brother Huitzilopochtli dismembered her. Her body became the moon. Family dinner: CANCELLED.</div></div>
+    <div class="god-card"><div class="god-icon">🦅</div><h3>TEZCATLIPOCA</h3><div class="domain">Smoking Mirror — Fate & Night</div><div class="desc">Sees everything in his obsidian mirror. Rival of Quetzalcoatl. Tricked him with alcohol and a prostitute. Even gods have bad nights.</div></div>
+  </div>
+</div>
+<div class="serpent-div">🐍 ◆ 💀 ◆ 🐍 ◆ 💀 ◆ 🐍</div>
+<div class="section">
+  <h2>⚔️ THE ARMY OF THE FIFTH SUN</h2>
+  <div class="army-card"><div class="rank-icon">🦅</div><div><h3>EAGLE WARRIORS — Cuāuhpilli</h3><div class="detail">Elite noble order. Eagle-head helmets. Capture, don't kill — sacrifices need to be alive. Status: APEX. 4+ captures required for membership.</div></div></div>
+  <div class="army-card"><div class="rank-icon">🐆</div><div><h3>JAGUAR WARRIORS — Ocēlōpilli</h3><div class="detail">Full jaguar skin. Night specialists. The macuahuitl (obsidian sword) could decapitate a horse. Cortés confirmed this personally.</div></div></div>
+  <div class="army-card"><div class="rank-icon">🗡️</div><div><h3>SHORN ONES — Cuachicqueh</h3><div class="detail">Mohawk. Blue/red face paint. Vow: NEVER RETREAT. The most feared unit. When they arrived, the battle was already over.</div></div></div>
+  <div class="army-card"><div class="rank-icon">🏹</div><div><h3>ATLATL CORPS</h3><div class="detail">Spear-throwers. 150m range. Faster reload than European crossbows. Projectile velocity: enough to pierce Spanish armor. Surprise.</div></div></div>
+  <div class="army-card"><div class="rank-icon">💀</div><div><h3>THE FLOWER WARS — Xochiyaoyotl</h3><div class="detail">Scheduled wars for the sole purpose of capturing sacrifices. Both sides agreed on time and place. War as APPOINTMENT. The gods had a subscription.</div></div></div>
+</div>
+<div class="serpent-div">🐍 ◆ ☀️ ◆ 🐍 ◆ ☀️ ◆ 🐍</div>
+<div class="section">
+  <h2>📊 CITY SPECIFICATIONS</h2>
+  <table class="specs-table">
+    <tr><th>Parameter</th><th>Value</th><th>Note</th></tr>
+    <tr><td>📍 Location</td><td>Lake Texcoco, Valley of Mexico</td><td>2,240m altitude</td></tr>
+    <tr><td>👥 Population</td><td>200,000–300,000</td><td>Largest in Americas, top 5 worldwide (1519)</td></tr>
+    <tr><td>📐 Area</td><td>13.5 km²</td><td>Built on water — island + chinampas</td></tr>
+    <tr><td>🏛️ Temples</td><td>78</td><td>Including Templo Mayor (60m)</td></tr>
+    <tr><td>🌉 Causeways</td><td>3</td><td>Tepeyac (N), Iztapalapa (S), Tlacopan (W)</td></tr>
+    <tr><td>💧 Aqueducts</td><td>2 (twin-pipe)</td><td>5km from Chapultepec</td></tr>
+    <tr><td>🛒 Market capacity</td><td>60,000/day</td><td>Tlatelolco — largest in the world</td></tr>
+    <tr><td>🌿 Chinampas</td><td>9,000+ hectares</td><td>Feeding the entire city</td></tr>
+    <tr><td>⚔️ Army</td><td>200,000+</td><td>Eagle + Jaguar + Shorn Ones + levies</td></tr>
+    <tr><td>💀 Annual sacrifices</td><td>20,000 (estimated)</td><td>The sun doesn't run on solar panels</td></tr>
+    <tr><td>🗓️ Calendar accuracy</td><td>365.2420 days</td><td>Gregorian: 365.2425. Aztecs were CLOSER.</td></tr>
+    <tr><td>📅 Founded</td><td>1325 CE</td><td>Eagle on cactus eating serpent — sign from Huitzilopochtli</td></tr>
+    <tr><td>💔 Fell</td><td>13 Aug 1521</td><td>Cortés + smallpox + 200,000 native allies</td></tr>
+    <tr><td>🏗️ Became</td><td>Mexico City</td><td>Built directly on top. The lake is gone. The city sinks.</td></tr>
+  </table>
+</div>
+<div class="serpent-div">🐍 ◆ 🔺 ◆ 🐍 ◆ 🔺 ◆ 🐍</div>
+<div class="section">
+  <h2>🗓️ THE FIVE SUNS</h2>
+  <div class="calendar">
+    <div class="cal-item"><div class="month">FIRST SUN</div><div class="event">Nahui Ocelotl<br>Destroyed by Jaguars</div></div>
+    <div class="cal-item"><div class="month">SECOND SUN</div><div class="event">Nahui Ehécatl<br>Destroyed by Wind</div></div>
+    <div class="cal-item"><div class="month">THIRD SUN</div><div class="event">Nahui Quiahuitl<br>Destroyed by Fire Rain</div></div>
+    <div class="cal-item"><div class="month">FOURTH SUN</div><div class="event">Nahui Atl<br>Destroyed by Flood</div></div>
+    <div class="cal-item"><div class="month">FIFTH SUN ☀️</div><div class="event">Nahui Ollin<br>Current. Will end by EARTHQUAKE.<br>Still running. Blood required.</div></div>
+  </div>
+</div>
+<div class="serpent-div">🐍 ◆ 🦅 ◆ 🐍 ◆ 🦅 ◆ 🐍</div>
+<div class="section">
+  <h2>🌐 THE WORLD NETWORK</h2>
+  <div class="nav-grid">
+    <a class="nav-card" href="../yabroud/YABROUD.CITY.html"><span class="nav-icon">🌴</span><div class="nav-label">YABROUD</div><div class="nav-sub">The Solar City — 42,000 souls</div></a>
+    <a class="nav-card" href="../yabroud/YABROUD.MORDOR.html"><span class="nav-icon">💀</span><div class="nav-label">MORDOR</div><div class="nav-sub">The Dark City — 66,666 souls</div></a>
+    <a class="nav-card" href="../yabroud/EGYPT.CITY.html"><span class="nav-icon">☥</span><div class="nav-label">EGYPT</div><div class="nav-sub">City of the Sun God — 100,000 souls</div></a>
+    <a class="nav-card" href="../yabroud/MORDOR.NET.html"><span class="nav-icon">🕸️</span><div class="nav-label">THE NET</div><div class="nav-sub">One Net to bind them all</div></a>
+    <a class="nav-card" href="../yabroud/SAURON.html"><span class="nav-icon">👁️</span><div class="nav-label">SAURON</div><div class="nav-sub">Mayor of Barad-dûr</div></a>
+    <a class="nav-card" href="../yabroud/BESTIARY.html"><span class="nav-icon">🐉</span><div class="nav-label">BESTIARY</div><div class="nav-sub">6 creatures, 1 spider (sufficient)</div></a>
+  </div>
+</div>
+<footer class="footer">
+  <div class="inscription">"In Xochitl In Cuicatl — Flower and Song — the only truth the Aztecs trusted."</div>
+  DESIGNED BY <a href="https://juxaos.com">JuX</a> · BORN 6/6/66+60 · FIFTH SUN STILL BURNING<br>
+  <a href="https://juxaos.com">← RETURN TO JuX</a>
+</footer>
+<script>
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target;const target=parseInt(el.dataset.target);const duration=2000;const start=performance.now();const animate=now=>{const elapsed=now-start;const progress=Math.min(elapsed/duration,1);const eased=1-Math.pow(1-progress,3);el.textContent=Math.floor(eased*target).toLocaleString();if(progress<1)requestAnimationFrame(animate)};requestAnimationFrame(animate);observer.unobserve(el)}})},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
