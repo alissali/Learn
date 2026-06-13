@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LONDON — The Last Refuge | JuX Civilizations</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a2e;color:#e0d5c1;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.rain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.raindrop{position:absolute;width:1px;background:linear-gradient(transparent,rgba(174,194,224,0.5));animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-100vh);opacity:1}100%{transform:translateY(100vh);opacity:0.3}}
+.fog{position:fixed;top:0;left:0;width:200%;height:100%;pointer-events:none;z-index:9998;background:linear-gradient(90deg,transparent,rgba(174,194,224,0.03),transparent,rgba(174,194,224,0.05),transparent);animation:drift 30s linear infinite}
+@keyframes drift{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3e 30%,#2d1b3d 60%,#1a1a2e 100%)}
+.hero-overlay{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(200,170,110,0.08),transparent 70%)}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#c8aa6e;text-shadow:0 0 40px rgba(200,170,110,0.3);letter-spacing:0.15em;z-index:1}
+.hero h1 .crown{font-size:0.7em;display:block;letter-spacing:0.3em;margin-bottom:0.3em;color:#8b7355}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#8b8b9e;margin-top:1rem;font-style:italic;z-index:1}
+.hero .year{font-size:0.9rem;color:#5a5a7e;margin-top:0.5rem;letter-spacing:0.2em;z-index:1}
+.nav-bar{background:rgba(10,10,26,0.95);border-bottom:1px solid #c8aa6e33;padding:1rem;text-align:center;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.nav-bar a{color:#c8aa6e;text-decoration:none;margin:0 0.8rem;font-size:0.85rem;letter-spacing:0.1em;transition:color 0.3s}
+.nav-bar a:hover{color:#e8ca8e}
+section{max-width:1100px;margin:0 auto;padding:3rem 1.5rem}
+h2{color:#c8aa6e;font-size:clamp(1.5rem,4vw,2.2rem);text-align:center;margin-bottom:2rem;letter-spacing:0.1em}
+h2 .icon{font-size:1.3em;margin-right:0.5rem}
+.intro{text-align:center;max-width:800px;margin:0 auto 3rem;line-height:1.8;font-size:1.05rem;color:#a89b8c}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:2rem 0}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;border:1px solid #c8aa6e22}
+.gallery img:hover{transform:scale(1.03);box-shadow:0 8px 30px rgba(200,170,110,0.2)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:10000;align-items:center;justify-content:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:92vw;max-height:92vh;border-radius:8px}
+.district{background:rgba(200,170,110,0.04);border:1px solid #c8aa6e22;border-radius:12px;padding:2rem;margin:1.5rem 0;transition:border-color 0.3s}
+.district:hover{border-color:#c8aa6e66}
+.district h3{color:#c8aa6e;font-size:1.3rem;margin-bottom:0.5rem}
+.district .fact{color:#8b8b9e;font-size:0.9rem;margin-bottom:0.8rem}
+.district .quote{color:#a89b8c;font-style:italic;border-left:2px solid #c8aa6e33;padding-left:1rem;margin-top:0.8rem}
+.icons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin:2rem 0}
+.icon-card{background:rgba(200,170,110,0.04);border:1px solid #c8aa6e22;border-radius:12px;padding:1.5rem;text-align:center;transition:border-color 0.3s}
+.icon-card:hover{border-color:#c8aa6e66}
+.icon-card .symbol{font-size:2.5rem;margin-bottom:0.8rem}
+.icon-card h4{color:#c8aa6e;margin-bottom:0.5rem}
+.icon-card p{color:#8b8b9e;font-size:0.9rem;line-height:1.6}
+.gifts{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:2rem 0}
+.gifts li{background:rgba(200,170,110,0.04);border:1px solid #c8aa6e22;border-radius:8px;padding:1rem;color:#a89b8c;font-size:0.95rem}
+.gifts li strong{color:#c8aa6e}
+.back-link{text-align:center;padding:2rem;margin-top:2rem}
+.back-link a{color:#c8aa6e;text-decoration:none;font-size:1.1rem;letter-spacing:0.1em;border:1px solid #c8aa6e33;padding:0.8rem 2rem;border-radius:8px;transition:all 0.3s}
+.back-link a:hover{background:#c8aa6e22}
+footer{text-align:center;padding:2rem;color:#5a5a7e;font-size:0.85rem;border-top:1px solid #c8aa6e11;margin-top:3rem}
+</style>
+</head>
+<body>
+<div class="rain" id="rain"></div>
+<div class="fog"></div>
+
+<div class="hero">
+<div class="hero-overlay"></div>
+<div style="z-index:1">
+<h1><span class="crown">👑 THE LAST REFUGE</span>LONDON</h1>
+<p class="subtitle">Plague. Fire. Blitz. Brexit. Still Standing. Still Drinking Tea at 4 PM.</p>
+<p class="year">LONDINIUM — EST. 43 AD — 2,000 YEARS UNBROKEN</p>
+</div>
+</div>
+
+<nav class="nav-bar">
+<a href="#gallery">Gallery</a>
+<a href="#districts">Districts</a>
+<a href="#icons">Icons</a>
+<a href="#army">Empire</a>
+<a href="#gifts">Gifts</a>
+<a href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">⚔ MORDOR</a>
+</nav>
+
+<section id="intro">
+<h2><span class="icon">🇬🇧</span> The City That Refused to Die</h2>
+<p class="intro">They burned it. It came back. They bombed it for 57 nights. It came back. The plague took a quarter of them. They came back. Two thousand years of being attacked, invaded, burned, bombed, flooded, and politically confused — and they still queue politely for the bus. London doesn't survive. London <em>insists</em>.</p>
+<p class="intro">43 AD — the Romans called it Londinium. 2026 — 9 million people call it home. In between: Shakespeare, Newton, the Industrial Revolution, the Blitz, punk rock, and the best bad food on Earth. This is the LAST REFUGE — where the world came when it had nowhere else to go.</p>
+</section>
+
+<section id="gallery">
+<h2><span class="icon">🎨</span> Concept Art</h2>
+<div class="gallery">
+<img src="https://raw.githack.com/alissali/Learn/main/london/web/LONDON-AERIAL.jpg" alt="London Aerial" loading="lazy" onclick="openLightbox(this)">
+<img src="https://raw.githack.com/alissali/Learn/main/london/web/LONDON-PARLIAMENT.jpg" alt="Houses of Parliament" loading="lazy" onclick="openLightbox(this)">
+<img src="https://raw.githack.com/alissali/Learn/main/london/web/LONDON-TOWER.jpg" alt="Tower of London" loading="lazy" onclick="openLightbox(this)">
+<img src="https://raw.githack.com/alissali/Learn/main/london/web/LONDON-STREET.jpg" alt="London Streets" loading="lazy" onclick="openLightbox(this)">
+<img src="https://raw.githack.com/alissali/Learn/main/london/web/LONDON-MUSEUM.jpg" alt="British Museum" loading="lazy" onclick="openLightbox(this)">
+<img src="https://raw.githack.com/alissali/Learn/main/london/web/LONDON-PALACE.jpg" alt="Buckingham Palace" loading="lazy" onclick="openLightbox(this)">
+</div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightbox-img" src="" alt="Zoomed">
+</div>
+
+<section id="districts">
+<h2><span class="icon">🏛️</span> The 9 Districts of the Eternal City</h2>
+
+<div class="district">
+<h3>🏛️ WESTMINSTER — The Seat of Power</h3>
+<div class="fact">Houses of Parliament · Big Ben · 1,000 years of democracy · 650 MPs arguing since 1295</div>
+<p>The Mother of Parliaments. Where they invented arguing professionally and exported it to 56 countries. Big Ben hasn't been late since 1859 — more reliable than every politician inside it.</p>
+<p class="quote">"They invented democracy. Then spent 700 years arguing about it."</p>
+</div>
+
+<div class="district">
+<h3>🏰 THE TOWER — 1,000 Years of Bad Decisions</h3>
+<div class="fact">1066 · Crown Jewels · 6 ravens · Kill the ravens, the kingdom falls · 22 executions</div>
+<p>William the Conqueror built it to terrify London. It worked. Prison, palace, zoo, mint, armoury — the Tower has been everything except pleasant. Six ravens guard it today. Kill them, and the kingdom falls. The ravens have a better pension than you.</p>
+<p class="quote">"The ravens stay. Everyone else eventually leaves. In a box."</p>
+</div>
+
+<div class="district">
+<h3>🌉 TOWER BRIDGE — The Door That Opens</h3>
+<div class="fact">1894 · 1,000 times/year it opens · Victorian Gothic meets hydraulic engineering · 800 ft</div>
+<p>The most photographed bridge on Earth. Victorian Gothic on the outside, raw hydraulic engineering on the inside. It opens 1,000 times a year — and traffic actually stops. In London. For a boat.</p>
+<p class="quote">"The only thing in London that stops traffic politely."</p>
+</div>
+
+<div class="district">
+<h3>🎭 WEST END — The Show Must Go On</h3>
+<div class="fact">40 theaters · Les Misérables running since 1985 · Shakespeare's Globe rebuilt plank by plank</div>
+<p>Broadway's grandmother. Forty theaters in one square mile. Les Mis has been running since 1985 — longer than most marriages. Shakespeare's Globe was rebuilt plank by plank because London couldn't live without it.</p>
+<p class="quote">"The curtain goes up. London forgets it's raining. For two hours."</p>
+</div>
+
+<div class="district">
+<h3>🍺 THE PUB — Living Room of the Empire</h3>
+<div class="fact">3,500 pubs in London · Some older than America · Warm beer is a feature, not a bug</div>
+<p>The living room of the British Empire. Some of these pubs are older than the United States. The beer is warm because cold beer is for people in a hurry. Nobody in a London pub is in a hurry. They're waiting for the rain to stop. It won't.</p>
+<p class="quote">"The pub was here before the church. Priorities."</p>
+</div>
+
+<div class="district">
+<h3>🏛️ THE BRITISH MUSEUM — Everyone's History</h3>
+<div class="fact">8 million objects · Free entry since 1753 · The Rosetta Stone · "Borrowed" from everywhere</div>
+<p>Eight million objects from every civilization that ever existed. Entry: free since 1753. The largest collection of "borrowed" artifacts on Earth. Every country wants their stuff back. London says it's "safekeeping."</p>
+<p class="quote">"The world's attic. With better lighting."</p>
+</div>
+
+<div class="district">
+<h3>👑 BUCKINGHAM PALACE — The Crown That Stayed</h3>
+<div class="fact">775 rooms · 1,514 doors · Changing of the Guard daily · The Queen stayed during the Blitz</div>
+<p>775 rooms. 1,514 doors. 760 windows. One family. The Queen stayed during the Blitz while bombs fell on the palace. "Now I can look the East End in the face." That's not courage. That's London.</p>
+<p class="quote">"775 rooms and they all use the same one."</p>
+</div>
+
+<div class="district">
+<h3>🚇 THE TUBE — Democracy Underground</h3>
+<div class="fact">1863 — world's first underground railway · 272 stations · 402 km · "Mind the Gap" since 1968</div>
+<p>The world's first underground railway. 1863. They dug under London because the streets were full. 272 stations. 402 km. A billionaire and a busker share the same platform. "Mind the Gap" — three words more famous than most national anthems.</p>
+<p class="quote">"Mind the Gap. Between who you are and who you could be."</p>
+</div>
+
+<div class="district">
+<h3>☕ THE TEA — The Real National Defense</h3>
+<div class="fact">165 million cups/day · Blitz? Tea. Crisis? Tea. Victory? Tea. · Builder's: milk, two sugars</div>
+<p>165 million cups a day. The Blitz was survived on tea. Every crisis, every victory, every ordinary Tuesday — tea. The kettle is the most used appliance in Britain. The empire was built between cups.</p>
+<p class="quote">"They didn't defeat the Blitz with courage. They defeated it with kettles."</p>
+</div>
+</section>
+
+<section id="icons">
+<h2><span class="icon">🗡️</span> 6 Icons of London</h2>
+<div class="icons-grid">
+<div class="icon-card">
+<div class="symbol">👑</div>
+<h4>ELIZABETH II</h4>
+<p>70 years. 15 Prime Ministers. She outlasted them all. Never once said what she thought. That's power.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">🎭</div>
+<h4>SHAKESPEARE</h4>
+<p>Invented 1,700 words. "Lonely." "Generous." "Assassination." The language didn't exist until he needed it.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">🍎</div>
+<h4>NEWTON</h4>
+<p>An apple fell. He explained the universe. Worked from home during the plague. The original remote worker.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">🔬</div>
+<h4>DARWIN</h4>
+<p>Sailed the world. Came home. Explained life. Took 20 years to publish because he knew the storm it would cause.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">✊</div>
+<h4>CHURCHILL</h4>
+<p>"We shall fight on the beaches." He didn't win the war with armies. He won it with sentences.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">🎸</div>
+<h4>THE BEATLES</h4>
+<p>Four lads from Liverpool. Changed music. Changed culture. Changed everything. Still selling records.</p>
+</div>
+</div>
+</section>
+
+<section id="army">
+<h2><span class="icon">⚔️</span> The Empire — How a Rainy Island Ruled the World</h2>
+<div class="icons-grid">
+<div class="icon-card">
+<div class="symbol">⚓</div>
+<h4>THE ROYAL NAVY</h4>
+<p>Ruled the seas for 300 years. Trafalgar. Nelson. The wooden wall between Britain and everyone else.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">🔴</div>
+<h4>THE REDCOATS</h4>
+<p>Red so the enemy couldn't see them bleed. Or so they wouldn't stop. Either answer is terrifying.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">🕵️</div>
+<h4>MI6 & BLETCHLEY</h4>
+<p>Turing cracked Enigma. Shortened the war by 2 years. They thanked him by destroying him. London's shame.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">🛡️</div>
+<h4>THE BLITZ SPIRIT</h4>
+<p>57 nights of bombing. 30,000 dead. They went to work the next morning. Over rubble. With tea.</p>
+</div>
+<div class="icon-card">
+<div class="symbol">🗺️</div>
+<h4>THE MAP</h4>
+<p>At its peak: 25% of Earth's land. 412 million people. One small island. The sun literally could not set.</p>
+</div>
+</div>
+</section>
+
+<section id="gifts">
+<h2><span class="icon">🎁</span> 8 Gifts London Gave the World</h2>
+<ul class="gifts">
+<li><strong>🏛️ Parliamentary Democracy</strong> — 1295. The system 56 countries copied. Still arguing.</li>
+<li><strong>⚙️ The Industrial Revolution</strong> — Steam. Iron. Rails. Changed the species forever.</li>
+<li><strong>📚 The English Language</strong> — 1.5 billion speakers. Shakespeare's fault.</li>
+<li><strong>🌐 The World Wide Web</strong> — Tim Berners-Lee. 1989. A London-born idea. Free. Forever.</li>
+<li><strong>⚽ Modern Football</strong> — 1863. FA rules. Now 4 billion fans. You're welcome.</li>
+<li><strong>💊 Penicillin</strong> — Fleming. St Mary's Hospital. Saved 200 million lives and counting.</li>
+<li><strong>🎵 Rock & Roll</strong> — Beatles, Stones, Bowie, Punk, Grime. The island never stopped making noise.</li>
+<li><strong>⏰ GMT</strong> — Greenwich Mean Time. The world sets its clock by London. Literally.</li>
+</ul>
+</section>
+
+<div class="back-link">
+<a href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">⚔ Return to MORDOR.NET</a>
+</div>
+
+<footer>
+<p>LONDON — The Last Refuge · JuX Civilizations · Built by Wonder Boy & G.</p>
+<p style="margin-top:0.5rem">Londinium 43 AD → London 2026 · Plague · Fire · Blitz · Tea · Still Here</p>
+</footer>
+
+<script>
+// London Rain
+const rain=document.getElementById('rain');
+for(let i=0;i<80;i++){const d=document.createElement('div');d.className='raindrop';d.style.left=Math.random()*100+'%';d.style.height=(15+Math.random()*25)+'px';d.style.animationDuration=(0.5+Math.random()*0.7)+'s';d.style.animationDelay=Math.random()*2+'s';d.style.opacity=0.2+Math.random()*0.3;rain.appendChild(d)}
+
+// Lightbox
+function openLightbox(el){const lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=el.src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
