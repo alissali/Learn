@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUTHRONS — The Golden Army from the Burning South</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0f05;color:#e8d5b0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,15,5,0.3),rgba(26,15,5,0.8))}
+.hero-bg{position:absolute;inset:0;background:url('web/SOUTHRONS-CITY.jpg') center/cover}
+.hero-content{position:relative;z-index:2;padding:2rem}
+h1{font-size:clamp(2.5rem,6vw,5rem);color:#daa520;text-shadow:0 0 40px rgba(218,165,32,0.6);letter-spacing:0.15em;margin-bottom:0.5rem}
+.subtitle{font-size:clamp(1rem,2.5vw,1.6rem);color:#c4956a;font-style:italic;margin-bottom:1rem}
+.epigraph{font-size:clamp(0.9rem,1.8vw,1.2rem);color:#e8c896;font-style:italic;max-width:700px;margin:1.5rem auto;line-height:1.7;border-left:3px solid #daa520;padding-left:1.5rem}
+.scroll-arrow{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-size:2rem;color:#daa520;animation:bob 2s ease-in-out infinite;cursor:pointer;z-index:3}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(12px)}}
+
+.district{padding:4rem 2rem;max-width:1100px;margin:0 auto;border-bottom:1px solid rgba(218,165,32,0.15)}
+.district:last-of-type{border-bottom:none}
+.district-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;cursor:pointer}
+.district-icon{font-size:2.2rem}
+.district-name{font-size:clamp(1.4rem,3vw,2rem);color:#daa520;letter-spacing:0.1em}
+.district-quote{font-style:italic;color:#c4956a;margin-bottom:1.5rem;padding-left:1rem;border-left:2px solid rgba(218,165,32,0.3);line-height:1.6}
+.district-text{color:#d4c4a8;line-height:1.8;font-size:1.05rem}
+
+.concept-art{width:100%;border-radius:8px;margin:1.5rem 0;cursor:pointer;transition:transform 0.3s;display:none}
+.concept-art.loaded{display:block}
+.concept-art:hover{transform:scale(1.02)}
+
+.feast-section{background:linear-gradient(135deg,#1a0f05,#2a1a0a);padding:4rem 2rem;text-align:center}
+.feast-title{font-size:clamp(1.5rem,3vw,2.2rem);color:#daa520;margin-bottom:2rem;letter-spacing:0.12em}
+.feast-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto}
+.feast-item{background:rgba(218,165,32,0.08);border:1px solid rgba(218,165,32,0.2);border-radius:8px;padding:1.5rem;transition:border-color 0.3s}
+.feast-item:hover{border-color:#daa520}
+.feast-icon{font-size:1.8rem;margin-bottom:0.5rem}
+.feast-name{color:#daa520;font-size:1.1rem;margin-bottom:0.3rem}
+.feast-desc{color:#c4956a;font-size:0.9rem;font-style:italic}
+
+.warriors-section{padding:4rem 2rem;max-width:1100px;margin:0 auto;text-align:center}
+.warriors-title{font-size:clamp(1.5rem,3vw,2.2rem);color:#daa520;margin-bottom:2rem;letter-spacing:0.12em}
+.warrior-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.warrior-card{background:rgba(218,165,32,0.06);border:1px solid rgba(218,165,32,0.15);border-radius:8px;padding:1.5rem;transition:transform 0.3s}
+.warrior-card:hover{transform:translateY(-4px)}
+.warrior-icon{font-size:2rem;margin-bottom:0.5rem}
+.warrior-name{color:#daa520;font-size:1.1rem;margin-bottom:0.3rem}
+.warrior-role{color:#c4956a;font-size:0.85rem;font-style:italic}
+
+.gifts-section{background:linear-gradient(135deg,#2a1a0a,#1a0f05);padding:4rem 2rem;text-align:center}
+.gifts-title{font-size:clamp(1.3rem,2.5vw,1.8rem);color:#daa520;margin-bottom:2rem}
+.gifts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;max-width:1100px;margin:0 auto}
+.gift-item{background:rgba(218,165,32,0.05);border:1px solid rgba(218,165,32,0.12);border-radius:6px;padding:1rem;font-size:0.9rem;color:#c4956a}
+.gift-icon{font-size:1.3rem;margin-bottom:0.3rem}
+.gift-from{color:#8a7a5a;font-size:0.75rem;margin-top:0.3rem}
+
+.timeline-section{padding:4rem 2rem;max-width:900px;margin:0 auto}
+.timeline-title{text-align:center;font-size:clamp(1.3rem,2.5vw,1.8rem);color:#daa520;margin-bottom:2rem}
+.timeline-item{display:flex;gap:1.5rem;margin-bottom:1.5rem;padding-left:1rem;border-left:2px solid rgba(218,165,32,0.3)}
+.timeline-era{color:#daa520;font-weight:bold;min-width:120px;font-size:0.95rem}
+.timeline-event{color:#c4956a;font-style:italic;font-size:0.95rem}
+
+.nav-section{background:linear-gradient(135deg,#1a0f05,#0d0805);padding:4rem 2rem;text-align:center}
+.nav-title{font-size:clamp(1.3rem,2.5vw,1.8rem);color:#daa520;margin-bottom:2rem}
+.nav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.8rem;max-width:1100px;margin:0 auto}
+.nav-link{display:block;padding:0.8rem;background:rgba(218,165,32,0.06);border:1px solid rgba(218,165,32,0.15);border-radius:6px;color:#c4956a;text-decoration:none;font-size:0.85rem;transition:all 0.3s}
+.nav-link:hover{border-color:#daa520;color:#daa520;transform:translateY(-2px)}
+.nav-current{border-color:#daa520;color:#daa520;background:rgba(218,165,32,0.15)}
+
+footer{text-align:center;padding:3rem 2rem;color:#8a7a5a;font-size:0.85rem;border-top:1px solid rgba(218,165,32,0.1)}
+footer a{color:#daa520;text-decoration:none}
+
+.sand-particle{position:fixed;width:2px;height:2px;background:#daa520;border-radius:50%;pointer-events:none;opacity:0;animation:sandFloat linear infinite;z-index:1}
+@keyframes sandFloat{0%{opacity:0;transform:translate(0,0)}20%{opacity:0.5}80%{opacity:0.3}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+<div class="hero-bg"></div>
+<div class="hero-content">
+<h1>SOUTHRONS</h1>
+<div class="subtitle">The Golden Army from the Burning South</div>
+<div class="epigraph">"They came from beyond the Harad Road, where the stars are strange. They brought war elephants and curved swords and a sun that followed them like a flag."</div>
+</div>
+<div class="scroll-arrow" onclick="document.querySelector('.district').scrollIntoView({behavior:'smooth'})">⬇</div>
+</section>
+
+<section class="district" id="golden-city">
+<div class="district-header" onclick="toggleArt('art1')">
+<span class="district-icon">🏛️</span>
+<span class="district-name">THE GOLDEN CITY</span>
+</div>
+<div class="district-quote">"They built their city from the same stone the sun was made of. At noon, you couldn't tell where the walls ended and the light began."</div>
+<img id="art1" class="concept-art" data-src="web/SOUTHRONS-CITY.jpg" alt="The Golden City" onclick="this.style.transform=this.style.transform==='scale(1.5)'?'scale(1)':'scale(1.5)'">
+<div class="district-text">Capital of the Harad. A city of golden sandstone rising from the desert floor like a mirage that refused to dissolve. Towers with red pennants. Walls thick enough to hold back the desert and everything in it. The gates face north — toward Gondor, toward war, toward the Enemy they chose. Or were chosen by. The distinction matters less than they'd like.</div>
+</section>
+
+<section class="district" id="mumakil">
+<div class="district-header" onclick="toggleArt('art2')">
+<span class="district-icon">🐘</span>
+<span class="district-name">THE MÛMAKIL GROUNDS</span>
+</div>
+<div class="district-quote">"That still only counts as one."</div>
+<img id="art2" class="concept-art" data-src="web/SOUTHRONS-MUMAKIL.jpg" alt="The Mûmakil" onclick="this.style.transform=this.style.transform==='scale(1.5)'?'scale(1)':'scale(1.5)'">
+<div class="district-text">The war elephants of Harad. Each one a walking fortress. Each one carries a tower of archers, a lifetime of training, and the knowledge that when you are riding something the size of a castle, fear is a concept that applies to other people. The Mûmakil are born in the deep south. They are raised from birth with their riders. When one dies, the other follows. That is not poetry. That is Haradrim law.</div>
+</section>
+
+<section class="district" id="throne">
+<div class="district-header" onclick="toggleArt('art3')">
+<span class="district-icon">👑</span>
+<span class="district-name">THE SERPENT THRONE</span>
+</div>
+<div class="district-quote">"The Serpent Lord does not kneel. Not to Gondor. Not to Mordor. He allies — which is different. Ask him. He'll explain. With a blade."</div>
+<img id="art3" class="concept-art" data-src="web/SOUTHRONS-THRONE.jpg" alt="The Serpent Throne" onclick="this.style.transform=this.style.transform==='scale(1.5)'?'scale(1)':'scale(1.5)'">
+<div class="district-text">The throne room of the Serpent Lord. Gold and incense. Silk and steel. The Haradrim King rules from a seat carved with serpents eating their own tails — eternity devouring itself. He chose Sauron's side. History says he chose wrong. But history is written by the winners, and the Southrons have a different version. In their version, Gondor came south first.</div>
+</section>
+
+<section class="district" id="bazaar">
+<div class="district-header" onclick="toggleArt('art4')">
+<span class="district-icon">🏪</span>
+<span class="district-name">THE GRAND BAZAAR</span>
+</div>
+<div class="district-quote">"Every spice in the South passes through this market. Every secret too. The price for both is the same."</div>
+<img id="art4" class="concept-art" data-src="web/SOUTHRONS-BAZAAR.jpg" alt="The Grand Bazaar" onclick="this.style.transform=this.style.transform==='scale(1.5)'?'scale(1)':'scale(1.5)'">
+<div class="district-text">Before they were warriors, they were traders. The Grand Bazaar of Harad: silk from the far east, spices from the deep south, steel from Umbar, secrets from everywhere. Curved swords hang next to perfume bottles. Carpets worth a captain's ransom lie next to baskets of dates worth nothing. The bazaar does not judge. It prices. Everything has a number. Even loyalty.</div>
+</section>
+
+<section class="district" id="warcamp">
+<div class="district-header" onclick="toggleArt('art5')">
+<span class="district-icon">⚔️</span>
+<span class="district-name">THE WAR CAMP</span>
+</div>
+<div class="district-quote">"The drums start at dusk. By dawn, the army is moving. The dust cloud is visible from Minas Tirith. That is the point."</div>
+<img id="art5" class="concept-art" data-src="web/SOUTHRONS-WARCAMP.jpg" alt="The War Camp" onclick="this.style.transform=this.style.transform==='scale(1.5)'?'scale(1)':'scale(1.5)'">
+<div class="district-text">The night before Pelennor. Ten thousand tents. Red and gold standards snapping in the desert wind. The Mûmakil silhouetted against a sky full of stars they named differently than the North. War drums. Curved swords being sharpened. Prayers offered to gods Gondor does not recognize. Tomorrow they march. Half will not return. They know this. They sharpen the swords anyway.</div>
+</section>
+
+<section class="district" id="oasis">
+<div class="district-header" onclick="toggleArt('art6')">
+<span class="district-icon">🌴</span>
+<span class="district-name">THE HIDDEN OASIS</span>
+</div>
+<div class="district-quote">"Between the wars, there is water. Between the battles, there are children. This is what they fight for. This is what they never mention."</div>
+<img id="art6" class="concept-art" data-src="web/SOUTHRONS-OASIS.jpg" alt="The Hidden Oasis" onclick="this.style.transform=this.style.transform==='scale(1.5)'?'scale(1)':'scale(1.5)'">
+<div class="district-text">Behind every army there is a garden. The oasis of Harad: palm trees, clear water, children who don't know the word Gondor yet. Women carrying clay jugs. Old men who were warriors once and now are gardeners — which requires the same patience and a different kind of courage. The war never reaches here. That is the lie they tell. The war reaches everywhere. But the garden grows back.</div>
+</section>
+
+<section class="district" id="corsairs">
+<div class="district-header">
+<span class="district-icon">🏴‍☠️</span>
+<span class="district-name">THE CORSAIR DOCKS OF UMBAR</span>
+</div>
+<div class="district-quote">"Umbar remembers Númenor. Umbar remembers the humiliation. The sea remembers nothing. The Corsairs remember everything."</div>
+<div class="district-text">The port city of Umbar. Allied to Harad, feared by Gondor. Black ships with sails like ravens' wings. The Corsairs of Umbar are Southrons who took to the sea and found that the ocean has no borders, no flags, and no king. They raid the coasts of Gondor. They call it trade. Gondor calls it piracy. The fish don't care.</div>
+</section>
+
+<section class="district" id="sandwyrm">
+<div class="district-header">
+<span class="district-icon">🐍</span>
+<span class="district-name">THE SAND WYRM DENS</span>
+</div>
+<div class="district-quote">"There are things in the deep desert older than Sauron. The Southrons do not worship them. They negotiate."</div>
+<div class="district-text">The deep Harad. Beyond the trade roads, beyond the cities, beyond the maps. Here the sand moves on its own. Creatures older than the rings live beneath the dunes. The Southrons know their names. They leave offerings — not out of fear, but out of respect. There is a difference. The creatures know the difference too.</div>
+</section>
+
+<section class="district" id="pelennor">
+<div class="district-header">
+<span class="district-icon">🔥</span>
+<span class="district-name">THE FIELD — PELENNOR</span>
+</div>
+<div class="district-quote">"He looked at the enemy lying dead, the young face peaceful, and wondered: where did he come from? Did someone wait for him? What was his name?"</div>
+<div class="district-text">Sam Gamgee's question. The most important question in the War of the Ring. Not "did we win?" but "who was he?" The Southron on the field of Pelennor had a name. He had a mother. He had a garden back home with an olive tree he planted when he was twelve. He had a girl who was waiting. He came north because his lord called. He died because someone else's lord called too. Two lords. One field. One question nobody asked until a gardener from the Shire knelt down and looked.</div>
+</section>
+
+<section class="feast-section">
+<div class="feast-title">☀️ THE HARADRIM FEAST — Banquet of the Burning South ☀️</div>
+<div class="feast-grid">
+<div class="feast-item"><div class="feast-icon">🫓</div><div class="feast-name">Flatbread of Harad</div><div class="feast-desc">Baked on stones heated by the southern sun itself</div></div>
+<div class="feast-item"><div class="feast-icon">🍖</div><div class="feast-name">Mûmakil Rib</div><div class="feast-desc">Only from beasts that died of old age. Law of Harad.</div></div>
+<div class="feast-item"><div class="feast-icon">🫖</div><div class="feast-name">Desert Chai</div><div class="feast-desc">Cardamom, saffron, honey. Three sugars. No negotiation.</div></div>
+<div class="feast-item"><div class="feast-icon">🍇</div><div class="feast-name">Dates of the Deep South</div><div class="feast-desc">So sweet they apologize on behalf of the desert</div></div>
+<div class="feast-item"><div class="feast-icon">🧂</div><div class="feast-name">Spiced Lamb of Umbar</div><div class="feast-desc">The Corsairs' recipe. Stolen from Gondor. Improved.</div></div>
+<div class="feast-item"><div class="feast-icon">🍯</div><div class="feast-name">Serpent Honey</div><div class="feast-desc">Collected from hives the bees built in abandoned temples</div></div>
+<div class="feast-item"><div class="feast-icon">🥘</div><div class="feast-name">Bazaar Stew</div><div class="feast-desc">Everything in the pot. The market decides the recipe.</div></div>
+<div class="feast-item"><div class="feast-icon">🍊</div><div class="feast-name">The Orange</div><div class="feast-desc">Free. Always. In every market. In every city. The Orange.</div></div>
+</div>
+</section>
+
+<section class="warriors-section">
+<div class="warriors-title">⚔️ THE WARRIORS OF HARAD ⚔️</div>
+<div class="warrior-grid">
+<div class="warrior-card"><div class="warrior-icon">👑</div><div class="warrior-name">The Serpent Lord</div><div class="warrior-role">King of Harad. Chose Mordor. Or was chosen.</div></div>
+<div class="warrior-card"><div class="warrior-icon">🐘</div><div class="warrior-name">The Mûmakil Master</div><div class="warrior-role">Born on the elephant's back. Dies there too.</div></div>
+<div class="warrior-card"><div class="warrior-icon">🏴‍☠️</div><div class="warrior-name">The Corsair Captain</div><div class="warrior-role">Umbar's finest. Trade or raid. Same ship.</div></div>
+<div class="warrior-card"><div class="warrior-icon">🗡️</div><div class="warrior-name">The Curved Blade</div><div class="warrior-role">Every sword in Harad has a name. Ask before you draw.</div></div>
+<div class="warrior-card"><div class="warrior-icon">🏹</div><div class="warrior-name">The Tower Archer</div><div class="warrior-role">Shoots from the Mûmakil howdah. Never misses. Mostly.</div></div>
+<div class="warrior-card"><div class="warrior-icon">🥁</div><div class="warrior-name">The War Drummer</div><div class="warrior-role">Sets the march. Sets the charge. Sets the retreat. Same drum.</div></div>
+<div class="warrior-card"><div class="warrior-icon">🌹</div><div class="warrior-name">The Young Southron</div><div class="warrior-role">Sam's question. "Where did he come from?" Here.</div></div>
+</div>
+</section>
+
+<section class="gifts-section">
+<div class="gifts-title">🎁 GIFTS FROM ALL CIVILIZATIONS 🎁</div>
+<div class="gifts-grid">
+<div class="gift-item"><div class="gift-icon">🌌</div>Aboriginal — A songline that crosses the desert<div class="gift-from">The Dreaming</div></div>
+<div class="gift-item"><div class="gift-icon">🏛️</div>Yabroud — A stone older than the sand<div class="gift-from">First Settlement</div></div>
+<div class="gift-item"><div class="gift-icon">🕌</div>Damascus — A blade that curves like theirs<div class="gift-from">The City That Never Died</div></div>
+<div class="gift-item"><div class="gift-icon">☀️</div>Egypt — A sun disk for the southern sky<div class="gift-from">City of the Sun God</div></div>
+<div class="gift-item"><div class="gift-icon">☸️</div>India — Saffron for the chai<div class="gift-from">City of Eternal Light</div></div>
+<div class="gift-item"><div class="gift-icon">🐉</div>China — Silk for the banners<div class="gift-from">Chang'an</div></div>
+<div class="gift-item"><div class="gift-icon">🏛️</div>Greece — A question: who was he?<div class="gift-from">Athens</div></div>
+<div class="gift-item"><div class="gift-icon">🦅</div>Aztec — Obsidian for the blades<div class="gift-from">Tenochtitlan</div></div>
+<div class="gift-item"><div class="gift-icon">❄️</div>Inuit — Ice to cool the desert chai<div class="gift-from">People of the Ice</div></div>
+<div class="gift-item"><div class="gift-icon">🛡️</div>Zulu — A shield wall that holds<div class="gift-from">Nation That Shook an Empire</div></div>
+<div class="gift-item"><div class="gift-icon">⚡</div>Viking — A longship for Umbar<div class="gift-from">Children of the North</div></div>
+<div class="gift-item"><div class="gift-icon">👑</div>London — A map of the enemy<div class="gift-from">The Last Refuge</div></div>
+<div class="gift-item"><div class="gift-icon">🗽</div>New York — A newspaper: "SOUTHRONS WERE RIGHT"<div class="gift-from">City That Never Sleeps</div></div>
+<div class="gift-item"><div class="gift-icon">✈️</div>Brasília — A blueprint for a new capital<div class="gift-from">City Drawn Before Built</div></div>
+<div class="gift-item"><div class="gift-icon">🗼</div>Tokyo — A hologram of the oasis<div class="gift-from">City of Tomorrow</div></div>
+<div class="gift-item"><div class="gift-icon">🔥</div>Mordor — An apology. Unsigned.<div class="gift-from">The Dark Tower</div></div>
+<div class="gift-item"><div class="gift-icon">🚀</div>Departure — Coordinates to a desert planet<div class="gift-from">Space Station Omega</div></div>
+<div class="gift-item"><div class="gift-icon">🪱</div>Arrakis — Spice. They understand spice.<div class="gift-from">Reception Station</div></div>
+<div class="gift-item"><div class="gift-icon">🏰</div>Castle — The Architect's tea set<div class="gift-from">Where the Architect Lives</div></div>
+<div class="gift-item"><div class="gift-icon">🍽️</div>Milliways — A reservation at the end<div class="gift-from">The Last Restaurant</div></div>
+<div class="gift-item"><div class="gift-icon">🫖</div>Arthur — A cup of tea. Finally.<div class="gift-from">The Bathrobe</div></div>
+<div class="gift-item"><div class="gift-icon">🎸</div>Rock Party — A war drum solo<div class="gift-from">The Universe Stage</div></div>
+<div class="gift-item"><div class="gift-icon">🌿</div>Shire — Second breakfast. Even here.<div class="gift-from">Green Hills</div></div>
+<div class="gift-item"><div class="gift-icon">🌙</div>Elven — Lembas for the march north<div class="gift-from">The Immortals</div></div>
+<div class="gift-item"><div class="gift-icon">⛏️</div>Moria — Mithril for the Serpent Crown<div class="gift-from">Khazad-dûm</div></div>
+</div>
+</section>
+
+<section class="timeline-section">
+<div class="timeline-title">📜 AGES OF HARAD 📜</div>
+<div class="timeline-item"><span class="timeline-era">First Age</span><span class="timeline-event">The sun rises in the South. The first tribes follow it.</span></div>
+<div class="timeline-item"><span class="timeline-era">Second Age</span><span class="timeline-event">Númenor comes south. The Haradrim learn what colonization means.</span></div>
+<div class="timeline-item"><span class="timeline-era">Umbar Falls</span><span class="timeline-event">The Corsairs are born. The sea has no king.</span></div>
+<div class="timeline-item"><span class="timeline-era">The Alliance</span><span class="timeline-event">Sauron offers. The Serpent Lord accepts. History judges. History wasn't there.</span></div>
+<div class="timeline-item"><span class="timeline-era">Pelennor</span><span class="timeline-event">The Mûmakil charge. The field shakes. Sam asks his question.</span></div>
+<div class="timeline-item"><span class="timeline-era">After the Ring</span><span class="timeline-event">Aragorn offers peace. The Southrons accept. The garden grows back.</span></div>
+<div class="timeline-item"><span class="timeline-era">The Long Peace</span><span class="timeline-event">The curved swords become plowshares. The Mûmakil carry grain. The drums play music.</span></div>
+</div>
+</section>
+
+<section class="nav-section">
+<div class="nav-title">🌍 ALL CIVILIZATIONS — 26 Nations 🌍</div>
+<div class="nav-grid">
+<a href="../aboriginal/ABORIGINAL.CITY.html" class="nav-link">🌌 Aboriginal</a>
+<a href="../yabroud/MORDOR.NET.html" class="nav-link">🏛️ Yabroud</a>
+<a href="../shami/SHAMI.CITY.html" class="nav-link">🕌 Damascus</a>
+<a href="../egypt/EGYPT.CITY.html" class="nav-link">☀️ Egypt</a>
+<a href="../india/INDIA.CITY.html" class="nav-link">☸️ India</a>
+<a href="../china/CHINA.CITY.html" class="nav-link">🐉 China</a>
+<a href="../greece/GREECE.CITY.html" class="nav-link">🏛️ Greece</a>
+<a href="../aztec/AZTEC.CITY.html" class="nav-link">🦅 Aztec</a>
+<a href="../arctic/ARCTIC.CITY.html" class="nav-link">❄️ Inuit</a>
+<a href="../zulu/ZULU.CITY.html" class="nav-link">🛡️ Zulu</a>
+<a href="../viking/VIKING.CITY.html" class="nav-link">⚡ Viking</a>
+<a href="../london/LONDON.CITY.html" class="nav-link">👑 London</a>
+<a href="../newyork/NEWYORK.CITY.html" class="nav-link">🗽 New York</a>
+<a href="../brasilia/BRASILIA.CITY.html" class="nav-link">✈️ Brasília</a>
+<a href="../tokyo/TOKYO.CITY.html" class="nav-link">🗼 Tokyo</a>
+<a href="../yabroud/MORDOR.NET.html" class="nav-link">🔥 Mordor</a>
+<a href="../departure/DEPARTURE.CITY.html" class="nav-link">🚀 Departure</a>
+<a href="../arrakis/ARRAKIS.CITY.html" class="nav-link">🪱 Arrakis</a>
+<a href="../castle/CASTLE.CITY.html" class="nav-link">🏰 Castle</a>
+<a href="../restaurant/RESTAURANT.CITY.html" class="nav-link">🍽️ Milliways</a>
+<a href="../arthur/ARTHUR.CITY.html" class="nav-link">🫖 Arthur Dent</a>
+<a href="../rockparty/ROCKPARTY.CITY.html" class="nav-link">🎸 Rock Party</a>
+<a href="../shire/SHIRE.CITY.html" class="nav-link">🌿 Shire</a>
+<a href="../elven/ELVEN.CITY.html" class="nav-link">🌙 Elven</a>
+<a href="../moria/MORIA.CITY.html" class="nav-link">⛏️ Moria</a>
+<a href="#" class="nav-link nav-current">☀️ Southrons ✦</a>
+</div>
+</section>
+
+<footer>
+<p>"He looked at the enemy lying dead, and wondered: where did he come from?"</p>
+<p style="margin-top:0.5rem">SOUTHRONS — The Golden Army — <a href="https://juxaos.com">JuXAOS</a></p>
+<p style="margin-top:0.5rem;color:#daa520">Wonder Boy · 26 civilizations · 31 pages · The South remembers</p>
+</footer>
+
+<script>
+function toggleArt(id){const img=document.getElementById(id);if(!img.classList.contains('loaded')){img.src=img.dataset.src;img.classList.add('loaded')}else{img.style.display=img.style.display==='none'?'block':'none'}}
+
+// Sand particles
+function createSand(){const p=document.createElement('div');p.className='sand-particle';p.style.left=Math.random()*100+'vw';p.style.top=Math.random()*100+'vh';p.style.setProperty('--dx',(Math.random()*200-100)+'px');p.style.setProperty('--dy',(Math.random()*-150-50)+'px');p.style.animationDuration=(4+Math.random()*6)+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),10000)}
+setInterval(createSand,400);
+</script>
+
+</body>
+</html>
