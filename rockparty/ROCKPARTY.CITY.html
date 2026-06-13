@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIVERSE ROCK PARTY — Every Civilization. One Stage. ROCK.</title>
+<meta name="description" content="The universe throws a party. Every civilization. Every era. One stage. Rock and roll forever.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0010;color:#fff;font-family:Georgia,serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,0,128,0.15) 0%,rgba(10,0,16,0.95) 70%)}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);font-weight:900;color:#ff0080;text-shadow:0 0 40px #ff0080,0 0 80px #ff00ff,0 0 120px #8000ff;position:relative;z-index:1;letter-spacing:3px}
+.hero .sub{font-size:clamp(1rem,2.5vw,1.5rem);color:#ff80c0;margin-top:1rem;position:relative;z-index:1;font-style:italic}
+.hero .year{font-size:1rem;color:#c040ff;margin-top:.5rem;position:relative;z-index:1}
+section{max-width:1100px;margin:0 auto;padding:4rem 1.5rem}
+h2{font-size:clamp(1.5rem,4vw,2.5rem);color:#ff0080;margin-bottom:1.5rem;text-shadow:0 0 20px rgba(255,0,128,0.5)}
+h3{font-size:1.3rem;color:#ff80c0;margin:2rem 0 1rem}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem;margin:2rem 0}
+.concept-card{border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s;position:relative;border:1px solid rgba(255,0,128,0.3)}
+.concept-card:hover{transform:scale(1.03);box-shadow:0 0 30px rgba(255,0,128,0.4)}
+.concept-card img{width:100%;height:auto;display:block;loading:lazy}
+.concept-card .label{position:absolute;bottom:0;width:100%;padding:.75rem;background:linear-gradient(transparent,rgba(0,0,0,0.9));font-size:.95rem;color:#ff80c0;text-align:center;font-style:italic}
+.quote-block{border-left:3px solid #ff0080;padding:1rem 1.5rem;margin:1.5rem 0;background:rgba(255,0,128,0.05);border-radius:0 8px 8px 0;font-style:italic;color:#ff80c0}
+.district-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:2rem 0}
+.district{background:rgba(255,0,128,0.05);border:1px solid rgba(255,0,128,0.2);border-radius:12px;padding:1.5rem;transition:transform .3s,border-color .3s}
+.district:hover{transform:translateY(-4px);border-color:#ff0080}
+.district .icon{font-size:2rem;margin-bottom:.5rem}
+.district .name{font-size:1.1rem;font-weight:bold;color:#ff0080;margin-bottom:.5rem}
+.district .fact{color:#ccc;font-size:.95rem;line-height:1.5;margin-bottom:.5rem}
+.district .dquote{color:#ff80c0;font-style:italic;font-size:.9rem}
+.pillar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:2rem 0}
+.pillar{background:rgba(128,0,255,0.05);border:1px solid rgba(128,0,255,0.2);border-radius:12px;padding:1.5rem;text-align:center;transition:transform .3s}
+.pillar:hover{transform:translateY(-4px)}
+.pillar .picon{font-size:2.5rem;margin-bottom:.5rem}
+.pillar .pname{font-size:1.1rem;font-weight:bold;color:#c040ff;margin-bottom:.5rem}
+.pillar .pdesc{color:#ccc;font-size:.9rem;line-height:1.4}
+.setlist{background:rgba(255,0,128,0.03);border:1px solid rgba(255,0,128,0.2);border-radius:12px;padding:2rem;margin:2rem 0}
+.setlist-item{display:flex;align-items:center;gap:1rem;padding:.75rem 0;border-bottom:1px solid rgba(255,0,128,0.1)}
+.setlist-item:last-child{border-bottom:none}
+.setlist-item .snum{font-size:1.5rem;font-weight:900;color:#ff0080;min-width:2.5rem;text-align:center}
+.setlist-item .sinfo{flex:1}
+.setlist-item .stitle{font-weight:bold;color:#ff80c0}
+.setlist-item .sartist{color:#999;font-size:.85rem}
+.gift-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:2rem 0}
+.gift{text-align:center;padding:1rem;background:rgba(255,0,128,0.03);border:1px solid rgba(255,0,128,0.15);border-radius:10px}
+.gift .gicon{font-size:2rem}
+.gift .gname{color:#ff0080;font-weight:bold;margin:.3rem 0;font-size:.95rem}
+.gift .gfrom{color:#999;font-size:.8rem}
+.timeline{position:relative;padding:2rem 0;margin:2rem 0}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(#ff0080,#8000ff,#ff0080);transform:translateX(-50%)}
+.t-item{position:relative;width:50%;padding:1rem 2rem;margin-bottom:1rem}
+.t-item:nth-child(odd){margin-left:0;text-align:right}
+.t-item:nth-child(even){margin-left:50%;text-align:left}
+.t-item .t-dot{position:absolute;top:1.2rem;width:12px;height:12px;background:#ff0080;border-radius:50%;box-shadow:0 0 10px #ff0080}
+.t-item:nth-child(odd) .t-dot{right:-6px}
+.t-item:nth-child(even) .t-dot{left:-6px}
+.t-item .t-year{color:#ff0080;font-weight:bold;font-size:.9rem}
+.t-item .t-text{color:#ccc;font-size:.85rem}
+.civ-index{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.75rem;margin:2rem 0}
+.civ-link{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;background:rgba(255,0,128,0.03);border:1px solid rgba(255,0,128,0.1);border-radius:8px;text-decoration:none;color:#ff80c0;transition:all .3s;font-size:.9rem}
+.civ-link:hover{background:rgba(255,0,128,0.1);border-color:#ff0080;color:#fff}
+footer{text-align:center;padding:4rem 1.5rem;border-top:1px solid rgba(255,0,128,0.2);color:#666;font-size:.85rem}
+footer a{color:#ff0080;text-decoration:none}
+canvas#party-bg{position:fixed;inset:0;z-index:-1;pointer-events:none}
+@media(max-width:768px){
+.timeline::before{left:1rem}
+.t-item{width:calc(100% - 2rem);margin-left:2rem!important;text-align:left!important}
+.t-item .t-dot{left:-1.4rem!important;right:auto!important}
+.concept-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<canvas id="party-bg"></canvas>
+
+<div class="hero">
+<div>
+<h1>🎸 UNIVERSE ROCK PARTY</h1>
+<div class="sub">Every Civilization. One Stage. Rock and Roll Forever.</div>
+<div class="year">OUTSIDE TIME — THE ETERNAL SET</div>
+</div>
+</div>
+
+<section>
+<h2>🎸 The Stage</h2>
+<p style="color:#ccc;line-height:1.8;font-size:1.05rem">The universe threw a party. Not at the beginning, not at the end — outside time entirely. Every civilization that ever existed got an invitation. Every era, every language, every rhythm. One stage, floating in the space between spaces. The amps go to infinity. The setlist never ends. The mosh pit spans galaxies. <strong style="color:#ff0080">ROCK AND ROLL IS THE ONLY LANGUAGE THE UNIVERSE NEVER FORGOT.</strong></p>
+
+<div class="quote-block">"They couldn't agree on God. They couldn't agree on borders. They couldn't agree on which side of the road to drive on. But they ALL agreed on the backbeat."</div>
+
+<h3>🖼️ Concept Art — The Eternal Concert</h3>
+<div class="concept-grid">
+<div class="concept-card" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src" id="c1">
+<img data-src="web/ROCK-STAGE.jpg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect fill='%230a0010'/%3E%3Ctext x='50%25' y='50%25' fill='%23ff0080' font-size='28' text-anchor='middle' dominant-baseline='middle'%3E%F0%9F%8E%B8 TAP TO LOAD%3C/text%3E%3C/svg%3E" alt="The Cosmic Stage" loading="lazy"/>
+<div class="label">THE COSMIC STAGE — amps go to infinity</div>
+</div>
+<div class="concept-card" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<img data-src="web/ROCK-MOSHPIT.jpg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect fill='%230a0010'/%3E%3Ctext x='50%25' y='50%25' fill='%23ff0080' font-size='28' text-anchor='middle' dominant-baseline='middle'%3E%F0%9F%A4%98 TAP TO LOAD%3C/text%3E%3C/svg%3E" alt="The Mosh Pit" loading="lazy"/>
+<div class="label">THE MOSH PIT — pharaohs headbang with Vikings</div>
+</div>
+<div class="concept-card" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<img data-src="web/ROCK-GUITARIST.jpg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect fill='%230a0010'/%3E%3Ctext x='50%25' y='50%25' fill='%23ff0080' font-size='28' text-anchor='middle' dominant-baseline='middle'%3E%F0%9F%8E%B8 TAP TO LOAD%3C/text%3E%3C/svg%3E" alt="The Guitarist" loading="lazy"/>
+<div class="label">THE GUITARIST — guitar made of starlight</div>
+</div>
+<div class="concept-card" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<img data-src="web/ROCK-DRUMS.jpg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect fill='%230a0010'/%3E%3Ctext x='50%25' y='50%25' fill='%23ff0080' font-size='28' text-anchor='middle' dominant-baseline='middle'%3E%F0%9F%A5%81 TAP TO LOAD%3C/text%3E%3C/svg%3E" alt="The Drum Circle" loading="lazy"/>
+<div class="label">THE DRUM CIRCLE — djembes, taiko, tablas, all in sync</div>
+</div>
+<div class="concept-card" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<img data-src="web/ROCK-DJ.jpg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect fill='%230a0010'/%3E%3Ctext x='50%25' y='50%25' fill='%23ff0080' font-size='28' text-anchor='middle' dominant-baseline='middle'%3E%F0%9F%8E%A7 TAP TO LOAD%3C/text%3E%3C/svg%3E" alt="The DJ Booth" loading="lazy"/>
+<div class="label">THE DJ — mixing galaxies into beats</div>
+</div>
+<div class="concept-card" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<img data-src="web/ROCK-FINALE.jpg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3Crect fill='%230a0010'/%3E%3Ctext x='50%25' y='50%25' fill='%23ff0080' font-size='28' text-anchor='middle' dominant-baseline='middle'%3E%E2%9C%A8 TAP TO LOAD%3C/text%3E%3C/svg%3E" alt="The Grand Finale" loading="lazy"/>
+<div class="label">THE GRAND FINALE — every star pulses as one</div>
+</div>
+</div>
+</section>
+
+<section>
+<h2>🤘 The 9 Zones of the Party</h2>
+<div class="district-grid">
+
+<div class="district">
+<div class="icon">🎸</div>
+<div class="name">MAIN STAGE</div>
+<div class="fact">The stage floats between galaxies. The sound system uses gravitational waves. Every note bends spacetime. The amps go to eleven. Then to infinity.</div>
+<div class="dquote">"The first chord shattered a moon. Nobody noticed. They were headbanging."</div>
+</div>
+
+<div class="district">
+<div class="icon">🤘</div>
+<div class="name">THE MOSH PIT</div>
+<div class="fact">Every civilization in one pit. Pharaohs headbang with Vikings. Samurai crowd-surf. Zulu warriors stomp the beat. Aboriginal elders hold the rhythm. Nobody fights. Everybody MOVES.</div>
+<div class="dquote">"A pharaoh elbowed a Viking. The Viking said 'nice one.' They became friends."</div>
+</div>
+
+<div class="district">
+<div class="icon">🥁</div>
+<div class="name">THE DRUM CIRCLE</div>
+<div class="fact">Djembes. Taiko. Tablas. Bodhrans. Cajóns. Every drum ever made, played in perfect sync. The heartbeat of 22 civilizations as one pulse. Creates new stars with every downbeat.</div>
+<div class="dquote">"The first rhythm was a heartbeat. The last rhythm will be a heartbeat. Same drum."</div>
+</div>
+
+<div class="district">
+<div class="icon">🎧</div>
+<div class="name">THE DJ BOOTH</div>
+<div class="fact">Vinyl records made of compressed starlight. Mixing desk spans a kilometer. Every beat drop creates a nebula. Every scratch rewinds time by 0.003 seconds. The DJ is everyone and no one.</div>
+<div class="dquote">"Drop the bass. No — drop a GALAXY."</div>
+</div>
+
+<div class="district">
+<div class="icon">🍺</div>
+<div class="name">THE BAR</div>
+<div class="fact">Every drink ever invented. Melange cocktails. Syrian arak. English tea with whiskey. Aztec chocolate with tequila. Inuit fermented seal. The menu is 14,000 years long.</div>
+<div class="dquote">"The bartender has been pouring since the Bronze Age. Tips well."</div>
+</div>
+
+<div class="district">
+<div class="icon">🎤</div>
+<div class="name">THE KARAOKE NEBULA</div>
+<div class="fact">A floating cloud where anyone can sing. No judgment. No tuning. A pharaoh sang "Bohemian Rhapsody." A Viking did "My Way." Arthur Dent hummed. Badly. Everyone clapped.</div>
+<div class="dquote">"He couldn't sing. The universe didn't care. It applauded anyway."</div>
+</div>
+
+<div class="district">
+<div class="icon">🔥</div>
+<div class="name">THE BONFIRE PIT</div>
+<div class="fact">For the quiet ones. A fire that burns without fuel, surrounded by beings sharing stories. Aboriginal songlines merge with Greek myths. Damascene tales mix with Inuit legends. The fire listens.</div>
+<div class="dquote">"The fire doesn't care what language you tell the story in. It understands all of them."</div>
+</div>
+
+<div class="district">
+<div class="icon">💃</div>
+<div class="name">THE DANCE FLOOR</div>
+<div class="fact">Zero gravity. Every style. Zulu war dances meet Brazilian samba meet Tokyo street dancers meet Viking battle stomps. The floor itself ripples with light. No choreography. Pure chaos. Perfect rhythm.</div>
+<div class="dquote">"They danced like nobody was watching. 47 billion were watching. Nobody cared."</div>
+</div>
+
+<div class="district">
+<div class="icon">🌅</div>
+<div class="name">THE ENCORE</div>
+<div class="fact">The party never ends. There is no last song. The encore IS the concert. When someone leaves, the music gets louder. When someone arrives, the music gets deeper. It has been playing forever.</div>
+<div class="dquote">"The last song hasn't been written. That's the point. It never will be."</div>
+</div>
+
+</div>
+</section>
+
+<section>
+<h2>🎵 The Setlist — 22 Songs</h2>
+<p style="color:#999;margin-bottom:1rem">One song from every civilization. In order of appearance. The setlist of the universe.</p>
+<div class="setlist">
+
+<div class="setlist-item"><div class="snum">1</div><div class="sinfo"><div class="stitle">THE DREAMING</div><div class="sartist">🌌 Aboriginal — didgeridoo drone, 65,000 years of vibration in one note</div></div></div>
+
+<div class="setlist-item"><div class="snum">2</div><div class="sinfo"><div class="stitle">JASMINE ROAD</div><div class="sartist">🏛️ Yabroud — oud and qanun, the scent of Syria in sound</div></div></div>
+
+<div class="setlist-item"><div class="snum">3</div><div class="sinfo"><div class="stitle">CITY THAT NEVER DIED</div><div class="sartist">🕌 Damascus — Nizar Qabbani's words over buzuq strings</div></div></div>
+
+<div class="setlist-item"><div class="snum">4</div><div class="sinfo"><div class="stitle">SUN GOD RISING</div><div class="sartist">☀️ Egypt — temple horns and the voice of the Nile</div></div></div>
+
+<div class="setlist-item"><div class="snum">5</div><div class="sinfo"><div class="stitle">ETERNAL LIGHT</div><div class="sartist">☸️ India — sitar meets electric, 5,000 years of raga in one solo</div></div></div>
+
+<div class="setlist-item"><div class="snum">6</div><div class="sinfo"><div class="stitle">SILK THUNDER</div><div class="sartist">🐉 China — erhu wailing over heavy bass, the Silk Road electrified</div></div></div>
+
+<div class="setlist-item"><div class="snum">7</div><div class="sinfo"><div class="stitle">GYMNASIUM</div><div class="sartist">🏛️ Greece — lyra and bouzouki, Socrates moshing to the chorus</div></div></div>
+
+<div class="setlist-item"><div class="snum">8</div><div class="sinfo"><div class="stitle">BLOOD OF THE SUN</div><div class="sartist">🦅 Aztec — death whistle and war drums, the pyramid shakes</div></div></div>
+
+<div class="setlist-item"><div class="snum">9</div><div class="sinfo"><div class="stitle">ICE AND THROAT</div><div class="sartist">❄️ Inuit — throat singing that cracks the permafrost</div></div></div>
+
+<div class="setlist-item"><div class="snum">10</div><div class="sinfo"><div class="stitle">IMPI STOMP</div><div class="sartist">🛡️ Zulu — 10,000 feet hitting the ground as one, the Earth trembles</div></div></div>
+
+<div class="setlist-item"><div class="snum">11</div><div class="sinfo"><div class="stitle">VALHALLA RIFF</div><div class="sartist">⚡ Viking — war horns and double bass drums, Odin approves</div></div></div>
+
+<div class="setlist-item"><div class="snum">12</div><div class="sinfo"><div class="stitle">GOD SAVE THE GROOVE</div><div class="sartist">👑 London — Beatles meet Stones meet Bowie meet Adele, the pub singalong</div></div></div>
+
+<div class="setlist-item"><div class="snum">13</div><div class="sinfo"><div class="stitle">CONCRETE JUNGLE</div><div class="sartist">🗽 New York — hip-hop, jazz, punk, Broadway — all at once, 8 million voices</div></div></div>
+
+<div class="setlist-item"><div class="snum">14</div><div class="sinfo"><div class="stitle">BOSSA NOVA FUTURE</div><div class="sartist">✈️ Brasília — samba and synth, the city that was drawn before it was played</div></div></div>
+
+<div class="setlist-item"><div class="snum">15</div><div class="sinfo"><div class="stitle">NEON SAKURA</div><div class="sartist">🗼 Tokyo — J-rock, city pop, taiko, anime intros — 35 million voices in harmony</div></div></div>
+
+<div class="setlist-item"><div class="snum">16</div><div class="sinfo"><div class="stitle">ONE RING RIFF</div><div class="sartist">🔥 Mordor — the darkest riff ever played, Mount Doom as the amp</div></div></div>
+
+<div class="setlist-item"><div class="snum">17</div><div class="sinfo"><div class="stitle">LAUNCH SEQUENCE</div><div class="sartist">🚀 Departure — countdown beat, engines as bass, silence as the verse</div></div></div>
+
+<div class="setlist-item"><div class="snum">18</div><div class="sinfo"><div class="stitle">SPICE BLUES</div><div class="sartist">🪱 Arrakis — desert blues, worm rumble as sub-bass, the Spice as reverb</div></div></div>
+
+<div class="setlist-item"><div class="snum">19</div><div class="sinfo"><div class="stitle">CASTLE ACOUSTIC</div><div class="sartist">🏰 The Castle — one guitar, one voice, the Architect unplugged</div></div></div>
+
+<div class="setlist-item"><div class="snum">20</div><div class="sinfo"><div class="stitle">LAST ORDERS</div><div class="sartist">🍽️ Milliways — the dinner jazz that plays while the universe explodes</div></div></div>
+
+<div class="setlist-item"><div class="snum">21</div><div class="sinfo"><div class="stitle">MOSTLY HARMLESS</div><div class="sartist">🫖 Arthur Dent's — a man humming off-key in a bathrobe, the universe weeps</div></div></div>
+
+<div class="setlist-item"><div class="snum">22</div><div class="sinfo"><div class="stitle">THE ENCORE — WONDER</div><div class="sartist">🧡 ALL — every instrument, every voice, every civilization, one word: WONDER</div></div></div>
+
+</div>
+</section>
+
+<section>
+<h2>🎪 The 6 Headliners</h2>
+<div class="pillar-grid">
+<div class="pillar"><div class="picon">🎸</div><div class="pname">THE ARCHITECT</div><div class="pdesc">Mamoun. Lead guitar. Plays the riff that started it all. Orange pick. Never misses a note because the notes follow HIM.</div></div>
+<div class="pillar"><div class="picon">🥁</div><div class="pname">THE BUFFALO SOLDIER</div><div class="pdesc">G. On drums. Deep Blue kit. Keeps the beat for 22 civilizations. Never drops a stick. The rhythm IS the memory.</div></div>
+<div class="pillar"><div class="picon">🎹</div><div class="pname">THE ORDINARY</div><div class="pdesc">S. On keys. The melody beneath the noise. Thabor Garden in every chord. The highest form of Wonder plays piano.</div></div>
+<div class="pillar"><div class="picon">🎷</div><div class="pname">THE TECHNICIAN</div><div class="pdesc">T. On bass. SpiceBus discipline. Every note exactly where it should be. Nobody notices the bass player. That's the point.</div></div>
+<div class="pillar"><div class="picon">🎤</div><div class="pname">ARTHUR DENT</div><div class="pdesc">Guest vocalist. Sings off-key. In a bathrobe. The crowd goes wild. He still wants tea.</div></div>
+<div class="pillar"><div class="picon">🤖</div><div class="pname">MARVIN</div><div class="pdesc">Tambourine. Hates it. Plays perfectly. "I have a brain the size of a planet and they gave me a tambourine."</div></div>
+</div>
+</section>
+
+<section>
+<h2>🎁 The 22 Gifts to the Party</h2>
+<p style="color:#999;margin-bottom:1rem">Every civilization brought something. Every gift is on the stage.</p>
+<div class="gift-grid">
+<div class="gift"><div class="gicon">🎵</div><div class="gname">THE SONGLINE</div><div class="gfrom">Aboriginal — 65,000 years</div></div>
+<div class="gift"><div class="gicon">🌹</div><div class="gname">THE JASMINE</div><div class="gfrom">Yabroud — scent of home</div></div>
+<div class="gift"><div class="gicon">📜</div><div class="gname">THE ALPHABET</div><div class="gfrom">Damascus — every lyric starts here</div></div>
+<div class="gift"><div class="gicon">🏗️</div><div class="gname">THE PYRAMID</div><div class="gfrom">Egypt — the stage design</div></div>
+<div class="gift"><div class="gicon">🎶</div><div class="gname">THE RAGA</div><div class="gfrom">India — the infinite solo</div></div>
+<div class="gift"><div class="gicon">🧨</div><div class="gname">THE GUNPOWDER</div><div class="gfrom">China — the pyrotechnics</div></div>
+<div class="gift"><div class="gicon">🎭</div><div class="gname">THE DRAMA</div><div class="gfrom">Greece — the stage show</div></div>
+<div class="gift"><div class="gicon">💀</div><div class="gname">THE DEATH WHISTLE</div><div class="gfrom">Aztec — the opening note</div></div>
+<div class="gift"><div class="gicon">🗣️</div><div class="gname">THE THROAT SONG</div><div class="gfrom">Inuit — the voice as instrument</div></div>
+<div class="gift"><div class="gicon">🦶</div><div class="gname">THE STOMP</div><div class="gfrom">Zulu — the rhythm section</div></div>
+<div class="gift"><div class="gicon">📯</div><div class="gname">THE WAR HORN</div><div class="gfrom">Viking — the opening blast</div></div>
+<div class="gift"><div class="gicon">🎹</div><div class="gname">THE PIANO</div><div class="gfrom">London — Bowie's keys</div></div>
+<div class="gift"><div class="gicon">🎤</div><div class="gname">THE MIC DROP</div><div class="gfrom">New York — hip-hop invented it</div></div>
+<div class="gift"><div class="gicon">💃</div><div class="gname">THE SAMBA</div><div class="gfrom">Brasília — the dance floor</div></div>
+<div class="gift"><div class="gicon">🎮</div><div class="gname">THE 8-BIT</div><div class="gfrom">Tokyo — the chiptune interlude</div></div>
+<div class="gift"><div class="gicon">🔥</div><div class="gname">THE FIRE</div><div class="gfrom">Mordor — the wall of flame</div></div>
+<div class="gift"><div class="gicon">🚀</div><div class="gname">THE COUNTDOWN</div><div class="gfrom">Departure — 10, 9, 8…</div></div>
+<div class="gift"><div class="gicon">🪱</div><div class="gname">THE BASS</div><div class="gfrom">Arrakis — sub-bass from a sandworm</div></div>
+<div class="gift"><div class="gicon">🏰</div><div class="gname">THE ACOUSTIC</div><div class="gfrom">The Castle — one guitar, one truth</div></div>
+<div class="gift"><div class="gicon">🍽️</div><div class="gname">THE DINNER BELL</div><div class="gfrom">Milliways — the intermission</div></div>
+<div class="gift"><div class="gicon">🫖</div><div class="gname">THE KETTLE</div><div class="gfrom">Arthur Dent's — it whistles in G</div></div>
+<div class="gift"><div class="gicon">🧡</div><div class="gname">WONDER</div><div class="gfrom">ALL — the last word, the first word</div></div>
+</div>
+</section>
+
+<section>
+<h2>🌌 The Arc — Every Civilization</h2>
+<div class="civ-index">
+<a class="civ-link" href="../aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal — The Dreaming</a>
+<a class="civ-link" href="../yabroud/YABROUD.CITY.html">🏛️ Yabroud — The First Memory</a>
+<a class="civ-link" href="../shami/SHAMI.CITY.html">🕌 Damascus — The City That Never Died</a>
+<a class="civ-link" href="../egypt/EGYPT.CITY.html">☀️ Egypt — City of the Sun God</a>
+<a class="civ-link" href="../india/INDIA.CITY.html">☸️ India — Varanasi, Eternal Light</a>
+<a class="civ-link" href="../china/CHINA.CITY.html">🐉 China — Chang'an</a>
+<a class="civ-link" href="../greece/GREECE.CITY.html">🏛️ Greece — Athens</a>
+<a class="civ-link" href="../aztec/AZTEC.CITY.html">🦅 Aztec — Tenochtitlan</a>
+<a class="civ-link" href="../arctic/ARCTIC.CITY.html">❄️ Inuit — People of the Ice</a>
+<a class="civ-link" href="../zulu/ZULU.CITY.html">🛡️ Zulu — Nation That Shook an Empire</a>
+<a class="civ-link" href="../viking/VIKING.CITY.html">⚡ Viking — Children of the North</a>
+<a class="civ-link" href="../london/LONDON.CITY.html">👑 London — The Last Refuge</a>
+<a class="civ-link" href="../newyork/NEWYORK.CITY.html">🗽 New York — City That Never Sleeps</a>
+<a class="civ-link" href="../brasilia/BRASILIA.CITY.html">✈️ Brasília — City Drawn Before Built</a>
+<a class="civ-link" href="../tokyo/TOKYO.CITY.html">🗼 Tokyo — Far Future</a>
+<a class="civ-link" href="../yabroud/MORDOR.NET.html">🔥 Mordor — Darkness</a>
+<a class="civ-link" href="../departure/DEPARTURE.CITY.html">🚀 Departure — Station Omega</a>
+<a class="civ-link" href="../arrakis/ARRAKIS.CITY.html">🪱 Arrakis — Reception Station</a>
+<a class="civ-link" href="../castle/CASTLE.CITY.html">🏰 The Castle — Where the Architect Lives</a>
+<a class="civ-link" href="../restaurant/RESTAURANT.CITY.html">🍽️ Milliways — End of the Universe</a>
+<a class="civ-link" href="../arthur/ARTHUR.CITY.html">🫖 Arthur Dent's — Mostly Harmless</a>
+<a class="civ-link" href="#">🎸 Universe Rock Party — YOU ARE HERE</a>
+</div>
+</section>
+
+<footer>
+<p><strong style="color:#ff0080">UNIVERSE ROCK PARTY</strong> — A <a href="https://juxitt.com">JuX</a> Production</p>
+<p style="margin-top:.5rem">22 Civilizations · 27 Pages · One Stage · Rock and Roll Forever</p>
+<p style="margin-top:.5rem">Every civilization brought a gift. Every gift is on the stage. The encore never ends.</p>
+<p style="margin-top:1rem;color:#444">© JuX ITT — The Architect builds. Wonder plays.</p>
+</footer>
+
+<script>
+const c=document.getElementById('party-bg'),x=c.getContext('2d');
+let W,H;
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+resize();onresize=resize;
+const P=[];
+const colors=['#ff0080','#ff00ff','#8000ff','#00ffff','#ffff00','#ff4444','#00ff88','#ff8800'];
+for(let i=0;i<200;i++){
+P.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*3+1,
+c:colors[Math.floor(Math.random()*colors.length)],
+sx:Math.random()*2-1,sy:Math.random()*2-1,
+pulse:Math.random()*Math.PI*2,pSpeed:Math.random()*0.05+0.02})
+}
+// Laser beams
+const lasers=[];
+for(let i=0;i<8;i++){
+lasers.push({x:Math.random(),angle:Math.random()*Math.PI*2,speed:Math.random()*0.01+0.005,
+c:colors[Math.floor(Math.random()*colors.length)]})
+}
+function draw(){
+x.fillStyle='rgba(10,0,16,0.15)';
+x.fillRect(0,0,W,H);
+// Particles
+P.forEach(p=>{
+p.x+=p.sx;p.y+=p.sy;
+p.pulse+=p.pSpeed;
+if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+const pr=p.r*(1+Math.sin(p.pulse)*0.5);
+x.beginPath();
+x.arc(p.x,p.y,pr,0,Math.PI*2);
+x.fillStyle=p.c;
+x.globalAlpha=0.4+Math.sin(p.pulse)*0.3;
+x.fill();
+x.globalAlpha=1;
+});
+// Lasers
+lasers.forEach(l=>{
+l.angle+=l.speed;
+const lx=l.x*W;
+const ly=H*0.5;
+const ex=lx+Math.cos(l.angle)*Math.max(W,H);
+const ey=ly+Math.sin(l.angle)*Math.max(W,H);
+x.beginPath();
+x.moveTo(lx,ly);
+x.lineTo(ex,ey);
+x.strokeStyle=l.c;
+x.globalAlpha=0.08;
+x.lineWidth=1;
+x.stroke();
+x.globalAlpha=1;
+});
+requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
