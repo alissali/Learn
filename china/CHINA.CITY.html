@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CHANG'AN — The Middle Kingdom | JuX Civilizations</title>
+<meta name="description" content="Ancient China — 9 districts, 8 dynasties, philosophy, gunpowder, and the Dragon. A JuX civilization.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d0a08;color:#d4c5a0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(180deg,#0d0a08 0%,#1a1008 30%,#201510 60%,#0d0a08 100%);position:relative;padding:2rem}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(200,50,30,0.06) 0%,transparent 70%)}
+.hero h1{font-size:clamp(3rem,8vw,6rem);color:#c83c28;text-shadow:0 0 40px rgba(200,60,40,0.3);letter-spacing:0.3em;margin-bottom:0.5rem}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#c8a848;letter-spacing:0.5em;margin-bottom:2rem}
+.hero .founding{font-size:0.9rem;color:#5a4a3a;font-style:italic}
+.dragon-icon{font-size:4rem;margin-bottom:1rem}
+.section{max-width:1100px;margin:0 auto;padding:3rem 1.5rem}
+h2{font-size:1.8rem;color:#c83c28;text-align:center;margin-bottom:2rem;letter-spacing:0.15em}
+.district{background:rgba(200,60,40,0.03);border:1px solid rgba(200,60,40,0.08);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem;transition:all 0.3s}
+.district:hover{border-color:rgba(200,60,40,0.25);background:rgba(200,60,40,0.06);transform:translateY(-2px)}
+.district .icon{font-size:2rem;float:left;margin-right:1rem;margin-top:0.2rem}
+.district h3{color:#c8a848;font-size:1.2rem;margin-bottom:0.5rem}
+.district .fact{color:#a08a6a;font-size:0.9rem;margin-bottom:0.5rem}
+.district .quote{color:#8a5a4a;font-style:italic;font-size:0.85rem;border-left:2px solid rgba(200,60,40,0.2);padding-left:0.8rem;margin-top:0.5rem;clear:both}
+.dynasty-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0}
+.dynasty-card{background:rgba(200,60,40,0.03);border:1px solid rgba(200,60,40,0.08);border-radius:8px;padding:1rem;text-align:center;transition:all 0.3s}
+.dynasty-card:hover{border-color:#c83c28;background:rgba(200,60,40,0.08);transform:translateY(-3px)}
+.dynasty-card .d-icon{font-size:1.8rem;display:block;margin-bottom:0.5rem}
+.dynasty-card .d-name{color:#c8a848;font-weight:bold;font-size:0.95rem}
+.dynasty-card .d-years{color:#a08a6a;font-size:0.7rem;margin-top:0.2rem}
+.dynasty-card .d-fame{color:#8a5a4a;font-size:0.75rem;margin-top:0.3rem;font-style:italic}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin:2rem 0}
+.stat{text-align:center;padding:1.5rem;background:rgba(200,60,40,0.03);border:1px solid rgba(200,60,40,0.08);border-radius:8px}
+.stat .number{font-size:2.5rem;color:#c83c28;font-weight:bold}
+.stat .label{color:#a08a6a;font-size:0.8rem;margin-top:0.3rem;letter-spacing:0.1em}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin:1rem 0}
+.gallery img{width:100%;border-radius:8px;cursor:pointer;transition:all 0.4s;border:1px solid rgba(200,60,40,0.15)}
+.gallery img:hover{border-color:#c83c28;transform:scale(1.02);box-shadow:0 8px 30px rgba(200,60,40,0.2)}
+.gallery .cap{text-align:center;color:#a08a6a;font-size:0.8rem;margin-top:0.3rem;font-style:italic}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;justify-content:center;align-items:center;cursor:pointer}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:8px;box-shadow:0 0 60px rgba(200,60,40,0.3)}
+.army-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.army-table th{background:rgba(200,60,40,0.1);color:#c8a848;padding:0.8rem;text-align:left;font-size:0.85rem;letter-spacing:0.1em}
+.army-table td{padding:0.8rem;border-bottom:1px solid rgba(200,60,40,0.05);color:#d4c5a0;font-size:0.85rem}
+.army-table tr:hover{background:rgba(200,60,40,0.03)}
+.inventions{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin:1rem 0}
+.invention{background:rgba(200,60,40,0.03);border:1px solid rgba(200,60,40,0.08);border-radius:8px;padding:1.2rem;text-align:center;transition:all 0.3s}
+.invention:hover{border-color:#c83c28;transform:translateY(-2px)}
+.invention .inv-name{color:#c8a848;font-size:1.1rem;font-weight:bold;margin-bottom:0.3rem}
+.invention .inv-line{color:#a08a6a;font-size:0.8rem;font-style:italic}
+.divider{text-align:center;padding:1rem 0;color:rgba(200,60,40,0.2);font-size:1.2rem;letter-spacing:1em}
+.charter{text-align:center;font-style:italic;color:#a08a6a;font-size:1.1rem;max-width:600px;margin:2rem auto;line-height:1.8;border:1px solid rgba(200,60,40,0.1);padding:2rem;border-radius:8px}
+.nav-links{text-align:center;padding:2rem;font-size:0.9rem}
+.nav-links a{color:#c83c28;text-decoration:none;margin:0 0.8rem;transition:color 0.3s}
+.nav-links a:hover{color:#c8a848}
+.footer{text-align:center;padding:3rem 1rem;color:#3a2a1a;font-size:0.75rem;border-top:1px solid rgba(200,60,40,0.05)}
+canvas#lanterns{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.hero,.section,.nav-links,.footer{position:relative;z-index:1}
+</style>
+</head>
+<body>
+<canvas id="lanterns"></canvas>
+
+<div class="hero">
+  <div class="dragon-icon">🐉</div>
+  <h1>CHANG'AN</h1>
+  <div class="subtitle">THE MIDDLE KINGDOM</div>
+  <div class="founding">Est. ~2100 BCE · 4,000 years · The center of the world named itself</div>
+</div>
+
+<div class="section">
+  <h2>🏯 THE 9 DISTRICTS</h2>
+
+  <div class="district">
+    <span class="icon">🏯</span>
+    <h3>THE FORBIDDEN CITY</h3>
+    <div class="fact">9,999 rooms · 178 acres · Only the Emperor enters the inner court · 200 years to build · Red walls = heaven's boundary</div>
+    <div class="quote">"9,999 rooms. Because 10,000 belongs to heaven. And the Emperor knew his place."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🧱</span>
+    <h3>THE GREAT WALL</h3>
+    <div class="fact">21,196 km · 2,300 years of construction · 400,000 died building it · Signal fire system: border to capital in 24 hours</div>
+    <div class="quote">"They didn't build a wall. They built a sentence across the earth: STAY OUT."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">⚱️</span>
+    <h3>THE TERRACOTTA VAULT</h3>
+    <div class="fact">8,000 soldiers · Each face unique · Mercury rivers in the tomb · Crossbows STILL armed after 2,200 years · Found by a farmer digging a well</div>
+    <div class="quote">"He wanted an army for the afterlife. He got one. They're still standing at attention."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🏮</span>
+    <h3>THE SILK MARKET</h3>
+    <div class="fact">Silk Road origin · 6,400 km to Rome · Silk worth more than gold per gram · Tea, porcelain, gunpowder — all left from here</div>
+    <div class="quote">"They sold Rome its shirts. Rome never knew who made them."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🍵</span>
+    <h3>THE TEA HOUSES</h3>
+    <div class="fact">Tea culture: 5,000 years · Gongfu ceremony: 21 steps · Poets wrote here, deals were sealed here, empires fell here</div>
+    <div class="quote">"Every revolution in China started with a cup of tea and a complaint."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">⛩️</span>
+    <h3>THE TEMPLE QUARTER</h3>
+    <div class="fact">Buddhist, Taoist, Confucian — all on the same street · Shaolin monks: 1,500 years of kung fu · Incense never stops burning</div>
+    <div class="quote">"Three religions, one street, zero wars between them. The tea helped."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">📖</span>
+    <h3>THE IMPERIAL LIBRARY</h3>
+    <div class="fact">Invented paper (105 CE) · Invented printing (868 CE) · 800,000 volumes · Qin Shi Huang burned them once. They rewrote everything.</div>
+    <div class="quote">"They burned every book. Then they wrote them all again. From memory."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🌾</span>
+    <h3>THE RICE PADDIES</h3>
+    <div class="fact">Fed 60 million by Han dynasty · Terrace farming on impossible mountains · Water buffalo + human engineering = zero famine theory</div>
+    <div class="quote">"They carved stairs into mountains to grow food. The mountains didn't complain."</div>
+  </div>
+
+  <div class="district">
+    <span class="icon">🎆</span>
+    <h3>THE GUNPOWDER WORKS</h3>
+    <div class="fact">Invented gunpowder (9th century) · Used it for fireworks FIRST, weapons second · Compass, paper, printing — also theirs</div>
+    <div class="quote">"They invented gunpowder and decided to celebrate with it before killing with it. Priorities."</div>
+  </div>
+</div>
+
+<div class="divider">🏮 · 🏮 · 🏮 · 🏮 · 🏮</div>
+
+<div class="section">
+  <h2>🎨 VISIONS OF THE MIDDLE KINGDOM</h2>
+  <div class="gallery">
+    <div><img src="web/CHINA-AERIAL.jpg" alt="Forbidden City Aerial" onclick="openLB(this)" loading="lazy"><div class="cap">The Forbidden City — 9,999 Rooms</div></div>
+    <div><img src="web/CHINA-WALL.jpg" alt="Great Wall" onclick="openLB(this)" loading="lazy"><div class="cap">The Great Wall — A Sentence Across the Earth</div></div>
+    <div><img src="web/CHINA-TERRACOTTA.jpg" alt="Terracotta Army" onclick="openLB(this)" loading="lazy"><div class="cap">The Terracotta Army — Still at Attention</div></div>
+    <div><img src="web/CHINA-DRAGON.jpg" alt="Chinese Dragon" onclick="openLB(this)" loading="lazy"><div class="cap">The Dragon — Breathes Rain, Not Fire</div></div>
+    <div><img src="web/CHINA-MARKET.jpg" alt="Silk Market" onclick="openLB(this)" loading="lazy"><div class="cap">The Silk Market — Rome's Tailor</div></div>
+    <div><img src="web/CHINA-TEMPLE.jpg" alt="Shaolin Temple" onclick="openLB(this)" loading="lazy"><div class="cap">Shaolin — 1,500 Years of Discipline</div></div>
+  </div>
+</div>
+
+<div id="lb" class="lightbox" onclick="this.classList.remove('active')"><img id="lbImg" src="" alt=""></div>
+
+<div class="divider">🐉 · 🐉 · 🐉 · 🐉 · 🐉</div>
+
+<div class="section">
+  <h2>👑 THE DYNASTIES</h2>
+  <div class="dynasty-grid">
+    <div class="dynasty-card"><span class="d-icon">🐉</span><div class="d-name">XIA</div><div class="d-years">2070–1600 BCE</div><div class="d-fame">The first. Maybe mythical. Probably not.</div></div>
+    <div class="dynasty-card"><span class="d-icon">🐢</span><div class="d-name">SHANG</div><div class="d-years">1600–1046 BCE</div><div class="d-fame">Oracle bones. Bronze. Writing born.</div></div>
+    <div class="dynasty-card"><span class="d-icon">👑</span><div class="d-name">ZHOU</div><div class="d-years">1046–256 BCE</div><div class="d-fame">Confucius. Lao Tzu. Sun Tzu. All of them.</div></div>
+    <div class="dynasty-card"><span class="d-icon">🧱</span><div class="d-name">QIN</div><div class="d-years">221–206 BCE</div><div class="d-fame">First Emperor. Wall. Terracotta. 15 years.</div></div>
+    <div class="dynasty-card"><span class="d-icon">🛤️</span><div class="d-name">HAN</div><div class="d-years">206 BCE–220 CE</div><div class="d-fame">Silk Road. Paper. 60 million fed.</div></div>
+    <div class="dynasty-card"><span class="d-icon">🎭</span><div class="d-name">TANG</div><div class="d-years">618–907 CE</div><div class="d-fame">Golden Age. Poetry. Chang'an: world's largest city.</div></div>
+    <div class="dynasty-card"><span class="d-icon">🧭</span><div class="d-name">SONG</div><div class="d-years">960–1279 CE</div><div class="d-fame">Compass. Gunpowder. Printing. All perfected.</div></div>
+    <div class="dynasty-card"><span class="d-icon">🏯</span><div class="d-name">MING</div><div class="d-years">1368–1644 CE</div><div class="d-fame">Forbidden City. Great Wall rebuilt. Zheng He sailed.</div></div>
+  </div>
+</div>
+
+<div class="divider">🏮 · 🏮 · 🏮 · 🏮 · 🏮</div>
+
+<div class="section">
+  <h2>🧠 THE FOUR GREAT INVENTIONS</h2>
+  <div class="inventions">
+    <div class="invention"><div class="inv-name">📄 PAPER</div><div class="inv-line">105 CE · Cai Lun · "Europe waited 1,000 years to catch up."</div></div>
+    <div class="invention"><div class="inv-name">🖨️ PRINTING</div><div class="inv-line">868 CE · Block printing · Gutenberg was 600 years late.</div></div>
+    <div class="invention"><div class="inv-name">🧭 COMPASS</div><div class="inv-line">11th century · First for feng shui. Then for conquest.</div></div>
+    <div class="invention"><div class="inv-name">🎆 GUNPOWDER</div><div class="inv-line">9th century · Fireworks first. Weapons second. Correct order.</div></div>
+  </div>
+</div>
+
+<div class="divider">🐉 · 🐉 · 🐉 · 🐉 · 🐉</div>
+
+<div class="section">
+  <h2>⚔️ THE IMPERIAL ARMY</h2>
+  <table class="army-table">
+    <thead><tr><th>Unit</th><th>Strength</th><th>Weapon</th><th>Fame</th></tr></thead>
+    <tbody>
+      <tr><td>🛡️ Infantry</td><td>500,000</td><td>Ji halberd + crossbow</td><td>Conscript armies — largest on earth</td></tr>
+      <tr><td>🏇 Cavalry</td><td>100,000</td><td>Composite bow + dao sword</td><td>Mongolian steppe riders adopted</td></tr>
+      <tr><td>🏹 Crossbowmen</td><td>150,000</td><td>Repeating crossbow (Zhuge Liang)</td><td>10 bolts per minute. 1,800 years before Gatling.</td></tr>
+      <tr><td>🐘 War Elephants</td><td>2,000</td><td>Tower + archers</td><td>Southern campaigns — Yunnan regiments</td></tr>
+      <tr><td>🎆 Fire Units</td><td>30,000</td><td>Fire arrows + fire lances + bombs</td><td>First gunpowder warfare — Song dynasty</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="divider">🏮 · 🏮 · 🏮 · 🏮 · 🏮</div>
+
+<div class="section">
+  <h2>📊 THE MIDDLE KINGDOM IN NUMBERS</h2>
+  <div class="stats">
+    <div class="stat"><div class="number" data-target="60000000">0</div><div class="label">POPULATION (HAN)</div></div>
+    <div class="stat"><div class="number" data-target="21196">0</div><div class="label">KM OF WALL</div></div>
+    <div class="stat"><div class="number" data-target="8000">0</div><div class="label">TERRACOTTA SOLDIERS</div></div>
+    <div class="stat"><div class="number" data-target="9999">0</div><div class="label">FORBIDDEN ROOMS</div></div>
+    <div class="stat"><div class="number" data-target="4000">0</div><div class="label">YEARS OF CIVILIZATION</div></div>
+    <div class="stat"><div class="number" data-target="6400">0</div><div class="label">KM OF SILK ROAD</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="charter">
+    🐉 MANDATE OF HEAVEN 🐉<br><br>
+    "Build nothing the ancestors would not recognize.<br>
+    The wall keeps the barbarians out.<br>
+    The tea keeps the empire in.<br>
+    The dragon breathes rain, not fire.<br>
+    That is the difference."
+  </div>
+</div>
+
+<div class="nav-links">
+  <a href="../yabroud/YABROUD.CITY.html">🌴 Yabroud</a>
+  <a href="../yabroud/MORDOR.NET.html">🔥 Mordor</a>
+  <a href="../yabroud/EGYPT.CITY.html">☥ Egypt</a>
+  <a href="../aztec/AZTEC.CITY.html">🦅 Aztec</a>
+  <a href="../greece/GREECE.CITY.html">🏛️ Greece</a>
+  <span style="color:#c83c28;border-bottom:1px solid #c83c28">🐉 China</span>
+</div>
+
+<div class="footer">
+  CHANG'AN — The Middle Kingdom · A JuX Civilization · Built by G. for Wonder Boy · 🐉<br>
+  <span style="color:#3a2a1a">aRchitect / softwaRe expeRt / Soft SeX StoRy telleR</span>
+</div>
+
+<script>
+function openLB(el){document.getElementById('lbImg').src=el.src;document.getElementById('lb').classList.add('active')}
+
+// Floating lantern particles
+const canvas=document.getElementById('lanterns'),ctx=canvas.getContext('2d');
+let W,H;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+const lants=Array.from({length:50},()=>({x:Math.random()*W,y:H+Math.random()*200,s:Math.random()*8+4,v:Math.random()*0.4+0.15,d:Math.random()*0.6-0.3,glow:Math.random()*0.15+0.05,hue:Math.random()>0.5?'rgba(200,60,40,':'rgba(200,168,72,'}));
+function drawLantern(l){ctx.beginPath();ctx.arc(l.x,l.y,l.s,0,Math.PI*2);ctx.fillStyle=l.hue+l.glow+')';ctx.fill();ctx.beginPath();ctx.arc(l.x,l.y,l.s*2,0,Math.PI*2);ctx.fillStyle=l.hue+(l.glow*0.3)+')';ctx.fill()}
+function animate(){ctx.clearRect(0,0,W,H);lants.forEach(l=>{l.y-=l.v;l.x+=l.d+Math.sin(l.y*0.005)*0.3;l.glow=0.05+Math.sin(Date.now()*0.002+l.x)*0.05;if(l.y<-20){l.y=H+20;l.x=Math.random()*W}drawLantern(l)});requestAnimationFrame(animate)}
+animate();
+
+// Counter animation
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target;const target=+el.dataset.target;const dur=2500;const start=performance.now();const step=ts=>{const p=Math.min((ts-start)/dur,1);el.textContent=Math.floor(p*target).toLocaleString();if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step);observer.unobserve(el)}})},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
