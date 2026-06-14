@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAURON'S FACTORY — Where Rings Are Made and Worlds Unmade</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0000;color:#c4a882;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#0a0000 0%,#1a0500 40%,#2a0a00 70%,#0a0000 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(0deg,#ff4400 0%,#ff2200 20%,transparent 100%);opacity:0.15;animation:lavaGlow 4s ease-in-out infinite}
+@keyframes lavaGlow{0%,100%{opacity:0.15}50%{opacity:0.3}}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#ff4400;text-shadow:0 0 40px rgba(255,68,0,0.6),0 0 80px rgba(255,34,0,0.3);letter-spacing:0.15em;text-transform:uppercase}
+.hero .sub{font-size:clamp(1rem,2.5vw,1.5rem);color:#8b4513;margin-top:1rem;font-style:italic}
+.hero .eye{font-size:6rem;margin-bottom:2rem;animation:eyePulse 3s ease-in-out infinite}
+@keyframes eyePulse{0%,100%{text-shadow:0 0 20px rgba(255,68,0,0.5)}50%{text-shadow:0 0 60px rgba(255,68,0,1),0 0 120px rgba(255,0,0,0.5)}}
+.nav{position:fixed;top:0;width:100%;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:100;background:rgba(10,0,0,0.9);border-bottom:1px solid #331100}
+.nav a{color:#ff4400;text-decoration:none;font-size:0.9rem;letter-spacing:0.1em}
+.nav a:hover{color:#ff6633}
+.stats{display:flex;gap:2rem;padding:2rem;justify-content:center;flex-wrap:wrap;background:#110300;border-top:1px solid #331100;border-bottom:1px solid #331100}
+.stat{text-align:center}
+.stat .val{font-size:2rem;color:#ff4400;font-weight:bold}
+.stat .lbl{font-size:0.75rem;color:#8b4513;text-transform:uppercase;letter-spacing:0.15em;margin-top:0.3rem}
+.district{min-height:100vh;display:flex;align-items:center;padding:4rem 2rem;position:relative}
+.district:nth-child(odd) .content{flex-direction:row}
+.district:nth-child(even) .content{flex-direction:row-reverse}
+.content{max-width:1200px;margin:0 auto;display:flex;gap:3rem;align-items:center;width:100%}
+.text{flex:1;min-width:280px}
+.text h2{font-size:clamp(1.5rem,3vw,2.2rem);color:#ff4400;margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.1em}
+.text h3{color:#cc3300;font-size:1rem;margin-bottom:1rem;font-style:italic}
+.text p{line-height:1.8;margin-bottom:1rem;color:#c4a882;font-size:1.05rem}
+.text .quote{border-left:3px solid #ff4400;padding-left:1.5rem;font-style:italic;color:#8b4513;margin:1.5rem 0;font-size:1.1rem}
+.img-wrap{flex:1;min-width:280px;max-width:600px}
+.img-wrap img{width:100%;border-radius:4px;border:1px solid #331100;box-shadow:0 0 40px rgba(255,68,0,0.2);cursor:pointer;transition:transform 0.3s}
+.img-wrap img:hover{transform:scale(1.02)}
+.specs{background:#110300;padding:3rem 2rem;border-top:1px solid #331100}
+.specs-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.spec-card{background:#1a0500;border:1px solid #331100;border-radius:4px;padding:1.5rem}
+.spec-card h3{color:#ff4400;margin-bottom:0.8rem;font-size:1.1rem;text-transform:uppercase;letter-spacing:0.1em}
+.spec-card ul{list-style:none;padding:0}
+.spec-card li{padding:0.4rem 0;border-bottom:1px solid #220800;color:#c4a882;font-size:0.95rem}
+.spec-card li:last-child{border-bottom:none}
+.spec-card li span{color:#ff4400;font-weight:bold}
+.workers{padding:3rem 2rem;max-width:1000px;margin:0 auto}
+.workers h2{color:#ff4400;text-align:center;margin-bottom:2rem;font-size:1.8rem;letter-spacing:0.1em}
+.worker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.worker{background:#1a0500;border:1px solid #331100;border-radius:4px;padding:1.5rem}
+.worker h3{color:#cc3300;margin-bottom:0.5rem}
+.worker p{color:#8b4513;font-size:0.95rem;line-height:1.6}
+footer{text-align:center;padding:3rem 2rem;background:#0a0000;border-top:1px solid #331100}
+footer p{color:#8b4513;font-size:0.9rem;margin-bottom:0.5rem}
+footer a{color:#ff4400;text-decoration:none}
+@media(max-width:768px){
+.content{flex-direction:column!important}
+.district{padding:2rem 1rem}
+.stats{gap:1rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+<a href="../mordor/MORDOR.CITY.html">← MORDOR</a>
+<a href="https://juxaos.com">JuXAOS</a>
+</nav>
+
+<section class="hero">
+<div>
+<div class="eye">🔥</div>
+<h1>Sauron's Factory</h1>
+<p class="sub">Where Rings Are Made and Worlds Unmade</p>
+</div>
+</section>
+
+<div class="stats">
+<div class="stat"><div class="val">∞</div><div class="lbl">Daily Output</div></div>
+<div class="stat"><div class="val">10,000</div><div class="lbl">Slaves</div></div>
+<div class="stat"><div class="val">1</div><div class="lbl">Ring That Rules</div></div>
+<div class="stat"><div class="val">9</div><div class="lbl">Wraiths Bound</div></div>
+<div class="stat"><div class="val">0</div><div class="lbl">Safety Inspections</div></div>
+<div class="stat"><div class="val">0</div><div class="lbl">Survivors</div></div>
+</div>
+
+<section class="district">
+<div class="content">
+<div class="text">
+<h2>🏭 The Gates of Industry</h2>
+<h3>The Exterior — Built Into Mount Doom</h3>
+<p>You do not approach. You are summoned. The factory is not a building — it is a wound in the mountain that never healed. Three smokestacks pierce the sky like broken fingers pointing at gods who have already left.</p>
+<p>Rivers of lava flow in channels carved by a will older than the mountain. The gates are three stories of black iron. They do not open. They tolerate.</p>
+<p>Ten thousand march in every dawn. Fewer march out. The difference is called production.</p>
+<div class="quote">"The mountain was here first. Sauron merely gave it purpose. The mountain does not agree, but the mountain was not asked."</div>
+</div>
+<div class="img-wrap">
+<img src="web/FACTORY-EXTERIOR.webp" alt="Sauron's Factory Exterior" loading="lazy">
+</div>
+</div>
+</section>
+
+<section class="district">
+<div class="content">
+<div class="text">
+<h2>⚒️ The Great Forge Hall</h2>
+<h3>Where Iron Learns Obedience</h3>
+<p>A thousand anvils in rows that vanish into smoke and heat haze. The rhythm never stops. Day and night are concepts from outside — in here there is only the hammer and the thing that is not yet a sword.</p>
+<p>Molten iron flows in channels through the floor like veins in a body that will never die. The bellows are powered by cave trolls who have forgotten what daylight smells like. The sparks are a language. The orcs cannot read it. The metal can.</p>
+<p>Every blade that leaves this hall carries a whisper of the mountain's rage. The mountain did not consent. The blade does not care.</p>
+<div class="quote">"The forge does not make weapons. It makes inevitability. The sword is just the shape inevitability takes when it is ready to leave."</div>
+</div>
+<div class="img-wrap">
+<img src="web/FACTORY-FORGE.webp" alt="The Great Forge Hall" loading="lazy">
+</div>
+</div>
+</section>
+
+<section class="district">
+<div class="content">
+<div class="text">
+<h2>💍 The Ring Chamber</h2>
+<h3>Where One Was Forged to Rule Them All</h3>
+<p>The room is small. That is the first surprise. The most powerful object in the history of Middle-earth was made in a room no larger than a chapel. The crucible sits on a pedestal of volcanic glass. The gold still glows. It has been glowing for three thousand years.</p>
+<p>The runes on the walls are not decoration. They are instructions. They are a recipe. One part gold. One part will. One part the darkness that lives in the space between what you want and what you are willing to do to get it.</p>
+<p>The ring floats. It has always floated. It does not need a hand. It needs a heart. Any heart. Your heart.</p>
+<div class="quote">"Three Rings for the Elven-kings under the sky. Seven for the Dwarf-lords in their halls of stone. Nine for Mortal Men doomed to die. One for the Dark Lord on his dark throne. The poem does not mention the room. The room does not need a poem."</div>
+</div>
+<div class="img-wrap">
+<img src="web/FACTORY-RINGFORGE.webp" alt="The Ring Chamber" loading="lazy">
+</div>
+</div>
+</section>
+
+<section class="district">
+<div class="content">
+<div class="text">
+<h2>⚔️ The Armory</h2>
+<h3>Enough Steel to Darken the Sun</h3>
+<p>The hall stretches into darkness and the darkness stretches into more hall. Walls lined floor to ceiling with swords. Not hundreds. Not thousands. The number is a military secret and the military is afraid to count.</p>
+<p>Spears stacked like firewood. Shields piled like plates after a feast nobody enjoyed. Battering rams with iron wolf heads snarling at nothing. Catapult arms waiting for the order that turns a city into a memory.</p>
+<p>Every weapon is identical. That is the horror. Not the quantity — the uniformity. Each blade was made to kill one thing: hope. The orc does not choose the weapon. The weapon chooses the war.</p>
+<div class="quote">"I asked the quartermaster how many swords. He said 'enough.' I asked enough for what. He said 'yes.' I did not ask again."</div>
+</div>
+<div class="img-wrap">
+<img src="web/FACTORY-ARMORY.webp" alt="The Armory" loading="lazy">
+</div>
+</div>
+</section>
+
+<section class="district">
+<div class="content">
+<div class="text">
+<h2>⛓️ The Pits</h2>
+<h3>Where the Mountain Gives Up Its Bones</h3>
+<p>Down. Further down. Further. You are not deep enough. Keep going. The pits are terraced into the volcanic rock like an amphitheater built by someone who hates theater and loves suffering.</p>
+<p>Ten thousand work the pits. Orcs. Men. Things that were men once and have since become a different category. They haul raw ore in baskets up staircases carved by hands that no longer exist. The overseers have whips. The whips are not the punishment. The punishment is the next day.</p>
+<p>Cages hang from the ceiling for those who stop. They do not stop for long. The lava below is patient. It can wait. It has always been waiting.</p>
+<div class="quote">"The pit does not have a bottom. It has a temperature. When you reach the temperature, you have reached the bottom."</div>
+</div>
+<div class="img-wrap">
+<img src="web/FACTORY-PITS.webp" alt="The Slave Pits" loading="lazy">
+</div>
+</div>
+</section>
+
+<section class="district">
+<div class="content">
+<div class="text">
+<h2>🗺️ The War Room</h2>
+<h3>Where Middle-earth Is a Board Game</h3>
+<p>The Palantír sits on its pedestal like an eye that swallowed a universe. It sees everything. It shows everything. It lies about nothing — the lies are in the interpretation, and Sauron interprets beautifully.</p>
+<p>The stone table is carved as a relief map of Middle-earth. Troop movements glow in red lines that pulse like arteries. The Shire is a dot. Gondor is a problem. Rohan is a delay. Mordor is the only color that does not move. It does not need to move. Everything else moves toward it.</p>
+<p>Nine thrones arranged in a circle. Empty. The Nazgûl do not sit. They do not need to. The thrones are a courtesy. Sauron's throne is larger. Spiked. It is not comfortable. Comfort is a weakness and weakness has been removed from the vocabulary along with mercy, doubt, and Tuesday.</p>
+<div class="quote">"The map is always accurate. The map does not show forests — it shows fuel. It does not show rivers — it shows obstacles. It does not show people — it shows numbers. The numbers are always going down."</div>
+</div>
+<div class="img-wrap">
+<img src="web/FACTORY-WARROOM.webp" alt="Sauron's War Room" loading="lazy">
+</div>
+</div>
+</section>
+
+<div class="specs">
+<div class="specs-grid">
+<div class="spec-card">
+<h3>⚒️ Production</h3>
+<ul>
+<li><span>Daily sword output:</span> 3,000</li>
+<li><span>Daily shield output:</span> 1,500</li>
+<li><span>Daily armor sets:</span> 800</li>
+<li><span>Siege engines (weekly):</span> 12</li>
+<li><span>Rings of Power:</span> 1 (sufficient)</li>
+<li><span>Quality control:</span> "Does it cut? Ship it."</li>
+</ul>
+</div>
+<div class="spec-card">
+<h3>🔥 Infrastructure</h3>
+<ul>
+<li><span>Heat source:</span> Mount Doom (unlimited)</li>
+<li><span>Lava channels:</span> 47 active</li>
+<li><span>Smokestacks:</span> 3 primary, 12 secondary</li>
+<li><span>Ventilation:</span> "What is ventilation?"</li>
+<li><span>Safety exits:</span> 0</li>
+<li><span>OSHA violations:</span> ∞</li>
+</ul>
+</div>
+<div class="spec-card">
+<h3>⛓️ Workforce</h3>
+<ul>
+<li><span>Orcs:</span> 7,000</li>
+<li><span>Enslaved men:</span> 2,500</li>
+<li><span>Cave trolls (bellows):</span> 40</li>
+<li><span>Overseers:</span> 300</li>
+<li><span>Wraith supervisors:</span> 2 (rotating)</li>
+<li><span>HR department:</span> The whip</li>
+</ul>
+</div>
+<div class="spec-card">
+<h3>🗡️ Notable Products</h3>
+<ul>
+<li><span>The One Ring:</span> 1 unit, never replicated</li>
+<li><span>Morgul blades:</span> Limited edition</li>
+<li><span>Grond (battering ram):</span> 1, named after hammer of Morgoth</li>
+<li><span>Nazgûl armor:</span> 9 sets, bespoke</li>
+<li><span>Orc scimitars:</span> "Quantity IS quality"</li>
+<li><span>Returns policy:</span> Death</li>
+</ul>
+</div>
+</div>
+</div>
+
+<section class="workers">
+<h2>⚙️ Key Personnel</h2>
+<div class="worker-grid">
+<div class="worker">
+<h3>🔥 Sauron — Owner & CEO</h3>
+<p>Does not visit the floor. Does not need to. The Eye sees the production numbers. The production numbers are never high enough. Nothing is ever enough. That is the business model.</p>
+</div>
+<div class="worker">
+<h3>👁️ The Mouth of Sauron — Floor Manager</h3>
+<p>Delivers orders. Has never smiled. May not have a face under the helmet. Nobody has checked. Nobody wants to check. His performance reviews are written in languages that predate language.</p>
+</div>
+<div class="worker">
+<h3>⚒️ Gothmog — Shift Lead</h3>
+<p>Runs the night shift. The night shift is all shifts. Gothmog has not slept since the Second Age. He does not miss it. Sleep is where the dreams are and his dreams have teeth.</p>
+</div>
+<div class="worker">
+<h3>🔨 Snaga — Apprentice</h3>
+<p>Smallest orc on the line. Fastest hands. Has survived 4,312 shifts. This is a record. The previous record holder survived 4,311 and is now part of the floor.</p>
+</div>
+<div class="worker">
+<h3>🐺 Shagrat — Armory Chief</h3>
+<p>Counts every blade. Personally. By hand. Has never miscounted. Once miscounted on purpose to see what would happen. Lost a finger. Counts faster now.</p>
+</div>
+<div class="worker">
+<h3>⛏️ The Pit Master — Unnamed</h3>
+<p>Has no name. Had one once. The pit took it. Manages the mining operation by hitting things that are not rocks until they become things that mine rocks. Efficient.</p>
+</div>
+</div>
+</section>
+
+<footer>
+<p>SAURON'S FACTORY — Where Rings Are Made and Worlds Unmade</p>
+<p>Civilization 42 of the <a href="https://juxaos.com">JuXAOS</a> universe</p>
+<p style="color:#ff4400;margin-top:1rem;font-style:italic">"One does not simply walk into the factory. One is carried in. One does not walk out. That is not how factories work."</p>
+<p style="margin-top:1rem;color:#331100">© 2026 JuX ITT · Built in the fires of Mount Doom</p>
+</footer>
+
+</body>
+</html>
