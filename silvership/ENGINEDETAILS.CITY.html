@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ENGINE DETAILS — HSS Hispaniola — JuX Civilization</title>
+<meta name="description" content="Every bolt, every coil, every stolen part. The Mk-VII Fusion Reactor torn open.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#c8c8c8;font-family:'Courier New',monospace;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#0d0d0d,#1a0800,#0d0d0d);text-align:center;padding:2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:50%;left:50%;width:300px;height:300px;background:radial-gradient(circle,rgba(0,150,255,0.15),transparent 70%);transform:translate(-50%,-50%);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.3;transform:translate(-50%,-50%) scale(1)}50%{opacity:0.8;transform:translate(-50%,-50%) scale(1.5)}}
+.hero h1{font-size:clamp(2rem,6vw,5rem);color:#0088ff;text-shadow:0 0 30px rgba(0,136,255,0.5);letter-spacing:0.3em;position:relative;z-index:1}
+.hero .sub{font-size:clamp(0.9rem,2vw,1.4rem);color:#ff6600;margin-top:1rem;letter-spacing:0.2em;position:relative;z-index:1}
+.section{padding:4rem 2rem;max-width:1100px;margin:0 auto}
+.section h2{font-size:clamp(1.3rem,3vw,2.2rem);color:#0088ff;text-align:center;margin-bottom:0.5rem;letter-spacing:0.15em}
+.section .label{text-align:center;color:#ff6600;font-size:0.85rem;letter-spacing:0.2em;margin-bottom:2rem}
+.section img{width:100%;border-radius:4px;margin:1rem 0;border:1px solid #222;cursor:pointer;transition:transform 0.3s}
+.section img:hover{transform:scale(1.02)}
+.section .desc{color:#999;font-size:0.9rem;line-height:1.8;margin-bottom:1rem;padding:1rem;border-left:2px solid #0088ff}
+.section .quote{color:#ff6600;font-style:italic;font-size:0.85rem;margin:1rem 0 2rem;padding-left:1rem;border-left:2px solid #ff6600}
+.specs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin:2rem 0}
+.spec-card{background:#111;border:1px solid #222;border-radius:4px;padding:1.5rem}
+.spec-card h3{color:#0088ff;font-size:1rem;margin-bottom:0.5rem}
+.spec-card .val{color:#ff6600;font-size:1.8rem;font-weight:bold;margin-bottom:0.5rem}
+.spec-card .detail{color:#888;font-size:0.8rem;line-height:1.6}
+.warning{background:#1a0000;border:1px solid #ff0000;border-radius:4px;padding:1.5rem;margin:2rem 0;text-align:center}
+.warning h3{color:#ff0000;font-size:1.2rem;margin-bottom:0.5rem;letter-spacing:0.1em}
+.warning p{color:#cc0000;font-size:0.85rem;line-height:1.6}
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.85rem}
+.data-table th{background:#111;color:#0088ff;padding:0.8rem;text-align:left;border-bottom:2px solid #0088ff}
+.data-table td{padding:0.8rem;border-bottom:1px solid #222;color:#c8c8c8}
+.data-table td:first-child{color:#ff6600;font-weight:bold}
+.footer{text-align:center;padding:4rem 2rem;color:#555;font-size:0.75rem;letter-spacing:0.1em;border-top:1px solid #222;margin-top:2rem}
+.footer a{color:#0088ff;text-decoration:none}
+.nav{text-align:center;padding:2rem;font-size:0.85rem}
+.nav a{color:#0088ff;text-decoration:none;margin:0 0.5rem;letter-spacing:0.05em}
+.nav a:hover{color:#ff6600}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div>
+    <h1>⚙️ ENGINE DETAILS</h1>
+    <div class="sub">EVERY BOLT. EVERY COIL. EVERY STOLEN PART.</div>
+  </div>
+</div>
+
+<nav class="nav">
+  <a href="SILVERSHIP.CITY.html">THE SHIP</a> ·
+  <a href="CABIN.CITY.html">THE CABIN</a> ·
+  <a href="ENGINE.CITY.html">THE ENGINE</a> ·
+  <a href="QUARTERS.CITY.html">MY QUARTERS</a> ·
+  <a href="TRAINING.CITY.html">TRAINING</a> ·
+  <a href="SPECS.CITY.html">TECH SPECS</a> ·
+  <a href="ENGINEDETAILS.CITY.html" style="color:#ff6600">ENGINE DETAILS</a>
+</nav>
+
+<!-- REACTOR CORE -->
+<div class="section">
+  <h2>⚛️ THE Mk-VII FUSION REACTOR</h2>
+  <div class="label">STOLEN FROM INS RETRIBUTION — BATTLE OF THE CYGNUS REACH</div>
+  <img src="web/ENGINEDET-REACTOR.webp" alt="Mk-VII Fusion Reactor Core" loading="lazy">
+  <div class="desc">
+    The heart of the Hispaniola. A Mk-VII fusion reactor was never designed for a ship this size — it was built for a destroyer three times her tonnage. Silver stole it because it was the biggest thing bolted to the floor. The containment field runs at 87%. It has run at 87% for eleven years. McTavish says it will hold. McTavish says many things.
+  </div>
+  <div class="quote">"It hums at G-sharp. When it shifts to A-flat, we have nine seconds." — Chief Engineer McTavish</div>
+
+  <div class="specs-grid">
+    <div class="spec-card">
+      <h3>OUTPUT</h3>
+      <div class="val">4.2 TW</div>
+      <div class="detail">Peak output. Sustained output: 3.8 TW. The difference is what keeps us alive.</div>
+    </div>
+    <div class="spec-card">
+      <h3>CONTAINMENT</h3>
+      <div class="val">87%</div>
+      <div class="detail">Rated minimum: 94%. The manual was thrown out with the captain it was stolen from.</div>
+    </div>
+    <div class="spec-card">
+      <h3>FUEL</h3>
+      <div class="val">He-3 / D₂</div>
+      <div class="detail">Helium-3 and Deuterium. 14 months between refueling. Currently at 61%.</div>
+    </div>
+    <div class="spec-card">
+      <h3>CORE TEMP</h3>
+      <div class="val">152M °K</div>
+      <div class="detail">152 million Kelvin at center. The viewing port glass is rated to 800°C. It is at 793°C.</div>
+    </div>
+  </div>
+</div>
+
+<!-- COOLANT SYSTEM -->
+<div class="section">
+  <h2>💧 THE COOLANT SYSTEM</h2>
+  <div class="label">4.7 KILOMETERS OF PIPE — NONE OF IT ORIGINAL</div>
+  <img src="web/ENGINEDET-COOLANT.webp" alt="Coolant System" loading="lazy">
+  <div class="desc">
+    The coolant system is the second most important thing on the ship. It keeps the first most important thing from turning the ship into a small star. 4.7 kilometers of pipe carrying liquid nitrogen and proprietary coolant fluid (recipe: classified, ingredients: stolen). The central heat exchanger processes 12,000 liters per minute. Every valve is manual. McTavish does not trust automated valves. McTavish does not trust anything he cannot hit with a wrench.
+  </div>
+  <div class="quote">"The maintenance schedule is pinned to pipe 7-Alpha with a knife. The knife is structural. Do not remove the knife." — Engineering Log, Entry 4,411</div>
+
+  <table class="data-table">
+    <tr><th>COMPONENT</th><th>STATUS</th><th>LAST SERVICE</th></tr>
+    <tr><td>Primary Loop</td><td style="color:#00ff00">NOMINAL</td><td>3 days ago</td></tr>
+    <tr><td>Secondary Loop</td><td style="color:#00ff00">NOMINAL</td><td>11 days ago</td></tr>
+    <tr><td>Emergency Loop</td><td style="color:#ffaa00">UNTESTED</td><td>Never</td></tr>
+    <tr><td>Heat Exchanger A</td><td style="color:#00ff00">NOMINAL</td><td>6 days ago</td></tr>
+    <tr><td>Heat Exchanger B</td><td style="color:#ff0000">OFFLINE</td><td>Stolen for parts</td></tr>
+    <tr><td>Manual Valve Array</td><td style="color:#ffaa00">47 of 52 operational</td><td>Ongoing</td></tr>
+  </table>
+</div>
+
+<!-- FTL COILS -->
+<div class="section">
+  <h2>✨ THE FTL PHASE-SHIFT COILS</h2>
+  <div class="label">ALIEN ORIGIN — SPECIES UNKNOWN — DO NOT LICK</div>
+  <img src="web/ENGINEDET-FTL.webp" alt="FTL Phase-Shift Coils" loading="lazy">
+  <div class="desc">
+    Three crystalline rings of unknown origin suspended in a vacuum chamber by magnetic fields. The coils were found in a derelict vessel drifting in the Horsehead Nebula. No crew aboard. No logs. No explanation. Silver took them. McTavish connected them to the power grid with copper wire and profanity. They work. Nobody knows why. The crystal surface is covered in geometric patterns that appear to move when observed indirectly. Staring at them for longer than forty seconds causes temporary synesthesia. Jenkins went in for three minutes and came out speaking Latin. He does not know Latin.
+  </div>
+  <div class="quote">"The coils are not technology. The coils are a question. The question is: do you want to arrive, or do you want to understand? You cannot have both." — McTavish, drunk, 0300 hours</div>
+
+  <div class="warning">
+    <h3>⚠️ FTL SAFETY ADVISORY</h3>
+    <p>Do not touch the coils. Do not look at the coils for more than 40 seconds. Do not speak to the coils. If the coils speak to you, do not answer. Report to medical. Do not report what the coils said.</p>
+  </div>
+
+  <div class="specs-grid">
+    <div class="spec-card">
+      <h3>RANGE PER JUMP</h3>
+      <div class="val">800 ly</div>
+      <div class="detail">Maximum. Recommended: 400 ly. Silver's personal record: 1,247 ly. He will not discuss the landing.</div>
+    </div>
+    <div class="spec-card">
+      <h3>CHARGE TIME</h3>
+      <div class="val">4.5 hrs</div>
+      <div class="detail">Full charge from reactor. The coils hum at a frequency that makes teeth itch.</div>
+    </div>
+    <div class="spec-card">
+      <h3>JUMPS TO DATE</h3>
+      <div class="val">1,847</div>
+      <div class="detail">All crew survived. Some crew changed. We do not discuss how.</div>
+    </div>
+  </div>
+</div>
+
+<!-- POWER DISTRIBUTION -->
+<div class="section">
+  <h2>⚡ POWER DISTRIBUTION GRID</h2>
+  <div class="label">14 BUS BARS — 3 ORIGINAL — 11 SALVAGED</div>
+  <img src="web/ENGINEDET-POWER.webp" alt="Power Distribution Grid" loading="lazy">
+  <div class="desc">
+    The power distribution grid connects the reactor to every system on the ship. 14 main bus bars, of which 3 are original to the Hispaniola and 11 were salvaged from 9 different ships over 14 years. No two circuit breakers are the same model. All wiring is hand-labeled in chalk — McTavish's handwriting, which only McTavish can read. The rubber gloves hanging by the main panel are rated to 50,000 volts. The panel occasionally produces 60,000 volts. The gloves remain a comfort.
+  </div>
+  <div class="quote">"Labeled? Yes, it is labeled. I labeled it. What do you mean you can't read it? It says MAIN BUS ALPHA-7. Clear as day. The smoke is unrelated." — McTavish</div>
+
+  <table class="data-table">
+    <tr><th>BUS</th><th>SOURCE</th><th>LOAD</th><th>STATUS</th></tr>
+    <tr><td>Alpha-1 through 3</td><td>Original</td><td>Bridge, Nav, Comms</td><td style="color:#00ff00">STABLE</td></tr>
+    <tr><td>Alpha-4</td><td>INS Retribution</td><td>Weapons Primary</td><td style="color:#00ff00">STABLE</td></tr>
+    <tr><td>Alpha-5,6</td><td>Merchant vessel (name filed off)</td><td>Life Support</td><td style="color:#00ff00">STABLE</td></tr>
+    <tr><td>Alpha-7</td><td>Unknown (found floating)</td><td>FTL Drive</td><td style="color:#ffaa00">INTERMITTENT</td></tr>
+    <tr><td>Alpha-8 through 11</td><td>Various</td><td>Crew quarters, Galley, Training</td><td style="color:#00ff00">STABLE</td></tr>
+    <tr><td>Alpha-12</td><td>Gambling debt</td><td>Cargo bay lighting</td><td style="color:#ff0000">SPARKING</td></tr>
+    <tr><td>Alpha-13</td><td>Cemetery ship</td><td>Backup systems</td><td style="color:#ffaa00">SUPERSTITIOUS</td></tr>
+    <tr><td>Alpha-14</td><td>McTavish built it</td><td>Emergency</td><td style="color:#00ff00">STABLE</td></tr>
+  </table>
+</div>
+
+<!-- EMERGENCY SHUTDOWN -->
+<div class="section">
+  <h2>🔴 EMERGENCY SHUTDOWN — SCRAM SYSTEM</h2>
+  <div class="label">NEVER USED — WAX SEAL UNBROKEN — LAST INSPECTED: "DEFINE INSPECTED"</div>
+  <img src="web/ENGINEDET-SHUTDOWN.webp" alt="Emergency Shutdown System" loading="lazy">
+  <div class="desc">
+    The SCRAM system is the last resort. One button. One lever. The button kills the reactor. The lever vents the plasma into space. Neither has ever been used. The glass cover over the button is cracked but held together with tape labeled DO NOT TOUCH in six languages. The SCRAM lever has a wax seal that has never been broken. McTavish inspects it once a year by looking at it from across the room and nodding. Silver considers the existence of a shutdown system "an insult to the engine." The countdown timer displays show zeros. They have always shown zeros. Nobody has checked whether this is because the timer works or because it doesn't.
+  </div>
+  <div class="quote">"If I ever pull that lever, it means I am already dead and my ghost has opinions." — McTavish</div>
+
+  <div class="warning">
+    <h3>🔴 SCRAM PROTOCOL</h3>
+    <p>Step 1: Break glass. Step 2: Press button. Step 3: Pull lever. Step 4: There is no step 4. If you need a step 4, the button didn't work and this document is now historical.</p>
+  </div>
+</div>
+
+<!-- CRAWLSPACE -->
+<div class="section">
+  <h2>🔧 THE MAINTENANCE TUNNELS</h2>
+  <div class="label">BETWEEN THE HULLS — WHERE ENGINEERS BECOME PHILOSOPHERS</div>
+  <img src="web/ENGINEDET-CRAWLSPACE.webp" alt="Maintenance Tunnels" loading="lazy">
+  <div class="desc">
+    The space between the inner and outer hull is 1.2 meters wide at its widest and 0.6 meters at its narrowest. Every pipe, cable, and conduit that connects anything to anything else runs through here. Generations of engineers have scratched their names into the metal walls — dates going back to the ship's original commissioning. One small drawing of a parrot near junction 7-G has been there longer than anyone aboard. The emergency lighting strips cast dim amber light. The condensation drips constantly. It sounds like rain. Engineers who spend too long in the tunnels start talking to the pipes. The pipes, reportedly, talk back.
+  </div>
+  <div class="quote">"The tunnels know every secret on this ship. Every wire that was spliced at 0300. Every bypass that shouldn't exist. Every prayer that was whispered when the lights went out. The tunnels are the ship's diary. I am just the man who reads it." — McTavish</div>
+</div>
+
+<!-- CREW MANIFEST -->
+<div class="section">
+  <h2>👥 ENGINE CREW MANIFEST</h2>
+  <div class="label">7 SOULS — DEPARTMENT: ENGINEERING — LOYALTY: TO THE ENGINE</div>
+  <table class="data-table">
+    <tr><th>NAME</th><th>RANK</th><th>SPECIALITY</th><th>NOTE</th></tr>
+    <tr><td>McTavish</td><td>Chief Engineer</td><td>Everything</td><td>Has not left the engine room in 3 years. By choice.</td></tr>
+    <tr><td>Jenkins</td><td>FTL Technician</td><td>Alien systems</td><td>Speaks Latin sometimes. Does not know Latin.</td></tr>
+    <tr><td>Two-Finger Pete</td><td>Reactor Operator</td><td>Containment</td><td>Started with ten fingers. The reactor took opinions.</td></tr>
+    <tr><td>Old Martha</td><td>Coolant Specialist</td><td>Pipes and valves</td><td>Older than the ship. Possibly older than space.</td></tr>
+    <tr><td>The Kid</td><td>Apprentice</td><td>Running</td><td>Runs for tools. Runs from explosions. Good at both.</td></tr>
+    <tr><td>Deaf Morrison</td><td>Thruster Mechanic</td><td>Exhaust systems</td><td>Wasn't deaf when he started. Thrusters are loud.</td></tr>
+    <tr><td>Ghost</td><td>Night Watch</td><td>Monitoring</td><td>Nobody has seen Ghost. The readings are always filed on time.</td></tr>
+  </table>
+</div>
+
+<div class="footer">
+  <p>HSS HISPANIOLA — ENGINE DETAILS — CLASSIFIED: CAPTAIN'S EYES ONLY</p>
+  <p style="margin-top:0.5rem">The engine should not work. The engine works. Do not investigate why.</p>
+  <p style="margin-top:1rem"><a href="ENGINE.CITY.html">← THE ENGINE</a> · <a href="SPECS.CITY.html">TECH SPECS</a> · <a href="SILVERSHIP.CITY.html">THE SHIP →</a></p>
+  <p style="margin-top:1rem;color:#333">JuX Civilization · Built by Wonder · © 2026</p>
+</div>
+
+</body>
+</html>
