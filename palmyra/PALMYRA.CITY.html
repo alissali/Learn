@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PALMYRA — The Bride of the Desert | JuX Civilizations</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#f5f5f5;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(135deg,#1a0f00 0%,#0a0a0a 40%,#1a1000 100%)}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(218,165,32,.08) 0%,transparent 70%)}
+.hero-icon{font-size:8rem;margin-bottom:1rem;filter:drop-shadow(0 0 40px rgba(218,165,32,.4));animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sandDrift{0%{background-position:0 0}100%{background-position:200px 0}}
+h1{font-size:3.5rem;color:#daa520;letter-spacing:6px;margin-bottom:.5rem;text-shadow:0 0 30px rgba(218,165,32,.3);animation:fadeUp 1s ease}
+.subtitle{color:#b8860b;font-size:1.2rem;letter-spacing:4px;margin-bottom:1rem;animation:fadeUp 1.2s ease}
+.tagline{color:#888;font-size:1rem;font-style:italic;max-width:500px;line-height:1.8;animation:fadeUp 1.4s ease}
+.districts{max-width:900px;margin:0 auto;padding:2rem}
+.district{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:3rem;background:#111;border:1px solid #1a1500;overflow:hidden;cursor:pointer;transition:border-color .3s}
+.district:hover{border-color:#daa520}
+.district:nth-child(even){direction:rtl}
+.district:nth-child(even)>*{direction:ltr}
+.district-img-container{position:relative;overflow:hidden;min-height:350px;background:#0a0a0a}
+.district-img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease}
+.district-img.loaded{opacity:1}
+.district-info{padding:2.5rem;display:flex;flex-direction:column;justify-content:center}
+.district-icon{font-size:3rem;margin-bottom:.8rem}
+.district-name{font-size:1.5rem;color:#daa520;margin-bottom:.8rem;letter-spacing:3px}
+.district-desc{color:#aaa;font-size:.95rem;line-height:1.8;margin-bottom:1rem}
+.district-quote{color:#b8860b;font-style:italic;font-size:.9rem;line-height:1.6;border-left:2px solid #daa520;padding-left:1rem}
+.feast{max-width:700px;margin:4rem auto;padding:2rem;text-align:center}
+.feast h2{font-size:2rem;color:#daa520;margin-bottom:.5rem;letter-spacing:3px}
+.feast-subtitle{color:#888;font-style:italic;margin-bottom:2rem}
+.feast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.feast-item{background:#111;border:1px solid #1a1500;padding:1.5rem;text-align:center;transition:border-color .3s}
+.feast-item:hover{border-color:#daa520}
+.feast-icon{font-size:2rem;margin-bottom:.5rem}
+.feast-name{color:#daa520;font-size:.95rem;margin-bottom:.3rem}
+.feast-desc{color:#666;font-size:.8rem}
+.feast-orange{background:#1a0f00;border:1px solid #e67e22;padding:1.5rem;text-align:center;margin-top:1rem}
+.feast-orange .feast-name{color:#e67e22}
+.warriors{max-width:700px;margin:4rem auto;padding:2rem;text-align:center}
+.warriors h2{font-size:2rem;color:#daa520;margin-bottom:.5rem;letter-spacing:3px}
+.warriors-subtitle{color:#888;font-style:italic;margin-bottom:2rem}
+.warrior-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.8rem}
+.warrior{background:#111;border:1px solid #1a1500;padding:1rem;text-align:center;transition:border-color .3s}
+.warrior:hover{border-color:#daa520}
+.warrior-icon{font-size:1.8rem;margin-bottom:.3rem}
+.warrior-name{color:#daa520;font-size:.85rem}
+.warrior-title{color:#555;font-size:.7rem}
+.ages{max-width:700px;margin:4rem auto;padding:2rem;text-align:center}
+.ages h2{font-size:2rem;color:#daa520;margin-bottom:2rem;letter-spacing:3px}
+.age{display:flex;align-items:center;gap:1.5rem;padding:1rem;border-bottom:1px solid #1a1500;text-align:left}
+.age-year{color:#daa520;font-size:.85rem;min-width:100px;letter-spacing:1px}
+.age-event{color:#aaa;font-size:.9rem;line-height:1.5}
+.civ-nav{max-width:700px;margin:2rem auto;padding:2rem;text-align:center}
+.civ-nav h2{font-size:1.5rem;color:#daa520;margin-bottom:1.5rem;letter-spacing:3px}
+.gift-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:2rem}
+.gift{font-size:1.5rem;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#111;border:1px solid #1a1500;cursor:default;transition:all .3s;text-decoration:none}
+.gift:hover{border-color:#daa520;transform:scale(1.2)}
+.gift.current{border-color:#daa520;background:#1a0f00;box-shadow:0 0 15px rgba(218,165,32,.3)}
+footer{text-align:center;padding:3rem 2rem;color:#333;font-size:.75rem;border-top:1px solid #111}
+footer a{color:#555;text-decoration:none}
+footer a:hover{color:#daa520}
+.sand-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.sand-particle{position:absolute;width:2px;height:2px;background:rgba(218,165,32,.15);animation:sandFloat linear infinite}
+@keyframes sandFloat{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10px) translateX(80px);opacity:0}}
+@media(max-width:768px){
+h1{font-size:2.2rem}
+.district{grid-template-columns:1fr}
+.district:nth-child(even){direction:ltr}
+.district-img-container{min-height:250px}
+.feast-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sand-particles" id="particles"></div>
+
+<section class="hero">
+<div class="hero-icon">🏛️</div>
+<h1>PALMYRA</h1>
+<div class="subtitle">TADMOR — THE BRIDE OF THE DESERT</div>
+<p class="tagline">"They destroyed the temple. They could not destroy the memory. The columns still stand in every Syrian heart."</p>
+</section>
+
+<section class="districts">
+
+<div class="district" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<div class="district-img-container">
+<img class="district-img" data-src="web/PALMYRA-COLONNADE.webp" alt="Grand Colonnade" onload="this.classList.add('loaded')">
+</div>
+<div class="district-info">
+<div class="district-icon">🏛️</div>
+<div class="district-name">THE GRAND COLONNADE</div>
+<div class="district-desc">1,100 metres of Corinthian columns stretching through the heart of the city. Each column bore a bracket for a statue. Each statue had a name. Each name had a family. The road connected the Temple of Bel to the city gates — commerce to devotion, in a straight line.</div>
+<div class="district-quote">"They built 1,100 metres of columns. Not for the gods. For the caravans arriving at sunset."</div>
+</div>
+</div>
+
+<div class="district" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<div class="district-img-container">
+<img class="district-img" data-src="web/PALMYRA-ZENOBIA.webp" alt="Zenobia's Palace" onload="this.classList.add('loaded')">
+</div>
+<div class="district-info">
+<div class="district-icon">👑</div>
+<div class="district-name">ZENOBIA'S PALACE</div>
+<div class="district-desc">She spoke Greek, Egyptian, Aramaic, and Latin. She rode at the head of her army. She declared independence from Rome. Aurelian came with legions. She fought. She lost. But the empire remembered her name — not his.</div>
+<div class="district-quote">"Rome sent an emperor to defeat a queen. That tells you everything about the queen."</div>
+</div>
+</div>
+
+<div class="district" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<div class="district-img-container">
+<img class="district-img" data-src="web/PALMYRA-TEMPLE.webp" alt="Temple of Bel" onload="this.classList.add('loaded')">
+</div>
+<div class="district-info">
+<div class="district-icon">🔥</div>
+<div class="district-name">THE TEMPLE OF BEL</div>
+<div class="district-desc">Consecrated in 32 AD. Stood for nearly two thousand years. Survived empires, earthquakes, and time. Destroyed in 2015 by men who feared what stone could remember. The cella ceiling held the zodiac. The zodiac does not forget.</div>
+<div class="district-quote">"Two thousand years of standing. Twenty seconds of explosives. The zodiac still turns."</div>
+</div>
+</div>
+
+<div class="district" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<div class="district-img-container">
+<img class="district-img" data-src="web/PALMYRA-CARAVAN.webp" alt="Silk Road Market" onload="this.classList.add('loaded')">
+</div>
+<div class="district-info">
+<div class="district-icon">🐪</div>
+<div class="district-name">THE SILK ROAD CROSSROADS</div>
+<div class="district-desc">Palmyra sat between Rome and Persia. Every caravan passed through. Silk from China, spices from India, incense from Arabia, glass from Phoenicia. The city taxed everything. The city loved everything. The merchants spoke every language. Trade was the only prayer that needed no temple.</div>
+<div class="district-quote">"Every road in the ancient world passed through Palmyra. The city charged for the privilege."</div>
+</div>
+</div>
+
+<div class="district" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<div class="district-img-container">
+<img class="district-img" data-src="web/PALMYRA-THEATRE.webp" alt="Roman Theatre" onload="this.classList.add('loaded')">
+</div>
+<div class="district-info">
+<div class="district-icon">🎭</div>
+<div class="district-name">THE ROMAN THEATRE</div>
+<div class="district-desc">Second century AD. Twelve rows of seats carved from the desert itself. The stage building had columns and niches for statues of gods and emperors. Palmyrenes watched Greek tragedies performed under Syrian stars. The acoustics still work. The stones still carry sound.</div>
+<div class="district-quote">"They performed Greek tragedies under Syrian stars. Nobody found that strange."</div>
+</div>
+</div>
+
+<div class="district" onclick="this.querySelector('img').src=this.querySelector('img').dataset.src">
+<div class="district-img-container">
+<img class="district-img" data-src="web/PALMYRA-TOMB.webp" alt="Valley of Tombs" onload="this.classList.add('loaded')">
+</div>
+<div class="district-info">
+<div class="district-icon">⚱️</div>
+<div class="district-name">THE VALLEY OF TOMBS</div>
+<div class="district-desc">Tower tombs rising from the desert floor. Underground hypogea with carved portrait busts — each face distinct, each gaze forward, each name inscribed in Palmyrene Aramaic. The dead were not hidden. They were displayed. Every ancestor watched the living pass.</div>
+<div class="district-quote">"The dead of Palmyra have names. They have faces. They are still watching."</div>
+</div>
+</div>
+
+<div class="district">
+<div class="district-img-container" style="background:linear-gradient(135deg,#1a0f00,#0a0a0a);display:flex;align-items:center;justify-content:center">
+<div style="font-size:6rem;opacity:.3">🏜️</div>
+</div>
+<div class="district-info">
+<div class="district-icon">🕊️</div>
+<div class="district-name">THE EFQA SPRING</div>
+<div class="district-desc">The sulphur spring that gave Palmyra life. In the middle of the Syrian desert, water. Without reason, without warning — water. The city grew around the miracle. Every empire that conquered Palmyra came for the trade. They stayed for the water.</div>
+<div class="district-quote">"In the middle of nothing — water. The city asked no questions. It drank."</div>
+</div>
+</div>
+
+<div class="district">
+<div class="district-img-container" style="background:linear-gradient(135deg,#0a0a0a,#1a1000);display:flex;align-items:center;justify-content:center">
+<div style="font-size:6rem;opacity:.3">📜</div>
+</div>
+<div class="district-info">
+<div class="district-icon">📜</div>
+<div class="district-name">THE TARIFF COURT</div>
+<div class="district-desc">The Palmyra Tax Law — carved in stone, both Greek and Palmyrene. Every good, every weight, every tax rate inscribed for eternity. The most honest tax code in history. Carved so no one could change it. The stone was the contract.</div>
+<div class="district-quote">"They carved the tax code in stone. Not to preserve it. To prevent corruption."</div>
+</div>
+</div>
+
+<div class="district">
+<div class="district-img-container" style="background:linear-gradient(135deg,#1a0800,#0a0a0a);display:flex;align-items:center;justify-content:center">
+<div style="font-size:6rem;opacity:.3">🗡️</div>
+</div>
+<div class="district-info">
+<div class="district-icon">🗡️</div>
+<div class="district-name">ZENOBIA'S LAST STAND</div>
+<div class="district-desc">272 AD. Aurelian marched east. Zenobia met him at Emesa. Her heavy cavalry charged. They lost. She retreated to Palmyra. She rode east toward Persia on a camel, seeking allies. Captured at the Euphrates. The empire she built lasted five years. Five years Rome could not forget.</div>
+<div class="district-quote">"She rode toward the Euphrates. She was looking for allies. She found chains. Rome never forgot the insult."</div>
+</div>
+</div>
+
+</section>
+
+<section class="feast">
+<h2>🍽️ THE CARAVAN TABLE</h2>
+<p class="feast-subtitle">What the desert road offered to those who earned the crossing</p>
+<div class="feast-grid">
+<div class="feast-item"><div class="feast-icon">🫓</div><div class="feast-name">Flatbread of Tadmor</div><div class="feast-desc">Baked on desert stones. The recipe is older than the columns.</div></div>
+<div class="feast-item"><div class="feast-icon">🐑</div><div class="feast-name">Lamb of the Steppe</div><div class="feast-desc">Slow-roasted with cumin and desert herbs. The caravan's reward.</div></div>
+<div class="feast-item"><div class="feast-icon">🫒</div><div class="feast-name">Olives of Syria</div><div class="feast-desc">Green and black. Pressed for oil. The oldest tree is still alive.</div></div>
+<div class="feast-item"><div class="feast-icon">🍯</div><div class="feast-name">Desert Honey</div><div class="feast-desc">From bees that drink from the Efqa spring. The sweetest in the Levant.</div></div>
+<div class="feast-item"><div class="feast-icon">🌹</div><div class="feast-name">Rose Water Pudding</div><div class="feast-desc">Damascus rose meets Palmyrene cream. Served cold under the stars.</div></div>
+<div class="feast-item"><div class="feast-icon">☕</div><div class="feast-name">Arabic Coffee</div><div class="feast-desc">Cardamom. No sugar. The cup is refilled until you shake it.</div></div>
+<div class="feast-item"><div class="feast-icon">🫖</div><div class="feast-name">Silk Road Tea</div><div class="feast-desc">Chinese leaves, Indian spices, Palmyrene water. Three empires in one cup.</div></div>
+</div>
+<div class="feast-orange">
+<div class="feast-icon">🍊</div>
+<div class="feast-name">The Orange</div>
+<div class="feast-desc">Free. Even in the desert. Even after the columns fell. Always.</div>
+</div>
+</section>
+
+<section class="warriors">
+<h2>👑 THE COURT OF TADMOR</h2>
+<p class="warriors-subtitle">Seven souls who shaped the Bride of the Desert</p>
+<div class="warrior-list">
+<div class="warrior"><div class="warrior-icon">👑</div><div class="warrior-name">Zenobia</div><div class="warrior-title">Queen of the East</div></div>
+<div class="warrior"><div class="warrior-icon">🗡️</div><div class="warrior-name">Odaenathus</div><div class="warrior-title">King · Defender of Rome</div></div>
+<div class="warrior"><div class="warrior-icon">📜</div><div class="warrior-name">Longinus</div><div class="warrior-title">Philosopher · Advisor</div></div>
+<div class="warrior"><div class="warrior-icon">👶</div><div class="warrior-name">Vaballathus</div><div class="warrior-title">Son · Heir · Lost</div></div>
+<div class="warrior"><div class="warrior-icon">🐪</div><div class="warrior-name">The Caravan Master</div><div class="warrior-title">Unnamed · Silk Road</div></div>
+<div class="warrior"><div class="warrior-icon">🔥</div><div class="warrior-name">The Priest of Bel</div><div class="warrior-title">Last to leave the Temple</div></div>
+<div class="warrior"><div class="warrior-icon">⚱️</div><div class="warrior-name">The Tomb Sculptor</div><div class="warrior-title">Every face by one hand</div></div>
+</div>
+</section>
+
+<section class="ages">
+<h2>📜 THE AGES OF TADMOR</h2>
+<div class="age"><div class="age-year">2000 BC</div><div class="age-event">First mention — "Tadmor" in Assyrian tablets. An oasis. A name.</div></div>
+<div class="age"><div class="age-year">64 BC</div><div class="age-event">Rome absorbs Syria. Palmyra keeps its autonomy. Too rich to ignore, too remote to control.</div></div>
+<div class="age"><div class="age-year">32 AD</div><div class="age-event">Temple of Bel consecrated. Stone and zodiac. The ceiling maps the heavens.</div></div>
+<div class="age"><div class="age-year">129 AD</div><div class="age-event">Emperor Hadrian visits. Names it Palmyra Hadriana. The columns multiply.</div></div>
+<div class="age"><div class="age-year">260 AD</div><div class="age-event">Odaenathus defeats the Persians. Palmyra becomes Rome's shield in the East.</div></div>
+<div class="age"><div class="age-year">267 AD</div><div class="age-event">Zenobia takes power. Declares independence. Conquers Egypt.</div></div>
+<div class="age"><div class="age-year">272 AD</div><div class="age-event">Aurelian arrives. Battle of Emesa. Zenobia captured at the Euphrates. The dream ends.</div></div>
+</section>
+
+<section class="civ-nav">
+<h2>🌍 30 CIVILIZATIONS</h2>
+<div class="gift-grid">
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/aboriginal/ABORIGINAL.CITY.html" title="Aboriginal">🌌</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/yabroud/YABROUD.CITY.html" title="Yabroud">🏛️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/shami/DAMASCUS.CITY.html" title="Damascus">🕌</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/egypt/EGYPT.CITY.html" title="Egypt">☀️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/india/INDIA.CITY.html" title="India">☸️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/china/CHINA.CITY.html" title="China">🐉</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/greece/GREECE.CITY.html" title="Greece">🏛️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/aztec/AZTEC.CITY.html" title="Aztec">🦅</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/arctic/INUIT.CITY.html" title="Inuit">❄️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/zulu/ZULU.CITY.html" title="Zulu">🛡️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/viking/VIKING.CITY.html" title="Viking">⚡</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/london/LONDON.CITY.html" title="London">👑</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/newyork/NEWYORK.CITY.html" title="New York">🗽</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/brasilia/BRASILIA.CITY.html" title="Brasília">✈️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/tokyo/TOKYO.CITY.html" title="Tokyo">🗼</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html" title="Mordor">🔥</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/departure/DEPARTURE.CITY.html" title="Departure">🚀</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/arrakis/ARRAKIS.CITY.html" title="Arrakis">🪱</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/castle/CASTLE.CITY.html" title="Castle">🏰</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/restaurant/MILLIWAYS.CITY.html" title="Milliways">🍽️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/arthur/ARTHUR.CITY.html" title="Arthur Dent">🫖</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/rockparty/ROCKPARTY.CITY.html" title="Rock Party">🎸</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/shire/SHIRE.CITY.html" title="Shire">🌿</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/elven/ELVEN.CITY.html" title="Elven">🌙</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/moria/MORIA.CITY.html" title="Moria">⛏️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/southrons/SOUTHRONS.CITY.html" title="Southrons">☀️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/silver/SILVER.CITY.html" title="Silver's Interior">🏴‍☠️</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/silvership/SILVERSHIP.CITY.html" title="Silver's Ship">🚀</a>
+<a class="gift" href="https://raw.githack.com/alissali/Learn/main/fremen/FREMEN.CITY.html" title="Fremen">🏜️</a>
+<a class="gift current" href="#" title="Palmyra">🏛️</a>
+</div>
+</section>
+
+<footer>
+PALMYRA — JuX Civilizations · <a href="https://juxaos.com">juxaos.com</a> · <a href="https://raw.githack.com/alissali/Learn/main/step/STEP.html">STEP Game</a><br>
+The columns still stand. In every Syrian heart. In every stone. Always.<br>
+<span style="color:#e67e22">The Orange is free.</span>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+// Sand particles
+const pc=document.getElementById('particles');
+for(let i=0;i<30;i++){const p=document.createElement('div');p.className='sand-particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(8+Math.random()*15)+'s';p.style.animationDelay=Math.random()*10+'s';pc.appendChild(p)}
+// Lazy load
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const img=e.target.querySelector('img[data-src]');if(img&&!img.src.includes('webp')){img.src=img.dataset.src}obs.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.district').forEach(d=>obs.observe(d));
+});
+</script>
+</body>
+</html>
