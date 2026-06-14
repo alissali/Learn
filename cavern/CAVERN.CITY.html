@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALI BABA'S CAVERN — The Forty Thieves</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='28' font-size='28'>🏺</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0604;color:#d4a862;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#0a0604 0%,#1a0f05 40%,#2a1a0a 70%,#3d2810 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 80%,rgba(212,168,98,0.15) 0%,transparent 60%);pointer-events:none}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:#d4a862;text-shadow:0 0 60px rgba(212,168,98,0.4)}
+.hero .subtitle{font-size:clamp(0.9rem,2.5vw,1.3rem);margin-top:1rem;color:#a07830;letter-spacing:0.3em;font-style:italic}
+.separator{text-align:center;padding:2rem 0;font-size:1.5rem;color:#3d2810}
+section{max-width:1200px;margin:0 auto;padding:4rem 2rem}
+.card{margin-bottom:5rem;position:relative}
+.card-title{font-size:clamp(1.3rem,3.5vw,2rem);color:#d4a862;margin-bottom:0.5rem;letter-spacing:0.1em;text-transform:uppercase}
+.card-subtitle{font-size:0.9rem;color:#7a5520;margin-bottom:1.5rem;font-style:italic;letter-spacing:0.05em}
+.card img{width:100%;border-radius:4px;cursor:pointer;transition:transform 0.3s ease;border:1px solid #2a1a0a}
+.card img:hover{transform:scale(1.02)}
+.card-text{margin-top:1.5rem;font-size:1.05rem;line-height:1.8;color:#b8924a}
+.card-quote{margin-top:1rem;padding:1rem 1.5rem;border-left:3px solid #3d2810;font-style:italic;color:#8a6a30;font-size:0.95rem}
+.specs{background:#110b04;border:1px solid #2a1a0a;border-radius:6px;padding:2.5rem;margin:4rem auto;max-width:900px}
+.specs h2{text-align:center;font-size:1.8rem;color:#d4a862;margin-bottom:2rem;letter-spacing:0.15em}
+.specs table{width:100%;border-collapse:collapse}
+.specs td{padding:0.6rem 1rem;border-bottom:1px solid #1a0f05;font-size:0.95rem}
+.specs td:first-child{color:#7a5520;width:40%;font-style:italic}
+.specs td:last-child{color:#d4a862}
+.footer{text-align:center;padding:4rem 2rem;color:#3d2810;font-size:0.85rem;letter-spacing:0.1em}
+.footer a{color:#7a5520;text-decoration:none;border-bottom:1px solid #3d2810;transition:color 0.3s}
+.footer a:hover{color:#d4a862}
+.nav-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:1rem}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;cursor:pointer;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:4px}
+@media(max-width:768px){section{padding:2rem 1rem}.card{margin-bottom:3rem}.specs{padding:1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div>
+<h1>Ali Baba's Cavern</h1>
+<div class="subtitle">Open Sesame — and the Mountain Remembers</div>
+</div>
+</div>
+
+<div class="separator">🏺 · ⚱️ · 🏺</div>
+
+<section>
+
+<div class="card">
+<div class="card-title">I. The Entrance</div>
+<div class="card-subtitle">Where the mountain keeps its mouth shut — unless you know the words</div>
+<img src="web/CAVERN-ENTRANCE.webp" loading="lazy" alt="The Cavern Entrance" onclick="openLightbox(this)">
+<div class="card-text">A crack in the rock. That is all. Not a gate, not an arch, not a doorway built by men with plans and ambitions. A crack. The kind the desert makes when it yawns. The kind you walk past a thousand times and never see. But say the words — the two words that every child knows and no adult believes — and the crack breathes. The golden light leaks out like blood from a wound the mountain has been hiding for centuries.</div>
+<div class="card-quote">"The password is not a key. It is a confession. You are telling the mountain: I know what you are hiding. And the mountain, tired of the secret, lets you in."</div>
+</div>
+
+<div class="card">
+<div class="card-title">II. The Treasure Hall</div>
+<div class="card-subtitle">Where greed goes to graduate school</div>
+<img src="web/CAVERN-TREASURE.webp" loading="lazy" alt="The Treasure Hall" onclick="openLightbox(this)">
+<div class="card-text">Gold does not glitter. That is a lie told by people who have never seen enough of it. Gold in quantity has a weight that bends light. It pulls the eye down. The treasure hall is not beautiful — it is gravitational. Silk from dynasties that no longer exist. Weapons from wars that no one won. Pearls from seas that have since dried. Every object here was someone's most precious thing. Now it is a pile.</div>
+<div class="card-quote">"The first thief wept when he found this room. The second laughed. The thirty-ninth stopped counting. The fortieth — Qasim — never left."</div>
+</div>
+
+<div class="card">
+<div class="card-title">III. The Spice Vault</div>
+<div class="card-subtitle">More valuable than gold — gold cannot make you sneeze</div>
+<img src="web/CAVERN-SPICE.webp" loading="lazy" alt="The Spice Vault" onclick="openLightbox(this)">
+<div class="card-text">Deeper than the treasure hall — because the thieves understood economics. Gold is heavy, conspicuous, traceable. Saffron is light, anonymous, and worth more per gram than any metal. The vault holds spices from three continents and two centuries. The air is so thick with cardamom and cinnamon that breathing here is a meal. The scales have not been zeroed in forty years. They do not need to be. Everyone cheats by the same amount.</div>
+<div class="card-quote">"The spice does not expire. It waits. Like revenge, it only gets stronger."</div>
+</div>
+
+<div class="card">
+<div class="card-title">IV. The Kitchen</div>
+<div class="card-subtitle">Where thieves eat better than kings</div>
+<img src="web/CAVERN-KITCHEN.webp" loading="lazy" alt="The Kitchen" onclick="openLightbox(this)">
+<div class="card-text">Forty thieves. Three meals a day. One cook. Her name is Morgiana and she is the most dangerous person in the cavern. The chai never stops simmering. The baklava layers are counted — thirty-six, always thirty-six, because thirty-seven is pretentious and thirty-five is lazy. The bread oven was stolen from a palace. The palace did not report the theft because the bread got worse and the king did not want to admit it.</div>
+<div class="card-quote">"Morgiana's kitchen has two rules. First: eat what is served. Second: there is no second rule, because no one has survived breaking the first."</div>
+</div>
+
+<div class="card">
+<div class="card-title">V. The Thieves' Council</div>
+<div class="card-subtitle">Forty seats — forty opinions — one decision</div>
+<img src="web/CAVERN-COUNCIL.webp" loading="lazy" alt="The Thieves' Council" onclick="openLightbox(this)">
+<div class="card-text">The circle was not designed. It formed. Forty men who do not trust each other sit in a shape where no one has their back turned. The fire in the center is for warmth and for reading faces. The map on the table is wrong — deliberately — because the real routes are memorized, never drawn. Each seat has a trophy above it. The trophies are not what was stolen. They are what was left behind by the man who sat there before.</div>
+<div class="card-quote">"We vote on everything. Except when we don't. The captain decides when we don't vote. We did not vote on that arrangement."</div>
+</div>
+
+<div class="card">
+<div class="card-title">VI. The Frozen Chamber</div>
+<div class="card-subtitle">Ice in the desert — the cavern's deepest secret</div>
+<img src="web/CAVERN-FROZEN.webp" loading="lazy" alt="The Frozen Chamber" onclick="openLightbox(this)">
+<div class="card-text">Below the spice vault. Below the council. Below everything. Where the underground river froze ten thousand years ago and never thawed. The thieves found it by accident — a man fleeing a cave-in broke through a wall and found winter in the middle of summer. Now it stores what heat would destroy: fruit from the coast, fish from the gulf, meat from the mountains. The cold is so deep that sounds freeze too. Conversations held here echo back three days later.</div>
+<div class="card-quote">"The ice does not melt because the ice does not know it is supposed to. Nobody has had the heart to tell it about the desert above."</div>
+</div>
+
+</section>
+
+<div class="specs">
+<h2>🏺 Cavern Specifications</h2>
+<table>
+<tr><td>Password</td><td>Open Sesame (unchanged since founding — security through disbelief)</td></tr>
+<tr><td>Founding</td><td>Unknown — the treasure predates the thieves</td></tr>
+<tr><td>Depth</td><td>Seven levels — each deeper, each more valuable</td></tr>
+<tr><td>Thieves</td><td>40 (original count — attrition varies)</td></tr>
+<tr><td>Cook</td><td>Morgiana — one — sufficient</td></tr>
+<tr><td>Treasure (est.)</td><td>Incalculable — the scales broke</td></tr>
+<tr><td>Spice inventory</td><td>Saffron, cardamom, cinnamon, turmeric, cumin, paprika, sumac, za'atar, and 47 others without names</td></tr>
+<tr><td>Kitchen output</td><td>120 meals/day · Baklava (36 layers) · Chai (never stops)</td></tr>
+<tr><td>Frozen chamber</td><td>−23°C · Ice age: ~10,000 years · Still does not know about the desert</td></tr>
+<tr><td>Security</td><td>Two words. The mountain handles the rest.</td></tr>
+<tr><td>HR policy</td><td>Don't get caught. Don't get greedy. Don't touch Morgiana's knives.</td></tr>
+<tr><td>Known exits</td><td>1 (the crack). Rumored: 3 more. Found: 0.</td></tr>
+</table>
+</div>
+
+<div class="footer">
+<p>🏺 ALI BABA'S CAVERN — The mountain keeps its secrets. Until you say the words. 🏺</p>
+<div class="nav-links">
+<a href="../silver/SILVER.CITY.html">🏴‍☠️ Silver's Interior</a>
+<a href="../silvership/SILVERSHIP.CITY.html">🚀 Silver's Ship</a>
+<a href="../mordorfactory/FACTORY.CITY.html">🔥 Sauron's Factory</a>
+<a href="../hitchhiker/HITCHHIKER.CITY.html">📗 The Guide</a>
+<a href="../spacestation/SPACESTATION.CITY.html">🛸 Port Nowhere</a>
+<a href="../omayyad/OMAYYAD.CITY.html">🕌 Omayyad</a>
+</div>
+<p style="margin-top:2rem;color:#2a1a0a">JuX — NAME / FACT / TARGET</p>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightbox-img" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(img){const lb=document.getElementById('lightbox');const lbImg=document.getElementById('lightbox-img');lbImg.src=img.src.replace('/web/','/' ).replace('.webp','.png');lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
