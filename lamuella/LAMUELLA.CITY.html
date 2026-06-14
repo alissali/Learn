@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAMUELLA — The Sandwich Maker's Planet</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a0e;color:#d4c9a8;font-family:Georgia,serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#1a2a1a 0%,#2a3a1a 30%,#3a4a2a 60%,#1a2a1a 100%);overflow:hidden}
+.hero::before{content:'';position:absolute;width:100%;height:100%;background:radial-gradient(ellipse at 30% 20%,rgba(200,180,100,0.15) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(100,180,100,0.1) 0%,transparent 50%)}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);color:#c8b464;text-shadow:0 0 40px rgba(200,180,100,0.3);z-index:1;letter-spacing:0.15em}
+.hero .sub{font-size:clamp(1rem,3vw,1.5rem);color:#8a9a6a;margin-top:1rem;z-index:1;font-style:italic}
+.stars{position:absolute;width:100%;height:100%;overflow:hidden}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d) ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:0.2;transform:scale(0.8)}100%{opacity:1;transform:scale(1.2)}}
+.sun{position:absolute;border-radius:50%;filter:blur(2px)}
+.sun1{width:40px;height:40px;background:radial-gradient(circle,#ffe066,#cc9900);top:15%;right:25%;box-shadow:0 0 60px rgba(255,224,102,0.4)}
+.sun2{width:28px;height:28px;background:radial-gradient(circle,#ffcc99,#cc7733);top:22%;right:20%;box-shadow:0 0 40px rgba(255,204,153,0.3)}
+
+.quote-banner{background:linear-gradient(90deg,transparent,rgba(200,180,100,0.1),transparent);padding:3rem 2rem;text-align:center;font-size:clamp(1rem,2.5vw,1.4rem);color:#8a9a6a;font-style:italic;border-top:1px solid rgba(200,180,100,0.15);border-bottom:1px solid rgba(200,180,100,0.15)}
+
+.district{padding:4rem 2rem;max-width:1000px;margin:0 auto;border-bottom:1px solid rgba(200,180,100,0.1)}
+.district:last-of-type{border-bottom:none}
+.district h2{font-size:clamp(1.5rem,4vw,2.2rem);color:#c8b464;margin-bottom:0.5rem;letter-spacing:0.1em}
+.district .icon{font-size:2rem;margin-bottom:0.5rem}
+.district .tagline{color:#6a8a5a;font-style:italic;margin-bottom:1.5rem;font-size:1.1rem}
+.district p{line-height:1.9;color:#b8a888;margin-bottom:1rem;font-size:1.05rem}
+.district .quote{color:#8a9a6a;font-style:italic;border-left:3px solid rgba(200,180,100,0.3);padding-left:1.5rem;margin:1.5rem 0}
+
+.img-wrap{margin:2rem 0;cursor:pointer;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5);max-width:800px}
+.img-wrap img{width:100%;display:block;transition:transform 0.5s}
+.img-wrap:hover img{transform:scale(1.03)}
+.img-wrap.collapsed img{display:none}
+.img-wrap .img-label{background:rgba(200,180,100,0.1);padding:0.75rem 1rem;color:#c8b464;font-size:0.9rem;text-align:center;cursor:pointer}
+
+.menu-table{width:100%;max-width:800px;margin:2rem auto;border-collapse:collapse}
+.menu-table caption{font-size:1.3rem;color:#c8b464;margin-bottom:1rem;letter-spacing:0.1em}
+.menu-table th{color:#c8b464;text-align:left;padding:0.75rem;border-bottom:2px solid rgba(200,180,100,0.3);font-size:0.9rem;letter-spacing:0.1em}
+.menu-table td{padding:0.75rem;border-bottom:1px solid rgba(200,180,100,0.1);color:#b8a888;font-size:0.95rem}
+.menu-table tr:hover td{background:rgba(200,180,100,0.05)}
+
+.specs{background:rgba(200,180,100,0.05);border:1px solid rgba(200,180,100,0.15);border-radius:12px;padding:2rem;max-width:800px;margin:3rem auto}
+.specs h3{color:#c8b464;margin-bottom:1rem;letter-spacing:0.1em}
+.specs table{width:100%;border-collapse:collapse}
+.specs td{padding:0.5rem;border-bottom:1px solid rgba(200,180,100,0.08);color:#b8a888;font-size:0.95rem}
+.specs td:first-child{color:#8a9a6a;font-weight:bold;width:40%}
+
+.nav-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;padding:2rem;background:rgba(0,0,0,0.3)}
+.nav-bar a{color:#c8b464;text-decoration:none;padding:0.5rem 1rem;border:1px solid rgba(200,180,100,0.2);border-radius:6px;font-size:0.85rem;transition:all 0.3s}
+.nav-bar a:hover{background:rgba(200,180,100,0.15);border-color:#c8b464}
+
+footer{text-align:center;padding:3rem 2rem;color:#5a6a4a;font-size:0.85rem;border-top:1px solid rgba(200,180,100,0.1)}
+footer a{color:#8a9a6a;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="stars"></div>
+  <div class="sun sun1"></div>
+  <div class="sun sun2"></div>
+  <div style="z-index:1">
+    <h1>🥪 LAMUELLA</h1>
+    <div class="sub">The planet where making a sandwich is the highest art form</div>
+  </div>
+</div>
+
+<div class="quote-banner">
+"He had been through a lot. He had traveled the length and breadth of the Galaxy. He had been dead. He had been alive again. He had made sandwiches." — Douglas Adams
+</div>
+
+<nav class="nav-bar">
+  <a href="#village">🏘️ The Village</a>
+  <a href="#sandwich">🥪 The Sandwich Maker</a>
+  <a href="#peace">🌅 Arthur's Peace</a>
+  <a href="#market">🛒 The Market</a>
+  <a href="#crash">🚀 The Crash Site</a>
+  <a href="#ceremony">🔥 The Ceremony</a>
+  <a href="#ingredients">📋 The Ingredients</a>
+  <a href="#specs">📐 Specs</a>
+</nav>
+
+<!-- DISTRICT 1: THE VILLAGE -->
+<section class="district" id="village">
+  <div class="icon">🏘️</div>
+  <h2>THE VILLAGE</h2>
+  <div class="tagline">Population: enough. Technology: less. Happiness: more.</div>
+  <div class="img-wrap" onclick="this.classList.toggle('collapsed')">
+    <img src="web/LAMUELLA-VILLAGE.webp" alt="Lamuella Village" loading="lazy">
+    <div class="img-label">🏘️ tap to toggle</div>
+  </div>
+  <p>Lamuella is not a planet anyone goes to. It is a planet people end up on. The kind of planet that exists in the margins of every star map, in the spaces between the interesting places, in the footnotes of the Hitchhiker's Guide under the entry: <em>"Mostly harmless."</em></p>
+  <p>The village has no name. It doesn't need one. There is only one village. Naming it would imply there might be others worth distinguishing it from. There aren't.</p>
+  <p>The huts are round. The people are kind. The technology peaked at the wheel and then everyone agreed that was probably far enough. Someone once invented a slightly better wheel and was asked politely to stop.</p>
+  <div class="quote">"The best thing about Lamuella was that nothing ever happened there. The second best thing was that when nothing happened, it happened beautifully."</div>
+</section>
+
+<!-- DISTRICT 2: THE SANDWICH MAKER -->
+<section class="district" id="sandwich">
+  <div class="icon">🥪</div>
+  <h2>THE SANDWICH MAKER</h2>
+  <div class="tagline">The most important person on the planet. Not a king. Not a priest. A man with bread.</div>
+  <div class="img-wrap" onclick="this.classList.toggle('collapsed')">
+    <img src="web/LAMUELLA-SANDWICH.webp" alt="The Sandwich Maker" loading="lazy">
+    <div class="img-label">🥪 tap to toggle</div>
+  </div>
+  <p>Arthur Dent had been many things. A man from Cottington. A bewildered hitchhiker. A man who had seen the destruction of his planet while still in his bathrobe. A man who had argued with Vogons, been insulted by robots, fallen in love with a woman who existed in multiple dimensions simultaneously, and once — memorably — learned to fly by throwing himself at the ground and missing.</p>
+  <p>Now he was the Sandwich Maker.</p>
+  <p>Not because he chose it. Because the universe, after throwing everything at him for years, finally got tired and said: <em>"Fine. Here. Make sandwiches. Be happy. I give up."</em></p>
+  <p>And he was happy. Genuinely, completely, for the first time since a Thursday morning in Cottington when he'd lain in front of a bulldozer and the universe had decided that was the last ordinary thing that would ever happen to him.</p>
+  <p>The Sandwich Maker understood bread the way a poet understands silence. He knew when the Perfectly Normal Beast was ready — not by looking at it, but by the way the fat sang in the pan. He knew which leaves of the Dorana herb to place where, and how the Gundra paste should be applied: not spread, but <em>considered</em> onto the bread, in a motion that was part brushstroke, part prayer.</p>
+  <div class="quote">"A sandwich is not food. A sandwich is an argument that everything will be all right. The bread says: I am here. The filling says: I am why. The second piece of bread says: And that is enough."</div>
+</section>
+
+<!-- DISTRICT 3: ARTHUR'S PEACE -->
+<section class="district" id="peace">
+  <div class="icon">🌅</div>
+  <h2>ARTHUR'S PEACE</h2>
+  <div class="tagline">He stopped running. The universe stopped chasing.</div>
+  <div class="img-wrap" onclick="this.classList.toggle('collapsed')">
+    <img src="web/LAMUELLA-PEACE.webp" alt="Arthur's Peace" loading="lazy">
+    <div class="img-label">🌅 tap to toggle</div>
+  </div>
+  <p>Every evening, Arthur Dent sat on the hill above the village and watched the two suns set. The first sun went down like a curtain falling. The second lingered, as if checking whether anyone needed anything else before it left.</p>
+  <p>He held a cup of something that was not tea. It was close enough. It was warm and brown and slightly bitter and if he held the cup at the right angle and didn't think about it too hard, he could almost convince himself it was a proper cup of tea from a proper kettle in a proper kitchen in a house that no longer existed on a planet that no longer existed in a solar system that was, at best, a footnote.</p>
+  <p>He didn't think about it too hard.</p>
+  <p>The thing about peace is that it doesn't announce itself. War arrives with trumpets. Love arrives with complications. Confusion arrives on a Thursday. But peace just shows up one afternoon and sits down next to you and says nothing, and after a while you realize it's been there for weeks and you hadn't noticed because noticing would have ruined it.</p>
+  <div class="quote">"The answer to the Ultimate Question of Life, the Universe, and Everything was 42. Arthur Dent didn't know the question. But on Lamuella, sitting on his hill with his not-quite-tea, watching his two suns set, he suspected the question might be: 'Is this enough?' And the answer, for the first time in his life, was yes."</div>
+</section>
+
+<!-- DISTRICT 4: THE MARKET -->
+<section class="district" id="market">
+  <div class="icon">🛒</div>
+  <h2>THE MARKET</h2>
+  <div class="tagline">Where the ingredients gather. No money. Only exchange. Only trust.</div>
+  <div class="img-wrap" onclick="this.classList.toggle('collapsed')">
+    <img src="web/LAMUELLA-MARKET.webp" alt="Lamuella Market" loading="lazy">
+    <div class="img-label">🛒 tap to toggle</div>
+  </div>
+  <p>The market happens every three days. Nobody decided this. It simply emerged, the way weather emerges, or arguments about whose turn it is to wash up.</p>
+  <p>There are no prices on Lamuella. You bring what you have and you take what you need and somehow, through a mechanism that would have given an economist a complete nervous breakdown, it works. It works because everyone knows everyone and nobody wants to be the person who took too many Dorana tubers and didn't leave enough for Old Thrunb.</p>
+  <p>The Sandwich Maker arrives last. This is not rudeness. This is protocol. He surveys. He considers. He picks up a Dorana root, holds it to the light, smells it, puts it down, picks up another one, and the entire market holds its breath because if the Sandwich Maker rejects your Dorana, that's it. That's your week ruined.</p>
+  <p>Nobody has ever asked why the Sandwich Maker gets the best produce. The question would be like asking why the sun is warm. It simply is. He makes the sandwiches. The sandwiches must be perfect. Therefore the ingredients must be perfect. The logic is flawless and utterly circular and nobody cares.</p>
+  <div class="quote">"Economics on Lamuella worked on a principle that Earth economists would call 'insane' and everyone else would call 'obvious': give what you can, take what you need, and don't be a jerk about it."</div>
+</section>
+
+<!-- DISTRICT 5: THE CRASH SITE -->
+<section class="district" id="crash">
+  <div class="icon">🚀</div>
+  <h2>THE CRASH SITE</h2>
+  <div class="tagline">The last journey. The ship that became a garden.</div>
+  <div class="img-wrap" onclick="this.classList.toggle('collapsed')">
+    <img src="web/LAMUELLA-CRASH.webp" alt="The Crash Site" loading="lazy">
+    <div class="img-label">🚀 tap to toggle</div>
+  </div>
+  <p>The ship is still there. Of course it is. Where would it go? It came down in the meadow east of the village with the kind of landing that spacecraft designers would describe as "uncontrolled lithobraking" and everyone else would describe as "a crash."</p>
+  <p>Arthur doesn't visit it often. Not because it makes him sad — though it does, a little, in the way that photo albums make you sad, which is to say in a way that is also somehow sweet. He doesn't visit because there's nothing there for him anymore. The ship is the past. The sandwich table is the present. The hill with the two suns is the future, repeating daily, reliably, beautifully.</p>
+  <p>The vines found it first. Then the flowers. Then a family of something that looked like squirrels if squirrels had six legs and opinions. Now the ship looks less like a crashed spacecraft and more like a very ambitious garden shed.</p>
+  <p>His bathrobe hangs on a line strung from the wing to a nearby tree. It is the only artifact of Earth. It has been washed ten thousand times. It is more patch than robe now. He keeps it the way some people keep religion — not because he believes in it, but because the habit of belief is itself a kind of home.</p>
+  <div class="quote">"The ship went everywhere in the galaxy. Now flowers grow from the cockpit. This is not defeat. This is the most successful retirement in the history of space travel."</div>
+</section>
+
+<!-- DISTRICT 6: THE CEREMONY -->
+<section class="district" id="ceremony">
+  <div class="icon">🔥</div>
+  <h2>THE CEREMONY</h2>
+  <div class="tagline">The Presentation of the Sandwich. The most sacred ritual on the planet.</div>
+  <div class="img-wrap" onclick="this.classList.toggle('collapsed')">
+    <img src="web/LAMUELLA-CEREMONY.webp" alt="The Ceremony" loading="lazy">
+    <div class="img-label">🔥 tap to toggle</div>
+  </div>
+  <p>Once per cycle of the twin suns — roughly every forty days by Earth reckoning, not that Earth reckoning matters anymore, not that Earth matters anymore, not that — anyway. Once per cycle, the village gathers.</p>
+  <p>The fire is lit. The drums begin. The children sit cross-legged in the front row because if you are under four feet tall on Lamuella you get the best seat at everything and nobody argues about it.</p>
+  <p>And then the Sandwich Maker walks into the circle.</p>
+  <p>He carries the sandwich on a wooden board. Not any sandwich. THE sandwich. The one he has been thinking about for forty days. The one that uses the Dorana root he has been aging in the dark corner of his hut. The Perfectly Normal Beast flank that he selected personally. The bread he baked that morning, before dawn, when the air is cool and the yeast is optimistic.</p>
+  <p>He holds it up. The village looks. The fire crackles. A child gasps. And for one moment — one single, perfect, suspended moment — everyone on Lamuella knows exactly what the meaning of life is. It is a sandwich. Held up by a man in a bathrobe. On a planet nobody has heard of. At the edge of a galaxy that doesn't care.</p>
+  <p>And it is enough.</p>
+  <div class="quote">"42 was the answer. The sandwich was the question. Arthur Dent, standing in firelight on a planet that time forgot, finally understood both."</div>
+</section>
+
+<!-- THE INGREDIENTS TABLE -->
+<section class="district" id="ingredients">
+  <div class="icon">📋</div>
+  <h2>THE INGREDIENTS</h2>
+  <div class="tagline">The Sandwich Maker's palette. Every item chosen. Nothing random.</div>
+  <table class="menu-table">
+    <caption>🥪 The Sandwich Maker's Ingredients</caption>
+    <thead>
+      <tr><th>Ingredient</th><th>Source</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>🍞 Dorana Bread</td><td>Baked before dawn</td><td>The foundation. The argument that things will be all right.</td></tr>
+      <tr><td>🥩 Perfectly Normal Beast</td><td>The herds that migrate through</td><td>The substance. The reason the bread exists.</td></tr>
+      <tr><td>🌿 Dorana Herb</td><td>East meadow, morning dew</td><td>The whisper. You taste it after you've swallowed.</td></tr>
+      <tr><td>🫙 Gundra Paste</td><td>Root cellar, six-week ferment</td><td>Not spread. Considered onto the bread.</td></tr>
+      <tr><td>🥬 Quarnash Leaf</td><td>Riverside, picked at noon</td><td>The crunch. The argument within the argument.</td></tr>
+      <tr><td>🧂 Cave Salt</td><td>Northern caves</td><td>The honesty. What the sandwich tastes like when it stops pretending.</td></tr>
+      <tr><td>🫒 Lurgle Oil</td><td>Pressed from lurgle fruit</td><td>The forgiveness. It makes everything else get along.</td></tr>
+      <tr><td>🍊 Orange Zest</td><td>Arthur's garden — the one Earth tree that grew</td><td>The memory. Home. Always.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SPECS -->
+<div class="specs" id="specs">
+  <h3>📐 LAMUELLA — Specs</h3>
+  <table>
+    <tr><td>NAME</td><td>Lamuella</td></tr>
+    <tr><td>SOURCE</td><td>Douglas Adams — Mostly Harmless (1992)</td></tr>
+    <tr><td>RESIDENT</td><td>Arthur Dent — Sandwich Maker</td></tr>
+    <tr><td>SUNS</td><td>Two — one gold, one copper</td></tr>
+    <tr><td>POPULATION</td><td>Enough</td></tr>
+    <tr><td>TECHNOLOGY</td><td>Peaked at the wheel</td></tr>
+    <tr><td>ECONOMY</td><td>Give what you can, take what you need</td></tr>
+    <tr><td>HIGHEST OFFICE</td><td>Sandwich Maker</td></tr>
+    <tr><td>IMPORTS</td><td>One man in a bathrobe</td></tr>
+    <tr><td>EXPORTS</td><td>None. Why would you leave?</td></tr>
+    <tr><td>DISTRICTS</td><td>6 — Village · Sandwich Table · Arthur's Hill · Market · Crash Site · Ceremony Circle</td></tr>
+    <tr><td>CONCEPT ARTS</td><td>6 — all lazy-loaded on click</td></tr>
+    <tr><td>STATUS</td><td>LIVE ✅</td></tr>
+  </table>
+</div>
+
+<footer>
+  <p>LAMUELLA — JuX Civilization #36 — The Sandwich Maker's Planet</p>
+  <p>🌌 <a href="https://raw.githack.com/alissali/Learn/main/aboriginal/ABORIGINAL.CITY.html">ORIGIN</a> · <a href="https://raw.githack.com/alissali/Learn/main/arthur/ARTHUR.CITY.html">ARTHUR DENT</a> · <a href="https://raw.githack.com/alissali/Learn/main/restaurant/RESTAURANT.CITY.html">MILLIWAYS</a> · <a href="https://juxaos.com">JuXAOS</a></p>
+</footer>
+
+<script>
+// Stars
+const c=document.querySelector('.stars');
+for(let i=0;i<120;i++){const s=document.createElement('div');s.className='star';s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;--d:${Math.random()*3+2}s;animation-delay:${Math.random()*3}s`;c.appendChild(s)}
+</script>
+</body>
+</html>
