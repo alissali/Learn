@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPACE STATION — Port Nowhere</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#c8c8d0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,#1a1a2e 0%,#0a0a12 70%)}
+.hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('web/STATION-EXTERIOR.webp') center/cover;opacity:.35}
+.hero-content{position:relative;z-index:2;padding:2rem}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);color:#e8a040;text-shadow:0 0 40px rgba(232,160,64,.5);letter-spacing:.15em;margin-bottom:1rem}
+.hero .sub{font-size:clamp(1rem,2.5vw,1.6rem);color:#7799cc;font-style:italic;max-width:700px;margin:0 auto}
+.hero .coords{font-family:'Courier New',monospace;font-size:.9rem;color:#556;margin-top:1.5rem;letter-spacing:.2em}
+.section{max-width:1000px;margin:0 auto;padding:4rem 2rem}
+.district{margin-bottom:5rem;opacity:0;transform:translateY(30px);transition:all .8s ease}
+.district.visible{opacity:1;transform:translateY(0)}
+.district-img{width:100%;border-radius:4px;cursor:pointer;transition:transform .4s;box-shadow:0 4px 30px rgba(0,0,0,.6)}
+.district-img:hover{transform:scale(1.03)}
+.district h2{font-size:clamp(1.4rem,3vw,2rem);color:#e8a040;margin:1.5rem 0 .5rem;letter-spacing:.08em}
+.district .tagline{color:#7799cc;font-style:italic;font-size:1.05rem;margin-bottom:1rem}
+.district p{line-height:1.8;font-size:1.05rem;color:#999}
+.district .spec{font-family:'Courier New',monospace;font-size:.85rem;color:#5a7a5a;margin-top:1rem;padding:1rem;border-left:2px solid #3a5a3a;background:rgba(30,50,30,.2)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin:3rem 0;text-align:center}
+.stat{padding:1.5rem;border:1px solid #2a2a3a;border-radius:4px;background:rgba(20,20,35,.5)}
+.stat .num{font-size:2rem;color:#e8a040;font-family:'Courier New',monospace}
+.stat .label{font-size:.85rem;color:#667;margin-top:.5rem;text-transform:uppercase;letter-spacing:.1em}
+.rules{max-width:1000px;margin:0 auto;padding:3rem 2rem}
+.rules h2{color:#e8a040;font-size:1.8rem;text-align:center;margin-bottom:2rem}
+.rule{display:flex;gap:1rem;margin-bottom:1.5rem;padding:1rem;border-left:2px solid #cc4444;background:rgba(40,20,20,.2)}
+.rule .num{font-size:1.5rem;color:#cc4444;font-family:'Courier New',monospace;min-width:2rem}
+.rule p{color:#999;line-height:1.6}
+.manifest{max-width:1000px;margin:0 auto;padding:3rem 2rem}
+.manifest h2{color:#e8a040;font-size:1.8rem;text-align:center;margin-bottom:2rem}
+.manifest-entry{display:flex;gap:1.5rem;margin-bottom:1.5rem;padding:1rem;background:rgba(20,20,30,.4);border-radius:4px}
+.manifest-entry .role{min-width:140px;color:#7799cc;font-family:'Courier New',monospace;font-size:.9rem}
+.manifest-entry .desc{color:#999;font-size:.95rem;line-height:1.6}
+footer{text-align:center;padding:4rem 2rem;border-top:1px solid #1a1a2a;color:#445;font-size:.85rem}
+footer a{color:#e8a040;text-decoration:none}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:1000;cursor:pointer;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:4px}
+@media(max-width:600px){.section{padding:2rem 1rem}.manifest-entry{flex-direction:column;gap:.5rem}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div class="hero-content">
+<h1>PORT NOWHERE</h1>
+<div class="sub">The station that does not exist on any Imperial chart.<br>Every pirate knows the coordinates. No pirate speaks them.</div>
+<div class="coords">SECTOR ∅-42 · COORDINATES [REDACTED] · STATUS: DOES NOT EXIST</div>
+</div>
+</div>
+
+<div class="section">
+
+<div class="stats">
+<div class="stat"><div class="num">12,000+</div><div class="label">Permanent residents</div></div>
+<div class="stat"><div class="num">347</div><div class="label">Docking berths</div></div>
+<div class="stat"><div class="num">6</div><div class="label">Levels</div></div>
+<div class="stat"><div class="num">0</div><div class="label">Laws</div></div>
+</div>
+
+<div class="district">
+<img class="district-img" src="web/STATION-EXTERIOR.webp" alt="Station Exterior" loading="lazy">
+<h2>🛸 THE STATION</h2>
+<div class="tagline">"It looks like someone crashed six warships together and forgot to die."</div>
+<p>Port Nowhere was not built. It accumulated. A decommissioned Imperial battle station at its core, then a captured freighter welded to the starboard side, then an asteroid towed in for raw materials, then another ship, then another. It grew like a reef — organic, unplanned, structurally questionable. The station rotates for gravity on the outer ring. The inner core is zero-G. The transition zones are where you lose your lunch and your wallet.</p>
+<div class="spec">CLASS: Improvised orbital habitat · MASS: ~4.2 million metric tons · ROTATION: 1.7 RPM (0.85G outer ring) · POWER: 3 salvaged naval reactors + 1 that nobody can identify · ATMOSPHERE: Breathable (technically) · LAST IMPERIAL INSPECTION: Never · AGE: "Older than your mother" — Station Admin</div>
+</div>
+
+<div class="district">
+<img class="district-img" src="web/STATION-DOCKING.webp" alt="Docking Bay" loading="lazy">
+<h2>🔧 THE DOCKING BAY</h2>
+<div class="tagline">"Berth 42 is reserved. Always. Do not ask for whom."</div>
+<p>Three hundred and forty-seven berths. Two hundred functional. The Hispaniola sits in Berth 42 — the prime spot, closest to the bar, farthest from security. Silver pays triple for the privilege. The dock crews are the hardest workers on the station — welders, fuel runners, cargo handlers — because the ships that dock here do not wait. A pirate ship stays twelve hours. Load, unload, refuel, resupply, and gone. The magnetic clamps were stolen from an Imperial dry dock. They still bear the Navy seal. Nobody has bothered to paint over it.</p>
+<div class="spec">BERTHS: 347 (200 active) · MAX SHIP CLASS: Frigate-equivalent · FUEL TYPES: Hydrogen, Helium-3, "whatever's in the red drums" · TURNAROUND: 12 hrs standard · DOCKING FEE: 200 credits/cycle · BERTH 42: RESERVED — HSS HISPANIOLA</div>
+</div>
+
+<div class="district">
+<img class="district-img" src="web/STATION-MARKET.webp" alt="Market Promenade" loading="lazy">
+<h2>🏪 THE PROMENADE</h2>
+<div class="tagline">"If it exists, someone is selling it. If it doesn't exist, someone is selling it for more."</div>
+<p>The Promenade is the main commercial artery of Port Nowhere — a kilometer-long corridor of shops, stalls, and improvised storefronts under a transparent dome that shows the stars. Everything is for sale. Weapons — legal and otherwise. Navigation data — fresh and fabricated. Star charts to places that may or may not exist. Alien food from species nobody has catalogued. Medicine. Poison. Both from the same stall. The vendor with the best location sells information. His name changes daily. His prices do not.</p>
+<div class="spec">LENGTH: 1.2 km · VENDORS: 400+ registered, unknown unregistered · CURRENCY: Credits, barter, favors · STOLEN GOODS: Yes · LEGAL GOODS: Also yes, technically · SECURITY: "LOL" — Station Admin · BEST FOOD: Mama Zara's — Stall 177 — don't ask what's in it</div>
+</div>
+
+<div class="district">
+<img class="district-img" src="web/STATION-CANTINA.webp" alt="The Cantina" loading="lazy">
+<h2>🍺 THE BLIND PARROT</h2>
+<div class="tagline">"The first drink is expensive. The second is a commitment. The third is a religion."</div>
+<p>Every station has a bar. Port Nowhere has forty-seven. But The Blind Parrot is THE bar — the one where captains meet, deals are sealed, crews are recruited, and wars are ended with a handshake over something amber. The bartender is a four-armed Kaleshi named Grix who has been pouring drinks since before the station had atmosphere. He remembers every face, every drink, every debt. The house rules are carved into the bar top in seven languages. Rule One in all of them: "No weapons on the bar. Under the bar is fine."</p>
+<div class="spec">CAPACITY: 200 · DRINKS MENU: 300+ (47 will blind you, 3 will kill you, 1 doesn't exist) · HOUSE BAND: The Void Shanties — jazz, blues, something alien · TABS: Grix never forgets · SILVER'S BOOTH: Corner, back wall, facing all exits · FIGHTS PER NIGHT: 2.3 (station average)</div>
+</div>
+
+<div class="district">
+<img class="district-img" src="web/STATION-COMMAND.webp" alt="Command Center" loading="lazy">
+<h2>📡 STATION COMMAND</h2>
+<div class="tagline">"We don't govern. We negotiate. Continuously. At volume."</div>
+<p>Port Nowhere has no government. It has Station Command — a circular room in the core where the Administrator and her operators keep the station from flying apart. The Administrator is a woman named Kessler — ex-Navy, ex-pirate, ex-everything. She walked away from every faction and built this place because she was tired of taking orders and tired of giving them. The holographic display in the center shows every ship in a ten-thousand-kilometer radius. Wanted posters rotate on the screens. Half the people on the wanted posters are drinking at The Blind Parrot right now. Kessler knows. Kessler does not care.</p>
+<div class="spec">STAFF: 12 operators · SENSORS: Military-grade (stolen) · COMMS: 40 channels (8 encrypted, 4 compromised) · DEFENSE: 12 turret emplacements + "the thing in Bay 9 that nobody talks about" · ADMINISTRATOR: Kessler — "I am not in charge. I am the one who keeps the lights on. There's a difference."</div>
+</div>
+
+<div class="district">
+<img class="district-img" src="web/STATION-UNDERBELLY.webp" alt="The Underbelly" loading="lazy">
+<h2>🕳️ THE UNDERBELLY</h2>
+<div class="tagline">"Below the floor, there is another floor. Below that, there are questions you should not ask."</div>
+<p>Every station has its underside. Port Nowhere's is three levels deep — a labyrinth of maintenance tunnels, abandoned compartments, and improvised spaces that the station schematic does not acknowledge. Down here, the things that cannot be sold on the Promenade are sold. Forged identity chips. Stolen military hardware. Navigation data to Imperial convoy routes. Information brokers who know things that could start wars. The lights are red because the white ones were scavenged years ago. The rats are not rats. They are something else. Nobody has classified them. Nobody wants to.</p>
+<div class="spec">LEVELS: 3 (known) · LIGHTING: Emergency red (permanent) · POPULATION: Unknown · GOVERNANCE: None · RATS: Not rats · EXITS: "If you need to ask, you're already lost" · RULE: What happens in the Underbelly did not happen</div>
+</div>
+
+</div>
+
+<div class="rules">
+<h2>⚖️ THE THREE RULES OF PORT NOWHERE</h2>
+<div class="rule"><div class="num">I</div><p><strong>No Imperial Navy within sensor range.</strong> If they come, the station goes dark. Every ship scatters. Rendezvous at the backup coordinates in 72 hours. This has happened four times. The station is still here. The Navy is still looking.</p></div>
+<div class="rule"><div class="num">II</div><p><strong>All debts are honored.</strong> Break a deal on Port Nowhere and you are done. Not dead — done. No berth, no drink, no fuel, no information. You become invisible. In a place that does not exist, becoming invisible is the worst thing that can happen.</p></div>
+<div class="rule"><div class="num">III</div><p><strong>Berth 42 is reserved.</strong> It belongs to the Hispaniola. It has always belonged to the Hispaniola. When Silver is not docked, the berth sits empty. No one touches it. No one questions it. The magnetic clamps hum on standby. Waiting.</p></div>
+</div>
+
+<div class="manifest">
+<h2>👥 STATION REGULARS</h2>
+<div class="manifest-entry"><div class="role">KESSLER</div><div class="desc">Station Administrator. Ex-Navy Captain. Left after the Siege of Procyon. Built Port Nowhere because "the universe needed a place where nobody asks where you came from." Drinks black coffee. Never sleeps. May be two people in shifts — nobody has confirmed.</div></div>
+<div class="manifest-entry"><div class="role">GRIX</div><div class="desc">Bartender. Four-armed Kaleshi. Has poured drinks for 40 years. Remembers every tab. Can mix 300 cocktails and weaponize 12 of them. The Blind Parrot IS Grix. Grix IS The Blind Parrot.</div></div>
+<div class="manifest-entry"><div class="role">MAMA ZARA</div><div class="desc">Food vendor. Stall 177 on the Promenade. Feeds the station. Nobody knows what species she is. Nobody asks. The food is extraordinary. The portions are generous. The prices are fair. She is the most powerful person on the station and she does not know it.</div></div>
+<div class="manifest-entry"><div class="role">THE BROKER</div><div class="desc">Information dealer. Name changes daily. Location changes hourly. Sells secrets. The only rule: he never lies. He may not tell you everything, but what he tells you is true. His price is always odd numbers. Nobody knows why.</div></div>
+<div class="manifest-entry"><div class="role">DOC VOSS</div><div class="desc">Station medic. Surgeon. Patched up 10,000 pirates and never asked how the wound happened. Lost his medical license on three planets. "I didn't lose them. I outgrew them." Operates from Level 2, Bay 14. Payment: flexible. Morphine: not flexible.</div></div>
+<div class="manifest-entry"><div class="role">SILVER</div><div class="desc">Berth 42. Corner booth at The Blind Parrot. He does not run the station. He does not own the station. But when he walks in, Grix pours the rum before he sits down, Kessler clears the docking lane, and The Broker lowers his prices by ten percent. Draw your own conclusions.</div></div>
+</div>
+
+<footer>
+<p>PORT NOWHERE — Sector ∅-42 — Coordinates [REDACTED]</p>
+<p style="margin-top:1rem">The station does not exist. You were never here. <a href="SILVERSHIP.CITY.html">Return to the ship</a>.</p>
+<p style="margin-top:1rem;color:#333">JuX — Civilization 41 — Page 47</p>
+</footer>
+
+<div class="lightbox" id="lb"><img id="lb-img" src="" alt="Zoom"></div>
+<script>
+document.querySelectorAll('.district-img').forEach(img=>{img.onclick=()=>{const l=document.getElementById('lb');document.getElementById('lb-img').src=img.src;l.classList.add('active')}});
+document.getElementById('lb').onclick=function(){this.classList.remove('active')};
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.15});
+document.querySelectorAll('.district').forEach(d=>obs.observe(d));
+</script>
+</body>
+</html>
