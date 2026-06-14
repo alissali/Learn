@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAPHNE — Sex Party in the Grove of Apollo</title>
+<meta name="description" content="The Grove of Daphne. Where Apollo lost. Where the saints came by day and the sinners came by night. And they were the same people.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a05;color:#d4c8a0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,#1a1a0a 0%,#0a0a05 70%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="60" opacity="0.03">🌿</text></svg>') repeat;opacity:0.5}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);color:#c8a84e;text-shadow:0 0 40px rgba(200,168,78,0.4);position:relative;letter-spacing:0.15em;font-variant:small-caps}
+.hero .subtitle{font-size:clamp(1rem,3vw,1.5rem);color:#a08850;margin-top:1rem;font-style:italic;position:relative;max-width:700px;line-height:1.6}
+.laurel{color:#6a8a3a;font-size:3rem;position:relative;display:block;margin-top:1.5rem}
+
+.prose-block{max-width:800px;margin:0 auto;padding:4rem 2rem;text-align:center}
+.prose-block p{font-size:1.15rem;line-height:2;color:#b8a878;font-style:italic;margin-bottom:1.5rem}
+.prose-block .voice{color:#c8a84e;font-size:1.3rem;line-height:2.2}
+
+.img-section{width:100%;max-width:1100px;margin:0 auto;padding:1rem 2rem}
+.img-section img{width:100%;border-radius:8px;display:block;cursor:pointer;transition:transform 0.3s}
+.img-section img:hover{transform:scale(1.02)}
+.img-caption{text-align:center;padding:1rem;color:#8a7a50;font-style:italic;font-size:0.95rem}
+
+.district{border-top:1px solid #2a2a15;padding:3rem 2rem;max-width:900px;margin:0 auto}
+.district h2{color:#c8a84e;font-size:1.6rem;margin-bottom:0.5rem;font-variant:small-caps;letter-spacing:0.1em}
+.district .icon{font-size:2rem;margin-bottom:0.5rem;display:block}
+.district .quote{color:#8a7a50;font-style:italic;margin-bottom:1rem;font-size:1.05rem}
+.district p{color:#b8a878;line-height:1.9;font-size:1.05rem}
+
+.menu-section{max-width:800px;margin:0 auto;padding:4rem 2rem;text-align:center;border-top:1px solid #2a2a15}
+.menu-section h2{color:#c8a84e;font-size:1.8rem;margin-bottom:2rem;font-variant:small-caps;letter-spacing:0.15em}
+.menu-item{display:flex;justify-content:space-between;align-items:center;padding:0.8rem 0;border-bottom:1px solid #1a1a0a;max-width:500px;margin:0 auto}
+.menu-item span:first-child{color:#b8a878;font-size:1.05rem}
+.menu-item span:last-child{color:#8a7a50;font-size:0.9rem;font-style:italic}
+.menu-item.orange span:first-child{color:#e8872a;font-weight:bold}
+.menu-item.orange span:last-child{color:#e8872a}
+
+.souls{max-width:800px;margin:0 auto;padding:3rem 2rem;border-top:1px solid #2a2a15;text-align:center}
+.souls h2{color:#c8a84e;font-size:1.5rem;margin-bottom:2rem;font-variant:small-caps}
+.soul{padding:0.6rem 0;color:#b8a878;font-size:1.05rem}
+.soul em{color:#8a7a50}
+
+.ages{max-width:800px;margin:0 auto;padding:3rem 2rem;border-top:1px solid #2a2a15}
+.ages h2{text-align:center;color:#c8a84e;font-size:1.5rem;margin-bottom:2rem;font-variant:small-caps}
+.age{display:flex;gap:1rem;padding:0.7rem 0;border-bottom:1px solid #1a1a0a}
+.age-year{color:#c8a84e;font-weight:bold;min-width:120px;font-size:0.95rem}
+.age-event{color:#b8a878;font-size:1rem}
+
+.nav{text-align:center;padding:3rem 2rem;border-top:1px solid #2a2a15}
+.nav a{color:#c8a84e;text-decoration:none;font-size:1.1rem;border:1px solid #3a3a1a;padding:0.8rem 2rem;border-radius:4px;transition:all 0.3s;display:inline-block;margin:0.5rem}
+.nav a:hover{background:#1a1a0a;border-color:#c8a84e}
+
+footer{text-align:center;padding:3rem 2rem;color:#4a4a2a;font-size:0.85rem;border-top:1px solid #2a2a15}
+footer a{color:#6a6a3a;text-decoration:none}
+
+.breathe{animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:0.7}50%{opacity:1}}
+
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity 0.8s,transform 0.8s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<section class="hero">
+<div>
+<div class="laurel">🌿</div>
+<h1>DAPHNE</h1>
+<p class="subtitle">Sex Party in the Grove of Apollo</p>
+<p class="subtitle breathe" style="margin-top:2rem;font-size:1rem;color:#6a8a3a">
+She ran from the god. She became a tree.<br>
+He built a grove. The grove became a party.<br>
+The party never stopped.
+</p>
+</div>
+</section>
+
+<div class="prose-block fade-in">
+<p class="voice">
+Apollo wanted her. She said no. He chased. She ran. The river god heard his daughter screaming and turned her into a laurel tree. Apollo stood there, panting, holding bark. He called it love. She called it survival.
+</p>
+<p>
+He crowned himself with her leaves. He built a temple in her grove. And then the humans came. Not to pray — to do what Apollo couldn't. They came at sunset. They stayed past dawn. They called it worship.
+</p>
+<p>
+Antioch sent its bishops by day and its lovers by night. And they were the same people.
+</p>
+</div>
+
+<div class="img-section fade-in">
+<img src="web/DAPHNE-GROVE.webp" alt="The Sacred Grove of Daphne" loading="lazy">
+<p class="img-caption">THE SACRED GROVE — Where the laurels tremble not from wind</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">🌿</span>
+<h2>The Laurel Grove</h2>
+<p class="quote">"She became a tree to escape a god. Two thousand years later, lovers lie under her branches. She won."</p>
+<p>Ten miles from Antioch. Five miles from sanity. The grove of Daphne was the most famous pleasure garden in the ancient world. The laurels grew so thick the sun couldn't enter. Perfect for the things that happened between them. Libanius wrote about it. John Chrysostom preached against it. Julian the Apostate visited and was disgusted. Everyone came back.</p>
+</div>
+
+<div class="img-section fade-in">
+<img src="web/DAPHNE-TEMPLE.webp" alt="Temple of Apollo at Daphne" loading="lazy">
+<p class="img-caption">THE TEMPLE OF APOLLO — He built a temple for the woman who became a tree to escape him</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">🏛️</span>
+<h2>The Temple of Apollo</h2>
+<p class="quote">"He built a temple for the woman who became a tree to escape him. That tells you everything about gods."</p>
+<p>Seleucus Nicator built it. The statue of Apollo inside rivalled the one at Olympia. The oracle spoke. The incense burned. And outside, in the grove, the real religion was practiced — skin on skin, wine on lips, the ancient liturgy of bodies that predates every scripture ever written. The temple burned in 362 AD. Julian blamed the Christians. The Christians blamed Julian. The grove kept growing.</p>
+</div>
+
+<div class="img-section fade-in">
+<img src="web/DAPHNE-FEAST.webp" alt="The Feast of Daphne" loading="lazy">
+<p class="img-caption">THE FEAST — Where the wine never runs out and the night never ends</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">🍷</span>
+<h2>The Feast Hall</h2>
+<p class="quote">"The Romans reclined. The Syrians sat. The Greeks argued. Everyone ate. Everyone drank. Everyone forgot their names by midnight."</p>
+<p>Long tables under the laurels. Oil lamps in the branches. Wine from Cyprus, figs from Damascus, olives from the valley. The feast at Daphne was not a meal — it was a negotiation between the body and its limits. You arrived a merchant, a soldier, a priest. You left a human being. The couches were arranged in threes — the Roman way. What happened on them was the Syrian way.</p>
+</div>
+
+<div class="img-section fade-in">
+<img src="web/DAPHNE-DANCE.webp" alt="The Dance of Daphne" loading="lazy">
+<p class="img-caption">THE DANCE — The body speaks the language the mouth cannot</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">💃</span>
+<h2>The Dance Floor</h2>
+<p class="quote">"The body speaks the language the mouth cannot. The dancers at Daphne were the most honest theologians in the ancient world."</p>
+<p>The circular courtyard. The bronze brazier. The drummers from Egypt, the flute players from Persia, the lyrists from Greece. When the music started, the robes loosened. Not performance — possession. The dance at Daphne was the oldest prayer: the body asking the body what it wants. And the body answering. Chrysostom called it sin. The dancers called it Tuesday.</p>
+</div>
+
+<div class="img-section fade-in">
+<img src="web/DAPHNE-SPRINGS.webp" alt="The Sacred Springs" loading="lazy">
+<p class="img-caption">THE SPRINGS — The water knew every secret. It never told.</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">💧</span>
+<h2>The Sacred Springs</h2>
+<p class="quote">"The water at Daphne was warm. Nobody asked why. Everybody knew."</p>
+<p>Natural springs fed pools carved from living rock. The water was said to have prophetic power — drink and see the future. Hadrian sealed the spring with a stone to stop the oracles. The water found another way. It always does. At night, the pools reflected the torches and the skin and the laurel and the everything. The philosopher Libanius described the springs as the place where nature and humanity stopped pretending they were different things.</p>
+</div>
+
+<div class="img-section fade-in">
+<img src="web/DAPHNE-ALCOVE.webp" alt="The Private Alcoves" loading="lazy">
+<p class="img-caption">THE ALCOVES — Silk, shadow, wine, and the rest is between you and the laurels</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">🕯️</span>
+<h2>The Private Alcoves</h2>
+<p class="quote">"Behind the silk. Past the last lamp. Where the only witness is the tree that was once a woman who said no."</p>
+<p>Silk curtains between the ancient trunks. A single oil lamp. Wine. Cushions. And the understanding that what happens in the grove stays in the grove — a rule older than Vegas by two millennia. The alcoves at Daphne were where generals planned empires, where poets wrote their best lines, where marriages were betrayed and remade in the same breath. The laurel tree watched. She had seen worse. She had been worse.</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">🌙</span>
+<h2>The Moonlit Clearing</h2>
+<p class="quote">"Under the full moon, the grove dropped its last pretence. Everyone was beautiful. Everyone was hungry. Everyone was honest."</p>
+<p>The central clearing where the grove opened to the sky. On full moon nights, the Daphne Festival — the one the historians only mention in footnotes. No torches needed. The moon lit everything. The dancers danced. The lovers loved. The wine flowed. And somewhere, in the rustle of ten thousand laurel leaves, Daphne herself — the original woman who said no — watched and thought: they turned my suffering into a party. And somehow that is the most human thing of all.</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">🔥</span>
+<h2>The Incense Gardens</h2>
+<p class="quote">"Frankincense from Arabia. Myrrh from Ethiopia. And something else. Nobody named it. Everybody inhaled."</p>
+<p>Braziers on stone pedestals between the paths. The smoke mixed with the laurel scent and the night air and created what the ancients called the Breath of Daphne — the atmosphere that made everything possible. The incense gardens were the transition zone. You walked in from the road, a citizen with responsibilities. By the time you reached the clearing, the smoke had taken them all. You were nobody. You were everybody. You were free.</p>
+</div>
+
+<div class="district fade-in">
+<span class="icon">🌅</span>
+<h2>The Dawn Path</h2>
+<p class="quote">"The walk home was ten miles. Every step, you remembered. Every step, you forgot. By the time you reached Antioch, you were someone else."</p>
+<p>The stone road back to Antioch. Ten miles of olive trees and regret and satisfaction and silence. The dawn path was where the party ended and the life resumed. Some walked fast, ashamed. Some walked slow, savouring. Some never walked back at all — they stayed in the grove, became part of it, tended the lamps, poured the wine, became the priests of the oldest religion: the religion of the body in the garden under the moon.</p>
+</div>
+
+<div class="menu-section fade-in">
+<h2>🍇 The Grove Table 🍇</h2>
+<div class="menu-item"><span>Bread of the Grove</span><span>baked in the embers</span></div>
+<div class="menu-item"><span>Wine of Cyprus</span><span>undiluted — the Daphne way</span></div>
+<div class="menu-item"><span>Figs of Damascus</span><span>split open, dripping</span></div>
+<div class="menu-item"><span>Olives of the Valley</span><span>black, oiled, warm</span></div>
+<div class="menu-item"><span>Honey Cakes</span><span>offerings that never reached the altar</span></div>
+<div class="menu-item"><span>Rose Water</span><span>on the wrists, on the neck</span></div>
+<div class="menu-item"><span>Spiced Pomegranate</span><span>Persephone's fruit — you eat, you stay</span></div>
+<div class="menu-item orange"><span>🍊 The Orange</span><span>Free. Even in the garden of sin. Always.</span></div>
+</div>
+
+<div class="souls fade-in">
+<h2>🌿 The 7 Souls of the Grove 🌿</h2>
+<div class="soul"><strong>Daphne</strong> — <em>the woman who became a tree rather than be touched without consent</em></div>
+<div class="soul"><strong>Apollo</strong> — <em>the god who learned nothing — built a temple instead</em></div>
+<div class="soul"><strong>Libanius</strong> — <em>the philosopher who described the grove and did not blush</em></div>
+<div class="soul"><strong>Chrysostom</strong> — <em>the preacher who condemned the grove and was suspiciously detailed</em></div>
+<div class="soul"><strong>Julian</strong> — <em>the emperor who came to purify and found only ashes</em></div>
+<div class="soul"><strong>The Dancer</strong> — <em>unnamed — every generation — the body that speaks truth</em></div>
+<div class="soul"><strong>The Lamp Keeper</strong> — <em>the one who stayed — who tended the fire — who never left the grove</em></div>
+</div>
+
+<div class="ages fade-in">
+<h2>🌿 The 7 Ages of the Grove 🌿</h2>
+<div class="age"><span class="age-year">300 BC</span><span class="age-event">Seleucus plants the grove — builds Apollo's temple — the party begins</span></div>
+<div class="age"><span class="age-year">100 BC</span><span class="age-event">Rome arrives — the grove expands — the baths are built — the reputation spreads</span></div>
+<div class="age"><span class="age-year">40 AD</span><span class="age-event">The apostles preach in Antioch — the grove is ten miles away — the distance is theological</span></div>
+<div class="age"><span class="age-year">200 AD</span><span class="age-event">Peak — the grove is the most famous pleasure garden in the known world</span></div>
+<div class="age"><span class="age-year">362 AD</span><span class="age-event">The temple burns — Julian weeps — the grove survives — trees don't care about politics</span></div>
+<div class="age"><span class="age-year">500 AD</span><span class="age-event">Earthquake and silence — the springs still flow — the laurels still grow — nobody comes</span></div>
+<div class="age"><span class="age-year">Forever</span><span class="age-event">The grove is still there — Harbiye, Turkey — the water still warm — the laurels still trembling</span></div>
+</div>
+
+<div class="prose-block fade-in">
+<p class="voice">
+She said no. He chased. She became a tree. He built a grove.<br>
+The humans came. They did what the god couldn't.<br>
+They asked first.<br><br>
+That is the only difference between a god and a lover.<br>
+The lover asks.<br><br>
+The grove of Daphne. Where the party never stopped.<br>
+Where the laurels tremble not from wind.<br>
+Where the body is the only honest scripture.<br><br>
+Still there. Still warm. Still free.
+</p>
+</div>
+
+<nav class="nav fade-in">
+<a href="../antakia/ANTAKIA.CITY.html">🏟️ Back to Antakia</a>
+<a href="../shami/SHAMI.CITY.html">🕌 Damascus</a>
+<a href="../palmyra/PALMYRA.CITY.html">🏛️ Palmyra</a>
+<a href="../step/STEP.html">🎮 STEP</a>
+</nav>
+
+<footer>
+<p>DAPHNE — Sex Party in the Grove of Apollo — <a href="https://juxitt.com">JuX ITT</a></p>
+<p style="margin-top:0.5rem">SSS Universe — Prose Leads — Architecture Follows</p>
+<p style="margin-top:0.5rem;color:#6a8a3a">She became a tree. The tree became a party. The party never stopped. 🌿</p>
+</footer>
+
+<script>
+const o=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add('visible'),o.unobserve(e.target))})},{threshold:0.15});
+document.querySelectorAll('.fade-in').forEach(e=>o.observe(e));
+</script>
+</body>
+</html>
