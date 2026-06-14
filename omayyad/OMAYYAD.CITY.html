@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMAYYAD MOSQUE — Old Damascus — The Heart of the Oldest City</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d0f0a;color:#d4cba8;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#1a1d10 0%,#2a2d18 40%,#3d3a1a 70%,#0d0f0a 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(212,180,80,0.2) 0%,transparent 70%)}
+.hero h1{font-size:clamp(2rem,7vw,5rem);color:#d4b450;text-shadow:0 0 60px rgba(212,180,80,0.4);letter-spacing:0.15em;z-index:1}
+.hero .sub{font-size:clamp(1rem,3vw,1.5rem);color:#b09840;margin-top:0.8rem;font-style:italic;z-index:1}
+.hero .sub2{font-size:clamp(0.85rem,2vw,1.1rem);color:#8a7830;margin-top:0.5rem;z-index:1;letter-spacing:0.2em}
+.hero .icon{font-size:clamp(3rem,10vw,5rem);margin-bottom:1rem;z-index:1}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#b09840;font-size:1.2rem;animation:pulse 2s infinite;z-index:1}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+.district{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative}
+.district:nth-child(odd){background:linear-gradient(135deg,#12140e 0%,#1e2016 100%)}
+.district:nth-child(even){background:linear-gradient(135deg,#1e2016 0%,#12140e 100%)}
+.district-content{max-width:900px;width:100%;text-align:center}
+.district-icon{font-size:4rem;margin-bottom:1rem}
+.district-name{font-size:clamp(1.8rem,5vw,2.8rem);color:#d4b450;margin-bottom:0.5rem;letter-spacing:0.1em}
+.district-quote{font-style:italic;color:#c0a850;font-size:clamp(1rem,2.5vw,1.3rem);margin-bottom:2rem;line-height:1.6;max-width:700px;margin-left:auto;margin-right:auto}
+.district-img{width:100%;max-width:800px;border-radius:8px;margin:1.5rem auto;display:block;cursor:pointer;transition:transform 0.3s;box-shadow:0 4px 30px rgba(0,0,0,0.5)}
+.district-img:hover{transform:scale(1.02)}
+.district-text{color:#c4b890;font-size:1.05rem;line-height:1.8;max-width:700px;margin:1.5rem auto;text-align:left}
+
+.table-section{padding:4rem 2rem;background:linear-gradient(180deg,#0d0f0a 0%,#1a1d10 50%,#0d0f0a 100%);text-align:center}
+.table-title{font-size:clamp(1.5rem,4vw,2.5rem);color:#d4b450;margin-bottom:2rem;letter-spacing:0.1em}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:800px;margin:0 auto 3rem}
+.menu-item{background:rgba(212,180,80,0.06);border:1px solid rgba(212,180,80,0.15);border-radius:8px;padding:1.5rem;text-align:center;transition:all 0.3s}
+.menu-item:hover{background:rgba(212,180,80,0.12);border-color:rgba(212,180,80,0.3);transform:translateY(-2px)}
+.menu-item .item-icon{font-size:2rem;margin-bottom:0.5rem}
+.menu-item .item-name{color:#d4b450;font-size:1.1rem;margin-bottom:0.3rem}
+.menu-item .item-desc{color:#a08840;font-size:0.85rem;font-style:italic}
+
+.ages-section{padding:4rem 2rem;background:linear-gradient(180deg,#0d0f0a 0%,#181a12 100%);text-align:center}
+.age-line{color:#c0a850;font-size:1.1rem;margin:0.8rem 0;line-height:1.6}
+.age-line span{color:#d4b450;font-weight:bold}
+
+.souls-section{padding:4rem 2rem;background:linear-gradient(180deg,#181a12 0%,#0d0f0a 100%);text-align:center}
+.soul{display:inline-block;margin:0.8rem 1.2rem;text-align:center}
+.soul-icon{font-size:2rem}
+.soul-name{color:#d4b450;font-size:0.95rem;margin-top:0.3rem}
+
+footer{text-align:center;padding:3rem 2rem;background:#080a06;color:#6b5f30;font-size:0.9rem}
+footer a{color:#d4b450;text-decoration:none}
+footer .sig{margin-top:1rem;font-style:italic;color:#8a7d45}
+
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;cursor:pointer;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:8px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div>
+    <div class="icon">🕌</div>
+    <h1>الجامع الأموي</h1>
+    <div class="sub">The Umayyad Mosque — Old Damascus</div>
+    <div class="sub2">JUPITER · JESUS · MUHAMMAD · THE SAME STONE</div>
+  </div>
+  <div class="scroll-hint">↓ enter the prayer ↓</div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🕌</div>
+    <div class="district-name">THE COURTYARD</div>
+    <div class="district-quote">"The marble reflects the sky. The sky reflects the marble. Between them, a man walks and cannot tell if he is above or below."</div>
+    <img class="district-img" loading="lazy" src="web/OMAYYAD-COURTYARD.webp" alt="The Courtyard" onclick="openLightbox(this)">
+    <div class="district-text">
+      The courtyard is not a courtyard. It is a statement written in white marble that says: here, the world stops. Here, the merchants leave their prices at the gate. Here, the generals leave their swords. Here, everyone walks in socks and everyone is the same height before God.<br><br>
+      Al-Walid ibn Abd al-Malik looked at this ground in 705 and saw what was already there — a Temple of Jupiter, then a Cathedral of John the Baptist, layer upon layer of prayer soaked into the same stone. He did not destroy. He absorbed. The columns from Rome still stand inside an Islamic prayer hall. The head of John the Baptist rests in a shrine inside the mosque. Jupiter's foundations hold everything up. Four thousand years of asking the same question on the same spot. The courtyard reflects the sky. The sky has no religion.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🙏</div>
+    <div class="district-name">THE PRAYER HALL</div>
+    <div class="district-quote">"You enter on your knees. Not because they told you to. Because the ceiling is so high your body does it alone."</div>
+    <img class="district-img" loading="lazy" src="web/OMAYYAD-PRAYER.webp" alt="The Prayer Hall" onclick="openLightbox(this)">
+    <div class="district-text">
+      The prayer hall stretches wider than belief. Roman columns hold Umayyad arches. The carpets are red. The light is gold. Chandeliers hang like frozen rain. And in this silence — because the prayer hall is always silent even when full — you hear the sound of thirteen centuries of foreheads touching the same floor.<br><br>
+      The Shrine of John the Baptist sits in the centre. Muslims call him Yahya. Christians call him John. He doesn't care what you call him. His head is here. Has been here since before the mosque, since the cathedral, since the temple. Some men are older than the buildings that hold them. Some prayers are older than the religions that claim them.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">✨</div>
+    <div class="district-name">THE GOLDEN MOSAICS</div>
+    <div class="district-quote">"They built paradise on the wall so you would know what you're praying for. No people. Only trees, rivers, palaces. Heaven has no inhabitants. It is waiting."</div>
+    <img class="district-img" loading="lazy" src="web/OMAYYAD-MOSAIC.webp" alt="The Golden Mosaics" onclick="openLightbox(this)">
+    <div class="district-text">
+      Byzantine craftsmen. Islamic commission. The greatest mosaics ever made by hands that prayed differently. Gold tesserae and green glass. Trees that have never existed line rivers that have never flowed past palaces that have never been built. This is paradise — not the one promised, but the one imagined. And the imagination is more honest.<br><br>
+      No human figures. Not because they couldn't. Because paradise doesn't need you to pose. It needs you to arrive. The mosaics covered every wall of the courtyard once. Fire, earthquake, neglect took most of them. What remains is still enough to stop your breath. If you stand long enough, the trees move. The water flows. The gold shifts with the light. Al-Walid spent seven years of the Caliphate's entire tax revenue on this mosque. When they asked him why, he said: "Because Damascus deserves it." He was right.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🏪</div>
+    <div class="district-name">SOUK AL-HAMIDIYEH</div>
+    <div class="district-quote">"The roof has bullet holes from the French. The sunlight comes through them like stars. The merchants turned war into a chandelier."</div>
+    <img class="district-img" loading="lazy" src="web/OMAYYAD-SOUK.webp" alt="Souk al-Hamidiyeh" onclick="openLightbox(this)">
+    <div class="district-text">
+      The souk leads to the mosque like a sentence leads to its meaning. You walk through darkness — the iron roof above, the merchants on both sides, the smell of cloth and spice and ice cream and perfume — and at the end, the light. The mosque. Every walk through al-Hamidiyeh is a pilgrimage disguised as shopping.<br><br>
+      The French shot the roof during the mandate. The bullets left holes. The Damascenes never repaired them. Now the sun cuts through in narrow beams, a thousand tiny spotlights falling on silk and brocade and the faces of people who have been buying from the same stalls for generations. The French meant to intimidate. Damascus turned their bullets into decoration. That is the most Damascene thing in the world.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🏘️</div>
+    <div class="district-name">THE OLD CITY STREETS</div>
+    <div class="district-quote">"Straight Street is in the Bible. Acts 9:11. Saul went blind on the road to Damascus and regained his sight on this street. The street has seen everything since."</div>
+    <img class="district-img" loading="lazy" src="web/OMAYYAD-STREETS.webp" alt="Old City Streets" onclick="openLightbox(this)">
+    <div class="district-text">
+      The lanes of Old Damascus are not streets. They are veins. The city breathes through them. You turn a corner and the wall is Roman. You turn again and the arch is Ayyubid. You turn again and the door is Ottoman. You turn one more time and you are lost. Everyone gets lost in Old Damascus. This is the point.<br><br>
+      Jasmine grows on everything. It climbs walls that are older than most countries. It blooms in April and the entire old city smells like a woman who has just washed her hair. The Damascene jasmine does not ask permission. It grows where it wants. It has been growing here since before the Prophet walked these streets on his way to somewhere else and looked at the city and said he would not enter because a man should only enter paradise once. The jasmine was already there. It heard him. It stayed.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🏡</div>
+    <div class="district-name">THE DAMASCENE HOUSE</div>
+    <div class="district-quote">"From outside — a blank wall. A wooden door. Nothing. From inside — paradise. The Damascenes invented privacy. And then filled it with fountains."</div>
+    <img class="district-img" loading="lazy" src="web/OMAYYAD-BEIT.webp" alt="The Damascene House" onclick="openLightbox(this)">
+    <div class="district-text">
+      The Beit Arabi — the Arab house — is the greatest architectural trick ever played. From the street, nothing. A wall. A door. Maybe a knocker shaped like the Hand of Fatima. You enter. You turn. And then the courtyard opens like a secret told at exactly the right moment.<br><br>
+      The fountain. The orange tree. The lemon tree. The jasmine. The black and white marble floor. The iwan with its painted ceiling — every colour in the Quran, arranged by a hand that understood that God lives in geometry. The cushions. The coffee. The arak that comes later, when the formality melts. This is where Damascus actually lives. Not in the mosque. Not in the souk. In the courtyard, under the orange tree, with the fountain running and the grandmother watching from the upper balcony and the coffee that never stops being poured.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🗡️</div>
+    <div class="district-name">SALADIN'S TOMB</div>
+    <div class="district-quote">"He defeated the Crusaders. He freed Jerusalem. He died with nothing. His tomb is next to the mosque. It is small. He would have wanted it smaller."</div>
+    <div class="district-text">
+      Salah ad-Din al-Ayyubi rests in a garden beside the mosque. The tomb is modest. A wooden cenotaph, carved. A marble cenotaph beside it, donated by Kaiser Wilhelm II, who visited and was embarrassed by the simplicity. The Kaiser's gift is ornate. Saladin's original is plain. The visitors touch the plain one. Nobody touches the Kaiser's.<br><br>
+      He united the Arab world. He took Jerusalem without massacre when the Crusaders had taken it knee-deep in blood. Richard the Lionheart respected him. His enemies loved him. He died owning one gold coin and forty-seven silver dirhams. Not enough to pay for his own funeral. That is power. Real power. The kind that doesn't need a palace. Just a small garden next to a large prayer.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🌙</div>
+    <div class="district-name">THE MINARET OF JESUS</div>
+    <div class="district-quote">"Islamic tradition says Jesus will return here. On this minaret. In Damascus. Not in Jerusalem. Not in Rome. Here. Even the Second Coming belongs to this city."</div>
+    <div class="district-text">
+      The southeastern minaret. White. Tall. It is called the Minaret of Jesus — Manarat Issa — because Islamic eschatology places the return of Christ here. Not in Bethlehem where he was born. Not in Jerusalem where he died. In Damascus, where John the Baptist's head already waits inside the mosque, where Jupiter's columns hold up Muhammad's ceiling, where everything returns to the same stone.<br><br>
+      The Christians who hear this are surprised. The Muslims who know this are not. Damascus does not compete with other holy cities. It simply waits. It has been waiting for four thousand years. It can wait a little longer.
+    </div>
+  </div>
+</div>
+
+<div class="table-section">
+  <div class="table-title">🍽️ THE DAMASCENE TABLE</div>
+  <div class="menu-grid">
+    <div class="menu-item"><div class="item-icon">🫓</div><div class="item-name">KHUBZ SHAMI</div><div class="item-desc">Damascene bread. Round. Warm. The centre of every table since Aram.</div></div>
+    <div class="menu-item"><div class="item-icon">🧆</div><div class="item-name">KIBBEH SHAMIYEH</div><div class="item-desc">Damascene kibbeh. Pine nuts inside. Centuries of technique inside.</div></div>
+    <div class="menu-item"><div class="item-icon">🍨</div><div class="item-name">BOOZA AL-BAKDASH</div><div class="item-desc">Bakdash ice cream. Pounded with mastic. The queue is the tradition.</div></div>
+    <div class="menu-item"><div class="item-icon">🥘</div><div class="item-name">FATTET HUMMUS</div><div class="item-desc">Bread. Chickpeas. Yogurt. Butter. Breakfast of conquerors.</div></div>
+    <div class="menu-item"><div class="item-icon">🍬</div><div class="item-name">HALAWET EL-JIBN</div><div class="item-desc">Sweet cheese rolls with cream. Damascus invented this. Nobody argues.</div></div>
+    <div class="menu-item"><div class="item-icon">🫖</div><div class="item-name">CHAI BIL-MARAMIYEH</div><div class="item-desc">Tea with sage. From the mountain. The cure for everything and nothing.</div></div>
+    <div class="menu-item"><div class="item-icon">🥃</div><div class="item-name">ARAK</div><div class="item-desc">Anise. Water. Ice. It turns white. Like the truth when you add honesty.</div></div>
+    <div class="menu-item"><div class="item-icon">🍊</div><div class="item-name">THE ORANGE</div><div class="item-desc">From the courtyard tree. Free. Even during the siege. Always.</div></div>
+  </div>
+</div>
+
+<div class="ages-section">
+  <div class="table-title">📜 THE AGES OF THE SAME STONE</div>
+  <div class="age-line"><span>3000 BC</span> — Aram. The first name. The first wall. The first prayer.</div>
+  <div class="age-line"><span>64 BC</span> — Rome. Jupiter's temple rises. The columns still stand inside the mosque.</div>
+  <div class="age-line"><span>379 AD</span> — Theodosius. Jupiter falls. The Cathedral of John the Baptist rises on the same foundation.</div>
+  <div class="age-line"><span>636 AD</span> — The Conquest. Khalid ibn al-Walid enters through one gate. Abu Ubayda enters through another. They meet in the middle. The cathedral is shared — half mosque, half church — for seventy years.</div>
+  <div class="age-line"><span>705 AD</span> — Al-Walid I. The mosque as it stands. Seven years. The entire treasury. Because Damascus deserves it.</div>
+  <div class="age-line"><span>1174 AD</span> — Saladin. Buried beside the mosque. One gold coin to his name.</div>
+  <div class="age-line"><span>1401 AD</span> — Tamerlane burns Damascus. The mosque burns. The minaret of Jesus survives.</div>
+  <div class="age-line"><span>FOREVER</span> — The courtyard reflects the sky. The sky reflects the courtyard. Between them, everyone prays.</div>
+</div>
+
+<div class="souls-section">
+  <div class="table-title">👥 THE 7 SOULS OF OLD DAMASCUS</div>
+  <div class="soul"><div class="soul-icon">🕌</div><div class="soul-name">Al-Walid</div></div>
+  <div class="soul"><div class="soul-icon">🗡️</div><div class="soul-name">Saladin</div></div>
+  <div class="soul"><div class="soul-icon">✝️</div><div class="soul-name">John / Yahya</div></div>
+  <div class="soul"><div class="soul-icon">⚡</div><div class="soul-name">Saul / Paul</div></div>
+  <div class="soul"><div class="soul-icon">🌹</div><div class="soul-name">The Jasmine</div></div>
+  <div class="soul"><div class="soul-icon">👵</div><div class="soul-name">The Grandmother</div></div>
+  <div class="soul"><div class="soul-icon">🍨</div><div class="soul-name">Bakdash</div></div>
+</div>
+
+<footer>
+  <a href="https://juxaos.com">← RETURN TO THE ARC</a>
+  <div class="sig">الجامع الأموي — THE UMAYYAD MOSQUE — OLD DAMASCUS — JuX Civilization 34</div>
+  <div class="sig">Jupiter · Jesus · Muhammad · The Same Stone · The Same Prayer · The Same God Who Never Left</div>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(img){const lb=document.getElementById('lightbox');const li=document.getElementById('lightbox-img');li.src=img.src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
