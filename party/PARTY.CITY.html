@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE DAMASCENE NIGHT — Where the Oud Cries and the Arak Flows</title>
+<meta name="description" content="Damascus after dark. The oldest city knows how to celebrate. Dabke, arak, jasmine, and four thousand years of knowing how to live.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0612;color:#e8d5b7;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;background:linear-gradient(180deg,#0a0612 0%,#1a0a2e 30%,#2d1b4e 60%,#0a0612 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(255,165,0,0.08) 0%,transparent 70%)}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);color:#ff9f1c;text-shadow:0 0 60px rgba(255,159,28,0.4);letter-spacing:0.15em;line-height:1.1}
+.hero .sub{font-size:clamp(1rem,3vw,1.6rem);color:#c9a96e;margin-top:1.5rem;font-style:italic;max-width:700px;line-height:1.6}
+.hero .arabic{font-size:clamp(2rem,6vw,4rem);color:#ff6b35;margin-bottom:1rem;font-family:'Traditional Arabic',serif;direction:rtl}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#ff9f1c;font-size:1.5rem;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:0.3;transform:translateX(-50%) translateY(0)}50%{opacity:1;transform:translateX(-50%) translateY(10px)}}
+
+.district{min-height:100vh;display:flex;align-items:center;padding:3rem 1.5rem;position:relative}
+.district:nth-child(even){flex-direction:row-reverse}
+.district-img{flex:1;max-width:50%;cursor:pointer}
+.district-img img{width:100%;border-radius:12px;box-shadow:0 0 40px rgba(255,159,28,0.15);transition:transform 0.5s}
+.district-img img:hover{transform:scale(1.03)}
+.district-text{flex:1;padding:2rem 3rem}
+.district-text h2{font-size:clamp(1.5rem,4vw,2.5rem);color:#ff9f1c;margin-bottom:1rem;letter-spacing:0.08em}
+.district-text .icon{font-size:3rem;margin-bottom:1rem}
+.district-text p{font-size:clamp(0.95rem,2vw,1.15rem);line-height:1.8;color:#d4c4a0;margin-bottom:1rem}
+.district-text .quote{font-style:italic;color:#ff6b35;border-left:3px solid #ff9f1c;padding-left:1.5rem;margin-top:1.5rem;font-size:clamp(1rem,2.5vw,1.2rem);line-height:1.7}
+
+.feast{padding:4rem 1.5rem;text-align:center;background:linear-gradient(180deg,#0a0612,#1a0a12,#0a0612)}
+.feast h2{font-size:clamp(1.8rem,5vw,3rem);color:#ff9f1c;margin-bottom:3rem;letter-spacing:0.1em}
+.feast-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
+.feast-item{background:rgba(255,159,28,0.05);border:1px solid rgba(255,159,28,0.15);border-radius:12px;padding:1.5rem;transition:all 0.3s}
+.feast-item:hover{background:rgba(255,159,28,0.1);transform:translateY(-3px)}
+.feast-item .emoji{font-size:2.5rem;margin-bottom:0.5rem}
+.feast-item h3{color:#ff9f1c;font-size:1.1rem;margin-bottom:0.5rem}
+.feast-item p{color:#c9a96e;font-size:0.9rem;font-style:italic}
+
+.souls{padding:4rem 1.5rem;text-align:center}
+.souls h2{font-size:clamp(1.8rem,5vw,3rem);color:#ff9f1c;margin-bottom:3rem}
+.soul-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto}
+.soul-card{background:rgba(255,107,53,0.05);border:1px solid rgba(255,107,53,0.2);border-radius:12px;padding:2rem;text-align:left}
+.soul-card h3{color:#ff6b35;font-size:1.2rem;margin-bottom:0.8rem}
+.soul-card p{color:#d4c4a0;font-size:0.95rem;line-height:1.7}
+
+.coda{min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:3rem 1.5rem;background:linear-gradient(180deg,#0a0612,#1a0a2e,#0a0612)}
+.coda blockquote{font-size:clamp(1.2rem,3.5vw,2rem);color:#ff9f1c;font-style:italic;max-width:800px;line-height:1.7;text-shadow:0 0 30px rgba(255,159,28,0.2)}
+.coda .sig{margin-top:2rem;color:#c9a96e;font-size:1rem;letter-spacing:0.2em}
+
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;cursor:pointer;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:90%;max-height:90%;border-radius:8px}
+
+.nav{position:fixed;bottom:1.5rem;right:1.5rem;z-index:100}
+.nav a{display:block;background:rgba(255,159,28,0.15);color:#ff9f1c;border:1px solid rgba(255,159,28,0.3);border-radius:50%;width:48px;height:48px;text-align:center;line-height:48px;font-size:1.3rem;text-decoration:none;margin-top:0.5rem;transition:all 0.3s}
+.nav a:hover{background:rgba(255,159,28,0.3)}
+
+@media(max-width:768px){
+  .district{flex-direction:column!important;min-height:auto;padding:2rem 1rem}
+  .district-img{max-width:100%;margin-bottom:1.5rem}
+  .district-text{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div>
+    <div class="arabic">ليلة شامية</div>
+    <h1>THE DAMASCENE NIGHT</h1>
+    <p class="sub">The mosque was the prayer. Now comes the music. Damascus prays by day and dances by night. The same people. The same God. He doesn't mind. He made the arak too.</p>
+  </div>
+  <div class="scroll-hint">↓</div>
+</section>
+
+<section class="district" id="d1">
+  <div class="district-img"><img src="web/PARTY-NIGHT.webp" loading="lazy" alt="Night Street" onclick="openLightbox(this)"></div>
+  <div class="district-text">
+    <div class="icon">🌙</div>
+    <h2>THE NIGHT STREET</h2>
+    <p>After the last prayer, the city changes its clothes. The muezzin's echo fades into oud strings. The same alley that sold spices at noon now sells stories at midnight. The lanterns go up. The chairs come out. The arak arrives without being ordered because the waiter has known your father since the war.</p>
+    <p>The jasmine doesn't sleep. It smells stronger at night. As if it knows what's coming. As if it approves.</p>
+    <div class="quote">"In Damascus, the party doesn't start. It was always there. You just arrived."</div>
+  </div>
+</section>
+
+<section class="district" id="d2">
+  <div class="district-img"><img src="web/PARTY-DABKE.webp" loading="lazy" alt="Dabke Dance" onclick="openLightbox(this)"></div>
+  <div class="district-text">
+    <div class="icon">💃</div>
+    <h2>THE DABKE FLOOR</h2>
+    <p>The line forms. Arms linked. The leader holds the handkerchief. The drum hits and the floor shakes and four thousand years of people stomp the same rhythm into the same stone. The grandfather watches from his chair. His foot is tapping. His heart is twenty.</p>
+    <p>Nobody teaches the dabke. You are born with it. The first kick comes from the womb. The last one comes at the funeral — when the pallbearers can't help it and the procession becomes a dance and nobody apologizes because this is Damascus and grief and joy use the same muscle.</p>
+    <div class="quote">"The dabke is not a dance. It is a geological event. The earth responds."</div>
+  </div>
+</section>
+
+<section class="district" id="d3">
+  <div class="district-img"><img src="web/PARTY-ROOFTOP.webp" loading="lazy" alt="Rooftop" onclick="openLightbox(this)"></div>
+  <div class="district-text">
+    <div class="icon">🌃</div>
+    <h2>THE ROOFTOP</h2>
+    <p>Above the old city. The minaret is lit. The hookah smoke curls toward the stars and the stars curl back. From up here, Damascus looks like a jewel box that someone left open.</p>
+    <p>The tea is sweet. The arak is not. The conversation starts at politics, passes through football, arrives at love, and ends at God. Every night. The same trajectory. The same table. The same friends who disagree on everything and agree on this: there is no city like this city. There never was.</p>
+    <div class="quote">"From the rooftop, you can see every empire that tried to own Damascus. None of them are visible. The jasmine is."</div>
+  </div>
+</section>
+
+<section class="district" id="d4">
+  <div class="district-img"><img src="web/PARTY-WEDDING.webp" loading="lazy" alt="Wedding" onclick="openLightbox(this)"></div>
+  <div class="district-text">
+    <div class="icon">💍</div>
+    <h2>THE WEDDING</h2>
+    <p>The Damascene wedding is not an event. It is a war. A logistics operation. A financial crisis. A theatrical production with five hundred critics in the audience, all of them relatives, all of them with opinions about the bride's dress, the groom's family, and the quality of the kibbeh.</p>
+    <p>The zaffe comes down the street like an invasion — drums, horns, men carrying the groom on their shoulders, women ululating at a frequency that breaks glass. The bride enters last. She always enters last. Damascus taught the world the entrance.</p>
+    <div class="quote">"A Damascene wedding feeds four hundred people and offends six hundred. The other two hundred are still parking."</div>
+  </div>
+</section>
+
+<section class="district" id="d5">
+  <div class="district-img"><img src="web/PARTY-HAMMAM.webp" loading="lazy" alt="Hammam" onclick="openLightbox(this)"></div>
+  <div class="district-text">
+    <div class="icon">♨️</div>
+    <h2>THE HAMMAM</h2>
+    <p>Before the party. After the party. The hammam doesn't care about the timeline. The steam has no clock. The marble is warm. The dome has star-shaped holes and the light falls through them like the universe is watching you undress and approving.</p>
+    <p>The scrub removes everything — dead skin, bad decisions, yesterday's argument with your mother. You emerge pink and new and smelling like laurel soap. You are ready. For what, you don't know. But you are ready.</p>
+    <div class="quote">"The hammam is the only place in Damascus where everyone is equal. Because everyone is naked."</div>
+  </div>
+</section>
+
+<section class="district" id="d6">
+  <div class="district-img"><img src="web/PARTY-BOOZA.webp" loading="lazy" alt="Booza" onclick="openLightbox(this)"></div>
+  <div class="district-text">
+    <div class="icon">🍦</div>
+    <h2>THE BOOZA</h2>
+    <p>Bakdash. Since 1895. The man pounds the ice cream with a wooden mallet like he is forging a sword. The mastic stretches. The pistachio falls like green snow. The crowd watches. The tourists film. The Damascene waits because he knows — the show IS the dessert. The eating is secondary.</p>
+    <p>You eat it from a brass bowl. It fights back. It stretches. It refuses to leave the spoon. This is not ice cream. This is a relationship. It is complicated. It is sweet. It will not let go.</p>
+    <div class="quote">"Bakdash ice cream is the only thing in Damascus that is exactly the same as it was in 1895. Everything else adapted. The booza refused."</div>
+  </div>
+</section>
+
+<section class="feast">
+  <h2>🍽️ THE NIGHT TABLE</h2>
+  <div class="feast-grid">
+    <div class="feast-item"><div class="emoji">🥂</div><h3>THE ARAK</h3><p>Turns white when you add water. Like truth when you add honesty.</p></div>
+    <div class="feast-item"><div class="emoji">🫒</div><h3>THE MEZE</h3><p>Forty small plates. None of them necessary. All of them mandatory.</p></div>
+    <div class="feast-item"><div class="emoji">🥩</div><h3>THE MASHAWI</h3><p>The charcoal knows. The meat knows. You just sit there.</p></div>
+    <div class="feast-item"><div class="emoji">🎵</div><h3>THE OUD</h3><p>One string cries. The other five explain why.</p></div>
+    <div class="feast-item"><div class="emoji">💨</div><h3>THE ARGILEH</h3><p>Two apples. One coal. Three hours of saying nothing important. The best hours.</p></div>
+    <div class="feast-item"><div class="emoji">🌹</div><h3>THE JASMINE</h3><p>Nobody planted it. Nobody waters it. It grows because Damascus asked it to.</p></div>
+    <div class="feast-item"><div class="emoji">☕</div><h3>THE COFFEE</h3><p>Thick as mud. Sweet as revenge. Read the cup after. It always says the same thing: more coffee.</p></div>
+    <div class="feast-item"><div class="emoji">🍊</div><h3>THE ORANGE</h3><p>Free. End of party. Beginning of morning. The sun in your hand. Always.</p></div>
+  </div>
+</section>
+
+<section class="souls">
+  <h2>🌙 THE 7 SPIRITS OF THE NIGHT</h2>
+  <div class="soul-grid">
+    <div class="soul-card"><h3>🎵 ABU KHALIL AL-QABBANI</h3><p>He brought theatre to Damascus. They burned his theatre. He built another. They burned that too. He died. The theatre survived. It always does.</p></div>
+    <div class="soul-card"><h3>💃 THE DABKE LEADER</h3><p>The first in line. Holds the handkerchief. Sets the rhythm. If he falls, the line falls. He never falls.</p></div>
+    <div class="soul-card"><h3>🎵 THE OUD PLAYER</h3><p>He plays tarab — the ecstasy. The music enters the chest before the ear. The audience sways. Nobody taught them. The oud taught them.</p></div>
+    <div class="soul-card"><h3>👰 THE BRIDE</h3><p>She enters last. She always enters last. The zaffe clears the way. The city holds its breath. She walks like she owns the alley. Tonight, she does.</p></div>
+    <div class="soul-card"><h3>🍦 THE BOOZA MAN</h3><p>Bakdash. The mallet. The mastic. The pistachio. He has been pounding since 1895. His arms are theology.</p></div>
+    <div class="soul-card"><h3>♨️ THE HAMMAM KEEPER</h3><p>He knows every body. Every scar. Every tattoo. He says nothing. The steam says everything.</p></div>
+    <div class="soul-card"><h3>🌹 THE JASMINE SELLER</h3><p>A boy. Always a boy. A string of jasmine for one lira. The smell lasts longer than the economy. He knows this. He charges accordingly.</p></div>
+  </div>
+</section>
+
+<section class="coda">
+  <blockquote>
+    "The mosque held the prayer. The street holds the party. The rooftop holds the secrets. The hammam holds the steam. The oud holds the crying. The arak holds the truth. And the jasmine — the jasmine holds Damascus together. Without it, the walls would fall. Not from war. From loneliness."
+    <div class="sig">— THE DAMASCENE NIGHT — PAGE 39 OF THE JOURNEY —</div>
+  </blockquote>
+</section>
+
+<div class="nav">
+  <a href="#d1" title="Top">↑</a>
+</div>
+
+<div class="lightbox" id="lb" onclick="closeLightbox()">
+  <img id="lbImg" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(el){const lb=document.getElementById('lb');document.getElementById('lbImg').src=el.src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lb').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+
+</body>
+</html>
