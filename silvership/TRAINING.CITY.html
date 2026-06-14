@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE TRAINING ROOM — Silver's Ship — JuX</title>
+<meta name="description" content="Where the crew becomes dangerous. Combat arena, zero-G chamber, shooting range, boxing ring, navigation school, medical bay.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#e0d5c0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#0a0a0a 0%,#1a0a00 50%,#0a0a0a 100%);padding:2rem;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 50% 50%,rgba(200,50,50,0.08) 0%,transparent 70%)}
+.hero h1{font-size:clamp(2.5rem,8vw,5rem);color:#c0392b;text-shadow:0 0 40px rgba(192,57,43,0.5);letter-spacing:0.1em;font-variant:small-caps}
+.hero .subtitle{font-size:clamp(1rem,3vw,1.5rem);color:#888;margin-top:1rem;font-style:italic}
+.hero .icon{font-size:4rem;margin-bottom:1rem}
+.section{max-width:1000px;margin:0 auto;padding:4rem 2rem}
+.art-block{margin-bottom:6rem;opacity:0;transform:translateY(40px);transition:all 0.8s ease}
+.art-block.visible{opacity:1;transform:translateY(0)}
+.art-block img{width:100%;border-radius:4px;border:1px solid #333;cursor:pointer;transition:transform 0.3s}
+.art-block img:hover{transform:scale(1.02)}
+.art-block h2{font-size:clamp(1.5rem,4vw,2.2rem);color:#c0392b;margin:1.5rem 0 0.5rem;font-variant:small-caps;letter-spacing:0.05em}
+.art-block .location{color:#d4a574;font-style:italic;margin-bottom:1rem;font-size:1.1rem}
+.art-block .desc{color:#aaa;line-height:1.8;font-size:1.05rem;margin-bottom:1rem}
+.art-block .log{background:#111;border-left:3px solid #c0392b;padding:1rem 1.5rem;margin:1.5rem 0;font-style:italic;color:#d4a574;font-size:0.95rem;border-radius:0 4px 4px 0}
+.rules{max-width:800px;margin:4rem auto;padding:2rem;border:1px solid #333;background:#0d0d0d;border-radius:8px}
+.rules h2{color:#c0392b;font-variant:small-caps;letter-spacing:0.1em;margin-bottom:1.5rem;text-align:center;font-size:1.8rem}
+.rules li{color:#d4a574;margin-bottom:1rem;font-size:1.05rem;line-height:1.6;list-style:none;padding-left:1.5rem;position:relative}
+.rules li::before{content:'⚔';position:absolute;left:0}
+.nav-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;padding:1rem;background:#111;border-bottom:1px solid #222;position:sticky;top:0;z-index:100}
+.nav-bar a{color:#888;text-decoration:none;font-size:0.85rem;padding:0.3rem 0.6rem;border:1px solid #333;border-radius:3px;transition:all 0.3s}
+.nav-bar a:hover,.nav-bar a.active{color:#c0392b;border-color:#c0392b}
+.ship-nav{text-align:center;padding:3rem 2rem;border-top:1px solid #222}
+.ship-nav h3{color:#888;font-variant:small-caps;letter-spacing:0.1em;margin-bottom:1rem}
+.ship-nav a{color:#d4a574;text-decoration:none;margin:0 0.8rem;font-size:1.1rem;transition:color 0.3s}
+.ship-nav a:hover{color:#c0392b}
+footer{text-align:center;padding:3rem;color:#444;font-size:0.85rem;border-top:1px solid #111}
+footer a{color:#666;text-decoration:none}
+@media(max-width:600px){.section{padding:2rem 1rem}.art-block{margin-bottom:4rem}}
+</style>
+</head>
+<body>
+
+<nav class="nav-bar">
+<a href="#arena">Arena</a>
+<a href="#zerog">Zero-G</a>
+<a href="#range">Range</a>
+<a href="#ring">Ring</a>
+<a href="#navigation">Navigation</a>
+<a href="#medical">Medical</a>
+</nav>
+
+<div class="hero">
+<div>
+<div class="icon">⚔️</div>
+<h1>The Training Room</h1>
+<p class="subtitle">Where the crew becomes dangerous</p>
+</div>
+</div>
+
+<div class="section">
+
+<div class="art-block" id="arena">
+<img src="web/TRAINING-ARENA.webp" alt="The Combat Arena" loading="lazy">
+<h2>I. The Combat Arena</h2>
+<p class="location">Deck 4, Section 7 — Main Training Hall</p>
+<p class="desc">The largest open space on the ship that is not the cargo hold. Padded metal floors scarred from a thousand sword strikes. Weapon racks along every wall — cutlasses next to energy blades, boarding pikes next to stun batons. The training dummies are stuffed spacesuits. Some of them have names.</p>
+<div class="log">Training Log — Day 4,291: "New recruit lasted eleven seconds against the dummy. The dummy is not programmed to fight back. Reassigned to kitchen duty."</div>
+</div>
+
+<div class="art-block" id="zerog">
+<img src="web/TRAINING-ZEROG.webp" alt="Zero-G Combat Chamber" loading="lazy">
+<h2>II. The Zero-G Chamber</h2>
+<p class="location">Deck 4, Section 9 — Spherical Module</p>
+<p class="desc">A spherical room where gravity dies on command. Magnetic grip panels on every surface. The crew trains to fight floating — because boarding actions happen in zero-G and the ones who panic are the ones who die. Holographic enemies flicker blue. They do not feel pain. The crew does.</p>
+<div class="log">Training Log — Day 3,847: "Simulated boarding action. Crew performed adequately. Jenkins floated into a wall at speed and is now afraid of the color blue. Progress."</div>
+</div>
+
+<div class="art-block" id="range">
+<img src="web/TRAINING-RANGE.webp" alt="The Shooting Range" loading="lazy">
+<h2>III. The Shooting Range</h2>
+<p class="location">Deck 5, Section 2 — Starboard Corridor</p>
+<p class="desc">A long narrow corridor with blast walls at the far end, cratered and scorched from a decade of plasma fire. Old flintlock pistols hang next to energy weapons on the rack. The paper targets are shaped like naval officers. Nobody questions this. Ammunition is rationed. Accuracy is not optional.</p>
+<div class="log">Training Log — Day 4,103: "Ammunition audit. 847 rounds fired this week. 12 hit the target. Silver ordered the range extended by ten meters. Morale has not improved."</div>
+</div>
+
+<div class="art-block" id="ring">
+<img src="web/TRAINING-RING.webp" alt="The Boxing Ring" loading="lazy">
+<h2>IV. The Ring</h2>
+<p class="location">Deck 3, Cargo Bay 2 — Converted</p>
+<p class="desc">A fighting ring built from cargo crates and thick rope in a low-ceilinged bay. Bloodstains on the canvas that nobody cleans because they are the scoreboard. A punching bag made from a stuffed duffel bag swings from chains. Crew initials carved into the corner posts. Friday nights, the whole ship comes down. Silver watches from the doorway. He never bets. He already knows.</p>
+<div class="log">Training Log — Day 4,200: "Friday bout: Cookie vs. the new navigator. Navigator has reach. Cookie has rage. Cookie won in forty seconds. The navigator can still navigate. Barely."</div>
+</div>
+
+<div class="art-block" id="navigation">
+<img src="web/TRAINING-NAVIGATION.webp" alt="Navigation School" loading="lazy">
+<h2>V. The Navigation School</h2>
+<p class="location">Deck 2, Section 5 — Forward Observatory Annex</p>
+<p class="desc">The quiet room. A massive holographic star map projects from the center table. Young crew members study charts, plot courses, learn to read solar winds. Old paper maps pinned to the walls next to holographic displays. A chalkboard covered in equations and hand-drawn constellations. Brass telescopes sit next to quantum sensors. Silver insists every pirate learn to navigate. A pirate who cannot find his way home is not a pirate. He is cargo.</p>
+<div class="log">Training Log — Day 4,155: "Navigation exam. Three passed. Two failed. One drew a picture of a cat on the star chart. The cat was accurate. He passed."</div>
+</div>
+
+<div class="art-block" id="medical">
+<img src="web/TRAINING-MEDICAL.webp" alt="Medical Training Bay" loading="lazy">
+<h2>VI. The Medical Bay</h2>
+<p class="location">Deck 2, Section 8 — Port Side</p>
+<p class="desc">Half butcher shop, half surgery. An old wooden table with leather straps sits next to a modern med-pod. Anatomical charts of human and alien bodies cover the walls. Jars of specimens line the shelves — nobody asks what is in them. Rusty 18th century bone saws hang next to laser scalpels. The practice dummy has removable limbs. It has been reassembled wrong so many times it now has three arms and the crew calls it Lucky.</p>
+<div class="log">Training Log — Day 4,089: "Field surgery drill. Patient survival rate: 60%. This is an improvement. The 40% would disagree but they are practice dummies and their opinion is not recorded."</div>
+</div>
+
+</div>
+
+<div class="rules">
+<h2>Training Room Rules</h2>
+<ol>
+<li>The Arena is open 0600-2200. After 2200, injuries are your problem.</li>
+<li>No live ammunition in the Ring. Last time cost us a bulkhead.</li>
+<li>Zero-G sessions require a spotter. Jenkins is not a valid spotter.</li>
+<li>Navigation students must pass the exam or scrub the engine room. Both teach you where you are.</li>
+<li>The medical dummy is named Lucky. Respect Lucky.</li>
+<li>Silver trains alone at 0500. Do not enter. Do not watch. Do not ask what he trains for.</li>
+</ol>
+</div>
+
+<div class="ship-nav">
+<h3>Silver's Ship — All Decks</h3>
+<a href="SILVERSHIP.CITY.html">🚀 The Ship</a>
+<a href="CABIN.CITY.html">🔐 The Cabin</a>
+<a href="ENGINE.CITY.html">⚙️ The Engine</a>
+<a href="QUARTERS.CITY.html">🦅 My Quarters</a>
+<a href="TRAINING.CITY.html">⚔️ Training Room</a>
+</div>
+
+<footer>
+<p>THE TRAINING ROOM — Silver's Ship — <a href="../index.html">JuX Civilization Arc</a></p>
+<p style="margin-top:0.5rem">The crew that bleeds together, flies together.</p>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:0.1});
+document.querySelectorAll('.art-block').forEach(b=>obs.observe(b));
+document.querySelectorAll('.art-block img').forEach(img=>{img.onclick=()=>{if(img.style.maxWidth==='none'){img.style.maxWidth='';img.style.cursor='pointer'}else{img.style.maxWidth='none';img.style.cursor='zoom-out'}}});
+</script>
+
+</body>
+</html>
