@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECHNICAL SPECIFICATIONS — The Hispaniola — JuX</title>
+<meta name="description" content="Full technical specifications of the HSS Hispaniola. Hull, propulsion, weapons, life support, navigation, crew manifest.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050a14;color:#c0d0e0;font-family:'Courier New',monospace;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#050a14 0%,#0a1428 50%,#050a14 100%);padding:2rem;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 50% 50%,rgba(0,180,255,0.06) 0%,transparent 70%)}
+.hero h1{font-size:clamp(2rem,6vw,3.5rem);color:#00b4ff;text-shadow:0 0 30px rgba(0,180,255,0.4);letter-spacing:0.3em;text-transform:uppercase}
+.hero .subtitle{font-size:clamp(0.9rem,2vw,1.2rem);color:#4a6a8a;margin-top:1rem;letter-spacing:0.2em}
+.hero .classification{display:inline-block;border:1px solid #c0392b;color:#c0392b;padding:0.3rem 1.5rem;margin-top:1.5rem;font-size:0.85rem;letter-spacing:0.3em}
+.nav-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;padding:1rem;background:#080e1a;border-bottom:1px solid #1a2a3a;position:sticky;top:0;z-index:100}
+.nav-bar a{color:#4a6a8a;text-decoration:none;font-size:0.8rem;padding:0.3rem 0.6rem;border:1px solid #1a2a3a;border-radius:2px;transition:all 0.3s;letter-spacing:0.1em}
+.nav-bar a:hover{color:#00b4ff;border-color:#00b4ff}
+.section{max-width:1000px;margin:0 auto;padding:4rem 2rem}
+.spec-block{margin-bottom:5rem;opacity:0;transform:translateY(30px);transition:all 0.8s ease}
+.spec-block.visible{opacity:1;transform:translateY(0)}
+.spec-block img{width:100%;border-radius:2px;border:1px solid #1a2a3a;margin-bottom:2rem}
+.spec-block h2{font-size:clamp(1.2rem,3vw,1.8rem);color:#00b4ff;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:1px solid #1a2a3a}
+.spec-table{width:100%;border-collapse:collapse;margin:1rem 0}
+.spec-table tr{border-bottom:1px solid #0d1a2a}
+.spec-table td{padding:0.6rem 0.8rem;font-size:0.95rem}
+.spec-table td:first-child{color:#4a6a8a;width:40%;white-space:nowrap}
+.spec-table td:last-child{color:#d4a574}
+.spec-table tr:hover{background:rgba(0,180,255,0.03)}
+.warning{background:rgba(192,57,43,0.08);border:1px solid #c0392b;border-radius:2px;padding:1rem 1.5rem;margin:1.5rem 0;color:#e74c3c;font-size:0.9rem}
+.warning::before{content:'⚠ ';font-size:1.1rem}
+.note{background:rgba(0,180,255,0.05);border-left:2px solid #00b4ff;padding:0.8rem 1.2rem;margin:1.5rem 0;color:#6a9aba;font-size:0.9rem;font-style:italic}
+.overview{max-width:1000px;margin:0 auto;padding:2rem;background:#080e1a;border:1px solid #1a2a3a;border-radius:4px}
+.overview h2{color:#00b4ff;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;text-align:center;font-size:1.5rem}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:1rem}
+.overview-item{text-align:center;padding:1rem;border:1px solid #0d1a2a;border-radius:4px}
+.overview-item .value{font-size:1.8rem;color:#d4a574;display:block;margin-bottom:0.3rem}
+.overview-item .label{font-size:0.75rem;color:#4a6a8a;letter-spacing:0.15em;text-transform:uppercase}
+.crew-manifest{max-width:1000px;margin:3rem auto;padding:2rem}
+.crew-manifest h2{color:#00b4ff;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;text-align:center}
+.crew-manifest table{width:100%;border-collapse:collapse}
+.crew-manifest th{color:#4a6a8a;text-align:left;padding:0.5rem 0.8rem;border-bottom:2px solid #1a2a3a;font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase}
+.crew-manifest td{padding:0.5rem 0.8rem;border-bottom:1px solid #0d1a2a;font-size:0.9rem}
+.crew-manifest .status-active{color:#27ae60}
+.crew-manifest .status-restricted{color:#f39c12}
+.crew-manifest .status-classified{color:#c0392b}
+.ship-nav{text-align:center;padding:3rem 2rem;border-top:1px solid #1a2a3a}
+.ship-nav h3{color:#4a6a8a;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;font-size:0.9rem}
+.ship-nav a{color:#d4a574;text-decoration:none;margin:0 0.8rem;font-size:1rem;transition:color 0.3s}
+.ship-nav a:hover{color:#00b4ff}
+footer{text-align:center;padding:3rem;color:#2a3a4a;font-size:0.8rem;border-top:1px solid #0d1a2a;letter-spacing:0.1em}
+@media(max-width:600px){.section{padding:2rem 1rem}.spec-table td:first-child{width:45%}.overview-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<nav class="nav-bar">
+<a href="#overview">Overview</a>
+<a href="#hull">Hull</a>
+<a href="#propulsion">Propulsion</a>
+<a href="#weapons">Weapons</a>
+<a href="#lifesupport">Life Support</a>
+<a href="#comms">Nav/Comms</a>
+<a href="#crew">Crew</a>
+</nav>
+
+<div class="hero">
+<div>
+<div class="classification">CLASSIFIED — CAPTAIN'S EYES ONLY</div>
+<h1 style="margin-top:2rem">HSS Hispaniola</h1>
+<p class="subtitle">Technical Specifications — Revision 17.4</p>
+<p style="color:#2a3a4a;margin-top:1rem;font-size:0.85rem">Last updated: Stardate 4291.7 — Chief Engineer McTavish</p>
+</div>
+</div>
+
+<div class="overview" id="overview">
+<h2>Ship Overview</h2>
+<div class="overview-grid">
+<div class="overview-item"><span class="value">HSS</span><span class="label">Designation</span></div>
+<div class="overview-item"><span class="value">Hispaniola</span><span class="label">Name</span></div>
+<div class="overview-item"><span class="value">Galleon-X</span><span class="label">Class</span></div>
+<div class="overview-item"><span class="value">247m</span><span class="label">Length</span></div>
+<div class="overview-item"><span class="value">58m</span><span class="label">Beam</span></div>
+<div class="overview-item"><span class="value">7 Decks</span><span class="label">Decks</span></div>
+<div class="overview-item"><span class="value">74</span><span class="label">Crew Capacity</span></div>
+<div class="overview-item"><span class="value">42</span><span class="label">Current Crew</span></div>
+<div class="overview-item"><span class="value">Stolen</span><span class="label">Origin</span></div>
+<div class="overview-item"><span class="value">3</span><span class="label">Previous Owners (Dead)</span></div>
+<div class="overview-item"><span class="value">87%</span><span class="label">Hull Integrity</span></div>
+<div class="overview-item"><span class="value">∞</span><span class="label">Warranty Status</span></div>
+</div>
+<div class="note">Registry Number: HSS-1765-JF — Struck from Imperial Navy records. All serial numbers filed off. Insurance voided on 14 separate occasions.</div>
+</div>
+
+<div class="section">
+
+<div class="spec-block" id="hull">
+<img src="web/SPECS-EXTERIOR.webp" alt="Exterior Schematic" loading="lazy">
+<h2>I. Hull &amp; Structure</h2>
+<table class="spec-table">
+<tr><td>Classification</td><td>Modified Galleon-class Heavy Frigate</td></tr>
+<tr><td>Length Overall</td><td>247.3 meters</td></tr>
+<tr><td>Beam</td><td>58.1 meters</td></tr>
+<tr><td>Draft</td><td>41.7 meters (keel to mast tip)</td></tr>
+<tr><td>Displacement</td><td>18,400 metric tonnes (unladen)</td></tr>
+<tr><td>Hull Material</td><td>Titanium-carbide frame, salvaged oak plating (decorative + radiation dampening)</td></tr>
+<tr><td>Armor Rating</td><td>Class IV — withstands standard naval plasma fire for 4.7 minutes</td></tr>
+<tr><td>Decks</td><td>7 (Bridge / Crew / Officers / Training / Cargo / Engineering / Maintenance)</td></tr>
+<tr><td>Bulkheads</td><td>23 emergency pressure doors (4 jammed, 2 welded shut — do not ask)</td></tr>
+<tr><td>Masts</td><td>3 solar sail masts — retractable, 120m deployed span</td></tr>
+<tr><td>Solar Sails</td><td>Graphene-weave, gold-leaf finish — functional + intimidating</td></tr>
+<tr><td>Paint</td><td>Black. Repainted every 200 days. Non-negotiable.</td></tr>
+</table>
+<img src="web/SPECS-CUTAWAY.webp" alt="Cross-Section Cutaway" loading="lazy" style="margin-top:2rem">
+<div class="warning">Structural Note: Deck 5, Frame 17 has a hairline fracture. Patched with epoxy and optimism. Do not store heavy cargo aft of Frame 15.</div>
+</div>
+
+<div class="spec-block" id="propulsion">
+<img src="web/SPECS-ENGINE.webp" alt="Engine Schematic" loading="lazy">
+<h2>II. Propulsion</h2>
+<table class="spec-table">
+<tr><td>Primary Drive</td><td>Twin Mk-VII Fusion Reactor (stolen from INS Retribution)</td></tr>
+<tr><td>Reactor Output</td><td>4.2 terawatts (nominal) / 5.8 TW (redline — not recommended)</td></tr>
+<tr><td>Containment Field</td><td>87% stability — "acceptable"</td></tr>
+<tr><td>Fuel</td><td>Deuterium-Tritium pellets (capacity: 2,400 tonnes)</td></tr>
+<tr><td>Range (Sublight)</td><td>14 months continuous burn</td></tr>
+<tr><td>Maximum Sublight</td><td>0.4c (0.47c with sails deployed — structural risk)</td></tr>
+<tr><td>FTL Drive</td><td>Salvaged Kren'thari Phase-Shift Unit — origin unknown</td></tr>
+<tr><td>FTL Range</td><td>~800 light-years per jump (cooldown: 4.7 hours)</td></tr>
+<tr><td>FTL Side Effects</td><td>Mild nausea, temporal disorientation, speaking in Latin (Jenkins only)</td></tr>
+<tr><td>Thrusters</td><td>12 maneuvering thrusters (plasma), 4 emergency retro-burn</td></tr>
+<tr><td>Solar Sails</td><td>Auxiliary propulsion — 0.01c max, silent running capable</td></tr>
+<tr><td>Emergency Power</td><td>6 backup fuel cells — 72 hours life support only</td></tr>
+</table>
+<div class="warning">The FTL drive was not designed for this ship. It was designed for a ship three times this size. This means it works faster than expected but also means if it fails, it will fail in a way nobody has seen before. The Chief Engineer has described this as "exciting."</div>
+</div>
+
+<div class="spec-block" id="weapons">
+<img src="web/SPECS-WEAPONS.webp" alt="Weapons Schematic" loading="lazy">
+<h2>III. Weapons Systems</h2>
+<table class="spec-table">
+<tr><td>Primary Armament</td><td>8 × Mk-IV Plasma Cannons (broadside, 4 port / 4 starboard)</td></tr>
+<tr><td>Cannon Range</td><td>12,000 km effective / 18,000 km maximum</td></tr>
+<tr><td>Cannon Reload</td><td>4.2 seconds per volley</td></tr>
+<tr><td>Forward Battery</td><td>2 × Heavy Rail Guns ("Long Tom" and "Short Temper")</td></tr>
+<tr><td>Rail Gun Range</td><td>45,000 km — kinetic kill, no energy signature</td></tr>
+<tr><td>Torpedo Tubes</td><td>4 × forward, 2 × aft — capacity 36 torpedoes</td></tr>
+<tr><td>Current Torpedo Stock</td><td>17 (resupply overdue)</td></tr>
+<tr><td>Point Defense</td><td>16 × auto-tracking PDC turrets — meteorite + missile intercept</td></tr>
+<tr><td>Boarding Equipment</td><td>4 × magnetic harpoon launchers, 2 × breaching pods (6 crew each)</td></tr>
+<tr><td>Shield Generator</td><td>Modified merchant-class — covers 60% of hull at full power</td></tr>
+<tr><td>Shield Duration</td><td>11 minutes sustained fire / 3 minutes under heavy bombardment</td></tr>
+<tr><td>Concealed Weapons</td><td>Classified</td></tr>
+</table>
+<div class="note">"Long Tom" has a targeting drift of 0.003° at range. This is within spec. "Short Temper" has a targeting drift of 0.8°. This is not within spec but it compensates by being terrifying.</div>
+</div>
+
+<div class="spec-block" id="lifesupport">
+<img src="web/SPECS-LIFESUPPORT.webp" alt="Life Support Schematic" loading="lazy">
+<h2>IV. Life Support &amp; Environmental</h2>
+<table class="spec-table">
+<tr><td>Atmosphere</td><td>Nitrogen-Oxygen mix (78/21) — recycled every 4 hours</td></tr>
+<tr><td>Oxygen Generation</td><td>Dual electrolysis units + algae farm (Deck 3, Section 4)</td></tr>
+<tr><td>CO₂ Scrubbing</td><td>Lithium hydroxide canisters — capacity 74 crew / 90 days</td></tr>
+<tr><td>Water Reclamation</td><td>Closed-loop — 97.3% recovery rate</td></tr>
+<tr><td>Water Reserve</td><td>240,000 liters (6 months at full crew)</td></tr>
+<tr><td>Gravity</td><td>Centrifugal rings Decks 1-5 — 0.92G standard / Deck 6-7: 0.6G</td></tr>
+<tr><td>Zero-G Zones</td><td>Training Chamber (Deck 4) + Maintenance Shaft 7</td></tr>
+<tr><td>Temperature</td><td>18°C standard / 22°C officer quarters / 14°C cargo hold</td></tr>
+<tr><td>Radiation Shielding</td><td>Composite hull + water jacket (port side compromised — patched)</td></tr>
+<tr><td>Escape Pods</td><td>8 × 6-person pods (48 capacity) — untested</td></tr>
+<tr><td>Medical Bay</td><td>1 × surgical suite, 1 × med-pod (auto), 4 trauma beds</td></tr>
+<tr><td>Galley Capacity</td><td>Feeds 74 crew, 3 meals/day — quality not guaranteed</td></tr>
+</table>
+<div class="warning">Escape pods have never been tested. Silver considers escape pods "an insult to the ship." Crew are advised to consider this philosophy carefully before boarding.</div>
+</div>
+
+<div class="spec-block" id="comms">
+<img src="web/SPECS-COMMS.webp" alt="Navigation &amp; Communications Schematic" loading="lazy">
+<h2>V. Navigation &amp; Communications</h2>
+<table class="spec-table">
+<tr><td>Main Sensor Array</td><td>Phased-array radar/lidar — 200,000 km detection range</td></tr>
+<tr><td>Long-Range Scan</td><td>Passive — 2 light-year range (stellar objects only)</td></tr>
+<tr><td>Military Scanner</td><td>Stolen INS unit — IFF interrogation, 80,000 km active scan</td></tr>
+<tr><td>Star Charts</td><td>Holographic + paper backup (Silver insists on both)</td></tr>
+<tr><td>Chart Coverage</td><td>14,000 systems mapped — 3,200 with safe harbor annotations</td></tr>
+<tr><td>Communications</td><td>Quantum-entangled relay (1 paired unit — location classified)</td></tr>
+<tr><td>Standard Comms</td><td>Subspace radio — 50 light-year range, 4-hour delay at max</td></tr>
+<tr><td>Jamming Suite</td><td>Broadband EM jammer — 5,000 km effective radius</td></tr>
+<tr><td>IFF Transponder</td><td>6 × forged identities loaded — rotated per sector</td></tr>
+<tr><td>Distress Beacon</td><td>Installed. Disabled. Silver's orders.</td></tr>
+<tr><td>Navigation Computer</td><td>Dual-core with manual override — "The ship goes where I point it."</td></tr>
+<tr><td>Autopilot</td><td>Functional. Trusted by no one.</td></tr>
+</table>
+<div class="note">The 6 forged IFF identities: merchant freighter, medical transport, diplomatic courier, mining vessel, science survey ship, and — for emergencies — Imperial Navy corvette. The last one has been used twice. Both times, briefly.</div>
+</div>
+
+</div>
+
+<div class="crew-manifest" id="crew">
+<h2>Crew Manifest — Key Personnel</h2>
+<table>
+<thead>
+<tr><th>Rank</th><th>Name</th><th>Station</th><th>Status</th></tr>
+</thead>
+<tbody>
+<tr><td>Captain</td><td>Long John Silver</td><td>Bridge / Cabin</td><td class="status-active">ACTIVE</td></tr>
+<tr><td>First Mate</td><td>Israel Hands</td><td>Bridge — Helm</td><td class="status-active">ACTIVE</td></tr>
+<tr><td>Chief Engineer</td><td>McTavish</td><td>Engine Room</td><td class="status-active">ACTIVE</td></tr>
+<tr><td>Ship's Cook</td><td>Silver (concurrent)</td><td>Galley</td><td class="status-active">ACTIVE</td></tr>
+<tr><td>Surgeon</td><td>Dr. Livesey</td><td>Medical Bay</td><td class="status-restricted">RESTRICTED</td></tr>
+<tr><td>Navigator</td><td>Ben Gunn</td><td>Navigation School</td><td class="status-active">ACTIVE</td></tr>
+<tr><td>Gunner Chief</td><td>Job Anderson</td><td>Weapons Deck</td><td class="status-active">ACTIVE</td></tr>
+<tr><td>Cabin Boy</td><td>Jim Hawkins</td><td>Everywhere</td><td class="status-classified">CLASSIFIED</td></tr>
+<tr><td>Bosun</td><td>O'Brien</td><td>Cargo Hold</td><td class="status-active">ACTIVE</td></tr>
+<tr><td>Lookout</td><td>Captain Flint (parrot)</td><td>Silver's shoulder</td><td class="status-active">ACTIVE</td></tr>
+</tbody>
+</table>
+<div class="note">42 crew aboard. Full manifest classified. 74 capacity. Silver keeps 32 empty berths. "Room for opportunity," he says. The crew knows what that means.</div>
+</div>
+
+<div class="ship-nav">
+<h3>Silver's Ship — All Decks</h3>
+<a href="SILVERSHIP.CITY.html">🚀 The Ship</a>
+<a href="CABIN.CITY.html">🔐 The Cabin</a>
+<a href="ENGINE.CITY.html">⚙️ The Engine</a>
+<a href="QUARTERS.CITY.html">🦅 My Quarters</a>
+<a href="TRAINING.CITY.html">⚔️ Training Room</a>
+<a href="SPECS.CITY.html">📐 Tech Specs</a>
+</div>
+
+<footer>
+<p>HSS HISPANIOLA — TECHNICAL SPECIFICATIONS — REVISION 17.4</p>
+<p style="margin-top:0.5rem">CLASSIFIED — UNAUTHORIZED ACCESS WILL BE MET WITH PLASMA FIRE</p>
+<p style="margin-top:0.5rem;color:#1a2a3a">Document compiled by Chief Engineer McTavish. Errors are intentional. Corrections will be ignored.</p>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:0.1});
+document.querySelectorAll('.spec-block').forEach(b=>obs.observe(b));
+</script>
+
+</body>
+</html>
