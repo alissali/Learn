@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SINDBAD'S STORE — Seven Voyages, One Address</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='28' font-size='28'>⛵</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08060a;color:#c4956a;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#08060a 0%,#1a1008 40%,#2a1a0e 70%,#3a2515 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 80%,rgba(196,149,106,0.12) 0%,transparent 60%);pointer-events:none}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:#c4956a;text-shadow:0 0 60px rgba(196,149,106,0.3)}
+.hero .subtitle{font-size:clamp(0.9rem,2.5vw,1.3rem);margin-top:1rem;color:#8a6540;letter-spacing:0.3em;font-style:italic}
+.separator{text-align:center;padding:2rem 0;font-size:1.5rem;color:#3a2515}
+section{max-width:1200px;margin:0 auto;padding:4rem 2rem}
+.card{margin-bottom:5rem;position:relative}
+.card-title{font-size:clamp(1.3rem,3.5vw,2rem);color:#c4956a;margin-bottom:0.5rem;letter-spacing:0.1em;text-transform:uppercase}
+.card-subtitle{font-size:0.9rem;color:#6a4530;margin-bottom:1.5rem;font-style:italic;letter-spacing:0.05em}
+.card img{width:100%;border-radius:4px;cursor:pointer;transition:transform 0.3s ease;border:1px solid #2a1a0e}
+.card img:hover{transform:scale(1.02)}
+.card-text{margin-top:1.5rem;font-size:1.05rem;line-height:1.8;color:#a8804a}
+.card-quote{margin-top:1rem;padding:1rem 1.5rem;border-left:3px solid #3a2515;font-style:italic;color:#7a5a30;font-size:0.95rem}
+.voyage-list{background:#100c06;border:1px solid #2a1a0e;border-radius:6px;padding:2.5rem;margin:2rem auto;max-width:900px}
+.voyage-list h2{text-align:center;font-size:1.8rem;color:#c4956a;margin-bottom:2rem;letter-spacing:0.15em}
+.voyage-list table{width:100%;border-collapse:collapse}
+.voyage-list td{padding:0.6rem 1rem;border-bottom:1px solid #1a1008;font-size:0.95rem}
+.voyage-list td:first-child{color:#6a4530;width:30%;font-style:italic}
+.voyage-list td:last-child{color:#c4956a}
+.specs{background:#100c06;border:1px solid #2a1a0e;border-radius:6px;padding:2.5rem;margin:2rem auto;max-width:900px}
+.specs h2{text-align:center;font-size:1.8rem;color:#c4956a;margin-bottom:2rem;letter-spacing:0.15em}
+.specs table{width:100%;border-collapse:collapse}
+.specs td{padding:0.6rem 1rem;border-bottom:1px solid #1a1008;font-size:0.95rem}
+.specs td:first-child{color:#6a4530;width:40%;font-style:italic}
+.specs td:last-child{color:#c4956a}
+.footer{text-align:center;padding:4rem 2rem;color:#3a2515;font-size:0.85rem;letter-spacing:0.1em}
+.footer a{color:#6a4530;text-decoration:none;border-bottom:1px solid #3a2515;transition:color 0.3s}
+.footer a:hover{color:#c4956a}
+.nav-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:1rem}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;cursor:pointer;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:4px}
+@media(max-width:768px){section{padding:2rem 1rem}.card{margin-bottom:3rem}.specs{padding:1.5rem}.voyage-list{padding:1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div>
+<h1>Sindbad's Store</h1>
+<div class="subtitle">Seven Voyages — One Address — Baghdad, The Souk of Wonders</div>
+</div>
+</div>
+
+<div class="separator">⛵ · 🧭 · ⛵</div>
+
+<section>
+
+<div class="card">
+<div class="card-title">I. The Storefront</div>
+<div class="card-subtitle">Where the Souk of Wonders begins — and the ordinary world ends</div>
+<img src="web/SINDBAD-STOREFRONT.webp" loading="lazy" alt="Sindbad's Storefront" onclick="openLightbox(this)">
+<div class="card-text">It does not look like the richest store in Baghdad. That is the point. The cedar arch is old but not grand. The mother-of-pearl inlay is chipped in places Sindbad refuses to repair — each chip is a storm survived. The goods that spill onto the street are the ordinary ones. Carpets that fly nowhere. Lamps with no djinn inside. The extraordinary things are deeper in. You have to earn the back rooms. The compass rose above the door points in five directions. The fifth is down.</div>
+<div class="card-quote">"I sell what I brought back. I do not sell what I left behind. What I left behind is not for sale because it is not mine — it belongs to the sea."</div>
+</div>
+
+<div class="card">
+<div class="card-title">II. The Map Room</div>
+<div class="card-subtitle">Seven routes — seven nightmares — seven returns</div>
+<img src="web/SINDBAD-MAPROOM.webp" loading="lazy" alt="The Map Room" onclick="openLightbox(this)">
+<div class="card-text">The maps are wrong. All of them. The sea does not hold still long enough to be drawn. But Sindbad keeps them because the errors are the story. Here — where the red line veers east — that is where the whale surfaced and he mistook its back for an island. There — where the ink smudges — that is where the Roc's shadow blotted out the sun and he dropped the pen. Seven voyages. Seven red lines. Each one starts from Baghdad and returns to Baghdad. The distances between departure and return grow shorter on the map. In reality, they grow longer.</div>
+<div class="card-quote">"The astrolabe tells you where you are. The compass tells you where to go. The map tells you where you have been. Only one of these is useful, and it is not the one you think."</div>
+</div>
+
+<div class="card">
+<div class="card-title">III. The Trophy Gallery</div>
+<div class="card-subtitle">Every wonder has a weight — Sindbad carried them all home</div>
+<img src="web/SINDBAD-TROPHIES.webp" loading="lazy" alt="The Trophy Gallery" onclick="openLightbox(this)">
+<div class="card-text">The Roc feather is taller than a man. It is not displayed because it is impressive. It is displayed because no one believes him without it. The diamond from the Valley of Serpents sits in a case that cost more than most houses — the diamond itself is priceless because its price killed everyone who tried to set one. The Old Man of the Sea's vine rope is under glass, still knotted the way it was around Sindbad's neck. He keeps it as a reminder. Of what? He does not say. The brass plaque on each trophy lists the voyage number. Nothing else. The stories behind them are not written. They are earned — sit down, drink tea, and Sindbad will tell you. If he feels like it.</div>
+<div class="card-quote">"The feather is proof. The diamond is wealth. The rope is a scar. I keep all three because a man who forgets his scars will earn new ones."</div>
+</div>
+
+<div class="card">
+<div class="card-title">IV. The Warehouse</div>
+<div class="card-subtitle">Where the voyages become commerce — and commerce becomes survival</div>
+<img src="web/SINDBAD-WAREHOUSE.webp" loading="lazy" alt="The Warehouse" onclick="openLightbox(this)">
+<div class="card-text">Seven voyages brought back more than stories. Chinese silk by the bolt — each one a different dynasty. Indian spices in sacks so full they lean against each other like old men. African ivory that Sindbad will not sell because the elephants were kind to him once and he remembers. Persian carpets he bought for pennies from a man who did not know what he had. Sandalwood, camphor, cinnamon, cloves, nutmeg — the warehouse smells like every port he has ever visited, simultaneously. The brass scales have not been calibrated in years. They do not need to be. Sindbad's word is the calibration.</div>
+<div class="card-quote">"I weigh with my hands before I weigh with brass. The hands know what the scales pretend."</div>
+</div>
+
+<div class="card">
+<div class="card-title">V. The Dock</div>
+<div class="card-subtitle">The Tigris remembers every departure — and counts every return</div>
+<img src="web/SINDBAD-DOCK.webp" loading="lazy" alt="The Dock" onclick="openLightbox(this)">
+<div class="card-text">The private dock behind the store. The current vessel — his eighth, or ninth, he has lost count of the ones the sea took — is a dhow with a compass rose carved into the figurehead. The lateen sails are furled but never stored. Sindbad does not believe in storing sails. A stored sail is a man who has decided not to leave. The crates being loaded are going to Basra, then Muscat, then wherever the wind argues. The dockworkers do not ask where. They know that Sindbad's destinations are suggestions the sea will overrule.</div>
+<div class="card-quote">"The river is not the sea. The river is the promise the sea makes and does not keep. I launch from the promise. I return to it. The sea in between is God's business."</div>
+</div>
+
+<div class="card">
+<div class="card-title">VI. The Story Room</div>
+<div class="card-subtitle">Where Hindbad sat — and the world changed shape</div>
+<img src="web/SINDBAD-STORYROOM.webp" loading="lazy" alt="The Story Room" onclick="openLightbox(this)">
+<div class="card-text">The silk cushions are arranged so that everyone faces the chair. The chair is not a throne — Sindbad insists on this — it is simply the oldest chair in Baghdad that happens to be carved with sea creatures by a craftsman who had never seen the sea. The tea is always hot. The dates are always fresh. The incense is always sandalwood because sandalwood is the smell of Voyage Three and Voyage Three is the one Sindbad tells best. Hindbad the porter came in from the street, complaining about the weight of the world. Sindbad said: sit. I will tell you about weight. Seven nights. Seven stories. By the end, Hindbad was not a porter anymore. He was a man who understood that suffering is not unique — but surviving it seven times is a choice.</div>
+<div class="card-quote">"I do not tell stories. I return cargo. The stories are what I carried back that had no weight and no price and no shelf. They are the most valuable goods in the store and I give them away for free. This is not generosity. This is the only way to set them down."</div>
+</div>
+
+</section>
+
+<div class="voyage-list">
+<h2>⛵ The Seven Voyages</h2>
+<table>
+<tr><td>Voyage I</td><td>The Whale Island — mistook a whale for land, shipwrecked, saved by driftwood and luck</td></tr>
+<tr><td>Voyage II</td><td>The Valley of Diamonds — trapped, escaped by tying himself to a Roc's leg with raw meat</td></tr>
+<tr><td>Voyage III</td><td>The Cannibals' Island — captured, fattened for eating, escaped by wit and fire</td></tr>
+<tr><td>Voyage IV</td><td>The Burial Alive — buried with his dead wife per custom, survived in the tomb by killing</td></tr>
+<tr><td>Voyage V</td><td>The Old Man of the Sea — carried him on his shoulders until he fermented grapes and got him drunk</td></tr>
+<tr><td>Voyage VI</td><td>The River Under the Mountain — raft through underground darkness into a kingdom of rubies</td></tr>
+<tr><td>Voyage VII</td><td>The Elephant Graveyard — captured by elephants, shown their ivory graveyard, freed as a witness</td></tr>
+</table>
+</div>
+
+<div class="specs">
+<h2>🧭 Store Specifications</h2>
+<table>
+<tr><td>Location</td><td>Baghdad — The Souk of Wonders — left at the copper sellers, right at the smell of cardamom</td></tr>
+<tr><td>Proprietor</td><td>Sindbad ibn Ahmad — Sailor, Merchant, Survivor (x7)</td></tr>
+<tr><td>Voyages completed</td><td>7 — each one should have been the last</td></tr>
+<tr><td>Ships lost</td><td>At least 6 — the sea keeps no receipts</td></tr>
+<tr><td>Current vessel</td><td>Unnamed dhow — "naming a ship is daring the sea to learn its name"</td></tr>
+<tr><td>Inventory</td><td>Silk (Chinese) · Spice (Indian) · Ivory (African, not for sale) · Carpets (Persian) · Diamonds (Valley) · Stories (free)</td></tr>
+<tr><td>Trophy count</td><td>7 major — one per voyage — the Roc feather takes up a whole wall</td></tr>
+<tr><td>Staff</td><td>Hindbad (reformed porter) · 12 dockworkers · 1 chai boy (never stops)</td></tr>
+<tr><td>Operating hours</td><td>Dawn to when Sindbad finishes his story — whichever comes later</td></tr>
+<tr><td>Returns policy</td><td>No returns. You bought what you bought. Sindbad survived worse.</td></tr>
+<tr><td>Price negotiation</td><td>Sindbad names the price. The price does not move. The sea taught him what things cost.</td></tr>
+</table>
+</div>
+
+<div class="footer">
+<p>⛵ SINDBAD'S STORE — Seven voyages. One address. The stories are free. The tea is endless. ⛵</p>
+<div class="nav-links">
+<a href="../cavern/CAVERN.CITY.html">🏺 Ali Baba's Cavern</a>
+<a href="../omayyad/OMAYYAD.CITY.html">🕌 Omayyad</a>
+<a href="../shami/DAMASCUS.CITY.html">☀️ Damascus</a>
+<a href="../palmyra/PALMYRA.CITY.html">🏛️ Palmyra</a>
+<a href="../silver/SILVER.CITY.html">🏴‍☠️ Silver's Interior</a>
+<a href="../hitchhiker/HITCHHIKER.CITY.html">📗 The Guide</a>
+</div>
+<p style="margin-top:2rem;color:#2a1a0e">JuX — NAME / FACT / TARGET</p>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightbox-img" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(img){const lb=document.getElementById('lightbox');const lbImg=document.getElementById('lightbox-img');lbImg.src=img.src.replace('/web/','/').replace('.webp','.png');lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
