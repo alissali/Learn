@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE ENGINE — Where the Ship Breathes</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--hull:#080c18;--steel:#0f1830;--plasma-blue:#0088ff;--plasma-orange:#ff4400;--warning:#ff2200;--gold:#ffd700;--steam:rgba(200,220,255,0.08)}
+body{background:var(--hull);color:#8899bb;font-family:'Courier New',monospace;overflow-x:hidden}
+.sparks{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.spark{position:absolute;border-radius:50%}
+.hull-panel{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:20px}
+.engine-header{text-align:center;padding:80px 20px 40px}
+.engine-header h1{font-size:clamp(2rem,6vw,3.5rem);color:var(--plasma-blue);text-shadow:0 0 40px rgba(0,136,255,0.6),0 0 80px rgba(0,136,255,0.3);letter-spacing:6px;margin-bottom:10px;animation:pulse-glow 3s ease-in-out infinite}
+.engine-header .subtitle{font-size:clamp(0.9rem,2.5vw,1.2rem);color:var(--plasma-orange);letter-spacing:8px;text-transform:uppercase}
+.engine-header .tagline{font-size:0.9rem;color:#556;margin-top:20px;font-style:italic;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6}
+@keyframes pulse-glow{0%,100%{text-shadow:0 0 40px rgba(0,136,255,0.6),0 0 80px rgba(0,136,255,0.3)}50%{text-shadow:0 0 60px rgba(0,136,255,0.8),0 0 120px rgba(0,136,255,0.5)}}
+.section{margin:40px 0;border:1px solid rgba(0,136,255,0.12);border-radius:8px;overflow:hidden;background:rgba(15,24,48,0.8)}
+.section-header{background:linear-gradient(135deg,rgba(0,136,255,0.08),rgba(255,68,0,0.05));padding:25px 30px;cursor:pointer;display:flex;align-items:center;gap:15px;transition:background 0.3s}
+.section-header:hover{background:linear-gradient(135deg,rgba(0,136,255,0.15),rgba(255,68,0,0.1))}
+.section-icon{font-size:2rem}
+.section-header h2{font-size:1.3rem;color:var(--plasma-blue);flex:1}
+.section-arrow{color:var(--plasma-orange);font-size:1.2rem;transition:transform 0.3s}
+.section.open .section-arrow{transform:rotate(180deg)}
+.section-content{max-height:0;overflow:hidden;transition:max-height 0.6s ease}
+.section.open .section-content{max-height:3000px}
+.section-inner{padding:30px}
+.section-quote{font-style:italic;color:var(--plasma-orange);border-left:3px solid var(--plasma-blue);padding:15px 20px;margin-bottom:25px;background:rgba(0,136,255,0.03);font-size:0.95rem;line-height:1.7}
+.section-img{width:100%;border-radius:6px;margin:20px 0;border:1px solid rgba(0,136,255,0.12);cursor:pointer;transition:transform 0.3s}
+.section-img:hover{transform:scale(1.02)}
+.section-img[data-src]{min-height:200px;background:var(--steel)}
+.section-text{line-height:1.8;margin:15px 0;color:#8899bb}
+.section-text strong{color:var(--plasma-orange)}
+.gauge{margin:25px 0;border:1px solid rgba(0,136,255,0.1);border-radius:6px;overflow:hidden}
+.gauge-title{background:rgba(0,136,255,0.06);padding:12px 20px;color:var(--plasma-blue);font-size:0.85rem;letter-spacing:2px}
+.gauge-item{display:flex;justify-content:space-between;padding:10px 20px;border-top:1px solid rgba(0,136,255,0.06);font-size:0.85rem}
+.gauge-item .name{color:#8899bb}.gauge-item .val{color:var(--plasma-orange)}
+.gauge-item .val.danger{color:var(--warning);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.warning-box{background:rgba(255,34,0,0.08);border:1px solid rgba(255,34,0,0.3);border-radius:6px;padding:20px;margin:20px 0;color:var(--warning);font-size:0.9rem;text-align:center}
+.nav-links{text-align:center;padding:40px 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.nav-link{color:var(--plasma-blue);text-decoration:none;padding:10px 20px;border:1px solid rgba(0,136,255,0.2);border-radius:6px;font-size:0.85rem;transition:all 0.3s}
+.nav-link:hover{background:rgba(0,136,255,0.1);border-color:var(--plasma-blue)}
+.footer{text-align:center;padding:60px 20px;color:#334;font-size:0.75rem;line-height:1.8}
+.footer a{color:var(--plasma-blue);text-decoration:none}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;cursor:pointer;justify-content:center;align-items:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="sparks" id="sparks"></div>
+<div class="hull-panel">
+
+<div class="engine-header">
+<h1>⚙️ THE ENGINE</h1>
+<div class="subtitle">Where the Ship Breathes</div>
+<div class="tagline">"The engine room is the only honest part of the ship. The bridge lies — it shows you where you want to go. The cabin lies — it shows you who you want to be. The engine tells you what you are: a stolen reactor bolted to a stolen hull, running on stolen fuel, going somewhere you shouldn't."</div>
+</div>
+
+<!-- 1. THE REACTOR CORE -->
+<div class="section open" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">⚛️</span>
+<h2>THE REACTOR CORE</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"The reactor is a star that Silver put in a cage. It doesn't like the cage. You can hear it complaining. That hum? That's not power. That's rage."</div>
+<img class="section-img" data-src="web/ENGINE-CORE.webp" alt="The Reactor Core" loading="lazy">
+<p class="section-text">A <strong>massive cylindrical containment chamber</strong> — brass rings and steel bands holding together what God meant to keep apart. Inside: <strong>deep blue plasma</strong> swirling like a hurricane in a bottle. The plasma is fusion — hydrogen atoms dying so the ship can live. The containment field was rated for a naval corvette. Silver put it in a galleon. The math doesn't work. <strong>The engine doesn't care about math.</strong></p>
+<p class="section-text">Energy conduits radiate outward from the core like <strong>roots of a burning tree</strong>. Three levels of catwalks circle the reactor. Nobody walks on the bottom one. The vibration loosened a man's teeth once. He didn't report it. He just stopped eating hard food. The <strong>red warning lights</strong> flash in patterns the chief engineer says mean nothing. The crew disagrees. They've learned to read the lights like weather.</p>
+<div class="gauge">
+<div class="gauge-title">⚛️ REACTOR READINGS</div>
+<div class="gauge-item"><span class="name">Core temperature</span><span class="val danger">14,200°K — NOMINAL (barely)</span></div>
+<div class="gauge-item"><span class="name">Containment field</span><span class="val">87% — down from 94% last month</span></div>
+<div class="gauge-item"><span class="name">Plasma density</span><span class="val">3.2 × 10²⁴ particles/m³</span></div>
+<div class="gauge-item"><span class="name">Vibration</span><span class="val danger">Class 4 — "teeth-loosening"</span></div>
+<div class="gauge-item"><span class="name">Last inspection</span><span class="val">Never. Don't ask.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 2. THE BOILER ROOM -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">🔧</span>
+<h2>THE BOILER ROOM</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"The pressure gauges are all in the red. They've been in the red since Silver stole the ship. The chief engineer painted a new red line above the old one. Problem solved."</div>
+<img class="section-img" data-src="web/ENGINE-BOILERS.webp" alt="The Boiler Room" loading="lazy">
+<p class="section-text"><strong>Giant copper and brass boilers</strong> bolted to the walls — heat exchangers that take the reactor's fury and turn it into something the ship can use. Pressure gauges everywhere. Every needle in the red. Some gauges have been taped over so nobody has to look at them. This is not negligence. <strong>This is philosophy.</strong> If you can't fix it, don't measure it.</p>
+<p class="section-text">Steam pipes <strong>leak</strong>. Not because they're broken — because the ship is alive and alive things sweat. Riveted iron plates are patched with welded scrap metal from three different ships. Battle damage repaired by whoever was closest with whatever was available. A <strong>mechanic's workbench</strong> holds alien engine parts, fourteen wrenches (none the right size), and a <strong>half-eaten sandwich</strong>. The sandwich has been there for two weeks. It's become a landmark.</p>
+<div class="gauge">
+<div class="gauge-title">🔧 BOILER STATUS</div>
+<div class="gauge-item"><span class="name">Boiler 1 (Port)</span><span class="val danger">PRESSURE: RED</span></div>
+<div class="gauge-item"><span class="name">Boiler 2 (Starboard)</span><span class="val danger">PRESSURE: RED (gauge taped over)</span></div>
+<div class="gauge-item"><span class="name">Boiler 3 (Auxiliary)</span><span class="val">OFFLINE — used as storage</span></div>
+<div class="gauge-item"><span class="name">Steam leaks</span><span class="val">17 known, ∞ unknown</span></div>
+<div class="gauge-item"><span class="name">The sandwich</span><span class="val">Day 14. Still there. Landmark.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 3. THE FTL DRIVE -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">✨</span>
+<h2>THE FTL DRIVE</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"Nobody knows how the FTL drive works. Not the chief engineer. Not Silver. Not the species that built it — they're extinct. The drive works because it doesn't know it shouldn't."</div>
+<img class="section-img" data-src="web/ENGINE-FTL.webp" alt="The FTL Drive" loading="lazy">
+<p class="section-text">In a dark room at the center of the ship: a <strong>crystalline sphere</strong> surrounded by rotating metal rings. It glows — shifting from deep purple to blinding white in a pattern nobody has mapped. This is the <strong>FTL drive</strong>. It was not built. It was <strong>found</strong>. On a dead ship orbiting a dead star in a system with no name. Silver took it because it was glowing. He bolted it in because it fit. <strong>It worked. Nobody asked why.</strong></p>
+<p class="section-text">Cables and conduits connect it to the ship's systems in <strong>jury-rigged chaos</strong> — human wiring spliced into alien circuits with prayers and solder. Warning signs in <strong>seven languages</strong>, four of them from species no longer alive. The floor around it is <strong>scorched</strong>. People don't stay in this room long. The chief engineer times his visits: ninety seconds in, ninety seconds out. He says longer than that and you start <strong>hearing your own thoughts from yesterday</strong>.</p>
+<div class="warning-box">⚠️ WARNING: DO NOT REMAIN IN FTL CHAMBER FOR MORE THAN 90 SECONDS<br>SIDE EFFECTS INCLUDE: temporal echoes, déjà vu, existential clarity, and knowing the exact moment of your death.<br>THE MANAGEMENT IS NOT RESPONSIBLE.</div>
+</div></div>
+</div>
+
+<!-- 4. FUEL STORAGE -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">🛢️</span>
+<h2>FUEL STORAGE</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"The fuel gauge reads between QUARTER and EMPTY. It's read between QUARTER and EMPTY for three years. Either the gauge is broken or Silver knows something about fuel that physics doesn't."</div>
+<img class="section-img" data-src="web/ENGINE-FUEL.webp" alt="Fuel Storage" loading="lazy">
+<p class="section-text">Rows of <strong>massive cylindrical fuel cells</strong> glowing amber, held in iron cradles bolted floor to ceiling. Each cell is marked with alien symbols — the original manifests of ships that don't exist anymore. Over the alien symbols: <strong>hand-painted skull and crossbones</strong>. Stolen fuel. Every drop.</p>
+<p class="section-text">A pipe manifold connects them all to the reactor feed. The <strong>fuel gauge on the wall</strong> has been telling the same story for three years: somewhere between hope and empty. A crew member sleeps in a <strong>hammock strung between two fuel cells</strong>. His job is to watch the gauges. He's reading a book. He's been reading the same book for six months. Nobody has told him the fuel cells can explode. <strong>He didn't ask. Silver didn't volunteer.</strong></p>
+<div class="gauge">
+<div class="gauge-title">🛢️ FUEL STATUS</div>
+<div class="gauge-item"><span class="name">Cell 1</span><span class="val">38% — stolen from HMS Constellation</span></div>
+<div class="gauge-item"><span class="name">Cell 2</span><span class="val">22% — stolen from Proxima Fuel Depot</span></div>
+<div class="gauge-item"><span class="name">Cell 3</span><span class="val danger">7% — stolen from a church ship (Silver felt bad)</span></div>
+<div class="gauge-item"><span class="name">Cell 4</span><span class="val">EMPTY — used as rum storage</span></div>
+<div class="gauge-item"><span class="name">Range estimate</span><span class="val danger">Unknown. Depends on prayers.</span></div>
+<div class="gauge-item"><span class="name">Hammock watchman</span><span class="val">Asleep. Page 247. Same book.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 5. ENGINE CONTROLS -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">🎛️</span>
+<h2>THE CONTROL ROOM</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"The chief engineer is either a genius or a madman. The ship can't tell the difference. Neither can Silver. That's why he hired him."</div>
+<img class="section-img" data-src="web/ENGINE-CONTROLS.webp" alt="Engine Control Room" loading="lazy">
+<p class="section-text">A <strong>cramped room</strong> surrounded on every side by controls. Analog gauges, toggle switches, spinning dials, levers with worn rubber grips — mixed with <strong>holographic displays</strong> showing reactor diagnostics in real-time. The chief engineer sits in the center like a spider in a web of information. Every gauge tells a story. Most of the stories are bad. <strong>He knows which bad stories to ignore.</strong></p>
+<p class="section-text">A <strong>brass speaking tube</strong> connects to the bridge — old technology because Silver doesn't trust digital comms for the important things. "How's the engine?" comes down the tube. "Still here," goes back up. That's the entire daily report. <strong>Coffee mugs</strong> stacked seven high. <strong>Post-it notes</strong> with handwritten calculations stuck to every screen — some in math, some in a language the chief made up because existing languages didn't have the right words. He's brilliant. He doesn't clean. <strong>The room smells like coffee and the future.</strong></p>
+<div class="gauge">
+<div class="gauge-title">🎛️ CONTROL ROOM STATUS</div>
+<div class="gauge-item"><span class="name">Coffee mugs</span><span class="val">7 stacked. Load-bearing.</span></div>
+<div class="gauge-item"><span class="name">Post-it notes</span><span class="val">143. 12 in invented language.</span></div>
+<div class="gauge-item"><span class="name">Speaking tube</span><span class="val">Operational. Daily report: "Still here."</span></div>
+<div class="gauge-item"><span class="name">Holographic displays</span><span class="val">4 working, 2 showing yesterday</span></div>
+<div class="gauge-item"><span class="name">Chief engineer</span><span class="val">Genius or madman. No one's checked.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 6. THE THRUSTERS -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">🔥</span>
+<h2>THE THRUSTER ASSEMBLY</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"Next to the thruster controls, someone placed a statue of a saint and a bottle of rum. Even pirates pray when the engines fire. The saint has never refused the rum."</div>
+<img class="section-img" data-src="web/ENGINE-THRUSTERS.webp" alt="Thruster Assembly" loading="lazy">
+<p class="section-text">The <strong>rear of the ship</strong>. Massive thruster nozzles visible through reinforced glass — glowing <strong>white-hot during burn</strong>. This is where stolen fuel becomes velocity. Where physics earns its salary. A maze of <strong>cooling pipes</strong> — frost on one side, scorching heat on the other. The temperature differential creates a <strong>permanent fog</strong>. You walk through clouds inside the ship.</p>
+<p class="section-text">Every surface is <strong>scorched</strong>. The paint gave up years ago. Warning signs: <strong>DANGER — ACTIVE BURN ZONE</strong>. And next to the thruster controls, a small <strong>shrine</strong>: a statue of a saint (nobody remembers which one), a bottle of rum (always full — replenished by anonymous crew), and a <strong>photograph</strong> of a beach on Earth. Even pirates have a home they're running from. Especially when the engines fire and the ship screams and the fog parts and through the reinforced glass you see <strong>stars being born behind you</strong>.</p>
+<div class="gauge">
+<div class="gauge-title">🔥 THRUSTER STATUS</div>
+<div class="gauge-item"><span class="name">Thruster 1 (Main)</span><span class="val">OPERATIONAL — 78% efficiency</span></div>
+<div class="gauge-item"><span class="name">Thruster 2 (Main)</span><span class="val danger">OPERATIONAL — 61% (impact damage)</span></div>
+<div class="gauge-item"><span class="name">Thruster 3 (Maneuvering)</span><span class="val">OPERATIONAL — pulls slightly left</span></div>
+<div class="gauge-item"><span class="name">Cooling system</span><span class="val">Frost + fog. Permanent weather indoors.</span></div>
+<div class="gauge-item"><span class="name">The shrine</span><span class="val">Saint unknown. Rum full. Photograph: Earth.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- SHIP HEALTH -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">💀</span>
+<h2>CHIEF ENGINEER'S DAILY REPORT</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"How's the engine?"<br>"Still here."<br>"Good enough."</div>
+<p class="section-text"><strong>REACTOR:</strong> Running. Angry about it. Containment field down 7% from last year. Not a problem until it's a problem. Don't touch the bottom catwalk.</p>
+<p class="section-text"><strong>BOILERS:</strong> All gauges in the red. Drew new red lines. Previous red lines are now orange by comparison. Morale improved.</p>
+<p class="section-text"><strong>FTL:</strong> Working. Nobody go in there for more than 90 seconds. Jenkins went in for three minutes last week and came out speaking Latin. He doesn't know Latin.</p>
+<p class="section-text"><strong>FUEL:</strong> We have some. The watchman is asleep. His book is good apparently.</p>
+<p class="section-text"><strong>THRUSTERS:</strong> Number 2 pulls left since that asteroid. Saint's rum is full. Don't ask who refills it.</p>
+<p class="section-text"><strong>OVERALL ASSESSMENT:</strong> The ship should not be flying. The ship is flying. <strong>The ship does not know it should not be flying, and I am not going to tell it.</strong></p>
+<p class="section-text" style="color:var(--plasma-blue);text-align:center;margin-top:25px;font-style:italic">"Every morning I wake up and the engine is still running and I am genuinely surprised. That surprise is the only maintenance this ship gets."</p>
+</div></div>
+</div>
+
+<!-- NAV -->
+<div class="nav-links">
+<a class="nav-link" href="CABIN.CITY.html">🏴‍☠️ THE CABIN</a>
+<a class="nav-link" href="SILVERSHIP.CITY.html">🚀 THE SHIP</a>
+<a class="nav-link" href="../silver/SILVER.CITY.html">🏴‍☠️ SILVER'S INTERIOR</a>
+<a class="nav-link" href="../party/PARTY.CITY.html">🌙 DAMASCENE NIGHT</a>
+<a class="nav-link" href="../daphne/DAPHNE.GAME.html">🌿 THE GROVE</a>
+<a class="nav-link" href="../DUNE.TAROT.READING.html">🃏 TAROT READING</a>
+<a class="nav-link" href="../links.html">🌐 ALL LINKS</a>
+</div>
+
+<div class="footer">
+THE ENGINE — Where the Ship Breathes<br>
+Part of <a href="../links.html">JuX</a> · Built by Wonder Boy & Buffalo Soldier<br>
+The engine is running. Don't ask how. Don't ask why. Just be grateful.<br>
+<span style="color:var(--plasma-blue)">⚙️ "Still here." — Chief Engineer's Daily Report</span>
+</div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('active')">
+<img id="lightbox-img" src="" alt="Enlarged">
+</div>
+
+<script>
+// Sparks
+const sc=document.getElementById('sparks');
+for(let i=0;i<150;i++){const s=document.createElement('div');s.className='spark';const isBlue=Math.random()>0.3;s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;background:${isBlue?'#0088ff':'#ff4400'};opacity:${Math.random()*0.5+0.2};animation:spark-float ${Math.random()*6+3}s ease-in-out infinite ${Math.random()*4}s`;sc.appendChild(s)}
+
+// Lazy load
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const img=e.target;img.src=img.dataset.src;img.removeAttribute('data-src');obs.unobserve(img)}})},{rootMargin:'200px'});
+document.querySelectorAll('img[data-src]').forEach(img=>obs.observe(img));
+
+// Lightbox
+document.querySelectorAll('.section-img').forEach(img=>{
+img.addEventListener('click',e=>{e.stopPropagation();const lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=img.src||img.dataset.src;lb.classList.add('active')})
+});
+
+// Animations
+const style=document.createElement('style');
+style.textContent=`@keyframes spark-float{0%,100%{transform:translateY(0) scale(1);opacity:0.2}25%{transform:translateY(-20px) scale(1.5);opacity:0.8}50%{transform:translateY(-10px) scale(0.8);opacity:0.4}75%{transform:translateY(-30px) scale(1.2);opacity:0.6}}`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
