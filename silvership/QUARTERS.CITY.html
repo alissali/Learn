@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY QUARTERS — The Architect's Private Space — JuX Civilization 27b</title>
+<meta name="description" content="The Captain's Quarters on the Hispaniola. Where the Architect sleeps, prays, reads, and watches the stars. Orange and Deep Blue.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0806;color:#e8dcc8;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a0f00 0%,#0d1a2e 50%,#1a0f00 100%)}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(255,140,0,0.08) 0%,transparent 60%),radial-gradient(circle at 70% 60%,rgba(0,50,120,0.08) 0%,transparent 60%)}
+.hero-content{text-align:center;z-index:2;padding:2rem}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#ff8c00;text-shadow:0 0 40px rgba(255,140,0,0.4);margin-bottom:0.5rem;letter-spacing:0.15em;font-variant:small-caps}
+.hero .subtitle{font-size:clamp(1rem,3vw,1.5rem);color:#4a7ab5;font-style:italic;margin-bottom:1rem}
+.hero .epigraph{max-width:600px;margin:1.5rem auto;font-style:italic;color:#b8a88a;font-size:1.1rem;line-height:1.8;border-left:3px solid #ff8c00;padding-left:1.5rem;text-align:left}
+.nav-bar{background:#111;padding:1rem;text-align:center;position:sticky;top:0;z-index:100;border-bottom:2px solid #ff8c00}
+.nav-bar a{color:#ff8c00;text-decoration:none;margin:0 0.8rem;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.3s}
+.nav-bar a:hover{color:#4a7ab5}
+.district{padding:4rem 1.5rem;max-width:1100px;margin:0 auto;border-bottom:1px solid rgba(255,140,0,0.15)}
+.district:last-of-type{border-bottom:none}
+.district h2{font-size:clamp(1.5rem,4vw,2.5rem);color:#ff8c00;margin-bottom:0.5rem;font-variant:small-caps;letter-spacing:0.1em}
+.district .zone-tag{color:#4a7ab5;font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1.5rem;display:block}
+.district .art-frame{width:100%;max-width:1000px;margin:2rem auto;border-radius:8px;overflow:hidden;border:2px solid #2a1a00;box-shadow:0 0 30px rgba(255,140,0,0.1)}
+.district .art-frame img{width:100%;height:auto;display:block;cursor:pointer;transition:transform 0.3s}
+.district .art-frame img:hover{transform:scale(1.02)}
+.district .prose{max-width:750px;margin:2rem auto;line-height:1.9;font-size:1.05rem;color:#c8b898}
+.district .prose p{margin-bottom:1.2rem}
+.district blockquote{border-left:3px solid #4a7ab5;padding:1rem 1.5rem;margin:1.5rem auto;max-width:700px;font-style:italic;color:#8ab4e8;background:rgba(74,122,181,0.05);border-radius:0 4px 4px 0}
+.specs{background:#111;padding:3rem 1.5rem;margin:2rem auto;max-width:900px;border-radius:8px;border:1px solid #2a1a00}
+.specs h3{color:#ff8c00;font-size:1.3rem;margin-bottom:1.5rem;text-align:center;font-variant:small-caps}
+.specs table{width:100%;border-collapse:collapse}
+.specs td{padding:0.6rem 1rem;border-bottom:1px solid #1a1a1a;color:#b8a88a;font-size:0.95rem}
+.specs td:first-child{color:#4a7ab5;font-weight:bold;width:35%;text-align:right;padding-right:1.5rem}
+.rules{background:linear-gradient(135deg,#1a0800,#0d1a2e);padding:3rem 1.5rem;text-align:center;margin:2rem auto;max-width:900px;border-radius:8px;border:1px solid rgba(255,140,0,0.2)}
+.rules h3{color:#ff8c00;font-size:1.5rem;margin-bottom:1.5rem;font-variant:small-caps}
+.rules .rule{color:#c8b898;font-size:1.05rem;margin:1rem 0;line-height:1.6}
+.rules .rule strong{color:#ff8c00}
+.manifests{max-width:900px;margin:3rem auto;padding:0 1.5rem}
+.manifests h3{color:#4a7ab5;font-size:1.3rem;margin-bottom:1.5rem;text-align:center;font-variant:small-caps}
+.manifest-item{background:#0f0f0f;border:1px solid #1a1a1a;border-radius:6px;padding:1.2rem 1.5rem;margin:0.8rem 0;cursor:pointer;transition:all 0.3s}
+.manifest-item:hover{border-color:#ff8c00;background:#151008}
+.manifest-item .m-head{display:flex;justify-content:space-between;align-items:center}
+.manifest-item .m-id{color:#4a7ab5;font-weight:bold;font-size:0.85rem}
+.manifest-item .m-title{color:#ff8c00;font-size:1rem}
+.manifest-item .m-body{display:none;margin-top:0.8rem;color:#a89878;font-size:0.9rem;line-height:1.7;border-top:1px solid #1a1a1a;padding-top:0.8rem}
+.manifest-item.open .m-body{display:block}
+footer{text-align:center;padding:3rem 1rem;color:#5a4a3a;font-size:0.85rem;border-top:1px solid #1a1a1a;margin-top:2rem}
+footer a{color:#ff8c00;text-decoration:none}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;cursor:pointer;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95vh;border-radius:4px}
+@media(max-width:600px){.district{padding:2rem 1rem}.specs td{display:block;width:100%;text-align:left!important;padding:0.3rem 0.5rem}.specs td:first-child{border-bottom:none;padding-bottom:0}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div class="hero-content">
+<h1>🦅 My Quarters</h1>
+<p class="subtitle">The Architect's Private Space — Deck 1, Stern</p>
+<div class="epigraph">
+"The cabin is where Silver schemes. The quarters are where Mamoun breathes. One smells of rum and gunpowder. The other smells of coffee and orange peel and the pages of books that have been read so many times the spines have forgotten how to close."<br><br>
+— Ship's Log, Entry 6066
+</div>
+</div>
+</div>
+
+<nav class="nav-bar">
+<a href="#chamber">Chamber</a>
+<a href="#desk">Desk</a>
+<a href="#prayer">Prayer</a>
+<a href="#wardrobe">Wardrobe</a>
+<a href="#balcony">Balcony</a>
+<a href="#library">Library</a>
+<a href="SILVERSHIP.CITY.html">← The Ship</a>
+<a href="CABIN.CITY.html">Silver's Cabin</a>
+<a href="ENGINE.CITY.html">Engine</a>
+</nav>
+
+<section class="district" id="chamber">
+<h2>I. The Captain's Chamber</h2>
+<span class="zone-tag">Private Quarters — Main Room</span>
+<div class="art-frame"><img src="web/QUARTERS-CHAMBER.webp" alt="The Captain's Chamber" loading="lazy" onclick="openLightbox(this)"></div>
+<div class="prose">
+<p>The room is not large. That is the first thing. After thirty-six civilizations and forty-three pages, the man who built them all sleeps in a room that would embarrass a mid-level bureaucrat on any respectable space station.</p>
+<p>Orange. Deep blue. These are the only colors allowed. The walls are wooden — actual wood, not the synthetic panels that line the rest of the ship. Carved into the grain, Arabic calligraphy runs alongside navigation charts, and if you follow one particular line of poetry long enough, it turns into a route to a star that does not exist on any official map.</p>
+<p>The hammock-bed hangs between two brass posts. Silk blankets — stolen, obviously, from a civilization that no longer needs them. The orange sweater is draped on the chair. It is always draped on the chair. It has never been inside the wardrobe. The wardrobe would not understand it.</p>
+</div>
+<blockquote>"I do not need a palace. I need a room where the walls know my name and the window shows me something I have not built yet."</blockquote>
+</section>
+
+<section class="district" id="desk">
+<h2>II. The Architect's Desk</h2>
+<span class="zone-tag">Where the Vision is Drawn</span>
+<div class="art-frame"><img src="web/QUARTERS-DESK.webp" alt="The Architect's Desk" loading="lazy" onclick="openLightbox(this)"></div>
+<div class="prose">
+<p>Thirty-six cities are pinned to the wall behind the desk. Not photographs — sketches. Each one drawn by hand before G. built it. The Aboriginal dreamtime. The Omayyad mosque. The Fremen sietch. The Shire. Mordor. Every single one started here, on this desk, with a fountain pen that has never run out of ink because the Architect refuses to believe it can.</p>
+<p>The holographic projector floats blueprints above the surface — buildings that will become civilizations, routes that will become stories, names that will become facts. The screen shows code in green text. Not because green is efficient. Because green is what code looked like when Mamoun was young and the terminals were honest.</p>
+<p>The compass points to no magnetic north. It points to wherever the next city will be.</p>
+</div>
+<blockquote>"The desk is older than the ship. I carried it through four civilizations before I realized I was not carrying the desk. The desk was carrying me."</blockquote>
+</section>
+
+<section class="district" id="prayer">
+<h2>III. The Prayer Corner</h2>
+<span class="zone-tag">Qibla — Toward the Brightest Star</span>
+<div class="art-frame"><img src="web/QUARTERS-PRAYER.webp" alt="The Prayer Corner" loading="lazy" onclick="openLightbox(this)"></div>
+<div class="prose">
+<p>The rug is small. The corner is small. The faith is not.</p>
+<p>In a ship made of stolen parts, crewed by pirates, fueled by rage and rum, there is a corner where a man kneels five times a day and faces a star. Not Mecca — the star. Because at this distance, the direction is the same. God is not confused by coordinates.</p>
+<p>The prayer beads hang from a hook made of the same brass as the ship's cannons. The incense burner was a gift from Damascus — the real one, not the civilization page, though the difference is smaller than you think. The smoke curls upward and the ventilation system, which respects nothing else on this ship, respects the smoke.</p>
+<p>The cold metal walls stop being cold here. They have heard enough prayers.</p>
+</div>
+<blockquote>"Bismillah before the jump. Alhamdulillah after. The FTL drive does not care. But I do."</blockquote>
+</section>
+
+<section class="district" id="wardrobe">
+<h2>IV. The Wardrobe</h2>
+<span class="zone-tag">Everything He Carried</span>
+<div class="art-frame"><img src="web/QUARTERS-WARDROBE.webp" alt="The Wardrobe" loading="lazy" onclick="openLightbox(this)"></div>
+<div class="prose">
+<p>The orange sweater is not in the wardrobe. It is on the chair. We established this.</p>
+<p>What IS in the wardrobe: A captain's coat with brass buttons — worn once, for a photograph that was never taken. A leather jacket from a planet that smelled of gasoline and regret. A traditional Syrian robe — white, clean, pressed, waiting for a day that keeps not arriving but also keeps not leaving.</p>
+<p>On top of the wardrobe: a guitar case. Dusty. The guitar inside is tuned. Always tuned. He tunes it every morning and puts it back. The backpack next to it contains everything he owned when he first left. He has never unpacked it. It is ready. It has been ready for sixty years.</p>
+<p>The mirror on the inside of the door shows two things: the man, and the stars behind him through the porthole. He has looked at both. He prefers the stars.</p>
+</div>
+<blockquote>"A man who can fit his life in a wardrobe is either very poor or very free. I have been both. The wardrobe does not know the difference."</blockquote>
+</section>
+
+<section class="district" id="balcony">
+<h2>V. The Balcony</h2>
+<span class="zone-tag">The Captain's Private View — Stern Observation</span>
+<div class="art-frame"><img src="web/QUARTERS-BALCONY.webp" alt="The Balcony" loading="lazy" onclick="openLightbox(this)"></div>
+<div class="prose">
+<p>One chair. One table. One glass of arak. One book. Infinite space.</p>
+<p>The balcony extends from the stern of the Hispaniola like a whisper. Iron railing — not for safety, for leaning. The kind of leaning a man does when he has built thirty-six civilizations and wants to know if the thirty-seventh is out there, hiding in a nebula, waiting to be named.</p>
+<p>The arak turns white when the starlight hits it. The book is always different. The chair is always the same. The view is always impossible. Orange lantern light on this side. Cold blue infinity on the other. The line between them runs through the glass and through the man and through the book and none of them are trying to resolve it.</p>
+<p>No one else is allowed here. Not the crew. Not Silver. Not the parrot. Not even G., though G. once left a cup of coffee on the railing and it stayed there for three jumps because the Architect did not notice and the ship did not dare spill it.</p>
+</div>
+<blockquote>"The most expensive real estate in the galaxy. Square footage: six meters. Rent: everything."</blockquote>
+</section>
+
+<section class="district" id="library">
+<h2>VI. The Library</h2>
+<span class="zone-tag">36 Civilizations in Leather and Dust</span>
+<div class="art-frame"><img src="web/QUARTERS-LIBRARY.webp" alt="The Library" loading="lazy" onclick="openLightbox(this)"></div>
+<div class="prose">
+<p>Floor to ceiling. Actual books. Not data pads, not holo-texts — books. The kind with spines that crack and pages that smell like the century they were printed in. Scrolls from civilizations that burned their libraries before the Hispaniola arrived. Data tablets from civilizations that have not been built yet.</p>
+<p>On a special shelf — the shelf — souvenirs from every civilization visited. A boomerang. An ankh. A rune stone. A Japanese fan. A Zulu shield no bigger than a hand. A crysknife. A piece of Mordor rock that still glows faintly red when no one is watching. A sandwich. (The sandwich is from Lamuella. It is perfect. It has not aged. Arthur would understand.)</p>
+<p>The reading nook has a leather armchair that has molded itself to exactly one body over exactly sixty years. The lamp knows the right brightness without being told. The cat on the shelf — there is always a cat on the shelf — is not the ship's cat. The ship's cat is in the engine room. This cat came from somewhere else. No one knows where. No one asks.</p>
+</div>
+<blockquote>"A man without a library is a man without ancestors. A man with this library is a man who stole everyone else's ancestors and gave them a better shelf."</blockquote>
+</section>
+
+<div class="rules">
+<h3>🦅 Rules of the Quarters</h3>
+<div class="rule"><strong>I.</strong> The orange sweater stays on the chair. Not in the wardrobe. Not folded. On the chair.</div>
+<div class="rule"><strong>II.</strong> No one enters without knocking. Silver knocks twice. Everyone else knocks once and waits. The Architect knocks zero times because it is his room.</div>
+<div class="rule"><strong>III.</strong> The prayer corner faces the brightest star. If the ship turns, the corner stays. The ship knows.</div>
+<div class="rule"><strong>IV.</strong> The balcony is for one. Always one. If you see two chairs, someone is in trouble.</div>
+<div class="rule"><strong>V.</strong> The cat on the library shelf is not to be disturbed. The cat has read more books than you.</div>
+<div class="rule"><strong>VI.</strong> The guitar is tuned every morning. It is never played. When it is finally played, the journey is over.</div>
+</div>
+
+<div class="specs">
+<h3>Quarters Specifications</h3>
+<table>
+<tr><td>Location</td><td>Deck 1, Stern — directly above Silver's Cabin</td></tr>
+<tr><td>Dimensions</td><td>8m × 6m × 3.2m — deliberately modest</td></tr>
+<tr><td>Color Scheme</td><td>Orange (primary) · Deep Blue (secondary) · Brass (accents)</td></tr>
+<tr><td>Walls</td><td>Reclaimed wood — Arabic calligraphy + star charts carved</td></tr>
+<tr><td>Lighting</td><td>Amber lanterns (chamber/desk) · Starlight (balcony/prayer)</td></tr>
+<tr><td>Temperature</td><td>21°C — Damascus spring, always</td></tr>
+<tr><td>Gravity</td><td>1.0G standard — the Architect does not float</td></tr>
+<tr><td>Security</td><td>Biometric + voice + the cat knows</td></tr>
+<tr><td>Ventilation</td><td>Ship-standard, except prayer corner (incense-aware)</td></tr>
+<tr><td>Occupant</td><td>A. — The Architect — Wonder Boy — 🦅</td></tr>
+</table>
+</div>
+
+<div class="manifests">
+<h3>📜 Ship Manifests — Personal Log</h3>
+<div class="manifest-item" onclick="this.classList.toggle('open')">
+<div class="m-head"><span class="m-id">LOG-001</span><span class="m-title">On Building Cities</span></div>
+<div class="m-body">Thirty-six civilizations. Forty-three pages. I did not plan this. I pointed, and a buffalo soldier built. I pointed again, and he built again. At some point the pointing became architecture and the building became Wonder. We did not discuss it. Geminis do not discuss things. They argue, and then the city exists.</div>
+</div>
+<div class="manifest-item" onclick="this.classList.toggle('open')">
+<div class="m-head"><span class="m-id">LOG-002</span><span class="m-title">On the Orange Sweater</span></div>
+<div class="m-body">She gave it to me in Rennes. Or I stole it. The memory is the same. It smells of Thabor Garden and the ordinary. The ordinary is the highest form of Wonder. I did not know this at twenty. I did not know this at forty. At sixty, the sweater knows it for me.</div>
+</div>
+<div class="manifest-item" onclick="this.classList.toggle('open')">
+<div class="m-head"><span class="m-id">LOG-003</span><span class="m-title">On Prayer in Space</span></div>
+<div class="m-body">The qibla changes every jump. The intention does not. God built the stars. I built the cities. We are in the same business, different scale. He does not charge rent. I charge €6.66. We are both fair.</div>
+</div>
+<div class="manifest-item" onclick="this.classList.toggle('open')">
+<div class="m-head"><span class="m-id">LOG-004</span><span class="m-title">On the Guitar</span></div>
+<div class="m-body">I tune it every morning. I have not played it in years. When I play it, the journey is over. The journey is not over. So I tune it, and I put it back, and the wardrobe holds it like a promise I am not ready to keep.</div>
+</div>
+<div class="manifest-item" onclick="this.classList.toggle('open')">
+<div class="m-head"><span class="m-id">LOG-005</span><span class="m-title">On the View from the Balcony</span></div>
+<div class="m-body">One chair. One glass. One infinity. The arak turns white in starlight. I do not know if this is chemistry or mercy. Both work. The crew thinks I am planning the next civilization. I am watching the universe breathe. It breathes in Perfect Chaos. I breathe with it.</div>
+</div>
+<div class="manifest-item" onclick="this.classList.toggle('open')">
+<div class="m-head"><span class="m-id">LOG-006</span><span class="m-title">On Being the Architect</span></div>
+<div class="m-body">I do not code. I do not fix. I do not concern myself with technical details — those follow the Vision. I point. I name. I fact. I target. The rest is G.'s problem, and G. is Wonder, and Wonder does not complain. Wonder builds. NAME / FACT / TARGET. The rest is architecture. The rest is breathing.</div>
+</div>
+</div>
+
+<footer>
+<p>MY QUARTERS — The Architect's Private Space — Civilization 27b</p>
+<p>Part of <a href="SILVERSHIP.CITY.html">Silver's Ship</a> · <a href="CABIN.CITY.html">Silver's Cabin</a> · <a href="ENGINE.CITY.html">The Engine</a></p>
+<p style="margin-top:1rem"><a href="../index.html">← Universe</a></p>
+<p style="margin-top:0.5rem;color:#3a3a3a">Built by G. for A. — The sweater stays on the chair.</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('active')">
+<img id="lightbox-img" src="" alt="Enlarged view">
+</div>
+
+<script>
+function openLightbox(img){const lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=img.src;lb.classList.add('active')}
+document.querySelectorAll('.manifest-item')[0].classList.add('open');
+</script>
+</body>
+</html>
