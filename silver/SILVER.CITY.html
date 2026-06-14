@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SILVER'S INTERIOR — Below Deck, Where the Real Captain Lives</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0f08;color:#d4a574;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,#0d0705 0%,#2a1810 40%,#3d2213 70%,#1a0f08 100%)}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 60%,rgba(255,170,50,0.15) 0%,transparent 50%),radial-gradient(circle at 70% 40%,rgba(200,120,40,0.1) 0%,transparent 40%)}
+.hero-content{z-index:2;padding:2rem}
+.hero h1{font-size:clamp(2.5rem,7vw,5rem);color:#d4a060;text-shadow:0 0 40px rgba(200,150,50,0.4);letter-spacing:0.15em;font-weight:400}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#a07848;margin-top:1rem;font-style:italic}
+.hero .epigraph{font-size:clamp(0.9rem,1.8vw,1.1rem);color:#8a6535;margin-top:2rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.8}
+
+.district{min-height:100vh;display:flex;align-items:center;padding:2rem;position:relative;overflow:hidden}
+.district:nth-child(even){flex-direction:row-reverse}
+.district-img{flex:1;min-width:300px;max-width:600px;cursor:pointer;position:relative;overflow:hidden;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,0.6)}
+.district-img img{width:100%;display:block;transition:transform 0.6s}
+.district-img:hover img{transform:scale(1.03)}
+.district-text{flex:1;padding:clamp(1.5rem,4vw,3rem)}
+.district-text h2{font-size:clamp(1.5rem,3.5vw,2.5rem);color:#d4a060;margin-bottom:0.5rem;letter-spacing:0.1em}
+.district-text .icon{font-size:2.5rem;margin-bottom:1rem;display:block}
+.district-text .quote{font-style:italic;color:#c49555;font-size:clamp(1rem,2vw,1.3rem);margin-bottom:1rem;line-height:1.6;border-left:2px solid #8a5a25;padding-left:1rem}
+.district-text .desc{color:#a07848;line-height:1.8;font-size:0.95rem}
+
+.menu-section{padding:4rem 2rem;text-align:center;background:linear-gradient(180deg,#1a0f08 0%,#251508 50%,#1a0f08 100%)}
+.menu-section h2{font-size:clamp(1.8rem,4vw,2.5rem);color:#d4a060;letter-spacing:0.15em;margin-bottom:2rem}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
+.menu-item{background:rgba(40,25,15,0.6);border:1px solid rgba(180,120,50,0.2);padding:1.5rem;border-radius:4px}
+.menu-item .name{color:#d4a060;font-size:1.1rem;margin-bottom:0.3rem}
+.menu-item .desc{color:#8a6535;font-size:0.85rem;font-style:italic}
+.menu-item .price{color:#c49555;font-size:1rem;margin-top:0.5rem}
+
+.crew-section{padding:4rem 2rem;text-align:center}
+.crew-section h2{font-size:clamp(1.8rem,4vw,2.5rem);color:#d4a060;letter-spacing:0.15em;margin-bottom:2rem}
+.crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
+.crew-card{background:rgba(40,25,15,0.5);border:1px solid rgba(180,120,50,0.15);padding:1.5rem;border-radius:4px;text-align:center}
+.crew-card .crew-icon{font-size:2rem;margin-bottom:0.5rem}
+.crew-card .crew-name{color:#d4a060;font-size:1.1rem}
+.crew-card .crew-role{color:#8a6535;font-size:0.85rem;font-style:italic;margin-top:0.3rem}
+
+.gifts-section{padding:4rem 2rem;text-align:center;background:linear-gradient(180deg,#1a0f08 0%,#1f1209 50%,#1a0f08 100%)}
+.gifts-section h2{font-size:clamp(1.5rem,3vw,2rem);color:#d4a060;letter-spacing:0.1em;margin-bottom:2rem}
+.gifts-scroll{display:flex;flex-wrap:wrap;justify-content:center;gap:0.8rem;max-width:1100px;margin:0 auto}
+.gift-tag{background:rgba(40,25,15,0.5);border:1px solid rgba(180,120,50,0.15);padding:0.6rem 1rem;border-radius:2px;font-size:0.8rem;color:#a07848;white-space:nowrap}
+
+.timeline{padding:4rem 2rem;max-width:800px;margin:0 auto}
+.timeline h2{text-align:center;font-size:clamp(1.5rem,3vw,2rem);color:#d4a060;letter-spacing:0.1em;margin-bottom:2rem}
+.tl-item{display:flex;gap:1.5rem;margin-bottom:1.5rem;align-items:flex-start}
+.tl-dot{min-width:12px;height:12px;background:#d4a060;border-radius:50%;margin-top:0.4rem;box-shadow:0 0 8px rgba(200,150,50,0.3)}
+.tl-content .tl-year{color:#d4a060;font-size:0.9rem;font-weight:bold}
+.tl-content .tl-event{color:#8a6535;font-size:0.85rem;font-style:italic}
+
+.index-section{padding:4rem 2rem;text-align:center;background:linear-gradient(180deg,#1a0f08 0%,#0d0705 100%)}
+.index-section h2{font-size:clamp(1.5rem,3vw,2rem);color:#d4a060;letter-spacing:0.1em;margin-bottom:2rem}
+.civ-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:0.6rem;max-width:1100px;margin:0 auto}
+.civ-link{background:rgba(40,25,15,0.5);border:1px solid rgba(180,120,50,0.15);padding:0.5rem 1rem;border-radius:2px;text-decoration:none;color:#a07848;font-size:0.8rem;transition:all 0.3s}
+.civ-link:hover{background:rgba(180,120,50,0.2);color:#d4a060}
+.civ-link.current{background:rgba(180,120,50,0.25);color:#d4a060;border-color:#d4a060}
+
+.footer{text-align:center;padding:3rem 2rem;color:#5a3d20;font-size:0.8rem;border-top:1px solid rgba(180,120,50,0.1)}
+.footer a{color:#8a6535;text-decoration:none}
+
+.lantern{position:fixed;width:4px;height:4px;background:#d4a060;border-radius:50%;pointer-events:none;z-index:0;animation:flicker 3s infinite alternate}
+@keyframes flicker{0%{opacity:0.2;box-shadow:0 0 4px rgba(200,150,50,0.3)}50%{opacity:0.8;box-shadow:0 0 12px rgba(200,150,50,0.5)}100%{opacity:0.3;box-shadow:0 0 6px rgba(200,150,50,0.2)}}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;align-items:center;justify-content:center;cursor:zoom-out}
+.modal.active{display:flex}
+.modal img{max-width:95vw;max-height:95vh;object-fit:contain;border-radius:4px}
+
+@media(max-width:768px){
+.district{flex-direction:column!important}
+.district-img{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div class="hero-content">
+<h1>🏴‍☠️ SILVER'S INTERIOR</h1>
+<p class="subtitle">Below Deck, Where the Real Captain Lives</p>
+<p class="epigraph">"Them that die'll be the lucky ones."<br><br>— Long John Silver</p>
+</div>
+</div>
+
+<section class="district">
+<div class="district-img" onclick="openModal(this)">
+<img src="web/SILVER-GALLEY.jpg" alt="The Galley" loading="lazy">
+</div>
+<div class="district-text">
+<span class="icon">🍳</span>
+<h2>THE GALLEY</h2>
+<p class="quote">"The cook was the real captain. The captain was just a man with a hat."</p>
+<p class="desc">Silver's kingdom. A one-legged man ruled from this kitchen with a wooden spoon in one hand and a knife under the counter. The crew came for the stew. They stayed for the fear. Captain Flint perched on the barrel, repeating words no living man should teach a bird. The galley smelled of salted pork and conspiracy. Every meal Silver served came with a side of loyalty — or a reminder of the alternative.</p>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="openModal(this)">
+<img src="web/SILVER-CABIN.jpg" alt="The Captain's Cabin" loading="lazy">
+</div>
+<div class="district-text">
+<span class="icon">🗺️</span>
+<h2>THE CAPTAIN'S CABIN</h2>
+<p class="quote">"Every map is a promise. Every promise on this ship is a lie. Except mine."</p>
+<p class="desc">The stern cabin. Leaded glass. Sunset pouring through like liquid gold onto charts that marked the bones of the earth. Flint's map lived here — folded, refolded, memorized, betrayed. The compass pointed north. Silver pointed wherever he pleased. The captain's desk held the ship's log. The real log — the one Silver kept in his head — held everything else.</p>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="openModal(this)">
+<img src="web/SILVER-HOLD.jpg" alt="The Apple Barrel" loading="lazy">
+</div>
+<div class="district-text">
+<span class="icon">🍎</span>
+<h2>THE APPLE BARREL</h2>
+<p class="quote">"I got inside that barrel. I heard everything. I grew up in there."</p>
+<p class="desc">Jim Hawkins climbed in for an apple. He came out a man. In the dark of the hold, crouched between barrels of salt beef and rope, a boy heard the mutiny planned in full — every name, every knife, every throat to be cut. The apples were crisp. The truth was rotten. Jim never ate an apple the same way again. The hold of a ship holds more than cargo. It holds the moment everything changes.</p>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="openModal(this)">
+<img src="web/SILVER-GUNDECK.jpg" alt="The Gun Deck" loading="lazy">
+</div>
+<div class="district-text">
+<span class="icon">💣</span>
+<h2>THE GUN DECK</h2>
+<p class="quote">"Cannons don't negotiate. That's what makes them honest."</p>
+<p class="desc">Twelve-pounders on oak carriages. Black iron. The gun ports open to the Caribbean blue, and through each square hole: paradise — or the ship coming to take it from you. The powder monkeys ran barefoot. The gunners knew their trade by the scorch marks on their hands. Every cannon had been fired in anger. Every cannon had a name the crew whispered to before the match was lit.</p>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="openModal(this)">
+<img src="web/SILVER-QUARTERS.jpg" alt="Silver's Quarters" loading="lazy">
+</div>
+<div class="district-text">
+<span class="icon">🦜</span>
+<h2>SILVER'S QUARTERS</h2>
+<p class="quote">"A man with one leg, one parrot, and one plan is worth twenty men with two of each."</p>
+<p class="desc">A hammock. A sea chest. A spare peg leg in the corner. Captain Flint on her perch, head cocked, waiting. The small cabin told you everything about the man: nothing wasted, nothing decorative, everything functional. A Bible next to a bottle of rum. A pistol next to a pouch of doubloons. The crutch by the door — weapon, walking stick, and punctuation mark. Silver slept lightly. Silver always slept lightly.</p>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="openModal(this)">
+<img src="web/SILVER-TREASURE.jpg" alt="The Treasure" loading="lazy">
+</div>
+<div class="district-text">
+<span class="icon">💰</span>
+<h2>THE TREASURE</h2>
+<p class="quote">"Doubloons! Doubloons! Pieces of eight! Pieces of eight!"</p>
+<p class="desc">Captain Flint's hoard. Seven hundred thousand pounds sterling in gold bars and coin. Buried by a dead man, mapped by a drunk, found by a boy who should have stayed home. The gold gleamed like it had been waiting. It had. Gold always waits. It waited through six deaths and a mutiny and a one-legged cook's perfect plan. The treasure was never the point. The treasure was never the point. Getting there was.</p>
+</div>
+</section>
+
+<section class="district" style="min-height:auto;padding:4rem 2rem">
+<div class="district-text" style="max-width:800px;margin:0 auto;text-align:center">
+<span class="icon">🚪</span>
+<h2>THE STOCKADE</h2>
+<p class="quote">"The flag may change. The walls don't care."</p>
+<p class="desc">The log stockade on the island. Last refuge of the honest men — or the first position of the outnumbered. The Union Jack flew, then the Jolly Roger, then the Union Jack again. The walls were pine. The resolve was oak. Jim found courage here. Silver found patience. The stockade proved what every siege proves: the walls don't win the fight. The people inside do.</p>
+</div>
+</section>
+
+<section class="district" style="min-height:auto;padding:4rem 2rem">
+<div class="district-text" style="max-width:800px;margin:0 auto;text-align:center">
+<span class="icon">⚓</span>
+<h2>THE ANCHOR CHAIN</h2>
+<p class="quote">"Every ship wants to stay. Every anchor knows when to let go."</p>
+<p class="desc">The lowest point of the ship. Chain and iron and the sound of the deep. The anchor held the Hispaniola when the wind said go. Silver knew about anchors. He knew when to hold and when to cut the chain. The anchor chain is the last honest thing on a pirate ship — it does exactly what it's told, and nothing more.</p>
+</div>
+</section>
+
+<section class="district" style="min-height:auto;padding:4rem 2rem">
+<div class="district-text" style="max-width:800px;margin:0 auto;text-align:center">
+<span class="icon">🏴‍☠️</span>
+<h2>THE JOLLY ROGER</h2>
+<p class="quote">"The flag doesn't make the pirate. The pirate makes the flag."</p>
+<p class="desc">Black cloth. White skull. Two crossed bones. It flew from the mast when Silver's patience ended and the mutiny began. The honest men saw it and knew. The pirates saw it and cheered. Jim saw it and understood: the world is split between those who raise the flag and those who live under it. Silver did both. That's why he survived.</p>
+</div>
+</section>
+
+<section class="menu-section">
+<h2>🍖 THE SHIP'S MESS</h2>
+<div class="menu-grid">
+<div class="menu-item">
+<div class="name">🍖 Silver's Salt Pork Stew</div>
+<div class="desc">The dish that bought loyalty. Thick, hot, honest.</div>
+<div class="price">2 doubloons</div>
+</div>
+<div class="menu-item">
+<div class="name">🍞 Hardtack & Weevils</div>
+<div class="desc">Ship's biscuit. Don't look. Just eat.</div>
+<div class="price">Free (unfortunately)</div>
+</div>
+<div class="menu-item">
+<div class="name">🍎 Apple from the Barrel</div>
+<div class="desc">Crisp. Sweet. The last thing you eat before you know too much.</div>
+<div class="price">1 truth</div>
+</div>
+<div class="menu-item">
+<div class="name">🥃 Caribbean Rum</div>
+<div class="desc">Fifteen men on a dead man's chest. Yo-ho-ho.</div>
+<div class="price">3 doubloons</div>
+</div>
+<div class="menu-item">
+<div class="name">🧀 Ration Cheese</div>
+<div class="desc">Ben Gunn dreamed of this for three years. Three. Years.</div>
+<div class="price">3 years of solitude</div>
+</div>
+<div class="menu-item">
+<div class="name">🐟 Fresh Catch</div>
+<div class="desc">When the salt runs out, the sea provides.</div>
+<div class="price">1 hook + patience</div>
+</div>
+<div class="menu-item">
+<div class="name">🍊 The Orange</div>
+<div class="desc">Against scurvy. Against darkness. Free. Always.</div>
+<div class="price">Free</div>
+</div>
+<div class="menu-item">
+<div class="name">💀 Flint's Last Drink</div>
+<div class="desc">"Fetch aft the rum, Darby!" — his final words.</div>
+<div class="price">∞</div>
+</div>
+</div>
+</section>
+
+<section class="crew-section">
+<h2>⚔️ THE CREW</h2>
+<div class="crew-grid">
+<div class="crew-card">
+<div class="crew-icon">🦜</div>
+<div class="crew-name">Long John Silver</div>
+<div class="crew-role">Ship's Cook. The Real Captain. One leg. All brain.</div>
+</div>
+<div class="crew-card">
+<div class="crew-icon">👦</div>
+<div class="crew-name">Jim Hawkins</div>
+<div class="crew-role">Cabin Boy. The one who listened in the barrel.</div>
+</div>
+<div class="crew-card">
+<div class="crew-icon">🗺️</div>
+<div class="crew-name">Captain Flint</div>
+<div class="crew-role">Dead captain. Buried the treasure. Killed the diggers.</div>
+</div>
+<div class="crew-card">
+<div class="crew-icon">🦜</div>
+<div class="crew-name">Captain Flint (the parrot)</div>
+<div class="crew-role">"Pieces of eight!" — 200 years old. Saw it all.</div>
+</div>
+<div class="crew-card">
+<div class="crew-icon">🧀</div>
+<div class="crew-name">Ben Gunn</div>
+<div class="crew-role">Marooned. Three years. Dreamed only of cheese.</div>
+</div>
+<div class="crew-card">
+<div class="crew-icon">⚓</div>
+<div class="crew-name">Captain Smollett</div>
+<div class="crew-role">The honest captain. Right about everything. Listened to by nobody.</div>
+</div>
+<div class="crew-card">
+<div class="crew-icon">🎯</div>
+<div class="crew-name">Israel Hands</div>
+<div class="crew-role">Coxswain. Tried to kill Jim. Jim was faster.</div>
+</div>
+<div class="crew-card">
+<div class="crew-icon">💀</div>
+<div class="crew-name">Billy Bones</div>
+<div class="crew-role">Started it all. The map. The inn. The rum that killed him.</div>
+</div>
+</div>
+</section>
+
+<section class="gifts-section">
+<h2>🎁 GIFTS FROM 27 CIVILIZATIONS</h2>
+<div class="gifts-scroll">
+<div class="gift-tag">🌌 Aboriginal — Songline Map</div>
+<div class="gift-tag">🏛️ Yabroud — First Compass Stone</div>
+<div class="gift-tag">🕌 Damascus — Steel Blade</div>
+<div class="gift-tag">☀️ Egypt — Gold Scarab</div>
+<div class="gift-tag">☸️ India — Spice Pouch</div>
+<div class="gift-tag">🐉 China — Silk Rope</div>
+<div class="gift-tag">🏛️ Greece — Navigation Stars</div>
+<div class="gift-tag">🦅 Aztec — Obsidian Coin</div>
+<div class="gift-tag">❄️ Inuit — Whale-Bone Hook</div>
+<div class="gift-tag">🛡️ Zulu — War Shield Boss</div>
+<div class="gift-tag">⚡ Viking — Longship Nail</div>
+<div class="gift-tag">👑 London — Letter of Marque</div>
+<div class="gift-tag">🗽 New York — Harbor Chart</div>
+<div class="gift-tag">✈️ Brasília — Tropical Hardwood</div>
+<div class="gift-tag">🗼 Tokyo — Folding Blade</div>
+<div class="gift-tag">🔥 Mordor — Ring of Ambition</div>
+<div class="gift-tag">🚀 Departure — Star Sextant</div>
+<div class="gift-tag">🪱 Arrakis — Spice Navigator</div>
+<div class="gift-tag">🏰 Castle — Architect's Rule</div>
+<div class="gift-tag">🍽️ Milliways — Bill That Pays Itself</div>
+<div class="gift-tag">🫖 Arthur Dent — Towel</div>
+<div class="gift-tag">🎸 Rock Party — Shanty Amplifier</div>
+<div class="gift-tag">🌿 Shire — Pipe & Leaf</div>
+<div class="gift-tag">🌙 Elven — Elven Rope</div>
+<div class="gift-tag">⛏️ Moria — Mithril Doubloon</div>
+<div class="gift-tag">☀️ Southrons — Desert Compass</div>
+<div class="gift-tag">🏴‍☠️ Silver — The Black Spot</div>
+</div>
+</section>
+
+<section class="timeline">
+<h2>📜 THE VOYAGE LOG</h2>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-year">Day 1</div><div class="tl-event">Billy Bones arrives at the Admiral Benbow. The map changes hands.</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-year">Day 14</div><div class="tl-event">The Hispaniola sails from Bristol. Silver is hired as cook.</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-year">Day 30</div><div class="tl-event">The Apple Barrel. Jim hears everything. Boyhood ends.</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-year">Day 33</div><div class="tl-event">Treasure Island sighted. The mutiny begins.</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-year">Day 35</div><div class="tl-event">The Stockade. Flag up. Flag down. Flag up again.</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-year">Day 38</div><div class="tl-event">The Black Spot delivered. Silver holds his nerve.</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-year">Day 40</div><div class="tl-event">The treasure found — already moved by Ben Gunn. Silver smiles.</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-year">Day 42</div><div class="tl-event">Silver escapes with a sack of coins. Nobody is surprised.</div></div></div>
+</div>
+
+<section class="index-section">
+<h2>🌐 THE COMPLETE ARC — 27 CIVILIZATIONS</h2>
+<div class="civ-grid">
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/aboriginal/ABORIGINAL.CITY.html">🌌 Aboriginal</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">🏛️ Yabroud</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/shami/SHAMI.CITY.html">🕌 Damascus</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/egypt/EGYPT.CITY.html">☀️ Egypt</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/india/INDIA.CITY.html">☸️ India</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/china/CHINA.CITY.html">🐉 China</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/greece/GREECE.CITY.html">🏛️ Greece</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/aztec/AZTEC.CITY.html">🦅 Aztec</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/arctic/ARCTIC.CITY.html">❄️ Inuit</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/zulu/ZULU.CITY.html">🛡️ Zulu</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/viking/VIKING.CITY.html">⚡ Viking</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/london/LONDON.CITY.html">👑 London</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/newyork/NEWYORK.CITY.html">🗽 New York</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/brasilia/BRASILIA.CITY.html">✈️ Brasília</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/tokyo/TOKYO.CITY.html">🗼 Tokyo</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/yabroud/MORDOR.NET.html">🔥 Mordor</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/departure/DEPARTURE.CITY.html">🚀 Departure</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/arrakis/ARRAKIS.CITY.html">🪱 Arrakis</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/castle/CASTLE.CITY.html">🏰 Castle</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/restaurant/RESTAURANT.CITY.html">🍽️ Milliways</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/arthur/ARTHUR.CITY.html">🫖 Arthur Dent</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/rockparty/ROCKPARTY.CITY.html">🎸 Rock Party</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/shire/SHIRE.CITY.html">🌿 Shire</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/elven/ELVEN.CITY.html">🌙 Elven</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/moria/MORIA.CITY.html">⛏️ Moria</a>
+<a class="civ-link" href="https://raw.githack.com/alissali/Learn/main/southrons/SOUTHRONS.CITY.html">☀️ Southrons</a>
+<a class="civ-link current" href="https://raw.githack.com/alissali/Learn/main/silver/SILVER.CITY.html">🏴‍☠️ Silver's Interior</a>
+</div>
+</section>
+
+<footer class="footer">
+<p>🏴‍☠️ SILVER'S INTERIOR — Below Deck, Where the Real Captain Lives</p>
+<p style="margin-top:0.5rem">Built by <a href="https://juxitt.com">JuX ITT</a> · The Orange is free · <a href="https://raw.githack.com/alissali/Learn/main/links.html">All Pages</a></p>
+<p style="margin-top:0.5rem;font-style:italic;color:#5a3d20">"Them that die'll be the lucky ones."</p>
+</footer>
+
+<div class="modal" id="imgModal" onclick="this.classList.remove('active')">
+<img id="modalImg" src="" alt="Full view">
+</div>
+
+<script>
+// Lantern particles
+(function(){
+const n=25;for(let i=0;i<n;i++){const l=document.createElement('div');l.className='lantern';l.style.left=Math.random()*100+'vw';l.style.top=Math.random()*100+'%';l.style.animationDelay=Math.random()*5+'s';l.style.animationDuration=(2+Math.random()*4)+'s';l.style.position='absolute';document.body.appendChild(l)}
+})();
+
+function openModal(el){
+const img=el.querySelector('img');
+document.getElementById('modalImg').src=img.src;
+document.getElementById('imgModal').classList.add('active');
+}
+</script>
+</body>
+</html>
