@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOULLAQ — The Village That Time Kept</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a0e;color:#d4c9a8;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#2d2a1a 0%,#3d3520 40%,#4a3d20 70%,#1a1a0e 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(180,160,100,0.15) 0%,transparent 70%)}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);color:#c8b060;text-shadow:0 0 40px rgba(200,176,96,0.3);letter-spacing:0.15em;z-index:1}
+.hero .sub{font-size:clamp(1rem,3vw,1.5rem);color:#a08850;margin-top:1rem;font-style:italic;z-index:1}
+.hero .icon{font-size:clamp(3rem,10vw,5rem);margin-bottom:1rem;z-index:1}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#a08850;font-size:1.2rem;animation:pulse 2s infinite;z-index:1}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+.district{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative}
+.district:nth-child(odd){background:linear-gradient(135deg,#1e1e12 0%,#2a2618 100%)}
+.district:nth-child(even){background:linear-gradient(135deg,#2a2618 0%,#1e1e12 100%)}
+.district-content{max-width:900px;width:100%;text-align:center}
+.district-icon{font-size:4rem;margin-bottom:1rem}
+.district-name{font-size:clamp(1.8rem,5vw,2.8rem);color:#c8b060;margin-bottom:0.5rem;letter-spacing:0.1em}
+.district-quote{font-style:italic;color:#b8a870;font-size:clamp(1rem,2.5vw,1.3rem);margin-bottom:2rem;line-height:1.6;max-width:700px;margin-left:auto;margin-right:auto}
+.district-img{width:100%;max-width:800px;border-radius:8px;margin:1.5rem auto;display:block;cursor:pointer;transition:transform 0.3s;box-shadow:0 4px 30px rgba(0,0,0,0.5)}
+.district-img:hover{transform:scale(1.02)}
+.district-text{color:#c4b890;font-size:1.05rem;line-height:1.8;max-width:700px;margin:1.5rem auto;text-align:left}
+
+.table-section{padding:4rem 2rem;background:linear-gradient(180deg,#1a1a0e 0%,#2d2a1a 50%,#1a1a0e 100%);text-align:center}
+.table-title{font-size:clamp(1.5rem,4vw,2.5rem);color:#c8b060;margin-bottom:2rem;letter-spacing:0.1em}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:800px;margin:0 auto 3rem}
+.menu-item{background:rgba(200,176,96,0.08);border:1px solid rgba(200,176,96,0.2);border-radius:8px;padding:1.5rem;text-align:center;transition:all 0.3s}
+.menu-item:hover{background:rgba(200,176,96,0.15);border-color:rgba(200,176,96,0.4);transform:translateY(-2px)}
+.menu-item .item-icon{font-size:2rem;margin-bottom:0.5rem}
+.menu-item .item-name{color:#c8b060;font-size:1.1rem;margin-bottom:0.3rem}
+.menu-item .item-desc{color:#a08850;font-size:0.85rem;font-style:italic}
+
+.ages-section{padding:4rem 2rem;background:linear-gradient(180deg,#1a1a0e 0%,#22201a 100%);text-align:center}
+.age-line{color:#b8a870;font-size:1.1rem;margin:0.8rem 0;line-height:1.6}
+.age-line span{color:#c8b060;font-weight:bold}
+
+.souls-section{padding:4rem 2rem;background:linear-gradient(180deg,#22201a 0%,#1a1a0e 100%);text-align:center}
+.soul{display:inline-block;margin:0.8rem 1.2rem;text-align:center}
+.soul-icon{font-size:2rem}
+.soul-name{color:#c8b060;font-size:0.95rem;margin-top:0.3rem}
+
+footer{text-align:center;padding:3rem 2rem;background:#0d0d08;color:#6b5f40;font-size:0.9rem}
+footer a{color:#c8b060;text-decoration:none}
+footer .sig{margin-top:1rem;font-style:italic;color:#8a7d55}
+
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;cursor:pointer;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;border-radius:8px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div>
+    <div class="icon">🏘️</div>
+    <h1>JOULLAQ</h1>
+    <div class="sub">The Village That Time Kept</div>
+  </div>
+  <div class="scroll-hint">↓ enter the stone ↓</div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🏘️</div>
+    <div class="district-name">THE VILLAGE</div>
+    <div class="district-quote">"The stones were here before the family. The family will be here after the stones. Both know it. Neither leaves."</div>
+    <img class="district-img" loading="lazy" src="web/JOULLAQ-VILLAGE.webp" alt="Joullaq Village" onclick="openLightbox(this)">
+    <div class="district-text">
+      There is no sign at the entrance. No monument. No welcome. Just a road that narrows until it becomes a path, and a path that narrows until it becomes a doorstep, and a doorstep that has been crossed so many times the stone dips in the middle like a sleeping cat.<br><br>
+      Joullaq does not announce itself. It exists. The houses climb the hill the way arguments climb a family dinner — slowly, inevitably, with everyone pretending it isn't happening. Stone on stone on stone. Each house touching the next. Each wall shared. Privacy is a rumor here. Love is a fact.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🛒</div>
+    <div class="district-name">THE SOUK</div>
+    <div class="district-quote">"Three shops. Everything you need. If you need more, you need less."</div>
+    <img class="district-img" loading="lazy" src="web/JOULLAQ-SOUK.webp" alt="Joullaq Souk" onclick="openLightbox(this)">
+    <div class="district-text">
+      The souk is not a souk. It is a corridor between two opinions. On one side, a man sells olive oil he pressed himself. On the other, a woman sells soap she made from his oil. They have not spoken in eleven years. The oil is excellent. The soap is better. Everybody knows. Nobody says.<br><br>
+      You can buy anything here if you define "anything" correctly. Zaatar. Olives. Thread. Advice you didn't ask for. News from 1987 that somehow still matters. The prices have not changed since the road was paved. The road was paved in 1974.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🫒</div>
+    <div class="district-name">THE OLIVE TERRACES</div>
+    <div class="district-quote">"My grandfather planted this tree. My father cursed it. I harvest it. My daughter will sit in its shade and call it hers. She will be right."</div>
+    <img class="district-img" loading="lazy" src="web/JOULLAQ-OLIVES.webp" alt="Olive Terraces" onclick="openLightbox(this)">
+    <div class="district-text">
+      The terraces are the real architecture of Joullaq. Not the houses — those are temporary. A house lasts three hundred years. An olive tree lasts forever. The terraces were built by hand. Every stone lifted, carried, placed. No mortar. The weight holds them. Gravity is the architect here.<br><br>
+      In October, the village empties. Everyone is in the groves. The nets spread under the trees like prayer rugs. The olives fall. The children eat more than they collect. The grandmothers pretend not to notice. The oil that comes from Joullaq olives is green like jealousy and thick like memory. You taste it once. You never forget where you are from.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">⛲</div>
+    <div class="district-name">THE VILLAGE SQUARE</div>
+    <div class="district-quote">"The fountain has been running since the Ottomans. Nobody maintains it. It maintains itself. Like the gossip."</div>
+    <img class="district-img" loading="lazy" src="web/JOULLAQ-SQUARE.webp" alt="Village Square" onclick="openLightbox(this)">
+    <div class="district-text">
+      Every evening, the square fills. Not because anyone calls. Not because anything happens. It fills because it has always filled. The old men arrive first. They sit on the same bench they have sat on for forty years. The bench has shaped itself to them. Or they have shaped themselves to the bench. Nobody can tell anymore.<br><br>
+      The children run. The mothers watch. The fathers argue about politics they cannot change in a country they may have already left. The fountain runs. It has always run. When the bombs came, the fountain ran. When the power went, the fountain ran. It runs from the mountain. The mountain does not care about wars.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🏠</div>
+    <div class="district-name">THE STONE HOUSE</div>
+    <div class="district-quote">"The walls are one metre thick. They keep the heat out in summer, the cold out in winter, and the neighbours' opinions out all year."</div>
+    <img class="district-img" loading="lazy" src="web/JOULLAQ-HOUSE.webp" alt="Stone House Interior" onclick="openLightbox(this)">
+    <div class="district-text">
+      Inside a Joullaq house, the world stops. The walls are stone. The floor is stone. The ceiling is an arch that has held since your great-grandmother was a bride. The dallah sits on the stove. The coffee is always ready. If you arrive, you drink. This is not hospitality. This is law.<br><br>
+      The cushions are on the floor. The table is low. The window is small — not because they couldn't make it bigger, but because the view is not the point. The point is inside. The point is the family sitting on the floor, the bread being torn by hand, the coffee being poured without asking. You don't ask in Joullaq. You know. And if you don't know, you drink the coffee anyway and you will.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🌅</div>
+    <div class="district-name">THE SUMMIT</div>
+    <div class="district-quote">"From the top, you can see three countries. From the top, you can see everything you left. From the top, you understand why you left and why you will never leave."</div>
+    <img class="district-img" loading="lazy" src="web/JOULLAQ-SUMMIT.webp" alt="The Summit" onclick="openLightbox(this)">
+    <div class="district-text">
+      The highest point in Joullaq has no name. It doesn't need one. Everyone knows where it is. You walk up in the morning before the heat. You pass the last house. You pass the last tree. You pass the last goat who looks at you like you owe him an explanation.<br><br>
+      And then you see it. The valley. The river that is sometimes a river and sometimes a memory. The road that leaves and the road that returns and they are the same road. The church steeple and the minaret, both reaching for the same God who hasn't answered either of them but keeps both standing. From here, Joullaq looks small. From here, Joullaq looks like everything.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🕊️</div>
+    <div class="district-name">THE CHURCH & THE MOSQUE</div>
+    <div class="district-quote">"The bell rings. The muezzin calls. The children can't tell which sound belongs to which building. Good."</div>
+    <div class="district-text">
+      They stand fifty metres apart. They have stood fifty metres apart for four hundred years. The priest and the imam drink coffee together on Tuesdays. This is not tolerance. Tolerance is what strangers practice. This is family. Family argues louder and forgives faster. The weddings overlap. The funerals overlap. The food is identical. The prayers point in different directions. The love points the same way.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">👵</div>
+    <div class="district-name">THE GRANDMOTHER'S KITCHEN</div>
+    <div class="district-quote">"She doesn't use recipes. She uses memory. The memory of a woman who fed seven children through a war and still had enough for the neighbour."</div>
+    <div class="district-text">
+      The kitchen is the real government of Joullaq. No decision passes without her. The mayor is a formality. The imam is a consultant. The grandmother is the constitution. She makes kibbeh on Fridays. She makes stuffed vine leaves when someone is sick. She makes maamoul when someone dies. The food is not food. The food is policy.<br><br>
+      Her hands are maps. Every line is a season of olives. Every scar is a winter survived. She doesn't hug you when you arrive. She feeds you. Same thing. Bigger.
+    </div>
+  </div>
+</div>
+
+<div class="district">
+  <div class="district-content">
+    <div class="district-icon">🚗</div>
+    <div class="district-name">THE ROAD OUT</div>
+    <div class="district-quote">"Everyone leaves Joullaq. Everyone. And everyone comes back. Everyone. The ones who don't come back — they never left. They are still here. In the stones."</div>
+    <div class="district-text">
+      The road out of Joullaq is one lane. It fits one car or two donkeys or one argument between brothers. It winds down the mountain through seven hairpin turns that the bus driver takes on faith alone. At the bottom, the world begins. Damascus. Beirut. Paris. Berlin. São Paulo. Wherever Joullaq's children scattered, they carried the stones with them.<br><br>
+      They built houses in other countries with walls that are too thick. They cook food that is too generous for the number of guests. They pour coffee without asking. They name their children after grandparents who are buried on the hill. The road out of Joullaq is one lane. But it is the longest road in the world. It goes everywhere. It comes back every summer.
+    </div>
+  </div>
+</div>
+
+<div class="table-section">
+  <div class="table-title">🍽️ THE GRANDMOTHER'S TABLE</div>
+  <div class="menu-grid">
+    <div class="menu-item"><div class="item-icon">🫓</div><div class="item-name">THE BREAD</div><div class="item-desc">Baked on the saj. Thin as a whisper. Loud as a meal.</div></div>
+    <div class="menu-item"><div class="item-icon">🫒</div><div class="item-name">THE OLIVES</div><div class="item-desc">From the tree grandfather planted. Still bitter. Still perfect.</div></div>
+    <div class="menu-item"><div class="item-icon">🧆</div><div class="item-name">THE KIBBEH</div><div class="item-desc">Friday. Always Friday. If it's not Friday, it's not kibbeh.</div></div>
+    <div class="menu-item"><div class="item-icon">🫗</div><div class="item-name">THE OLIVE OIL</div><div class="item-desc">Green. Thick. One taste and you know where home is.</div></div>
+    <div class="menu-item"><div class="item-icon">🌿</div><div class="item-name">THE ZAATAR</div><div class="item-desc">Wild. From the hill behind the house. The thyme remembers rain.</div></div>
+    <div class="menu-item"><div class="item-icon">🍇</div><div class="item-name">THE ARAK</div><div class="item-desc">Homemade. Clear as water. Kicks like a mule.</div></div>
+    <div class="menu-item"><div class="item-icon">☕</div><div class="item-name">THE COFFEE</div><div class="item-desc">Cardamom. No sugar. You drink it. You don't discuss it.</div></div>
+    <div class="menu-item"><div class="item-icon">🍊</div><div class="item-name">THE ORANGE</div><div class="item-desc">Free. Even in exile. Especially in exile. Always.</div></div>
+  </div>
+</div>
+
+<div class="ages-section">
+  <div class="table-title">📜 THE AGES OF JOULLAQ</div>
+  <div class="age-line"><span>THE FIRST STONE</span> — Someone placed it. Nobody remembers. The stone remembers.</div>
+  <div class="age-line"><span>THE ROMAN ROAD</span> — They passed through. They didn't stop. Their road did.</div>
+  <div class="age-line"><span>THE BYZANTINE BELL</span> — The first church. The bell is still there. The empire is not.</div>
+  <div class="age-line"><span>THE OTTOMAN FOUNTAIN</span> — They built the fountain. The village kept the water.</div>
+  <div class="age-line"><span>THE FRENCH MANDATE</span> — They drew borders. The village ignored them.</div>
+  <div class="age-line"><span>THE INDEPENDENCE</span> — The flag changed. The coffee didn't.</div>
+  <div class="age-line"><span>THE LEAVING</span> — They left for the cities. For the sea. For the airports. The stones stayed.</div>
+</div>
+
+<div class="souls-section">
+  <div class="table-title">👥 THE 7 SOULS OF JOULLAQ</div>
+  <div class="soul"><div class="soul-icon">👵</div><div class="soul-name">The Grandmother</div></div>
+  <div class="soul"><div class="soul-icon">🫒</div><div class="soul-name">The Olive Farmer</div></div>
+  <div class="soul"><div class="soul-icon">⛪</div><div class="soul-name">The Priest</div></div>
+  <div class="soul"><div class="soul-icon">🕌</div><div class="soul-name">The Imam</div></div>
+  <div class="soul"><div class="soul-icon">🔧</div><div class="soul-name">The Mechanic</div></div>
+  <div class="soul"><div class="soul-icon">📬</div><div class="soul-name">The Postman</div></div>
+  <div class="soul"><div class="soul-icon">🚗</div><div class="soul-name">The One Who Left</div></div>
+</div>
+
+<footer>
+  <a href="https://juxaos.com">← RETURN TO THE ARC</a>
+  <div class="sig">JOULLAQ — THE VILLAGE THAT TIME KEPT — JuX Civilization 33</div>
+  <div class="sig">Stone and Olive and Smoke · The Road Out Goes Everywhere · It Comes Back Every Summer</div>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(img){const lb=document.getElementById('lightbox');const li=document.getElementById('lightbox-img');li.src=img.src;lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
