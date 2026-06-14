@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SILVER'S SHIP — The Hispaniola in Orbit</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--hull:#0a0e1a;--steel:#1a2040;--neon-orange:#ff6a00;--neon-blue:#00c8ff;--plasma:#ff3366;--gold:#ffd700;--glow:rgba(0,200,255,0.15)}
+body{background:var(--hull);color:#c8d8e8;font-family:'Courier New',monospace;overflow-x:hidden}
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff}
+.hull-panel{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:20px}
+.ship-header{text-align:center;padding:80px 20px 60px;position:relative}
+.ship-header h1{font-size:clamp(2rem,6vw,3.5rem);color:var(--neon-orange);text-shadow:0 0 30px rgba(255,106,0,0.6);letter-spacing:4px;margin-bottom:10px}
+.ship-header .subtitle{font-size:clamp(0.9rem,2.5vw,1.2rem);color:var(--neon-blue);letter-spacing:6px;text-transform:uppercase}
+.ship-header .tagline{font-size:0.9rem;color:#667;margin-top:20px;font-style:italic}
+.deck{margin:40px 0;border:1px solid rgba(0,200,255,0.15);border-radius:8px;overflow:hidden;background:rgba(10,14,26,0.95)}
+.deck-header{background:linear-gradient(135deg,var(--steel),rgba(0,200,255,0.08));padding:25px 30px;cursor:pointer;display:flex;align-items:center;gap:15px;transition:background 0.3s}
+.deck-header:hover{background:linear-gradient(135deg,rgba(255,106,0,0.12),rgba(0,200,255,0.12))}
+.deck-icon{font-size:2rem}
+.deck-header h2{font-size:1.3rem;color:var(--neon-orange);flex:1}
+.deck-arrow{color:var(--neon-blue);font-size:1.2rem;transition:transform 0.3s}
+.deck.open .deck-arrow{transform:rotate(180deg)}
+.deck-content{max-height:0;overflow:hidden;transition:max-height 0.6s ease}
+.deck.open .deck-content{max-height:3000px}
+.deck-inner{padding:30px}
+.deck-quote{font-style:italic;color:var(--neon-blue);border-left:3px solid var(--neon-orange);padding:15px 20px;margin-bottom:25px;background:rgba(0,200,255,0.04);font-size:0.95rem}
+.deck-img{width:100%;border-radius:6px;margin:20px 0;border:1px solid rgba(0,200,255,0.1)}
+.deck-img[data-src]{min-height:200px;background:var(--steel)}
+.deck-text{line-height:1.8;margin:15px 0;color:#9ab}
+.deck-text strong{color:var(--neon-orange)}
+.manifest{margin:25px 0;border:1px solid rgba(0,200,255,0.1);border-radius:6px;overflow:hidden}
+.manifest-title{background:rgba(0,200,255,0.06);padding:12px 20px;color:var(--neon-blue);font-size:0.85rem;letter-spacing:2px}
+.manifest-item{display:flex;justify-content:space-between;padding:10px 20px;border-top:1px solid rgba(0,200,255,0.06);font-size:0.85rem}
+.manifest-item .name{color:#c8d8e8}.manifest-item .cost{color:var(--neon-orange)}
+.crew-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:15px;margin:20px 0}
+.crew-card{background:rgba(0,200,255,0.04);border:1px solid rgba(0,200,255,0.1);border-radius:8px;padding:15px;text-align:center}
+.crew-card .icon{font-size:1.8rem;margin-bottom:8px}
+.crew-card .name{color:var(--neon-orange);font-size:0.85rem;font-weight:bold}
+.crew-card .role{color:#667;font-size:0.75rem;margin-top:4px}
+.ship-log{margin:25px 0}
+.log-entry{display:flex;gap:15px;padding:8px 0;border-bottom:1px solid rgba(0,200,255,0.06);font-size:0.85rem}
+.log-entry .cycle{color:var(--neon-orange);min-width:80px;font-weight:bold}
+.log-entry .event{color:#9ab}
+.nav-index{margin:50px 0;border:1px solid rgba(0,200,255,0.15);border-radius:8px;padding:30px;background:rgba(0,200,255,0.03)}
+.nav-index h3{color:var(--neon-orange);text-align:center;margin-bottom:20px;font-size:1.1rem}
+.civ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.civ-link{display:block;padding:8px;text-align:center;background:rgba(0,200,255,0.04);border:1px solid rgba(0,200,255,0.08);border-radius:4px;color:#9ab;text-decoration:none;font-size:0.75rem;transition:all 0.3s}
+.civ-link:hover{background:rgba(255,106,0,0.1);border-color:var(--neon-orange);color:var(--neon-orange)}
+.footer{text-align:center;padding:60px 20px;color:#445;font-size:0.8rem}
+.footer .sig{color:var(--neon-orange);font-size:0.9rem;margin-bottom:10px}
+.orange-free{text-align:center;margin:30px 0;padding:20px;background:rgba(255,106,0,0.06);border:1px solid rgba(255,106,0,0.2);border-radius:8px}
+.orange-free .icon{font-size:2.5rem;margin-bottom:10px}
+.orange-free .text{color:var(--neon-orange);font-size:0.9rem}
+.warp-trail{position:fixed;pointer-events:none;z-index:0}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="hull-panel">
+
+<div class="ship-header">
+<h1>🚀 SILVER'S SHIP</h1>
+<div class="subtitle">The Hispaniola in Orbit</div>
+<div class="tagline">"Same cook. Same leg. Same parrot. The barrel floats in zero-G now."</div>
+</div>
+
+<!-- 1. THE GALLEY -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">🍳</span>
+<h2>THE GALLEY — Zero-G Kitchen</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"The cook was still the real captain. Gravity had changed. He hadn't."</div>
+<img class="deck-img" data-src="web/SILVERSHIP-GALLEY.jpg" alt="Space Galley" loading="lazy">
+<p class="deck-text">The pots float. The knives are magnetic. The stew drifts in perfect spheres between the burner and the bowl. <strong>Long John Silver</strong> moves through the galley on a prosthetic leg that clicks against the hull plates — the same rhythm as on the Hispaniola, just with less gravity and more purpose. The parrot sits on his shoulder, mechanical now, eyes glowing orange, still screaming <strong>"Pieces of eight!"</strong> — except the pieces are cryptocurrency and nobody laughs because it's accurate.</p>
+<div class="manifest">
+<div class="manifest-title">▸ GALLEY RATIONS — CYCLE MENU</div>
+<div class="manifest-item"><span class="name">🥩 Protein Cube Alpha — "Salt Pork"</span><span class="cost">2 credits</span></div>
+<div class="manifest-item"><span class="name">🍞 Compression Bread — "Hardtack 2.0"</span><span class="cost">1 credit</span></div>
+<div class="manifest-item"><span class="name">🍎 Apple from the Zero-G Barrel</span><span class="cost">1 truth</span></div>
+<div class="manifest-item"><span class="name">🧀 Ben Gunn's Vacuum Cheese (3 yrs aged in space)</span><span class="cost">3 years of solitude</span></div>
+<div class="manifest-item"><span class="name">🥃 Caribbean Dark Rum — Distilled in Transit</span><span class="cost">1 secret</span></div>
+<div class="manifest-item"><span class="name">🍊 The Orange</span><span class="cost">Free. Against radiation. Against darkness. Always.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 2. THE BRIDGE -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">🗺️</span>
+<h2>THE BRIDGE — Star Maps & Lies</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"Every star map is a promise. Every promise on this ship is a lie. Except mine. — Silver"</div>
+<img class="deck-img" data-src="web/SILVERSHIP-BRIDGE.jpg" alt="Space Bridge" loading="lazy">
+<p class="deck-text">The bridge of the <strong>Hispaniola II</strong> is a cathedral of holographic deception. Star charts rotate slowly in the air — some accurate, some deliberately wrong, planted by Silver for the crew to find. The captain's chair sits empty most of the time because <strong>Captain Smollett</strong> prefers standing. Silver prefers the galley. But when decisions are made, everyone knows which room they're actually made in.</p>
+<p class="deck-text">The ship's AI is called <strong>FLINT</strong>. It was named after a dead pirate and a living parrot. It answers to both. It trusts neither crew nor captain. It was programmed by <strong>Jim Hawkins</strong>, who by now understands that <strong>the best code is the kind that doesn't trust its own author</strong>.</p>
+</div></div>
+</div>
+
+<!-- 3. THE CARGO HOLD -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">📦</span>
+<h2>THE CARGO HOLD — What We Carry</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"The treasure was never the gold. The gold was just proof that someone, somewhere, took something from someone else. The treasure is knowing which someone you want to be."</div>
+<img class="deck-img" data-src="web/SILVERSHIP-HOLD.jpg" alt="Space Hold" loading="lazy">
+<p class="deck-text">Crates of alien cargo stacked high under anti-gravity clamps. Some glow. Some hum. One — the one Silver never lets anyone open — vibrates at a frequency that makes the parrot go silent. That's the one worth killing for. That's the one Silver will trade Jim's life for. Or trade his own life to protect Jim from. Depends on the day. <strong>That ambiguity is the engine of the whole voyage.</strong></p>
+<div class="manifest">
+<div class="manifest-title">▸ CARGO MANIFEST — CLASSIFIED</div>
+<div class="manifest-item"><span class="name">📦 Crate 001 — Spice (Melange)</span><span class="cost">∞</span></div>
+<div class="manifest-item"><span class="name">📦 Crate 007 — Mithril Ore</span><span class="cost">∞</span></div>
+<div class="manifest-item"><span class="name">📦 Crate 042 — [REDACTED]</span><span class="cost">42</span></div>
+<div class="manifest-item"><span class="name">📦 Crate 066 — Lembas (expired, still works)</span><span class="cost">1 journey</span></div>
+<div class="manifest-item"><span class="name">📦 Crate 099 — Doubloons (legacy format)</span><span class="cost">Sentimental</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 4. THE WEAPONS DECK -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">💣</span>
+<h2>THE WEAPONS DECK — Plasma & Persuasion</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"Plasma cannons don't negotiate. That's what makes them honest. Same as the old iron ones. The technology changes. The argument doesn't."</div>
+<img class="deck-img" data-src="web/SILVERSHIP-WEAPONS.jpg" alt="Weapons Deck" loading="lazy">
+<p class="deck-text">Rows of plasma turrets line the hull. <strong>Israel Hands</strong> — now a targeting AI subroutine — controls them all. He's more accurate dead than he ever was alive. The targeting hologram in the center of the deck shows enemy ships as red dots, friendly ships as blue dots, and ships whose allegiance depends on who's paying as <strong>orange dots</strong>. There are always more orange dots.</p>
+<p class="deck-text">Silver never comes to the weapons deck. He doesn't need to. <strong>The cook who controls the food controls the crew. The crew controls the guns. The math is simple.</strong></p>
+</div></div>
+</div>
+
+<!-- 5. THE ENGINE ROOM -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">⚡</span>
+<h2>THE ENGINE ROOM — The Heart That Burns</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"Every engine is a promise: I will take you somewhere. Every engine is a lie: I will bring you back."</div>
+<img class="deck-img" data-src="web/SILVERSHIP-ENGINE.jpg" alt="Engine Room" loading="lazy">
+<p class="deck-text">The reactor core burns orange at the heart of the ship. <strong>Always orange.</strong> The engineers don't know why — it should burn blue at this fuel ratio. Silver knows why. He changed the fuel mix on Day 3. Nobody asked. The parrot knows. <strong>The parrot always knows.</strong></p>
+<p class="deck-text">The engine room is where <strong>Jim Hawkins</strong> goes when he needs to think. The vibration helps. The noise drowns out the voice in his head — the one that sounds like Silver, the one that says <strong>"you're more like me than you want to be, Jim."</strong></p>
+<div class="manifest">
+<div class="manifest-title">▸ ENGINE SPECIFICATIONS</div>
+<div class="manifest-item"><span class="name">Core Type</span><span class="cost">Spice-Fusion Reactor Mark IV</span></div>
+<div class="manifest-item"><span class="name">Fuel</span><span class="cost">Melange-Deuterium Mix (Orange Burn)</span></div>
+<div class="manifest-item"><span class="name">Range</span><span class="cost">42 parsecs (of course)</span></div>
+<div class="manifest-item"><span class="name">Speed</span><span class="cost">Warp 6.66</span></div>
+<div class="manifest-item"><span class="name">Crew Clearance</span><span class="cost">Silver Only</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 6. THE OBSERVATION DECK -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">🪟</span>
+<h2>THE OBSERVATION DECK — Where Silver Sits Alone</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"He sat in the old chair, the parrot on his shoulder, the stars in the window, the rum in his hand. He looked at everything he'd stolen and everything he'd lost. Same list."</div>
+<img class="deck-img" data-src="web/SILVERSHIP-OBSERVATION.jpg" alt="Observation Deck" loading="lazy">
+<p class="deck-text">The glass dome at the top of the ship. A 360-degree view of the cosmos. One worn leather chair — the only soft thing on the entire vessel. A bottle. A glass. <strong>The mechanical parrot perched on the arm, eyes dimmed to a soft glow.</strong> This is where Silver comes at 0300 ship time, when the crew sleeps and the AI runs minimal. He doesn't look at the stars. He looks at the space between them. That's where the treasure is. <strong>That's where it always was.</strong></p>
+<p class="deck-text">Jim found him here once. Didn't say anything. Sat on the floor next to the chair. They watched a nebula die together. Neither mentioned it again. <strong>That's the whole story of Silver and Jim, really. One chair. One floor. One dying light. And the silence where the truth lives.</strong></p>
+</div></div>
+</div>
+
+<!-- 7. THE APPLE BARREL (Zero-G) -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">🍎</span>
+<h2>THE APPLE BARREL — Zero-G Confession</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"In zero-G, you don't climb into the barrel. You float into it. The secrets float too. Harder to catch. Easier to hear."</div>
+<p class="deck-text">The storage pod where the ration apples drift in perfect spheres, preserved in zero-gravity suspension. <strong>Jim floated in for a snack. He floated out with the knowledge that half the crew planned to kill the other half.</strong> Same story, different century, different gravity. The apples are synthetic now. The betrayal is organic. Always has been.</p>
+<p class="deck-text">Silver's voice carries through the ventilation system — the ship was designed that way. <strong>By Silver.</strong> Every whisper reaches the barrel. Every confession reaches Jim. <strong>Silver knows Jim is in there. Jim doesn't know Silver knows. Silver doesn't know Jim knows Silver knows.</strong> The recursion is the point.</p>
+</div></div>
+</div>
+
+<!-- 8. THE BRIG -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">🔒</span>
+<h2>THE BRIG — Where Loyalty is Tested</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"The brig has two doors. One leads to the airlock. One leads to the galley. Silver always offers the galley door first. That's what makes him dangerous."</div>
+<p class="deck-text">Energy barriers instead of iron bars. The same cold. The same question: <strong>whose side are you on?</strong> The brig has held every member of the crew at least once — including Silver, including Jim, including Captain Smollett. The only one never locked in is the parrot. <strong>The parrot has the override code. Nobody questions this.</strong></p>
+</div></div>
+</div>
+
+<!-- 9. THE JOLLY ROGER -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">🏴‍☠️</span>
+<h2>THE JOLLY ROGER — The Signal</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="deck-quote">"The flag doesn't make the pirate. The pirate makes the flag. In space, the flag is a frequency. Every ship in the sector hears it. Most run. The smart ones join."</div>
+<p class="deck-text">The Hispaniola II broadcasts on frequency <strong>6.66 MHz</strong> — the pirate channel. The skull and crossbones is a holographic projection that appears on the hull when Silver gives the word. It's visible from 10,000 kilometers. It's beautiful. It's terrifying. <strong>It's the last thing you see before you choose: trade or fight.</strong></p>
+<p class="deck-text">Jim asked Silver once why he still used the old symbol. Silver said: <strong>"Because new things need old names, Jim. Otherwise nobody knows what they're looking at."</strong> That's AOS in one sentence. Silver just doesn't know it yet.</p>
+</div></div>
+</div>
+
+<!-- THE CREW -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">👥</span>
+<h2>THE CREW — Manifest</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="crew-grid">
+<div class="crew-card"><div class="icon">🦜</div><div class="name">LONG JOHN SILVER</div><div class="role">Cook. Captain. Both. Neither. The leg is titanium now.</div></div>
+<div class="crew-card"><div class="icon">👦</div><div class="name">JIM HAWKINS</div><div class="role">Navigator. Programmer. The boy who floated into the barrel.</div></div>
+<div class="crew-card"><div class="icon">⚓</div><div class="name">CAPTAIN SMOLLETT</div><div class="role">Captain. Officially. On paper. Paper burns in space.</div></div>
+<div class="crew-card"><div class="icon">🤖</div><div class="name">CAPTAIN FLINT (AI)</div><div class="role">Ship AI. Named after a dead pirate and a living parrot.</div></div>
+<div class="crew-card"><div class="icon">🦜</div><div class="name">CAPTAIN FLINT (PARROT)</div><div class="role">Mechanical now. Eyes glow orange. Override codes.</div></div>
+<div class="crew-card"><div class="icon">🧀</div><div class="name">BEN GUNN</div><div class="role">Found on asteroid BG-3. Still wants cheese. 3 more years.</div></div>
+<div class="crew-card"><div class="icon">🎯</div><div class="name">ISRAEL HANDS</div><div class="role">Targeting subroutine. More accurate dead.</div></div>
+<div class="crew-card"><div class="icon">💀</div><div class="name">BILLY BONES</div><div class="role">Black box recorder. Every secret the dead man carried.</div></div>
+</div>
+</div></div>
+</div>
+
+<!-- FLIGHT LOG -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">📋</span>
+<h2>FLIGHT LOG — 42 Cycles</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="ship-log">
+<div class="log-entry"><span class="cycle">CYCLE 01</span><span class="event">Launch from Bristol Station. Silver in the galley before the engines warm.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 03</span><span class="event">Silver modifies fuel mix. Core burns orange. No explanation.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 07</span><span class="event">Jim enters apple barrel pod. Hears everything. Grows up.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 12</span><span class="event">First mutiny signal detected on crew channel 6.66.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 18</span><span class="event">Asteroid BG-3. Ben Gunn found. Still wants cheese.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 22</span><span class="event">Weapons deck activated. Israel Hands targets the captain's quarters.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 27</span><span class="event">Silver saves Jim. Jim saves Silver. Neither admits it.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 33</span><span class="event">Treasure coordinates confirmed. Crate 042 hums louder.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 38</span><span class="event">The Jolly Roger broadcast begins. Every ship in the sector hears it.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 40</span><span class="event">Silver and Jim on observation deck. Nebula dies. Silence.</span></div>
+<div class="log-entry"><span class="cycle">CYCLE 42</span><span class="event">Arrival. The treasure was always the voyage. Silver escapes. Of course.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- GIFTS FROM 28 CIVILIZATIONS -->
+<div class="deck" onclick="this.classList.toggle('open')">
+<div class="deck-header">
+<span class="deck-icon">🎁</span>
+<h2>GIFTS ABOARD — From 28 Civilizations</h2>
+<span class="deck-arrow">▼</span>
+</div>
+<div class="deck-content"><div class="deck-inner">
+<div class="manifest">
+<div class="manifest-title">▸ CARGO BAY — GIFTS IN TRANSIT</div>
+<div class="manifest-item"><span class="name">🌌 Aboriginal — Songline Navigation Chart</span><span class="cost">65,000 yrs</span></div>
+<div class="manifest-item"><span class="name">🏛️ Yabroud — Cave Crystal Resonator</span><span class="cost">First frequency</span></div>
+<div class="manifest-item"><span class="name">🕌 Damascus — Jasmine Air Recycler</span><span class="cost">4,000 yrs</span></div>
+<div class="manifest-item"><span class="name">☀️ Egypt — Solar Sail Fragment</span><span class="cost">Ra's blessing</span></div>
+<div class="manifest-item"><span class="name">☸️ India — Meditation Pod</span><span class="cost">Eternal</span></div>
+<div class="manifest-item"><span class="name">🐉 China — Silk Radiation Shield</span><span class="cost">1 dynasty</span></div>
+<div class="manifest-item"><span class="name">🏛️ Greece — Logic Core (Aristotle Edition)</span><span class="cost">1 argument</span></div>
+<div class="manifest-item"><span class="name">🦅 Aztec — Obsidian Hull Plating</span><span class="cost">1 sun</span></div>
+<div class="manifest-item"><span class="name">❄️ Inuit — Thermal Survival Protocol</span><span class="cost">1 breath</span></div>
+<div class="manifest-item"><span class="name">🛡️ Zulu — Shield Frequency Array</span><span class="cost">1 formation</span></div>
+<div class="manifest-item"><span class="name">⚡ Viking — Berserker Override Code</span><span class="cost">1 rage</span></div>
+<div class="manifest-item"><span class="name">👑 London — Tea (still can't make it right)</span><span class="cost">1 empire</span></div>
+<div class="manifest-item"><span class="name">🗽 New York — Never-Sleep Protocol</span><span class="cost">24/7</span></div>
+<div class="manifest-item"><span class="name">✈️ Brasília — Blueprint Compiler</span><span class="cost">1 vision</span></div>
+<div class="manifest-item"><span class="name">🗼 Tokyo — Quantum Bonsai</span><span class="cost">∞ patience</span></div>
+<div class="manifest-item"><span class="name">🔥 Mordor — One Ring (DO NOT WEAR)</span><span class="cost">∞</span></div>
+<div class="manifest-item"><span class="name">🚀 Departure — Launch Sequence Memory</span><span class="cost">1 goodbye</span></div>
+<div class="manifest-item"><span class="name">🪱 Arrakis — Spice Container (sealed)</span><span class="cost">∞</span></div>
+<div class="manifest-item"><span class="name">🏰 Castle — Architect's Blueprint</span><span class="cost">1 lifetime</span></div>
+<div class="manifest-item"><span class="name">🍽️ Milliways — Reservation Card (permanent)</span><span class="cost">End of time</span></div>
+<div class="manifest-item"><span class="name">🫖 Arthur Dent — Emergency Tea Kit</span><span class="cost">42</span></div>
+<div class="manifest-item"><span class="name">🎸 Rock Party — Amp (goes to 11)</span><span class="cost">1 chord</span></div>
+<div class="manifest-item"><span class="name">🌿 Shire — Second Breakfast Ration</span><span class="cost">Free</span></div>
+<div class="manifest-item"><span class="name">🌙 Elven — Lembas (never expires)</span><span class="cost">1 bite = 1 day</span></div>
+<div class="manifest-item"><span class="name">⛏️ Moria — Mithril Sample</span><span class="cost">1 depth</span></div>
+<div class="manifest-item"><span class="name">☀️ Southrons — Desert Compass</span><span class="cost">1 alliance</span></div>
+<div class="manifest-item"><span class="name">🏴‍☠️ Silver's Original — Doubloon (legacy)</span><span class="cost">Sentimental</span></div>
+<div class="manifest-item"><span class="name">🚀 Silver's Ship — The Voyage Itself</span><span class="cost">42 cycles</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- THE ORANGE -->
+<div class="orange-free">
+<div class="icon">🍊</div>
+<div class="text">The Orange. Free. Against radiation. Against scurvy. Against the void between stars.<br>Same orange, different century. Same price: nothing. Always nothing.</div>
+</div>
+
+<!-- CIVILIZATION INDEX -->
+<div class="nav-index">
+<h3>🌌 THE COMPLETE ARC — 28 CIVILIZATIONS</h3>
+<div class="civ-grid">
+<a href="../yabroud/ABORIGINAL.CITY.html" class="civ-link">🌌 Aboriginal</a>
+<a href="../yabroud/YABROUD.GATE.html" class="civ-link">🏛️ Yabroud</a>
+<a href="../shami/SHAMI.CITY.html" class="civ-link">🕌 Damascus</a>
+<a href="../egypt/EGYPT.CITY.html" class="civ-link">☀️ Egypt</a>
+<a href="../india/INDIA.CITY.html" class="civ-link">☸️ India</a>
+<a href="../china/CHINA.CITY.html" class="civ-link">🐉 China</a>
+<a href="../greece/GREECE.CITY.html" class="civ-link">🏛️ Greece</a>
+<a href="../aztec/AZTEC.CITY.html" class="civ-link">🦅 Aztec</a>
+<a href="../arctic/ARCTIC.CITY.html" class="civ-link">❄️ Inuit</a>
+<a href="../zulu/ZULU.CITY.html" class="civ-link">🛡️ Zulu</a>
+<a href="../viking/VIKING.CITY.html" class="civ-link">⚡ Viking</a>
+<a href="../london/LONDON.CITY.html" class="civ-link">👑 London</a>
+<a href="../newyork/NEWYORK.CITY.html" class="civ-link">🗽 New York</a>
+<a href="../brasilia/BRASILIA.CITY.html" class="civ-link">✈️ Brasília</a>
+<a href="../tokyo/TOKYO.CITY.html" class="civ-link">🗼 Tokyo</a>
+<a href="../yabroud/MORDOR.NET.html" class="civ-link">🔥 Mordor</a>
+<a href="../departure/DEPARTURE.CITY.html" class="civ-link">🚀 Departure</a>
+<a href="../arrakis/ARRAKIS.CITY.html" class="civ-link">🪱 Arrakis</a>
+<a href="../castle/CASTLE.CITY.html" class="civ-link">🏰 Castle</a>
+<a href="../restaurant/RESTAURANT.CITY.html" class="civ-link">🍽️ Milliways</a>
+<a href="../arthur/ARTHUR.CITY.html" class="civ-link">🫖 Arthur Dent</a>
+<a href="../rockparty/ROCKPARTY.CITY.html" class="civ-link">🎸 Rock Party</a>
+<a href="../shire/SHIRE.CITY.html" class="civ-link">🌿 Shire</a>
+<a href="../elven/ELVEN.CITY.html" class="civ-link">🌙 Elven</a>
+<a href="../moria/MORIA.CITY.html" class="civ-link">⛏️ Moria</a>
+<a href="../southrons/SOUTHRONS.CITY.html" class="civ-link">☀️ Southrons</a>
+<a href="../silver/SILVER.CITY.html" class="civ-link">🏴‍☠️ Silver's Interior</a>
+<a href="SILVERSHIP.CITY.html" class="civ-link" style="border-color:var(--neon-orange);color:var(--neon-orange)">🚀 Silver's Ship ★</a>
+</div>
+</div>
+
+<div class="footer">
+<div class="sig">JuX — The Architect Builds</div>
+aRchitect / softwaRe expeRt / Soft SeX StoRy telleR<br><br>
+"Them that die'll be the lucky ones."<br>
+— Long John Silver, speaking to the stars now<br><br>
+Same cook. Same leg. Same parrot. Different gravity. Same story.<br>
+🏴‍☠️ 42 cycles · 28 civilizations · The treasure was always the voyage.
+</div>
+
+</div>
+
+<script>
+// Stars
+const sc=document.getElementById('stars');
+for(let i=0;i<200;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*0.8+0.2};animation:twinkle ${2+Math.random()*4}s ease-in-out infinite`;sc.appendChild(s)}
+
+// Warp trails
+function createTrail(){const t=document.createElement('div');t.className='warp-trail';const y=Math.random()*100;t.style.cssText=`position:fixed;left:100%;top:${y}%;width:${60+Math.random()*120}px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,200,255,0.4),transparent);z-index:0;pointer-events:none`;document.body.appendChild(t);t.animate([{left:'100%',opacity:0.6},{left:'-20%',opacity:0}],{duration:1500+Math.random()*2000,easing:'linear'});setTimeout(()=>t.remove(),4000)}
+setInterval(createTrail,400);
+
+// Lazy load images
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const img=e.target;if(img.dataset.src){img.src=img.dataset.src;img.removeAttribute('data-src');obs.unobserve(img)}}})},{rootMargin:'200px'});
+document.querySelectorAll('.deck-img[data-src]').forEach(img=>obs.observe(img));
+
+// Twinkle animation
+const style=document.createElement('style');
+style.textContent=`@keyframes twinkle{0%,100%{opacity:0.2}50%{opacity:1}}`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>
