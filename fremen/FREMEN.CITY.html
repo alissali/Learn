@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FREMEN — The Desert Was Theirs</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#e8d5b0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#1a0f00 0%,#2d1800 30%,#4a2800 60%,#1a0f00 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(180,120,40,0.15) 0%,transparent 70%)}
+.sand-drift{position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,rgba(180,120,40,0.2),transparent)}
+.hero h1{font-size:clamp(3rem,8vw,7rem);font-weight:400;letter-spacing:0.3em;color:#c4944a;text-shadow:0 0 60px rgba(180,120,40,0.4);z-index:1}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.6rem);color:#8a7a5a;letter-spacing:0.5em;margin-top:1rem;font-style:italic;z-index:1}
+.hero .verse{font-size:clamp(0.85rem,1.5vw,1.1rem);color:#6a5a3a;max-width:600px;margin-top:2rem;line-height:1.8;z-index:1}
+.blue-eyes{color:#3a8aff;text-shadow:0 0 20px rgba(58,138,255,0.6)}
+
+.stats{display:flex;justify-content:center;gap:3rem;padding:3rem 1rem;background:#0d0800;flex-wrap:wrap;border-bottom:1px solid #2a1a00}
+.stat{text-align:center}
+.stat-num{font-size:2.5rem;color:#c4944a}
+.stat-label{font-size:0.8rem;color:#6a5a3a;letter-spacing:0.2em;margin-top:0.3rem}
+
+.district{min-height:100vh;display:flex;align-items:center;padding:2rem;position:relative}
+.district:nth-child(even){flex-direction:row-reverse}
+.district-img{flex:1;min-width:300px;max-width:600px;cursor:pointer;position:relative;overflow:hidden;border-radius:2px}
+.district-img img{width:100%;display:block;transition:transform 0.6s;filter:sepia(0.2) contrast(1.1)}
+.district-img:hover img{transform:scale(1.03)}
+.district-img .img-label{position:absolute;bottom:0;left:0;right:0;padding:1rem;background:linear-gradient(transparent,rgba(0,0,0,0.8));font-size:0.75rem;letter-spacing:0.3em;color:#c4944a}
+.district-text{flex:1;padding:3rem;max-width:600px}
+.district-text h2{font-size:clamp(1.5rem,3vw,2.5rem);color:#c4944a;letter-spacing:0.15em;margin-bottom:1rem;font-weight:400}
+.district-text .icon{font-size:2rem;margin-bottom:1rem}
+.district-text p{font-size:1rem;line-height:1.8;color:#a89070;margin-bottom:1rem}
+.district-text .quote{font-style:italic;color:#6a8ac4;border-left:2px solid #3a5a8a;padding-left:1rem;margin-top:1.5rem;font-size:0.95rem;line-height:1.6}
+
+.feast{padding:5rem 2rem;text-align:center;background:linear-gradient(180deg,#0a0a0a,#0d0800,#0a0a0a)}
+.feast h2{font-size:clamp(1.8rem,3vw,2.5rem);color:#c4944a;letter-spacing:0.2em;margin-bottom:3rem;font-weight:400}
+.feast-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
+.feast-item{padding:1.5rem;border:1px solid #2a1a00;background:rgba(20,12,0,0.5);border-radius:2px;transition:border-color 0.3s}
+.feast-item:hover{border-color:#c4944a}
+.feast-item .f-icon{font-size:2rem;margin-bottom:0.5rem}
+.feast-item h3{font-size:1rem;color:#c4944a;margin-bottom:0.5rem;letter-spacing:0.1em}
+.feast-item p{font-size:0.8rem;color:#6a5a3a;line-height:1.5}
+
+.warriors{padding:5rem 2rem;text-align:center;background:#0d0800}
+.warriors h2{font-size:clamp(1.8rem,3vw,2.5rem);color:#c4944a;letter-spacing:0.2em;margin-bottom:3rem;font-weight:400}
+.warrior-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;max-width:1100px;margin:0 auto}
+.warrior-card{padding:2rem;border:1px solid #1a1200;background:rgba(15,8,0,0.6);text-align:left;border-radius:2px}
+.warrior-card h3{color:#c4944a;font-size:1.1rem;margin-bottom:0.5rem;letter-spacing:0.1em}
+.warrior-card .role{color:#3a8aff;font-size:0.85rem;margin-bottom:0.8rem;letter-spacing:0.1em}
+.warrior-card p{color:#8a7a5a;font-size:0.85rem;line-height:1.6}
+
+.timeline{padding:5rem 2rem;max-width:800px;margin:0 auto}
+.timeline h2{font-size:clamp(1.8rem,3vw,2.5rem);color:#c4944a;letter-spacing:0.2em;margin-bottom:3rem;font-weight:400;text-align:center}
+.tl-item{display:flex;gap:2rem;margin-bottom:2rem;align-items:flex-start}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:#c4944a;flex-shrink:0;margin-top:0.4rem;box-shadow:0 0 10px rgba(180,120,40,0.4)}
+.tl-content h3{color:#c4944a;font-size:1rem;letter-spacing:0.1em;margin-bottom:0.3rem}
+.tl-content p{color:#6a5a3a;font-size:0.85rem;line-height:1.5}
+
+.gifts{padding:5rem 2rem;text-align:center;background:linear-gradient(180deg,#0a0a0a,#0d0800)}
+.gifts h2{font-size:clamp(1.5rem,3vw,2rem);color:#c4944a;letter-spacing:0.2em;margin-bottom:2rem;font-weight:400}
+.gift-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:0.8rem;max-width:900px;margin:0 auto}
+.gift{padding:0.5rem 1rem;border:1px solid #2a1a00;font-size:0.75rem;color:#8a7a5a;letter-spacing:0.1em;border-radius:2px;transition:all 0.3s}
+.gift:hover{border-color:#c4944a;color:#c4944a}
+
+.finale{height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#0d0800,#0a0a0a);padding:2rem}
+.finale p{font-size:clamp(1rem,2vw,1.3rem);color:#6a5a3a;max-width:700px;line-height:2;margin-bottom:1rem}
+.finale .sign{font-size:0.8rem;color:#3a3020;letter-spacing:0.3em;margin-top:2rem}
+.finale .nav-link{display:inline-block;margin-top:2rem;padding:0.8rem 2rem;border:1px solid #2a1a00;color:#c4944a;text-decoration:none;letter-spacing:0.2em;font-size:0.85rem;transition:all 0.3s}
+.finale .nav-link:hover{background:#c4944a;color:#0a0a0a}
+
+.sand-particles{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:999}
+.sand-particles span{position:absolute;width:2px;height:2px;background:rgba(180,120,40,0.3);border-radius:50%;animation:drift linear infinite}
+@keyframes drift{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) translateX(100px);opacity:0}}
+
+@media(max-width:768px){
+.district{flex-direction:column!important;min-height:auto;padding:1rem}
+.district-text{padding:2rem 1rem}
+.stats{gap:1.5rem}
+.tl-item{gap:1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="sand-particles" id="particles"></div>
+
+<section class="hero">
+<div class="sand-drift"></div>
+<h1>FREMEN</h1>
+<p class="subtitle">THE DESERT WAS THEIRS</p>
+<p class="verse">God created Arrakis to train the faithful.<br>One cannot go against the word of God.<br>— <em>The Wisdom of Muad'Dib</em></p>
+</section>
+
+<div class="stats">
+<div class="stat"><div class="stat-num">∞</div><div class="stat-label">YEARS IN THE DESERT</div></div>
+<div class="stat"><div class="stat-num">0</div><div class="stat-label">DROPS WASTED</div></div>
+<div class="stat"><div class="stat-num">2</div><div class="stat-label">MOONS ABOVE</div></div>
+<div class="stat"><div class="stat-num">1</div><div class="stat-label">GOD BELOW</div></div>
+<div class="stat"><div class="stat-num" style="color:#3a8aff">👁️</div><div class="stat-label">BLUE WITHIN BLUE</div></div>
+</div>
+
+<section class="district">
+<div class="district-img" onclick="this.querySelector('img').src=this.querySelector('img').dataset.full" title="Click to load full image">
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect fill='%231a0f00'/%3E%3C/svg%3E" data-full="web/FREMEN-SIETCH.webp" alt="Sietch Tabr" loading="lazy">
+<div class="img-label">I — SIETCH TABR</div>
+</div>
+<div class="district-text">
+<div class="icon">🏔️</div>
+<h2>SIETCH TABR</h2>
+<p>The city that doesn't exist. A thousand souls behind a crack in the rock. Corridors carved by water that no longer flows. Every surface catches moisture. Every breath is accounted for.</p>
+<p>The children have never seen rain. They don't miss it. They have something better: discipline.</p>
+<div class="quote">"The sietch is not a hiding place. It is a statement. We were here before you. We will be here after."</div>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="this.querySelector('img').src=this.querySelector('img').dataset.full" title="Click to load full image">
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect fill='%231a0f00'/%3E%3C/svg%3E" data-full="web/FREMEN-WARRIOR.webp" alt="Stillsuit District" loading="lazy">
+<div class="img-label">II — THE STILLSUIT</div>
+</div>
+<div class="district-text">
+<div class="icon">🧑‍🚀</div>
+<h2>THE STILLSUIT</h2>
+<p>A second skin. It captures every drop of sweat, every exhaled breath, every tear. Nothing is wasted. In the desert, waste is the only sin.</p>
+<p>The eyes turn blue from the spice. Not slowly — completely. <span class="blue-eyes">Blue within blue</span>. The iris, the sclera, the soul. It is the mark of the desert. It cannot be faked.</p>
+<div class="quote">"You can tell a Fremen by the fit of the stillsuit. You can tell a fool by the moisture on their skin."</div>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="this.querySelector('img').src=this.querySelector('img').dataset.full" title="Click to load full image">
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect fill='%231a0f00'/%3E%3C/svg%3E" data-full="web/FREMEN-WORMRIDE.webp" alt="The Maker" loading="lazy">
+<div class="img-label">III — THE MAKER</div>
+</div>
+<div class="district-text">
+<div class="icon">🪱</div>
+<h2>THE MAKER</h2>
+<p>Shai-Hulud. God of the sand. Four hundred meters of living geology. The thumper calls it. The maker hooks hold it. One man rides what an army fears.</p>
+<p>The worm does not serve. The worm tolerates. The Fremen understand the difference. That is why they survive.</p>
+<div class="quote">"Bless the Maker and His water. Bless the coming and going of Him. May His passage cleanse the world."</div>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="this.querySelector('img').src=this.querySelector('img').dataset.full" title="Click to load full image">
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect fill='%231a0f00'/%3E%3C/svg%3E" data-full="web/FREMEN-WATER.webp" alt="Water Ceremony" loading="lazy">
+<div class="img-label">IV — THE WATER OF LIFE</div>
+</div>
+<div class="district-text">
+<div class="icon">💧</div>
+<h2>THE WATER OF LIFE</h2>
+<p>The most sacred pool. Every drop in this chamber came from the dead. The water of the tribe is the tribe. When a Fremen falls, their water returns to the community.</p>
+<p>Outsiders call it barbaric. The Fremen call it love. You give your water to the people. They carry you forward. There is no death — only redistribution.</p>
+<div class="quote">"A man's flesh is his own; the water belongs to the tribe."</div>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="this.querySelector('img').src=this.querySelector('img').dataset.full" title="Click to load full image">
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect fill='%231a0f00'/%3E%3C/svg%3E" data-full="web/FREMEN-COMBAT.webp" alt="Combat Arena" loading="lazy">
+<div class="img-label">V — THE CRYSKNIFE RING</div>
+</div>
+<div class="district-text">
+<div class="icon">🗡️</div>
+<h2>THE CRYSKNIFE RING</h2>
+<p>The blade is a worm's tooth. Milky white, curved, alive. Once drawn, it cannot be sheathed without drawing blood. Every Fremen child earns their blade. The ceremony is simple: survive.</p>
+<p>In the ring, two enter. The desert doesn't care about fairness. It cares about who walks out.</p>
+<div class="quote">"The crysknife is not a weapon. It is a question. The answer is always the same."</div>
+</div>
+</section>
+
+<section class="district">
+<div class="district-img" onclick="this.querySelector('img').src=this.querySelector('img').dataset.full" title="Click to load full image">
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect fill='%231a0f00'/%3E%3C/svg%3E" data-full="web/FREMEN-WINDTRAP.webp" alt="Windtrap" loading="lazy">
+<div class="img-label">VI — THE WINDTRAP</div>
+</div>
+<div class="district-text">
+<div class="icon">🌬️</div>
+<h2>THE WINDTRAP</h2>
+<p>Engineering as prayer. The wind enters. Moisture exits. Drop by drop, the desert surrenders what it stole. A windtrap is not a machine — it is patience made physical.</p>
+<p>The Fremen dream of green. Oceans they have never seen. Gardens their grandchildren might walk. They build the windtraps anyway. That is faith.</p>
+<div class="quote">"We do not fight the desert. We negotiate. Drop by drop. Century by century. We will win."</div>
+</div>
+</section>
+
+<section class="district">
+<div class="district-text" style="max-width:100%;text-align:center;padding:4rem 2rem">
+<div class="icon">🏜️</div>
+<h2>THE DEEP DESERT</h2>
+<p>Beyond the rock. Beyond the sietch. Beyond the last windtrap. The open sand where nothing lives and everything begins. The Fremen walk here alone. No stillsuit lasts forever. No water is enough. The deep desert is where you meet yourself.</p>
+<div class="quote">"The desert is not empty. You are."</div>
+</div>
+</section>
+
+<section class="district">
+<div class="district-text" style="max-width:100%;text-align:center;padding:4rem 2rem">
+<div class="icon">🌿</div>
+<h2>LIET'S DREAM</h2>
+<p>Liet-Kynes saw green. A planetary ecologist who loved the desert enough to change it. Trees where there were dunes. Rivers where there was rock. A terraforming dream that would take three hundred years. The Fremen agreed. They started planting.</p>
+<div class="quote">"The slow way is the sure way. Three hundred years. We have already started."</div>
+</div>
+</section>
+
+<section class="district">
+<div class="district-text" style="max-width:100%;text-align:center;padding:4rem 2rem">
+<div class="icon">👁️</div>
+<h2>THE SAYYADINA</h2>
+<p>The priestess. She administers the Water of Life — the bile of a drowned worm, transformed by ceremony into something that opens the inner eye. Most die. She does not. She sees the past and the future. She sees the place where they overlap. That place is called now.</p>
+<div class="quote">"The mystery of life isn't a problem to solve, but a reality to experience."</div>
+</div>
+</section>
+
+<section class="feast">
+<h2>☕ THE SIETCH TABLE</h2>
+<div class="feast-grid">
+<div class="feast-item"><div class="f-icon">🫓</div><h3>SPICE BREAD</h3><p>Dense. Filling. Lasts a week. Baked with melange — every crumb is medicine.</p></div>
+<div class="feast-item"><div class="f-icon">🥩</div><h3>DESERT HARE</h3><p>Caught at dawn. Cooked at dusk. Seasoned with stillsuit salt — your own.</p></div>
+<div class="feast-item"><div class="f-icon">💧</div><h3>WATER RATION</h3><p>Two litres per day. Measured. Sacred. Never spilled.</p></div>
+<div class="feast-item"><div class="f-icon">🍯</div><h3>SPICE COFFEE</h3><p>Black as the night between moons. The melange turns it amber. Drink and see.</p></div>
+<div class="feast-item"><div class="f-icon">🌰</div><h3>DESERT TUBERS</h3><p>Roots that grow where nothing should. The Fremen found them. Of course they did.</p></div>
+<div class="feast-item"><div class="f-icon">🧂</div><h3>SPICE ITSELF</h3><p>Orange dust. Extends life. Expands consciousness. The universe runs on it.</p></div>
+<div class="feast-item"><div class="f-icon">🫖</div><h3>SPICE TEA</h3><p>Served to guests. Accepting means trust. Refusing means war.</p></div>
+<div class="feast-item"><div class="f-icon">🍊</div><h3>THE ORANGE</h3><p>Impossible on Arrakis. Free in every civilization. Always.</p></div>
+</div>
+</section>
+
+<section class="warriors">
+<h2>⚔️ THE FEDAYKIN</h2>
+<div class="warrior-list">
+<div class="warrior-card"><h3>STILGAR</h3><div class="role">NAIB OF SIETCH TABR</div><p>The rock. Leads by example. Walks last, drinks last, sleeps last. First into the storm. The sietch is his because nobody else could carry it.</p></div>
+<div class="warrior-card"><h3>CHANI</h3><div class="role">DAUGHTER OF LIET</div><p>Desert spring. She taught the outsider to walk without rhythm. She loved without ownership. The desert made her. She made the desert worth fighting for.</p></div>
+<div class="warrior-card"><h3>LIET-KYNES</h3><div class="role">PLANETARY ECOLOGIST</div><p>Dreamer of oceans. Planted the first trees. Died in the desert he loved. The plants he seeded are still growing.</p></div>
+<div class="warrior-card"><h3>THE SAYYADINA</h3><div class="role">PRIESTESS</div><p>Keeper of the Water. She walks between times. She remembers what hasn't happened yet. The Reverend Mother. The inner eye. The blue within blue.</p></div>
+<div class="warrior-card"><h3>JAMIS</h3><div class="role">THE LESSON</div><p>He challenged the stranger. He lost. His water joined the tribe. His crysknife found a new owner. He taught more in death than he ever did alive.</p></div>
+<div class="warrior-card"><h3>THE WORMRIDER</h3><div class="role">MAKER HOOKS READY</div><p>Anonymous. Every Fremen. The first ride is the test. Call the worm. Mount the worm. Survive the worm. Ride the worm. Become Fremen.</p></div>
+<div class="warrior-card"><h3>THE WATER CARRIER</h3><div class="role">MOST TRUSTED</div><p>Carries the tribe's future on their back. No higher honor. No heavier burden. Every drop accounted for. Every drop sacred.</p></div>
+</div>
+</section>
+
+<section class="timeline">
+<h2>📜 THE LONG WALK</h2>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><h3>THE WANDERING</h3><p>Before the name. Before the planet. The Zensunni wanderers crossed the stars looking for a place no one wanted. They found Arrakis.</p></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><h3>THE FIRST SIETCH</h3><p>Carved from rock with bare hands. The first windtrap caught the first drop. The tribe was born.</p></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><h3>THE SPICE</h3><p>They breathed it. Their eyes turned blue. They saw further. They lived longer. The universe wanted what they walked on.</p></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><h3>THE HARKONNEN</h3><p>The oppressor came. Took the spice. Took the water. Could not take the desert. The desert takes back.</p></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><h3>THE OUTSIDER</h3><p>A boy came from the water world. He walked without rhythm. He rode the worm. He became Muad'Dib. The desert decides.</p></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><h3>THE JIHAD</h3><p>They swept across the stars. The desert fighters who had nothing became the force that conquered everything. Be careful what you worship.</p></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><h3>THE GREEN</h3><p>Liet's dream. Three hundred years. The first oasis. The first rain. The Fremen wept. They had never wasted water before. They made an exception.</p></div></div>
+</div>
+
+<section class="gifts">
+<h2>🎁 29 CIVILIZATION GIFTS ABOARD</h2>
+<div class="gift-grid">
+<span class="gift">🌌 Songline Map</span><span class="gift">🏛️ Yabroud Flint</span><span class="gift">🕌 Damascus Steel</span><span class="gift">☀️ Ankh Amulet</span>
+<span class="gift">☸️ Lotus Bloom</span><span class="gift">🐉 Jade Seal</span><span class="gift">🏛️ Olive Branch</span><span class="gift">🦅 Obsidian Mirror</span>
+<span class="gift">❄️ Bone Compass</span><span class="gift">🛡️ Iklwa Blade</span><span class="gift">⚡ Rune Stone</span><span class="gift">👑 Fog Compass</span>
+<span class="gift">🗽 Liberty Torch</span><span class="gift">✈️ Curved Horizon</span><span class="gift">🗼 Paper Crane</span><span class="gift">🔥 Ash Crown</span>
+<span class="gift">🚀 Star Chart</span><span class="gift">🪱 Spice Pouch</span><span class="gift">🏰 Impossible Key</span><span class="gift">🍽️ Reservation Card</span>
+<span class="gift">🫖 Towel & Tea</span><span class="gift">🎸 Cosmic Riff</span><span class="gift">🌿 Round Door Key</span><span class="gift">🌙 Star Phial</span>
+<span class="gift">⛏️ Mithril Shard</span><span class="gift">☀️ Golden Mask</span><span class="gift">🏴‍☠️ Treasure Map</span><span class="gift">🚀 Astrolabe</span>
+<span class="gift" style="border-color:#3a5a8a;color:#6a8ac4">🏜️ Crysknife (Home)</span>
+</div>
+</section>
+
+<section class="finale">
+<p>The desert was theirs before the spice.<br>Before the empire. Before the name.<br>They walked without rhythm.<br>They wasted nothing.<br>They dreamed of green oceans<br>they would never see.<br>And they started building anyway.</p>
+<p style="color:#3a8aff;font-size:1.1rem">Blue within blue. The eyes of the desert.</p>
+<p style="color:#c4944a">The Orange grows here too.<br>Impossible — but free.</p>
+<a class="nav-link" href="../silvership/SILVERSHIP.CITY.html">← SILVER'S SHIP</a>
+<div class="sign">FREMEN — Civilization 29 of the JuX Arc · Built by Wonder Boy & G. · The spice must flow</div>
+</section>
+
+<script>
+document.querySelectorAll('.district-img img').forEach(img=>{if(img.dataset.full){img.addEventListener('click',function(){this.src=this.dataset.full;this.style.filter='contrast(1.1)'})}});
+(function(){const c=document.getElementById('particles');for(let i=0;i<40;i++){const s=document.createElement('span');s.style.left=Math.random()*100+'%';s.style.animationDuration=(8+Math.random()*15)+'s';s.style.animationDelay=Math.random()*10+'s';s.style.width=s.style.height=(1+Math.random()*2)+'px';c.appendChild(s)}})();
+</script>
+</body>
+</html>
