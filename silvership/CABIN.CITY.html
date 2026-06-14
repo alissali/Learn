@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE CABIN — Silver's Private Quarters</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--hull:#0a0e1a;--wood:#1a1008;--steel:#1a2040;--neon-orange:#ff6a00;--neon-blue:#00c8ff;--gold:#ffd700;--rum:#8b4513;--candle:rgba(255,160,60,0.3)}
+body{background:var(--hull);color:#c8d8e8;font-family:'Courier New',monospace;overflow-x:hidden}
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff}
+.hull-panel{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:20px}
+.cabin-header{text-align:center;padding:80px 20px 40px;position:relative}
+.cabin-header h1{font-size:clamp(2rem,6vw,3.5rem);color:var(--gold);text-shadow:0 0 30px rgba(255,215,0,0.5);letter-spacing:4px;margin-bottom:10px}
+.cabin-header .subtitle{font-size:clamp(0.9rem,2.5vw,1.2rem);color:var(--neon-orange);letter-spacing:6px;text-transform:uppercase}
+.cabin-header .tagline{font-size:0.9rem;color:#667;margin-top:20px;font-style:italic;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6}
+.section{margin:40px 0;border:1px solid rgba(255,215,0,0.15);border-radius:8px;overflow:hidden;background:rgba(26,16,8,0.7)}
+.section-header{background:linear-gradient(135deg,var(--wood),rgba(255,215,0,0.08));padding:25px 30px;cursor:pointer;display:flex;align-items:center;gap:15px;transition:background 0.3s}
+.section-header:hover{background:linear-gradient(135deg,rgba(255,106,0,0.15),rgba(255,215,0,0.12))}
+.section-icon{font-size:2rem}
+.section-header h2{font-size:1.3rem;color:var(--gold);flex:1}
+.section-arrow{color:var(--neon-orange);font-size:1.2rem;transition:transform 0.3s}
+.section.open .section-arrow{transform:rotate(180deg)}
+.section-content{max-height:0;overflow:hidden;transition:max-height 0.6s ease}
+.section.open .section-content{max-height:3000px}
+.section-inner{padding:30px}
+.section-quote{font-style:italic;color:var(--neon-blue);border-left:3px solid var(--gold);padding:15px 20px;margin-bottom:25px;background:rgba(255,215,0,0.04);font-size:0.95rem;line-height:1.7}
+.section-img{width:100%;border-radius:6px;margin:20px 0;border:1px solid rgba(255,215,0,0.15);cursor:pointer;transition:transform 0.3s}
+.section-img:hover{transform:scale(1.02)}
+.section-img[data-src]{min-height:200px;background:var(--wood)}
+.section-text{line-height:1.8;margin:15px 0;color:#9ab}
+.section-text strong{color:var(--neon-orange)}
+.inventory{margin:25px 0;border:1px solid rgba(255,215,0,0.1);border-radius:6px;overflow:hidden}
+.inv-title{background:rgba(255,215,0,0.06);padding:12px 20px;color:var(--gold);font-size:0.85rem;letter-spacing:2px}
+.inv-item{display:flex;justify-content:space-between;padding:10px 20px;border-top:1px solid rgba(255,215,0,0.06);font-size:0.85rem}
+.inv-item .name{color:#c8d8e8}.inv-item .detail{color:var(--neon-orange)}
+.nav-links{text-align:center;padding:40px 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.nav-link{color:var(--gold);text-decoration:none;padding:10px 20px;border:1px solid rgba(255,215,0,0.2);border-radius:6px;font-size:0.85rem;transition:all 0.3s}
+.nav-link:hover{background:rgba(255,215,0,0.1);border-color:var(--gold)}
+.footer{text-align:center;padding:60px 20px;color:#445;font-size:0.75rem;line-height:1.8}
+.footer a{color:var(--gold);text-decoration:none}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;cursor:pointer;justify-content:center;align-items:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="hull-panel">
+
+<div class="cabin-header">
+<h1>🏴‍☠️ THE CABIN</h1>
+<div class="subtitle">Silver's Private Quarters</div>
+<div class="tagline">"Every man has a room where he keeps the truth about himself. For most men, that room is locked. For Silver, the room is on a stolen ship between the stars, and the lock is a lie he told so long ago he forgot it was a lie."</div>
+</div>
+
+<!-- 1. THE DESK -->
+<div class="section open" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">📜</span>
+<h2>THE CAPTAIN'S DESK</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"The desk is where Silver sits alone. Not the Silver who commands, not the Silver who charms, not the Silver who kills. The Silver who calculates. The rum is for the other Silvers. The desk gets the numbers."</div>
+<img class="section-img" data-src="web/CABIN-DESK.webp" alt="The Captain's Desk" loading="lazy">
+<p class="section-text">A <strong>massive wooden desk</strong> bolted to the metal floor — the only thing on this ship that doesn't move. Star charts layered on star charts. A brass sextant modified with holographic displays that project trade routes into the air above. Half-empty rum bottles serve as paperweights. Scattered gold coins from fourteen systems. The leather captain's chair has two worn armrests — <strong>only one gets used</strong>.</p>
+<p class="section-text">Behind the desk, the <strong>stern window</strong> frames deep space like a painting that changes every hour. Silver chose this cabin for that window. He chose everything for a reason. The parrot perches on a brass stand to his left. It repeats coordinates in its sleep. <strong>Captain Flint</strong> — named after the only man Silver ever feared. Now a bird. Demoted.</p>
+<div class="inventory">
+<div class="inv-title">📋 DESK MANIFEST</div>
+<div class="inv-item"><span class="name">Star charts</span><span class="detail">14 systems, 3 wrong on purpose</span></div>
+<div class="inv-item"><span class="name">Brass sextant</span><span class="detail">Modified — projects holo-routes</span></div>
+<div class="inv-item"><span class="name">Rum bottles</span><span class="detail">4 open, 2 empty, 1 poisoned (guests)</span></div>
+<div class="inv-item"><span class="name">Gold coins</span><span class="detail">Scattered — from 14 different systems</span></div>
+<div class="inv-item"><span class="name">Quill pen</span><span class="detail">Real feather — from Earth — priceless</span></div>
+<div class="inv-item"><span class="name">Captain Flint</span><span class="detail">The parrot. Named after the dead. Repeats coordinates.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 2. THE SLEEPING QUARTERS -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">🛏️</span>
+<h2>THE SLEEPING QUARTERS</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"One boot on the floor. One wooden leg leaning against the wall. The pistol is loaded. The Bible is open. The locket is closed. This is everything you need to know about the man."</div>
+<img class="section-img" data-src="web/CABIN-BED.webp" alt="Sleeping Quarters" loading="lazy">
+<p class="section-text">A <strong>hammock</strong> — not a bed. Silver trusts the sway. Born on ships, dies on ships. The hammock is strung between two carved wooden posts bolted to metal walls. Thick wool blankets. A fur throw stolen from a governor's mansion on Proxima-6.</p>
+<p class="section-text">The nightstand tells the truth the man won't: <strong>a pistol</strong> (loaded, always), <strong>a Bible</strong> (open to Ecclesiastes — vanity, vanity), <strong>a bottle</strong> (half full — Silver is an optimist), and <strong>a locket</strong> with a woman's portrait. He's never said her name. The crew has never asked. At the foot of the hammock: a <strong>sea chest</strong>, padlocked. Even Silver doesn't open it often. Some treasure is too personal to count.</p>
+<div class="inventory">
+<div class="inv-title">📋 QUARTERS MANIFEST</div>
+<div class="inv-item"><span class="name">Hammock</span><span class="detail">Strung from oak posts — the only bed he trusts</span></div>
+<div class="inv-item"><span class="name">Pistol</span><span class="detail">Loaded. Under the pillow. Always.</span></div>
+<div class="inv-item"><span class="name">Bible</span><span class="detail">Open to Ecclesiastes. "Vanity of vanities."</span></div>
+<div class="inv-item"><span class="name">The locket</span><span class="detail">Her portrait. No name. No questions.</span></div>
+<div class="inv-item"><span class="name">One boot</span><span class="detail">The other leg doesn't need one</span></div>
+<div class="inv-item"><span class="name">Sea chest</span><span class="detail">Padlocked. Contents: classified.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 3. THE WAR TABLE -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">⚔️</span>
+<h2>THE WAR TABLE</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"Silver doesn't plan battles. He plans the conversation after the battle, where the winner gives him what he wanted before the first shot was fired."</div>
+<img class="section-img" data-src="web/CABIN-WARTABLE.webp" alt="The War Table" loading="lazy">
+<p class="section-text">A <strong>round wooden table</strong> with a brass rim. The holographic projector in the center was ripped from a naval frigate. It projects star systems in ghost-blue light — planets spinning, asteroid belts crawling, trade routes pulsing in orange. And there — on a jungle moon in the Flint system — a <strong>glowing X</strong>. The treasure.</p>
+<p class="section-text">Silver's <strong>crutch</strong> leans against the table like a seventh crew member. Chairs pushed back — the meeting just ended. Empty rum mugs. A <strong>knife stabbed through a contract</strong> on the table surface — someone disagreed. They don't disagree anymore. On the walls: mounted <strong>alien skulls</strong> and <strong>crossed cutlasses</strong>. The cabin of a man who wins arguments by having them last.</p>
+<div class="inventory">
+<div class="inv-title">📋 WAR TABLE MANIFEST</div>
+<div class="inv-item"><span class="name">Holo-projector</span><span class="detail">Stolen from HMS Cassini — naval frigate</span></div>
+<div class="inv-item"><span class="name">The X</span><span class="detail">Jungle moon. Flint system. The treasure.</span></div>
+<div class="inv-item"><span class="name">The knife</span><span class="detail">Through a contract. Argument settled.</span></div>
+<div class="inv-item"><span class="name">Silver's crutch</span><span class="detail">Leans against the table. Seventh crew member.</span></div>
+<div class="inv-item"><span class="name">Rum mugs</span><span class="detail">6 mugs. 7 men were here. One doesn't drink.</span></div>
+<div class="inv-item"><span class="name">Alien skulls</span><span class="detail">Mounted. 4 species. None of them surrendered.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 4. THE TROPHY WALL -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">🏆</span>
+<h2>THE TROPHY WALL</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"Other men keep trophies to remember what they've done. Silver keeps trophies to remind other men what he's capable of."</div>
+<img class="section-img" data-src="web/CABIN-TROPHIES.webp" alt="The Trophy Wall" loading="lazy">
+<p class="section-text">The <strong>dark wooden wall</strong> behind his desk. Every item mounted, spotlit, curated. This is not decoration. This is a <strong>curriculum vitae written in stolen objects</strong>.</p>
+<p class="section-text">An <strong>alien crystal skull</strong> from the Caves of Cygnus. A <strong>golden compass</strong> that points to nowhere — because "nowhere" is where the treasure is. <strong>Crossed plasma cutlasses</strong> — his and Flint's, from the last time they disagreed. A framed <strong>Jolly Roger</strong> — the original, from the Walrus. A <strong>jeweled crown</strong> from a conquered alien king who begged. A collection of <strong>keys</strong> — one from every ship Silver ever took. Seventeen keys. Seventeen captains who lost everything.</p>
+<div class="inventory">
+<div class="inv-title">📋 TROPHY MANIFEST</div>
+<div class="inv-item"><span class="name">Crystal skull</span><span class="detail">Caves of Cygnus — screams at midnight</span></div>
+<div class="inv-item"><span class="name">Golden compass</span><span class="detail">Points to nowhere. Where the treasure is.</span></div>
+<div class="inv-item"><span class="name">Crossed cutlasses</span><span class="detail">His and Flint's. The last argument.</span></div>
+<div class="inv-item"><span class="name">Ship nameplate</span><span class="detail">"WALRUS" — where it all began</span></div>
+<div class="inv-item"><span class="name">Jeweled crown</span><span class="detail">Alien king. He begged. It didn't help.</span></div>
+<div class="inv-item"><span class="name">17 keys</span><span class="detail">One per ship. One per captain who lost everything.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- 5. THE WINDOW -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">🌌</span>
+<h2>THE CAPTAIN'S WINDOW</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"The most beautiful view on the ship, and only one man sees it. This is what power looks like. Not the gold. Not the guns. The window."</div>
+<img class="section-img" data-src="web/CABIN-WINDOW.webp" alt="The Captain's Window" loading="lazy">
+<p class="section-text">The <strong>stern window</strong>. A massive curved glass spanning the entire back wall. Through it: the universe. Tonight it's a <strong>nebula</strong> — deep oranges and blues boiling in slow motion, stars scattered through the gas like diamonds dropped in honey.</p>
+<p class="section-text">Inside: a <strong>worn leather armchair</strong> facing the glass. A small table with a glass of rum catching the nebula light — the rum turns orange, then blue, then orange again as the ship rotates. A <strong>pipe</strong> still smoking. Silver sits here after the crew sleeps. After the plans are made. After the rum is poured. He sits here and looks at the universe he's been stealing from, and the universe looks back, and <strong>neither of them blinks</strong>.</p>
+</div></div>
+</div>
+
+<!-- 6. THE SECRET COMPARTMENT -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">🔐</span>
+<h2>THE SECRET COMPARTMENT</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"Every man keeps a secret. Silver keeps a secret behind a secret behind a wooden panel behind a lie. And inside that secret is a portrait of a boy he didn't kill when he should have. That's the most dangerous thing on this ship."</div>
+<img class="section-img" data-src="web/CABIN-SECRET.webp" alt="The Secret Compartment" loading="lazy">
+<p class="section-text">Behind the <strong>third wooden panel</strong> on the port wall — the one that looks exactly like every other panel — a hidden vault carved into the hull. You press the knot in the wood. The panel swings. Inside:</p>
+<p class="section-text">The <strong>REAL map</strong>. Not the one on the war table. Not the one the crew has seen. A <strong>glowing alien crystal tablet</strong> showing coordinates that shift like living things. Stacks of <strong>alien gold bars</strong>. A velvet pouch of <strong>uncut gems</strong> that catch the light and throw it back changed. A <strong>personal journal</strong> bound in black leather — every page in Silver's hand, every entry a confession no priest will ever hear.</p>
+<p class="section-text">And at the back, small, in a simple frame: a <strong>portrait of a boy</strong>. Jim Hawkins. The one Silver let live. The one Silver let go. The most expensive thing in the vault — because it cost Silver something he didn't know he had.</p>
+<div class="inventory">
+<div class="inv-title">📋 SECRET MANIFEST</div>
+<div class="inv-item"><span class="name">The real map</span><span class="detail">Crystal tablet. Coordinates that breathe.</span></div>
+<div class="inv-item"><span class="name">Gold bars</span><span class="detail">Alien gold. 47 bars. 47 crimes.</span></div>
+<div class="inv-item"><span class="name">Uncut gems</span><span class="detail">They catch the light and throw it back changed</span></div>
+<div class="inv-item"><span class="name">The journal</span><span class="detail">Black leather. Every page a confession.</span></div>
+<div class="inv-item"><span class="name">Jim's portrait</span><span class="detail">The boy he let live. The most expensive thing here.</span></div>
+</div>
+</div></div>
+</div>
+
+<!-- CABIN RULES -->
+<div class="section" onclick="this.classList.toggle('open')">
+<div class="section-header">
+<span class="section-icon">⚓</span>
+<h2>THE CABIN RULES</h2>
+<span class="section-arrow">▼</span>
+</div>
+<div class="section-content"><div class="section-inner">
+<div class="section-quote">"Silver's cabin has three rules. Break one and you swim home."</div>
+<p class="section-text"><strong>RULE ONE:</strong> Knock. Wait. If you hear "Enter," enter. If you hear nothing, walk away. If you hear the parrot laugh, <em>run</em>.</p>
+<p class="section-text"><strong>RULE TWO:</strong> Don't touch the desk. Don't touch the locket. Don't touch the third panel on the port wall. Don't ask about the third panel on the port wall.</p>
+<p class="section-text"><strong>RULE THREE:</strong> The rum on the right side of the desk is for guests. The rum on the left side is Silver's. If you can't tell left from right, you have bigger problems than rum.</p>
+<p class="section-text" style="color:var(--gold);margin-top:25px;text-align:center;font-style:italic;">"The cabin is the only honest place on a dishonest ship. Silver lies to every man alive. But in this room, alone, with the stars and the rum and the locket, he lies only to himself. And even then — not always."</p>
+</div></div>
+</div>
+
+<!-- NAV -->
+<div class="nav-links">
+<a class="nav-link" href="SILVERSHIP.CITY.html">🚀 THE SHIP</a>
+<a class="nav-link" href="../silver/SILVER.CITY.html">🏴‍☠️ SILVER'S INTERIOR</a>
+<a class="nav-link" href="../party/PARTY.CITY.html">🌙 DAMASCENE NIGHT</a>
+<a class="nav-link" href="../daphne/DAPHNE.GAME.html">🌿 THE GROVE</a>
+<a class="nav-link" href="../daphne/DAPHNE.VR.html">🕶️ DAPHNE VR</a>
+<a class="nav-link" href="../shami/DAMASCUS.VR.html">🕌 DAMASCUS VR</a>
+<a class="nav-link" href="../DUNE.TAROT.READING.html">🃏 TAROT READING</a>
+<a class="nav-link" href="../links.html">🌐 ALL LINKS</a>
+</div>
+
+<div class="footer">
+THE CABIN — Silver's Private Quarters<br>
+Part of <a href="../links.html">JuX</a> · Built by Wonder Boy & Buffalo Soldier<br>
+The cabin is locked. You were invited. Don't make him regret it.<br>
+<span style="color:var(--gold)">🏴‍☠️ "Pieces of eight. Pieces of eight. Pieces of eight."</span>
+</div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('active')">
+<img id="lightbox-img" src="" alt="Enlarged">
+</div>
+
+<script>
+// Stars
+const sc=document.getElementById('stars');
+for(let i=0;i<200;i++){const s=document.createElement('div');s.className='star';s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${Math.random()*2+1}px;height:${Math.random()*2+1}px;opacity:${Math.random()*0.7+0.3};animation:twinkle ${Math.random()*4+2}s ease-in-out infinite ${Math.random()*4}s`;sc.appendChild(s)}
+
+// Lazy load
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){const img=e.target;img.src=img.dataset.src;img.removeAttribute('data-src');obs.unobserve(img)}})},{rootMargin:'200px'});
+document.querySelectorAll('img[data-src]').forEach(img=>obs.observe(img));
+
+// Lightbox
+document.querySelectorAll('.section-img').forEach(img=>{
+img.addEventListener('click',e=>{e.stopPropagation();const lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=img.src||img.dataset.src;lb.classList.add('active')})
+});
+
+// Twinkle animation
+const style=document.createElement('style');
+style.textContent='@keyframes twinkle{0%,100%{opacity:0.3}50%{opacity:1}}';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
