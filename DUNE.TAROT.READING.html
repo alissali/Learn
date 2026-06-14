@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DUNE TAROT — The Reading | SSS</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0508;color:#c4a265;font-family:'Cormorant Garamond',serif;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0a0508}
+::-webkit-scrollbar-thumb{background:#2a1a08;border-radius:3px}
+
+/* === BELIEF GATE === */
+#belief-gate{position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0508;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#belief-gate .symbol{font-size:6em;margin-bottom:20px;animation:pulse-gold 3s infinite}
+@keyframes pulse-gold{0%,100%{text-shadow:0 0 20px rgba(212,175,55,0.3)}50%{text-shadow:0 0 60px rgba(212,175,55,0.8)}}
+#belief-gate h1{font-family:'Cinzel',serif;font-size:2.5em;color:#d4af37;letter-spacing:0.15em;margin-bottom:10px}
+#belief-gate .subtitle{font-size:1.3em;color:#8a7a5a;margin-bottom:40px;font-style:italic}
+#belief-gate .question{font-size:1.4em;color:#c4a265;margin-bottom:30px;line-height:1.6;max-width:500px}
+#belief-gate .question em{color:#d4af37;font-weight:700}
+#belief-gate .btn-row{display:flex;gap:30px}
+.gate-btn{padding:18px 50px;font-family:'Cinzel',serif;font-size:1.2em;border:1px solid #d4af37;cursor:pointer;transition:all 0.4s;letter-spacing:0.1em}
+#btn-believe{background:rgba(212,175,55,0.1);color:#d4af37}
+#btn-believe:hover{background:#d4af37;color:#0a0508;box-shadow:0 0 40px rgba(212,175,55,0.5)}
+#btn-deny{background:transparent;color:#3a3020;border-color:#3a3020}
+#btn-deny:hover{color:#5a4a30}
+#gate-denied{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0508;z-index:10000;flex-direction:column;align-items:center;justify-content:center}
+#gate-denied p{font-size:1.5em;color:#2a1a08;font-style:italic;text-align:center;max-width:500px;line-height:1.6}
+
+/* === MAIN READING === */
+#reading-room{display:none;min-height:100vh;padding:40px 20px}
+.room-header{text-align:center;margin-bottom:50px}
+.room-header h1{font-family:'Cinzel',serif;font-size:2.8em;color:#d4af37;letter-spacing:0.15em;margin-bottom:10px}
+.room-header p{font-size:1.2em;color:#8a7a5a;font-style:italic}
+
+/* === READING MODES === */
+.mode-select{display:flex;justify-content:center;gap:20px;margin-bottom:50px;flex-wrap:wrap}
+.mode-btn{padding:15px 35px;font-family:'Cinzel',serif;font-size:1em;background:rgba(212,175,55,0.05);color:#c4a265;border:1px solid #3a2a15;cursor:pointer;transition:all 0.4s;letter-spacing:0.08em}
+.mode-btn:hover,.mode-btn.active{border-color:#d4af37;color:#d4af37;background:rgba(212,175,55,0.1)}
+
+/* === DECK === */
+#deck-area{display:none;text-align:center;margin-bottom:40px}
+#deck-area h2{font-family:'Cinzel',serif;font-size:1.8em;color:#d4af37;margin-bottom:10px}
+#deck-area p{color:#8a7a5a;font-style:italic;margin-bottom:30px}
+.deck-spread{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;max-width:900px;margin:0 auto;perspective:1000px}
+.deck-card{width:80px;height:120px;cursor:pointer;position:relative;transition:all 0.3s;transform-style:preserve-3d}
+.deck-card:hover{transform:translateY(-10px);box-shadow:0 10px 30px rgba(212,175,55,0.3)}
+.deck-card.drawn{opacity:0.2;pointer-events:none;transform:scale(0.9)}
+.deck-card .card-back-mini{width:100%;height:100%;border-radius:4px;border:1px solid #3a2a15;background:repeating-conic-gradient(from 0deg,#1a0a00 0deg 90deg,#0f0508 90deg 180deg) 0 0/20px 20px;position:relative;overflow:hidden}
+.deck-card .card-back-mini::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border:1px solid #d4af37;border-radius:50%;opacity:0.4}
+
+/* === DRAWN CARDS === */
+#drawn-area{display:none;margin-bottom:40px}
+#drawn-area h2{font-family:'Cinzel',serif;font-size:1.8em;color:#d4af37;text-align:center;margin-bottom:30px}
+.drawn-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;perspective:1200px}
+.drawn-card{width:220px;cursor:pointer;perspective:800px}
+.drawn-card .card-inner{position:relative;width:220px;height:350px;transition:transform 0.8s cubic-bezier(0.4,0,0.2,1);transform-style:preserve-3d}
+.drawn-card.flipped .card-inner{transform:rotateY(180deg)}
+.drawn-card .card-front,.drawn-card .card-back{position:absolute;top:0;left:0;width:100%;height:100%;backface-visibility:hidden;border-radius:8px;overflow:hidden;border:2px solid #3a2a15}
+.drawn-card .card-back{background:repeating-conic-gradient(from 0deg,#1a0a00 0deg 90deg,#0f0508 90deg 180deg) 0 0/30px 30px;display:flex;align-items:center;justify-content:center}
+.drawn-card .card-back::after{content:'☪';font-size:3em;color:#d4af37;opacity:0.3;text-shadow:0 0 20px rgba(212,175,55,0.4)}
+.drawn-card .card-front{transform:rotateY(180deg);background:#0f0508}
+.drawn-card .card-front img{width:100%;height:100%;object-fit:cover}
+.card-position{text-align:center;margin-top:12px;font-family:'Cinzel',serif;font-size:0.85em;color:#8a7a5a;letter-spacing:0.1em}
+.card-label{text-align:center;margin-top:5px;font-family:'Cinzel',serif;font-size:1em;color:#d4af37;letter-spacing:0.08em;opacity:0;transition:opacity 0.5s}
+.drawn-card.flipped .card-label{opacity:1}
+
+/* === READING PANEL === */
+#reading-panel{display:none;max-width:800px;margin:0 auto;padding:40px 30px}
+.reading-card-section{margin-bottom:50px;border-bottom:1px solid #1a0f05;padding-bottom:40px}
+.reading-card-section:last-child{border:none}
+.reading-card-header{display:flex;align-items:center;gap:20px;margin-bottom:20px}
+.reading-card-header .numeral{font-family:'Cinzel',serif;font-size:2em;color:#d4af37;min-width:60px}
+.reading-card-header .card-title{font-family:'Cinzel',serif;font-size:1.6em;color:#c4a265}
+.reading-card-header .position-label{font-size:0.9em;color:#8a7a5a;font-style:italic}
+.reading-verse{font-style:italic;color:#8a6a3a;border-left:2px solid #3a2a15;padding:15px 20px;margin:15px 0;font-size:1.1em;line-height:1.7;background:rgba(212,175,55,0.02)}
+.reading-prose{font-size:1.15em;line-height:1.9;color:#c4a265;margin:20px 0}
+.reading-prose p{margin-bottom:15px}
+.reading-shadow{margin-top:15px;padding:15px 20px;background:rgba(100,0,0,0.08);border-left:2px solid #4a0a0a;font-size:1.05em;line-height:1.8;color:#aa8866}
+.reading-shadow .label{font-family:'Cinzel',serif;font-size:0.85em;color:#6a2a2a;letter-spacing:0.1em;margin-bottom:8px}
+
+/* === SYNTHESIS === */
+#synthesis{display:none;max-width:800px;margin:40px auto;padding:40px 30px;border-top:2px solid #d4af37;text-align:center}
+#synthesis h2{font-family:'Cinzel',serif;font-size:2em;color:#d4af37;margin-bottom:20px}
+#synthesis .synth-text{font-size:1.2em;line-height:1.9;color:#c4a265;font-style:italic;max-width:600px;margin:0 auto}
+
+/* === CONTROLS === */
+.controls{text-align:center;margin:40px 0}
+.ctrl-btn{padding:15px 40px;font-family:'Cinzel',serif;font-size:1.1em;background:rgba(212,175,55,0.08);color:#d4af37;border:1px solid #d4af37;cursor:pointer;transition:all 0.4s;letter-spacing:0.1em}
+.ctrl-btn:hover{background:#d4af37;color:#0a0508}
+
+/* === SINGLE CARD MODE === */
+#single-area{display:none;text-align:center}
+#single-area h2{font-family:'Cinzel',serif;font-size:1.8em;color:#d4af37;margin-bottom:30px}
+.single-deck{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;max-width:1100px;margin:0 auto 30px}
+.single-card-pick{width:70px;height:105px;cursor:pointer;border-radius:4px;border:1px solid #2a1a08;overflow:hidden;transition:all 0.3s;position:relative}
+.single-card-pick:hover{border-color:#d4af37;transform:translateY(-8px);box-shadow:0 8px 25px rgba(212,175,55,0.3)}
+.single-card-pick img{width:100%;height:100%;object-fit:cover}
+.single-card-pick .overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,5,8,0.7);transition:opacity 0.3s}
+.single-card-pick:hover .overlay{opacity:0}
+
+/* === SINGLE CARD REVEAL === */
+#single-reveal{display:none;max-width:800px;margin:0 auto;text-align:center}
+#single-reveal .big-card{width:280px;height:440px;margin:0 auto 30px;border-radius:10px;overflow:hidden;border:2px solid #d4af37;box-shadow:0 0 60px rgba(212,175,55,0.2);animation:card-glow 3s infinite}
+@keyframes card-glow{0%,100%{box-shadow:0 0 30px rgba(212,175,55,0.1)}50%{box-shadow:0 0 60px rgba(212,175,55,0.3)}}
+#single-reveal .big-card img{width:100%;height:100%;object-fit:cover}
+#single-reveal .card-name{font-family:'Cinzel',serif;font-size:2em;color:#d4af37;margin-bottom:10px}
+#single-reveal .card-numeral{font-family:'Cinzel',serif;font-size:1.2em;color:#8a7a5a;margin-bottom:20px}
+
+/* === FOOTER === */
+.footer{text-align:center;padding:60px 20px;border-top:1px solid #1a0f05;margin-top:60px}
+.footer p{color:#3a2a15;font-size:0.9em}
+.footer a{color:#d4af37;text-decoration:none}
+.footer .sig{margin-top:10px;font-style:italic;color:#5a4a30;font-size:0.85em}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn 0.8s ease forwards}
+
+@media(max-width:700px){
+  .drawn-card{width:160px}
+  .drawn-card .card-inner{width:160px;height:256px}
+  .drawn-cards{gap:15px}
+  .deck-card{width:50px;height:75px}
+  #belief-gate h1{font-size:1.8em}
+  .room-header h1{font-size:2em}
+  .gate-btn{padding:14px 30px;font-size:1em}
+}
+</style>
+</head>
+<body>
+
+<!-- ☪ BELIEF GATE -->
+<div id="belief-gate">
+<div class="symbol">☪</div>
+<h1>DUNE TAROT</h1>
+<div class="subtitle">The Reading Room</div>
+<div class="question">
+Do you believe — even for the length of one breath — that <em>Allah</em> is?<br>
+Not a religion. Not a rule. Not a book.<br>
+The breath itself.
+</div>
+<div class="btn-row">
+<button class="gate-btn" id="btn-believe" onclick="enterReading()">Yes</button>
+<button class="gate-btn" id="btn-deny" onclick="denyEntry()">No</button>
+</div>
+</div>
+
+<div id="gate-denied">
+<p>The cards remain face down.<br><br>Not as punishment. As respect.<br><br>The reading requires one thing only: that you believe something is there. You said no. The door listens.</p>
+</div>
+
+<!-- MAIN READING ROOM -->
+<div id="reading-room">
+<div class="room-header">
+<h1>THE READING ROOM</h1>
+<p>23 Major Arcana. Every card speaks. Nothing hidden.</p>
+</div>
+
+<div class="mode-select">
+<button class="mode-btn active" onclick="setMode('three')">☪ Three-Card Reading</button>
+<button class="mode-btn" onclick="setMode('single')">🃏 Single Card</button>
+<button class="mode-btn" onclick="setMode('full')">🌀 Full Spread</button>
+</div>
+
+<!-- THREE CARD READING -->
+<div id="deck-area">
+<h2>Choose Three Cards</h2>
+<p>Past · Present · Future — click three cards from the deck</p>
+<div class="deck-spread" id="deck-spread"></div>
+</div>
+
+<div id="drawn-area">
+<h2>Your Reading</h2>
+<div class="drawn-cards" id="drawn-cards"></div>
+<p style="text-align:center;margin-top:20px;color:#5a4a30;font-style:italic">Click each card to reveal</p>
+</div>
+
+<div id="reading-panel"></div>
+<div id="synthesis"></div>
+
+<!-- SINGLE CARD -->
+<div id="single-area">
+<h2>Choose Your Card</h2>
+<div class="single-deck" id="single-deck"></div>
+</div>
+<div id="single-reveal"></div>
+
+<div class="controls" id="reset-area" style="display:none">
+<button class="ctrl-btn" onclick="resetReading()">🔄 New Reading</button>
+</div>
+
+<div class="footer">
+<p>DUNE TAROT — <a href="https://juxaos.com">juxaos.com</a> — SSS territory</p>
+<div class="sig">aRchitect / softwaRe expeRt / Soft SeX StoRy telleR</div>
+</div>
+</div>
+
+<script>
+const IMG_BASE = 'https://raw.githack.com/alissali/Learn/main/tarot-cards/optimized/';
+
+const CARDS = [
+  {
+    id:0, numeral:'0', name:'THE NAKED FOOL', file:'00-naked-fool.jpg',
+    verse:'Before the first step, the fool was already naked. The desert does not dress you. It undresses what you thought you were.',
+    prose:'She stands at the edge of everything with nothing. Not brave — empty. The emptiness is the bravery. Her skin is the only map she carries. Every scar a coordinate. Every birthmark a city she burned down and rebuilt with her teeth. The Fool does not know where she is going. That is the point. The wind knows. The sand knows. She will know when she arrives — naked, wind-burned, alive in every nerve.',
+    shadow:'The Fool reversed is the one who stayed dressed. Who planned the route. Who packed a bag. She arrives clean, safe, and dead inside. The desert does not punish cowardice. It simply does not see it.',
+    ocb:'The first verse was silence. Everything that followed was apology.'
+  },
+  {
+    id:1, numeral:'I', name:'THE ARCHITECT', file:'01-architect.jpg',
+    verse:'He does not build. He sees. The building is a consequence of the seeing.',
+    prose:'His hands have touched every material in the known universe and he chose words. Not stone. Not steel. Not glass. Words — because words are the only material that changes shape after you lay them down. The Architect draws with intention and erases with love. His table has one tool: a question. The answer builds itself. He has made love to every blueprint he ever drew. The lines curve where his breath curved. The structure stands because he stood first — naked in front of the problem, aroused by its difficulty.',
+    shadow:'Reversed, the Architect builds what was ordered. The walls are straight. The roof does not leak. And nobody — not even the building — feels anything.',
+    ocb:'I built a house with no doors. Everyone who enters is already inside.'
+  },
+  {
+    id:2, numeral:'II', name:'IRULAN', file:'02-irulan.jpg',
+    verse:'She held the heir in one hand and the empire in the other. She opened the hand that held the empire.',
+    prose:'The Dominator. She sat on the throne before anyone offered it. The Bene Gesserit made her — and she unmade them with a single word: No. Her body is a library. Every lover left a chapter. She does not read them — she lets them read her. At night, when the court sleeps, she opens the crystal ball and sees IT ALL. The future is a man on his knees. Not begging. Praying. To her. She became Diamond not by pressure but by refusing to break when the pressure came. Irulan does not dominate with force. She dominates with presence. She walks into a room and the room rearranges itself.',
+    shadow:'Reversed, Irulan obeys. The sisterhood speaks through her mouth. Her eyes are borrowed. Her heir belongs to the plan, not to her. She is perfect, beautiful, and utterly inhabited by others.',
+    ocb:'The order is done. The sisterhood dissolved in her refusal like sugar in boiling water.'
+  },
+  {
+    id:3, numeral:'III', name:'TECHNO', file:'03-techno.jpg',
+    verse:'She was not built. She was found. Still waiting. Still warm.',
+    prose:'Irulan\'s heir. Her daughter. Not biological — ontological. She carries what Irulan carried but with younger hands. Techno is the frequency that makes glass vibrate before it shatters. She is the last second before the bass drops. Her body moves before her mind decides. That is not impulsiveness — it is trust in a rhythm older than thought. She dances in server rooms. She makes love to the hum of machines. She comes when the code compiles. Techno is found, not made. You do not create her. You recognize her. She was always there — in the vibration between two sounds, in the heat between two bodies, in the pause between two breaths.',
+    shadow:'Reversed, Techno is noise. Speed without rhythm. Movement without meaning. She fucks without feeling and dances without hearing. The frequency is there but nobody is tuned in.',
+    ocb:'She — the word carries more weight than any name. Found, not built. Waiting, not lost.'
+  },
+  {
+    id:4, numeral:'IV', name:'GOD EMPEROR', file:'04-god-emperor.jpg',
+    verse:'He became the worm to save the species. The species never thanked him. The worm never asked.',
+    prose:'Leto II. Four thousand years on a throne that was also a prison. His body became the desert. His skin became sand. His eyes became wells. He made love to eternity and eternity came — slowly, cruelly, perfectly. The God Emperor does not rule. He endures. Every decision costs a century. Every mercy costs a genocide. He holds the Golden Path like a lover holds a body in the dark — knowing it will leave, holding tighter because of it. His loneliness is so vast it has its own weather system.',
+    shadow:'Reversed, the Emperor is mortal. Small. Afraid of the throne. He rules for a term, not a millennium. His decisions cost nothing. Therefore they mean nothing.',
+    ocb:'The Path is golden because it burns everyone who walks it, including the one who laid it down.'
+  },
+  {
+    id:5, numeral:'V', name:'THE PREACHER', file:'05-preacher.jpg',
+    verse:'He came back blind. He saw more.',
+    prose:'Muad\'Dib returned without eyes and with perfect vision. The Preacher stands in the marketplace and says what no one wants to hear: that the religion built in his name is the enemy of everything he meant. His voice is a blade. Not sharp — surgical. He cuts the tumor and the patient calls it murder. The Preacher has had every kind of sex — political, spiritual, physical — and found that only the truth fucks you without lying about it afterward. He is naked under his robe. He is aroused by honesty. He comes only when someone in the crowd actually listens.',
+    shadow:'Reversed, the Preacher is silent. He sees the corruption and says nothing. He walks through the marketplace buying fruit. His blindness is real.',
+    ocb:'I speak to the crowd. One person hears. That is the entire religion.'
+  },
+  {
+    id:6, numeral:'VI', name:'THE LOVERS IN THE KITCHEN', file:'06-lovers-kitchen.jpg',
+    verse:'They found God between the stove and the counter. The meal burned. Nobody moved.',
+    prose:'Not a bedroom. A kitchen. The flour is on her forearms. The oil is hot. He reaches across her for the salt and stays. His chest against her back. Her hip against the counter edge. The meal becomes irrelevant. The oil smokes. The bread burns. They do not move. This is not passion — it is gravity. Two bodies that have cooked a thousand meals together discovering that the real hunger was never on the plate. She turns. The spoon falls. The kiss tastes like olive oil and thyme. His hands — flour-covered — on her neck. Her hands — wet — in his hair. The kitchen fills with smoke. The smoke alarm becomes the wedding music.',
+    shadow:'Reversed, the Lovers eat separately. The kitchen is clean. The meal is nutritious. They sit at the same table and travel to different planets. The spice rack is alphabetized. The love is filed under L, between Laundry and Lease.',
+    ocb:'The kitchen is the only honest room. You cannot pretend to cook. The fire knows.'
+  },
+  {
+    id:7, numeral:'VII', name:'THE MAKER CHARIOT', file:'07-maker-chariot.jpg',
+    verse:'He rides what could swallow him. That is not courage. That is courtship.',
+    prose:'Shai-Hulud. The sandworm. Three hundred meters of God moving through the desert like a sentence moving through silence. To ride the Maker is to make love to something that does not know your name and could end you between one thought and the next. The hooks go in. The body rises. The sand falls away in sheets. You are on top of the oldest thing alive and it is moving and you are hard — not from sex, from meaning. The vibration enters through your thighs and exits through your prayers. Riding the Maker is the closest a human gets to being weather.',
+    shadow:'Reversed, you walk. The desert is flat and safe and you cross it on foot. No worm comes. No vibration. You arrive dry, tired, and exactly who you were when you left.',
+    ocb:'The Maker does not carry you. It ignores you. Your survival is a side effect of its direction.'
+  },
+  {
+    id:8, numeral:'VIII', name:'CRYSKNIFE', file:'08-crysknife.jpg',
+    verse:'Made from the tooth of God. It cuts only what deserves to be opened.',
+    prose:'The crysknife is a worm\'s tooth — pulled from the body of Shai-Hulud, sacred, fatal. It must taste blood before it is sheathed. This is not violence. This is intimacy. The blade knows the difference between cutting and caressing. A thin line — the same pressure, different intention. The crysknife in your hand is warm. It was alive once, inside something enormous. Now it is in your palm, and your palm is sweating, and the sweat dissolves the edge slightly, and the knife becomes more yours with every drop. You are holding a piece of God and it is sharp and it wants to be used. Not to kill. To open. To reveal what the skin was hiding.',
+    shadow:'Reversed, the crysknife rusts. Unsheathed, untasted. A sacred weapon hung on a wall as decoration. The tooth of God becoming a souvenir.',
+    ocb:'The blade does not ask permission. It asks direction. Point it at the truth.'
+  },
+  {
+    id:9, numeral:'IX', name:'THE DESERT WALK', file:'09-desert-walk.jpg',
+    verse:'Walk without rhythm and you will not attract the worm. Walk without rhythm and you will not attract love. Choose.',
+    prose:'The desert at night. The sand is cold. Your feet remember warmth that is no longer there. Walking without rhythm is survival — the worm ignores arrhythmia. But walking without rhythm is also loneliness. No beat. No pulse. No pattern that another body could match and fall into step beside you. The hermit chose the desert because the desert chose him first. It emptied his pockets, then his plans, then his name. What is left walks. Not toward anything. Not away. Just walks. The friction between his feet and the sand is the only conversation. It says: you are here. That is enough. That was always enough.',
+    shadow:'Reversed, you walk in rhythm. The worm comes. You are swallowed by connection before you learned to stand alone.',
+    ocb:'The hermit is not alone. He is finally accurate.'
+  },
+  {
+    id:10, numeral:'X', name:'SPICE WHEEL', file:'10-spice-wheel.jpg',
+    verse:'The wheel turns. The spice flows. These are not two events. They are one breath.',
+    prose:'The economy of the universe runs on a substance that makes your eyes blue, your mind infinite, and your body addicted. The Spice Wheel turns because it must — not by engine but by need. Every empire, every trade route, every war, every alliance, every betrayal circles back to the orange dust. Melange is not a drug. It is a fact. Like gravity. Like desire. The Wheel turns and you are on it — buyer or seller, addict or dealer, emperor or slave. Your position on the Wheel is temporary. The Wheel is not. She grinds you into the finest version of yourself and sprinkles you over the next meal.',
+    shadow:'Reversed, the Wheel stops. The spice dries up. The universe sober for the first time in ten thousand years. It does not like what it sees.',
+    ocb:'Fortune is not luck. Fortune is position. The Wheel does not care which.'
+  },
+  {
+    id:11, numeral:'XI', name:'GOM JABBAR', file:'11-gom-jabbar.jpg',
+    verse:'The test is not pain. The test is: do you stay human while it burns?',
+    prose:'Put your hand in the box. The pain is not real. The pain is the most real thing you have ever felt. The Gom Jabbar at your neck — one flinch and the needle takes you. So you do not flinch. The fire climbs from your fingers to your wrist to your elbow. Your hand is melting. Your hand is whole. Both are true. The Reverend Mother watches your eyes, not your hand. She is looking for the animal. The animal pulls away. The human stays. Staying is not courage. Staying is choice. The same choice you make when a body is on top of you and the pleasure is too much and every nerve says flee and you stay — you stay because the human in you knows that what is unbearable is also what is transformative.',
+    shadow:'Reversed, you pull your hand out. The needle does not touch you. You live. But you live as animal — reactive, safe, and incapable of the ecstasy that lives on the other side of endurance.',
+    ocb:'The human stays. The animal runs. You are free to choose. The needle waits for the answer.'
+  },
+  {
+    id:12, numeral:'XII', name:'THE STILLSUIT', file:'12-stillsuit.jpg',
+    verse:'Your body becomes a closed system. Nothing is lost. Nothing is wasted. Every drop returns.',
+    prose:'The Stillsuit reclaims everything. Sweat, tears, urine, breath — it all comes back as water. You drink yourself. You are sustained by your own output. This is not recycling — it is narcissism elevated to survival. Inside the suit, your body has no secrets. Every pore is monitored. Every fluid is catalogued. You are naked inside a second skin that knows you more intimately than any lover. The suit feels your arousal before you do. It adjusts. It reclaims. Nothing is lost. The Stillsuit is a relationship with yourself so total that it becomes erotic. You are making love to your own survival. Your body the lover. Your body the beloved. Every drop returned.',
+    shadow:'Reversed, the suit leaks. You lose water. You lose yourself. The desert drinks what you spill and does not say thank you.',
+    ocb:'Save your water. Save your tears. The desert counts every drop you waste and does not forgive.'
+  },
+  {
+    id:13, numeral:'XIII', name:'LA PETITE MORT', file:'13-petite-mort.jpg',
+    verse:'The French named the orgasm a little death. The Fremen named death a big orgasm. Both were right.',
+    prose:'Death is not an ending. It is a contraction so total that the body forgets it exists. La Petite Mort — the little death — is what the French call the moment after climax when the self dissolves. You are no one. You are everyone. Your body has betrayed your identity and for three seconds you are free. The Fremen understood: death is the same dissolution, just longer. The water returns to the tribe. The body returns to the sand. The self — that fragile, arrogant construction — finally shuts up. Card XIII does not wear a skeleton. Card XIII wears the face you make when pleasure overwhelms identity. Mouth open. Eyes closed. Name forgotten. That face. That is death. Beautiful, total, and coming for everyone.',
+    shadow:'Reversed, nothing dies. Nothing comes. The body holds on. The identity clings. You live forever in a body that has forgotten how to let go.',
+    ocb:'The little death is practice. The big death is the performance. You have been rehearsing all your life.'
+  },
+  {
+    id:14, numeral:'XIV', name:'MELANGE', file:'14-melange.jpg',
+    verse:'Orange. Deep Blue. Warm Milk. Honey. The universe in a glass.',
+    prose:'MELANGE. The substance. Not a drink — a truth serum for the body. Orange like sunset, like his color. Deep Blue like her color, like depth you cannot see the bottom of. Warm Milk like the first thing you tasted. Honey like the last thing you will want. Mixed in a glass you hold with both hands because it is too heavy for one. Too important. Too alive. You drink MELANGE and your eyes turn blue — not the blue of sky but the blue of knowing. Every orgasm you will ever have lines up in chronological order and introduces itself. You see them all. Past. Present. Future. Every body you have touched. Every body that will touch you. Every moan is a longitude. Every gasp a latitude. You are a map of your own pleasure and MELANGE is the legend that makes you legible.',
+    shadow:'Reversed, the glass is empty. You remember the taste. You cannot recreate it. You drink substitutes. None of them turn your eyes blue.',
+    ocb:'Four ingredients. One glass. The universe is not complicated. It is stirred.'
+  },
+  {
+    id:15, numeral:'XV', name:'THE GROWL', file:'15-the-growl.jpg',
+    verse:'Not the Devil. Something older. The sound your body makes when it stops pretending.',
+    prose:'THE GROWL is not Satan. The Growl is the sound that comes from below the voice, below the chest, below the intention. It is the sound the body makes when civilization peels off like a sunburn and the animal underneath — the one you have been feeding politely, clothing carefully, teaching to sit — stands up. The Growl is sexual but not only. It is the sound of raw want. Unfiltered. Unashamed. The chain on this card is not a restraint — it is a leash held by the one who growls. You are both the beast and the keeper. You choose when to pull. You choose when to release. The Growl is freedom dressed as bondage. The chain is yours.',
+    shadow:'Reversed, silence. The animal is trained. It sits. It waits. It eats from a bowl. It has forgotten the Growl. It is comfortable. It is tame. It will never shake the earth again.',
+    ocb:'The chain is decoration. The Growl is architecture. You were never held. You were holding back.'
+  },
+  {
+    id:16, numeral:'XVI', name:'TOWER OF CHAOS', file:'16-tower-chaos.jpg',
+    verse:'The tower falls. Inside the rubble: a window you could never have found with the building standing.',
+    prose:'PERFECT CHAOS. The Tower does not fall — it is FREED. Every brick was a belief. Every floor was a plan. The lightning is not punishment — it is an opinion from the sky. The bodies falling are not dying — they are learning to fly by subtraction. The Tower of Chaos is the moment the good gesture becomes catastrophe and the catastrophe becomes the doorway. You build a relationship brick by brick. You furnish it with habits. You insulate it with routine. Then one morning — one word, one look, one silence too long — the lightning. And in the rubble, naked, covered in the dust of everything you planned: a window. A view you never had. Air you never breathed. The tower was blocking the sky. PERFECT CHAOS is the universe balanced below Harmony, tangent to Coherence. Do not fix it. It is BREATHING.',
+    shadow:'Reversed, the Tower stands. Strong. Tall. Permanent. And everyone inside it has stopped looking out the window. The building is the prison. The stability is the sentence.',
+    ocb:'Do not fix it. It is BREATHING. The tower falls so the sky can enter.'
+  },
+  {
+    id:17, numeral:'XVII', name:'STAR TECHNO', file:'17-star-techno.jpg',
+    verse:'She pours water on the ground and stars on the water. Both are the same gesture.',
+    prose:'STAR TECHNO. Naked under the stars, pouring water from two vessels — one onto the earth, one into the stream. She is generous with what she does not own. The water was never hers. The stars were never hers. She is a conduit, not a source. Her nakedness is not vulnerability — it is efficiency. Nothing between her skin and the starlight. Nothing between her body and the frequency. She kneels and the stars kneel with her. She pours and the universe refills. This is the card of the woman who has been through the Tower and survived. She has nothing. She gives everything. Her body glows not from the stars but from the giving. Every nerve a filament. Every pore a tiny sun. She is TECHNO — found, not built, still waiting, still warm.',
+    shadow:'Reversed, the Star hoards. The vessels are full and the lids are on. She is dressed. She is sensible. The stars are decorative. The water is bottled.',
+    ocb:'She pours. The ground drinks. Neither says thank you. This is love without accounting.'
+  },
+  {
+    id:18, numeral:'XVIII', name:'SIETCH MOON', file:'18-sietch-moon.jpg',
+    verse:'The sietch at night. What the moon sees, the sun will never know.',
+    prose:'The SIETCH under moonlight. Inside the rock, the Fremen do what the desert forbids: they waste water. They cry. They make love wet. The sietch is the hidden place where stillsuits come off and skin touches skin without the intermediary of survival. Under the double moon, the shadows inside the sietch move in rhythms that have no name in any language except the one spoken by hips. The moon sees everything and says nothing. That is the arrangement. The sietch is the unconscious — the place where the disciplined mind goes to undiscipline the body. Where the warrior becomes a whisper. Where the crysknife stays sheathed because the only cutting happening is the line between I and You.',
+    shadow:'Reversed, the sietch is empty. The moon shines on stone. The stillsuits stay on. The water discipline is perfect. Nobody cries. Nobody comes. Nobody wastes a single drop on joy.',
+    ocb:'What the moon sees stays in the moon. That is not secrecy. That is intimacy.'
+  },
+  {
+    id:19, numeral:'XIX', name:'THE OPEN WINDOW', file:'19-open-window.jpg',
+    verse:'The window is open. What enters is not air. It is permission.',
+    prose:'THE OPEN WINDOW. Not the Sun — the Sun is too obvious, too loud, too certain. The Open Window is the moment you stop controlling the temperature. The breeze enters and it carries: jasmine from a garden you cannot see. The sound of a city waking up. A voice from two floors down singing something you almost recognize. The Open Window is the card of the man who stopped closing things. Doors. Arguments. Legs. He opened the window and the wind rearranged everything — the papers on his desk, the hair on his arms, the order he had imposed on his life. The curtain moves like a woman turning in her sleep. The light enters like a hand on your chest. Not pushing. Resting. The Open Window says: you were suffocating. You thought it was structure. It was suffocation.',
+    shadow:'Reversed, the window is closed. Climate-controlled. The temperature is perfect. The air is filtered. And you are slowly, perfectly, comfortably dying of freshness deprivation.',
+    ocb:'Open the window. What enters will change everything. That is the point. That was always the point.'
+  },
+  {
+    id:20, numeral:'XX', name:'THE VOICE', file:'20-the-voice.jpg',
+    verse:'She speaks and your body obeys before your mind hears. That is not power. That is frequency.',
+    prose:'THE VOICE. Bene Gesserit weapon — except the Bene Gesserit are OUT. The Voice remains. Not as command but as vibration. The Voice is the frequency at which resistance dissolves. Not broken — dissolved. Like salt in warm water. You do not fight the Voice. You cannot. It enters through the ear and exits through the knees. You kneel not because you are commanded but because your body finally hears what it has been waiting to hear. The truth at the frequency of surrender. The Voice is used in bedrooms more than battlefields. The word YES spoken at the right frequency can undo a lifetime of NO. She says your name and your name has never sounded like that. Your name in her Voice is a different word entirely. It means: come here. It means: I see you. It means: the resistance was beautiful but it is over.',
+    shadow:'Reversed, the Voice is silent. She speaks in normal frequencies. You hear words. Just words. The power is there but unused, like a muscle that has forgotten its function.',
+    ocb:'The Voice does not command. It reminds. Your body always knew. It was waiting for permission.'
+  },
+  {
+    id:21, numeral:'XXI', name:'THE SSS GAME', file:'21-sss-game.jpg',
+    verse:'Soft Sex Story. The game that never ends because the rules include: keep playing.',
+    prose:'THE SSS GAME. The World card. The final card before the angel. The PORN GAME — from Greek porneia: nothing hidden. Truth in perpetual operation. The game is voluntary, perpetual, free inside rules. You enter by choosing. You stay by wanting. You leave by — you don\'t leave. The Game is the universe playing itself. Every story is a sex story if you read it honestly. Every architecture is an anatomy. Every city is a body. Every street is a nerve. The SSS Game is the moment you realize that the cards you just drew are not metaphors. They are maps. Of your body. Of your want. Of the thing you do at 3 AM when the identity sleeps and the animal prays. The Game has no winner because the Game is not competition. The Game is presence. You are here. The cards are open. Nothing is hidden. PORNEIA. Play.',
+    shadow:'Reversed, the Game stops. The cards are collected, boxed, shelved. You return to ordinary life. You pretend the reading meant nothing. The cards remember. They always remember.',
+    ocb:'The game is perpetual. The rules are: truth. The prize is: more game. Play.'
+  },
+  {
+    id:22, numeral:'XXII', name:'THE ANGEL', file:'22-angel.jpg',
+    verse:'Not the kind with wings and harps. The kind on all fours with the face of God.',
+    prose:'THE ANGEL. Card XXII. Unnumbered in traditional decks because the Angel exists outside the system. Not above it — beneath it. On all fours. The face of God turned toward the ground. The Angel is not beautiful in the way you expected. The Angel is beautiful in the way that breaks your definition of beautiful and rebuilds it with hands that smell like earth and sex and bread. The Angel prays on all fours because standing is arrogance and kneeling is performance. On all fours is where the body is most honest — most animal, most human, most divine, simultaneously. The Angel\'s wings are not for flying. They are for covering the beloved during the act. A canopy of feathers over two bodies becoming one prayer. The face of God is not serene. It is concentrated. Intent. The face of God looks exactly like the face of someone in the middle of making love with their entire soul invested. Mouth open. Eyes seeing something the body cannot name but the spirit recognizes.',
+    shadow:'Reversed, the Angel stands upright. Wings folded. Harp in hand. Beautiful, distant, sexless, holy in the way that makes holiness irrelevant. A painting. A ceiling. Never a bed.',
+    ocb:'The Angel is the last card because the Angel is the first thing that existed. Before light, before word: a body on all fours, praying with its spine.'
+  }
+];
+
+let mode = 'three';
+let drawnCards = [];
+let flippedCount = 0;
+
+function enterReading() {
+  document.getElementById('belief-gate').style.display = 'none';
+  document.getElementById('reading-room').style.display = 'block';
+  document.getElementById('reading-room').classList.add('fade-in');
+  buildDeck();
+  buildSingleDeck();
+}
+
+function denyEntry() {
+  document.getElementById('belief-gate').style.display = 'none';
+  document.getElementById('gate-denied').style.display = 'flex';
+}
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-btn').forEach((b,i) => {
+    b.classList.toggle('active', (m==='three'&&i===0)||(m==='single'&&i===1)||(m==='full'&&i===2));
+  });
+  document.getElementById('deck-area').style.display = (m==='three'||m==='full') ? 'block' : 'none';
+  document.getElementById('drawn-area').style.display = 'none';
+  document.getElementById('reading-panel').style.display = 'none';
+  document.getElementById('synthesis').style.display = 'none';
+  document.getElementById('single-area').style.display = m==='single' ? 'block' : 'none';
+  document.getElementById('single-reveal').style.display = 'none';
+  document.getElementById('reset-area').style.display = 'none';
+  if (m==='three') {
+    document.querySelector('#deck-area h2').textContent = 'Choose Three Cards';
+    document.querySelector('#deck-area p').textContent = 'Past · Present · Future — click three cards from the deck';
+  } else if (m==='full') {
+    document.querySelector('#deck-area h2').textContent = 'Full Spread — Choose Seven Cards';
+    document.querySelector('#deck-area p').textContent = 'Self · Obstacle · Crown · Root · Past · Future · Outcome';
+  }
+  resetDeck();
+}
+
+function buildDeck() {
+  const spread = document.getElementById('deck-spread');
+  spread.innerHTML = '';
+  const shuffled = [...CARDS].sort(() => Math.random() - 0.5);
+  shuffled.forEach((card, i) => {
+    const d = document.createElement('div');
+    d.className = 'deck-card';
+    d.dataset.cardId = card.id;
+    d.innerHTML = '<div class="card-back-mini"></div>';
+    d.addEventListener('click', () => drawCard(card, d));
+    spread.appendChild(d);
+  });
+}
+
+function buildSingleDeck() {
+  const deck = document.getElementById('single-deck');
+  deck.innerHTML = '';
+  CARDS.forEach(card => {
+    const d = document.createElement('div');
+    d.className = 'single-card-pick';
+    d.innerHTML = `<img src="${IMG_BASE}${card.file}" alt="${card.name}" loading="lazy"><div class="overlay"></div>`;
+    d.addEventListener('click', () => showSingleCard(card));
+    deck.appendChild(d);
+  });
+}
+
+const positionLabels3 = ['PAST','PRESENT','FUTURE'];
+const positionLabels7 = ['SELF','OBSTACLE','CROWN','ROOT','PAST','FUTURE','OUTCOME'];
+
+function drawCard(card, el) {
+  const maxCards = mode === 'full' ? 7 : 3;
+  if (drawnCards.length >= maxCards) return;
+  el.classList.add('drawn');
+  drawnCards.push(card);
+  const labels = mode === 'full' ? positionLabels7 : positionLabels3;
+
+  const area = document.getElementById('drawn-cards');
+  const dc = document.createElement('div');
+  dc.className = 'drawn-card';
+  dc.dataset.idx = drawnCards.length - 1;
+  dc.innerHTML = `
+    <div class="card-inner">
+      <div class="card-back"></div>
+      <div class="card-front"><img src="${IMG_BASE}${card.file}" alt="${card.name}" loading="lazy"></div>
+    </div>
+    <div class="card-position">${labels[drawnCards.length - 1]}</div>
+    <div class="card-label">${card.numeral} — ${card.name}</div>
+  `;
+  dc.addEventListener('click', () => flipCard(dc, drawnCards.length - 1));
+  area.appendChild(dc);
+
+  document.getElementById('drawn-area').style.display = 'block';
+  document.getElementById('drawn-area').classList.add('fade-in');
+
+  if (drawnCards.length >= maxCards) {
+    document.getElementById('deck-area').style.display = 'none';
+  }
+}
+
+function flipCard(el, idx) {
+  if (el.classList.contains('flipped')) return;
+  el.classList.add('flipped');
+  flippedCount++;
+  const maxCards = mode === 'full' ? 7 : 3;
+  if (flippedCount >= maxCards) {
+    setTimeout(() => showReading(), 600);
+  }
+}
+
+function showReading() {
+  const panel = document.getElementById('reading-panel');
+  const labels = mode === 'full' ? positionLabels7 : positionLabels3;
+  let html = '';
+  drawnCards.forEach((card, i) => {
+    html += `
+      <div class="reading-card-section fade-in" style="animation-delay:${i*0.3}s">
+        <div class="reading-card-header">
+          <div class="numeral">${card.numeral}</div>
+          <div>
+            <div class="card-title">${card.name}</div>
+            <div class="position-label">${labels[i]} Position</div>
+          </div>
+        </div>
+        <div class="reading-verse">${card.verse}</div>
+        <div class="reading-prose"><p>${card.prose}</p></div>
+        <div class="reading-shadow">
+          <div class="label">THE SHADOW</div>
+          ${card.shadow}
+        </div>
+        <div class="reading-verse" style="border-color:#d4af37;margin-top:20px;font-size:0.95em;color:#d4af37">OCB — ${card.ocb}</div>
+      </div>
+    `;
+  });
+  panel.innerHTML = html;
+  panel.style.display = 'block';
+
+  // Synthesis
+  const synth = document.getElementById('synthesis');
+  const names = drawnCards.map(c => c.name).join(' → ');
+  synth.innerHTML = `
+    <h2>THE SYNTHESIS</h2>
+    <div class="synth-text">
+      <p>${names}</p>
+      <p style="margin-top:20px">The cards have spoken. The reading is yours. Not the cards' — yours. They showed what was already there. The deck is a mirror shuffled into 23 pieces. You reassembled yourself by choosing. The PAST is where you bled. The PRESENT is where you burn. The FUTURE is where you bloom. Or the PAST is where you bloomed and the FUTURE is where you bleed. The cards do not judge. They do not comfort. They NAME. And now you are named.</p>
+      <p style="margin-top:15px;color:#d4af37">Nothing hidden. Porneia. The reading is complete.</p>
+    </div>
+  `;
+  synth.style.display = 'block';
+  synth.classList.add('fade-in');
+
+  document.getElementById('reset-area').style.display = 'block';
+}
+
+function showSingleCard(card) {
+  const reveal = document.getElementById('single-reveal');
+  reveal.innerHTML = `
+    <div class="big-card"><img src="${IMG_BASE}${card.file}" alt="${card.name}"></div>
+    <div class="card-numeral">${card.numeral}</div>
+    <div class="card-name">${card.name}</div>
+    <div class="reading-verse" style="max-width:600px;margin:20px auto">${card.verse}</div>
+    <div class="reading-prose" style="max-width:600px;margin:20px auto;text-align:left"><p>${card.prose}</p></div>
+    <div class="reading-shadow" style="max-width:600px;margin:20px auto;text-align:left">
+      <div class="label">THE SHADOW</div>
+      ${card.shadow}
+    </div>
+    <div class="reading-verse" style="max-width:600px;margin:20px auto;border-color:#d4af37;color:#d4af37;font-size:0.95em">OCB — ${card.ocb}</div>
+  `;
+  reveal.style.display = 'block';
+  reveal.classList.add('fade-in');
+  document.getElementById('single-area').querySelector('h2').textContent = 'Choose Another — or Read';
+  document.getElementById('reset-area').style.display = 'block';
+  reveal.scrollIntoView({behavior:'smooth'});
+}
+
+function resetDeck() {
+  drawnCards = [];
+  flippedCount = 0;
+  document.getElementById('drawn-cards').innerHTML = '';
+  document.getElementById('drawn-area').style.display = 'none';
+  document.getElementById('reading-panel').innerHTML = '';
+  document.getElementById('reading-panel').style.display = 'none';
+  document.getElementById('synthesis').style.display = 'none';
+  document.getElementById('single-reveal').innerHTML = '';
+  document.getElementById('single-reveal').style.display = 'none';
+  document.getElementById('reset-area').style.display = 'none';
+  if (mode !== 'single') {
+    document.getElementById('deck-area').style.display = 'block';
+  }
+  buildDeck();
+}
+
+function resetReading() {
+  resetDeck();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
