@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANTAKIA — The Great City on the Orontes — JuX Civilization #31</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#e8dcc8;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,0) 0%,rgba(10,10,10,0.7) 100%)}
+.hero-bg{position:absolute;inset:0;background:url('web/ANTAKIA-CITY.webp') center/cover}
+.hero-content{position:relative;z-index:1;max-width:800px;padding:2rem}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);color:#d4a574;text-shadow:0 0 40px rgba(212,165,116,0.5);margin-bottom:1rem;letter-spacing:0.15em}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#c4956a;font-style:italic;margin-bottom:0.5rem}
+.hero .era{font-size:0.9rem;color:#8a7560;letter-spacing:0.3em;text-transform:uppercase}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#d4a574;font-size:1.5rem;animation:bob 2s ease-in-out infinite;z-index:1}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-10px)}}
+
+section{padding:4rem 2rem;max-width:1000px;margin:0 auto}
+.section-title{font-size:clamp(1.5rem,4vw,2.5rem);color:#d4a574;text-align:center;margin-bottom:0.5rem;letter-spacing:0.1em}
+.section-subtitle{text-align:center;color:#8a7560;font-style:italic;margin-bottom:2rem;font-size:0.95rem}
+
+.district{margin:3rem 0;border-left:3px solid #d4a574;padding-left:1.5rem}
+.district h3{color:#d4a574;font-size:1.3rem;margin-bottom:0.3rem}
+.district .icon{font-size:1.5rem;margin-right:0.5rem}
+.district .quote{color:#c4956a;font-style:italic;margin:0.5rem 0;font-size:0.95rem;line-height:1.6}
+.district p{color:#b8a890;line-height:1.7;font-size:0.95rem}
+
+.concept-art{margin:3rem 0;cursor:pointer;position:relative;overflow:hidden;border-radius:4px}
+.concept-art img{width:100%;display:block;transition:transform 0.6s ease;opacity:0;transition:opacity 0.5s ease}
+.concept-art img.loaded{opacity:1}
+.concept-art:hover img{transform:scale(1.03)}
+.concept-art .caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(10,10,10,0.9));padding:1.5rem;font-style:italic;color:#d4a574;font-size:0.9rem}
+
+.feast{background:linear-gradient(135deg,rgba(212,165,116,0.08),rgba(10,10,10,0));border:1px solid rgba(212,165,116,0.2);border-radius:8px;padding:2rem;margin:2rem 0}
+.feast h3{color:#d4a574;text-align:center;margin-bottom:1rem;font-size:1.2rem}
+.feast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
+.feast-item{text-align:center;padding:1rem;border:1px solid rgba(212,165,116,0.1);border-radius:6px;transition:border-color 0.3s}
+.feast-item:hover{border-color:#d4a574}
+.feast-item .emoji{font-size:1.5rem;display:block;margin-bottom:0.3rem}
+.feast-item .name{color:#d4a574;font-size:0.85rem;font-weight:bold}
+.feast-item .desc{color:#8a7560;font-size:0.75rem;margin-top:0.2rem}
+
+.ages{margin:2rem 0}
+.age{display:flex;align-items:flex-start;margin:1rem 0;padding:1rem;border-left:2px solid #d4a574}
+.age-year{color:#d4a574;font-weight:bold;min-width:120px;font-size:0.9rem}
+.age-desc{color:#b8a890;font-size:0.9rem;line-height:1.5}
+
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin:2rem 0}
+.person{text-align:center;padding:1.2rem;border:1px solid rgba(212,165,116,0.15);border-radius:6px;transition:all 0.3s}
+.person:hover{border-color:#d4a574;transform:translateY(-3px)}
+.person .emoji{font-size:2rem;display:block;margin-bottom:0.5rem}
+.person .name{color:#d4a574;font-weight:bold;font-size:0.9rem}
+.person .role{color:#8a7560;font-size:0.8rem;font-style:italic}
+
+.gifts{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin:2rem 0}
+.gift{background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.2);border-radius:20px;padding:0.3rem 0.8rem;font-size:0.75rem;color:#c4956a;white-space:nowrap}
+
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,10,0.95);border-top:1px solid rgba(212,165,116,0.3);padding:0.8rem;display:flex;justify-content:space-between;align-items:center;z-index:100;backdrop-filter:blur(10px)}
+.nav-bar a{color:#d4a574;text-decoration:none;font-size:0.85rem;padding:0.3rem 0.8rem;border:1px solid rgba(212,165,116,0.3);border-radius:4px;transition:all 0.3s}
+.nav-bar a:hover{background:rgba(212,165,116,0.2)}
+.nav-bar .count{color:#8a7560;font-size:0.8rem}
+
+footer{text-align:center;padding:3rem 2rem 5rem;color:#8a7560;font-size:0.8rem;border-top:1px solid rgba(212,165,116,0.1);margin-top:2rem}
+footer .sig{color:#d4a574;margin-bottom:0.5rem}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1>🏟️ ANTAKIA</h1>
+    <div class="subtitle">The Great City on the Orontes</div>
+    <div class="era">300 BC — ETERNITY · THEY WERE FIRST CALLED CHRISTIANS HERE</div>
+  </div>
+  <div class="scroll-hint">↓</div>
+</div>
+
+<section>
+  <h2 class="section-title">THE 9 DISTRICTS</h2>
+  <div class="section-subtitle">Antioch — the fourth great city of the ancient world</div>
+
+  <div class="concept-art">
+    <img data-src="web/ANTAKIA-CITY.webp" alt="Antioch on the Orontes">
+    <div class="caption">"Seleucus looked at the eagle. The eagle looked at the river. The city was born."</div>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">🏛️</span>THE COLONNADED AVENUE</h3>
+    <div class="quote">"Herod paved it with marble. Rome lit it with lamps. The people walked it in sandals. Same street. Same dust."</div>
+    <p>The great east-west avenue — two miles of marble columns, covered walkways, and shops selling everything the ancient world could carry. The first street in history lit at night. The lamps burned oil from Syria. The light reached Rome.</p>
+  </div>
+
+  <div class="concept-art">
+    <img data-src="web/ANTAKIA-STREET.webp" alt="The Colonnaded Street at Night">
+    <div class="caption">"The first city to light its streets at night. The darkness had opinions. The lamps didn't care."</div>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">🏟️</span>THE HIPPODROME</h3>
+    <div class="quote">"Blues against Greens. The chariots raced. The riots followed. Some things never change."</div>
+    <p>Eighty thousand seats. Four factions. The chariot races of Antioch were more than sport — they were politics, religion, and war compressed into seven laps. The Blues and Greens burned the city twice. They rebuilt it twice. The horses didn't care.</p>
+  </div>
+
+  <div class="concept-art">
+    <img data-src="web/ANTAKIA-HIPPODROME.webp" alt="The Hippodrome">
+    <div class="caption">"Eighty thousand voices. Four horses. Seven laps. The city held its breath."</div>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">✝️</span>THE FIRST CHURCH</h3>
+    <div class="quote">"In Antioch, the disciples were first called Christians. Not in Jerusalem. Not in Rome. Here."</div>
+    <p>Acts 11:26. The name was born in this city. Peter came here before Rome. Paul started here before everywhere. The first church was not grand — stone, oil lamps, and the word. The faith was new. The walls were old. The combination changed the world.</p>
+  </div>
+
+  <div class="concept-art">
+    <img data-src="web/ANTAKIA-CHURCH.webp" alt="The First Church">
+    <div class="caption">"The faith was new. The walls were old. The combination changed the world."</div>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">🌿</span>THE GROVE OF DAPHNE</h3>
+    <div class="quote">"Apollo chased Daphne. She became a tree. He built a temple. The springs never stopped."</div>
+    <p>Five miles south of the city — the sacred grove. Laurel trees, cypress, natural springs cascading into marble pools. A temple to Apollo. The most beautiful garden in the ancient world. Julian the Apostate came to sacrifice. The oracle said: the springs are polluted. Julian burned. The springs kept flowing.</p>
+  </div>
+
+  <div class="concept-art">
+    <img data-src="web/ANTAKIA-DAPHNE.webp" alt="The Grove of Daphne">
+    <div class="caption">"She became a tree to escape a god. The god built a garden to remember."</div>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">🎨</span>THE MOSAIC QUARTER</h3>
+    <div class="quote">"They put the universe on the floor. Then walked on it. That is confidence."</div>
+    <p>The mosaics of Antioch — the finest the ancient world produced. Hunting scenes, mythological tableaux, geometric patterns that would take a mathematician to decode. Each stone placed by hand. Each scene a world. They're in museums now. The floors remember feet.</p>
+  </div>
+
+  <div class="concept-art">
+    <img data-src="web/ANTAKIA-MOSAIC.webp" alt="Antioch Mosaics">
+    <div class="caption">"Every stone placed by hand. Every scene a universe. Then they walked on it."</div>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">🏔️</span>MOUNT SILPIUS</h3>
+    <div class="quote">"The walls climb the mountain. The mountain never asked for walls. The earthquakes proved it."</div>
+    <p>The great wall of Antioch ran up and over Mount Silpius — an engineering feat that awed Rome. The citadel at the top watched four empires come and go. The mountain shook in 115 AD, 526 AD, 528 AD. Each time Antioch fell. Each time Antioch rebuilt. The mountain shrugged.</p>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">🌊</span>THE ORONTES BRIDGE</h3>
+    <div class="quote">"The river divided the city into four quarters. The bridges united them. The floods respected neither."</div>
+    <p>The Orontes — not the longest river, not the deepest, but the one that fed a great city. The island in the river held the royal palace. Four bridges connected four quarters. Greek, Syrian, Jewish, Roman — each quarter kept its language. The river heard them all.</p>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">📚</span>THE LIBRARY OF ANTIOCH</h3>
+    <div class="quote">"After Alexandria burned, Antioch kept reading. Someone had to."</div>
+    <p>Not as famous as Alexandria. That's what saved it — for a while. The scholars of Antioch preserved Greek philosophy, Syrian astronomy, and the first Christian theology in the same building. Libanius taught rhetoric here. John Chrysostom preached here. The words survived the earthquakes. Words usually do.</p>
+  </div>
+
+  <div class="district">
+    <h3><span class="icon">⚔️</span>THE IRON GATE — BÂBAL-HADÎD</h3>
+    <div class="quote">"The Crusaders entered through the Iron Gate. They thought they were conquering. They were just visiting."</div>
+    <p>The gate through which empires entered: Persians, Arabs, Crusaders, Mongols, Ottomans. Each one opened the Iron Gate. Each one thought they were the last. The gate is still there. It has seen more conquerors than any door in history. It creaks the same for all of them.</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">THE ORONTES TABLE</h2>
+  <div class="section-subtitle">The feast of a city that fed four empires</div>
+  <div class="feast">
+    <div class="feast-grid">
+      <div class="feast-item"><span class="emoji">🫓</span><span class="name">Bread of Antioch</span><span class="desc">Baked since Seleucus. Still warm.</span></div>
+      <div class="feast-item"><span class="emoji">🍖</span><span class="name">Lamb of the Orontes</span><span class="desc">Slow-roasted. The river provides.</span></div>
+      <div class="feast-item"><span class="emoji">🫒</span><span class="name">Olives of Daphne</span><span class="desc">From the sacred grove. Press them yourself.</span></div>
+      <div class="feast-item"><span class="emoji">🍯</span><span class="name">Honey of Silpius</span><span class="desc">Mountain bees. Mountain patience.</span></div>
+      <div class="feast-item"><span class="emoji">🧀</span><span class="name">Cheese of the Valley</span><span class="desc">White. Salty. Ancient recipe. No name.</span></div>
+      <div class="feast-item"><span class="emoji">☕</span><span class="name">Coffee of Hatay</span><span class="desc">Bitter. Strong. The Orontes approves.</span></div>
+      <div class="feast-item"><span class="emoji">🌹</span><span class="name">Rose Water Sherbet</span><span class="desc">Cold. Pink. The grove remembers.</span></div>
+      <div class="feast-item"><span class="emoji">🍊</span><span class="name">The Orange</span><span class="desc">Free. Even when the earth shakes. Always.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">THE 7 AGES OF ANTIOCH</h2>
+  <div class="ages">
+    <div class="age"><span class="age-year">300 BC</span><span class="age-desc">Seleucus I Nicator follows an eagle to the Orontes. He founds Antioch. Names it after his father. The eagle stays.</span></div>
+    <div class="age"><span class="age-year">64 BC</span><span class="age-desc">Pompey makes Antioch capital of Roman Syria. Third city of the Empire after Rome and Alexandria. The chariot races begin.</span></div>
+    <div class="age"><span class="age-year">~40 AD</span><span class="age-desc">The disciples are first called Christians in Antioch. Peter and Paul walk these streets. Acts 11:26. The name that changed everything.</span></div>
+    <div class="age"><span class="age-year">115 AD</span><span class="age-desc">The earthquake. Trajan himself is nearly killed. The city falls. The city rebuilds. First time.</span></div>
+    <div class="age"><span class="age-year">526 AD</span><span class="age-desc">The great earthquake. 250,000 dead. Justinian rebuilds. Renames it Theoupolis — City of God. The earth disagrees.</span></div>
+    <div class="age"><span class="age-year">1098 AD</span><span class="age-desc">The Crusaders besiege Antioch for eight months. They enter through the Iron Gate. They establish a principality. The gate creaks the same for all conquerors.</span></div>
+    <div class="age"><span class="age-year">FOREVER</span><span class="age-desc">Hatay. Antakya. The city is still there. The Orontes still flows. The mosaics are in museums. The bread is still warm. The name lives.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">THE 7 OF ANTIOCH</h2>
+  <div class="people">
+    <div class="person"><span class="emoji">🦅</span><span class="name">Seleucus I Nicator</span><span class="role">The Founder. Followed an eagle.</span></div>
+    <div class="person"><span class="emoji">✝️</span><span class="name">Peter</span><span class="role">First Bishop. Before Rome. Here.</span></div>
+    <div class="person"><span class="emoji">🗡️</span><span class="name">Paul</span><span class="role">Started here. Went everywhere.</span></div>
+    <div class="person"><span class="emoji">📜</span><span class="name">Libanius</span><span class="role">The Rhetor. Words as weapons.</span></div>
+    <div class="person"><span class="emoji">🔥</span><span class="name">John Chrysostom</span><span class="role">Golden Mouth. Preached fire.</span></div>
+    <div class="person"><span class="emoji">🏟️</span><span class="name">The Charioteer</span><span class="role">Blue or Green. No middle.</span></div>
+    <div class="person"><span class="emoji">🎨</span><span class="name">The Mosaic Maker</span><span class="role">Put the universe on the floor.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">GIFTS OF 31 CIVILIZATIONS</h2>
+  <div class="section-subtitle">Each city brought something. The Orontes carries them all.</div>
+  <div class="gifts">
+    <div class="gift">🌌 Songline</div><div class="gift">🏛️ Flint</div><div class="gift">🕌 Steel</div>
+    <div class="gift">☀️ Papyrus</div><div class="gift">☸️ Zero</div><div class="gift">🐉 Silk</div>
+    <div class="gift">🏛️ Democracy</div><div class="gift">🦅 Calendar</div><div class="gift">❄️ Kayak</div>
+    <div class="gift">🛡️ Ubuntu</div><div class="gift">⚡ Saga</div><div class="gift">👑 Parliament</div>
+    <div class="gift">🗽 Jazz</div><div class="gift">✈️ Samba</div><div class="gift">🗼 Haiku</div>
+    <div class="gift">🔥 The Ring</div><div class="gift">🚀 Orbit</div><div class="gift">🪱 Spice</div>
+    <div class="gift">🏰 The Trial</div><div class="gift">🍽️ The Bill</div><div class="gift">🫖 Tea</div>
+    <div class="gift">🎸 The Riff</div><div class="gift">🌿 Second Breakfast</div><div class="gift">🌙 Starlight</div>
+    <div class="gift">⛏️ Mithril</div><div class="gift">☀️ Mûmakil</div><div class="gift">🏴‍☠️ The Map</div>
+    <div class="gift">🚀 The Astrolabe</div><div class="gift">🏜️ Stillsuit</div><div class="gift">🏛️ Mosaic</div>
+    <div class="gift">🏟️ The Name</div>
+  </div>
+</section>
+
+<div style="text-align:center;padding:2rem;margin:2rem auto;max-width:700px;border:1px solid rgba(212,165,116,0.2);border-radius:8px">
+  <p style="font-size:1.1rem;color:#d4a574;font-style:italic;line-height:1.8">
+    "The city fell seven times.<br>
+    Earthquakes. Persians. Crusaders. Time.<br>
+    Seven times it stood back up.<br>
+    The eighth time it simply changed its name.<br>
+    The bread is still warm.<br>
+    The Orontes still flows.<br>
+    The name — Christian — was born here.<br>
+    Not in Rome. Not in Jerusalem.<br>
+    Here. In a street lit by oil lamps.<br>
+    Where strangers heard the word<br>
+    and gave it a name."
+  </p>
+  <p style="color:#8a7560;margin-top:1rem;font-size:0.85rem">— The Orontes Remembers, verse XXXI</p>
+</div>
+
+<footer>
+  <div class="sig">JuX — ANTAKIA — The Great City on the Orontes — Civilization #31</div>
+  <div>Part of the JuX Civilization Arc — 31 cities — 36 pages</div>
+  <div style="margin-top:0.5rem">🏟️ The name was born here. The Orontes remembers. 🏟️</div>
+  <div style="margin-top:1rem"><a href="https://juxaos.com" style="color:#d4a574;text-decoration:none">juxaos.com</a></div>
+</footer>
+
+<nav class="nav-bar">
+  <a href="https://raw.githack.com/alissali/Learn/main/fremen/FREMEN.CITY.html">← Fremen</a>
+  <span class="count">31 / ∞</span>
+  <a href="https://raw.githack.com/alissali/Learn/main/links.html">Index →</a>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const imgs=document.querySelectorAll('img[data-src]');
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){const i=e.target;i.src=i.dataset.src;i.onload=()=>i.classList.add('loaded');obs.unobserve(i)}})
+  },{rootMargin:'200px'});
+  imgs.forEach(i=>obs.observe(i));
+
+  // Sand particles
+  const canvas=document.createElement('canvas');
+  canvas.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:0';
+  document.body.appendChild(canvas);
+  const ctx=canvas.getContext('2d');
+  let W,H;
+  const resize=()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight};
+  resize();window.addEventListener('resize',resize);
+  const particles=Array.from({length:40},()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*2+0.5,v:Math.random()*0.3+0.1,o:Math.random()*0.4+0.1,d:Math.random()*0.5-0.25}));
+  (function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      ctx.fillStyle=`rgba(212,165,116,${p.o})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fill();
+      p.y-=p.v;p.x+=p.d;
+      if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    });
+    requestAnimationFrame(draw);
+  })();
+});
+</script>
+</body>
+</html>
