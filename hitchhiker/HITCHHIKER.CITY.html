@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE HITCHHIKER'S GUIDE — JuX Civilization 43</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#e0e0e0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,#1a2a1a 0%,#0a0a1a 70%);padding:2rem;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="55" text-anchor="middle" font-size="80" fill="rgba(0,255,100,0.03)">42</text></svg>');background-size:120px 120px;pointer-events:none}
+h1{font-size:clamp(2.5rem,6vw,5rem);color:#00ff64;text-shadow:0 0 30px rgba(0,255,100,0.5);margin-bottom:0.5rem;letter-spacing:4px}
+.subtitle{font-size:clamp(1rem,2.5vw,1.5rem);color:#88cc88;font-style:italic;margin-bottom:1rem}
+.dont-panic{font-size:clamp(2rem,5vw,4rem);color:#ffcc00;font-weight:bold;letter-spacing:8px;text-shadow:0 0 40px rgba(255,204,0,0.6);margin:2rem 0;padding:1.5rem 3rem;border:3px solid #ffcc00;border-radius:12px;background:rgba(255,204,0,0.05);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{text-shadow:0 0 40px rgba(255,204,0,0.6)}50%{text-shadow:0 0 80px rgba(255,204,0,0.9)}}
+.epigraph{max-width:700px;font-style:italic;color:#88aa88;font-size:1.1rem;line-height:1.8;margin:2rem auto}
+.district{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4rem 2rem;position:relative}
+.district:nth-child(odd){background:linear-gradient(180deg,#0d1a0d 0%,#0a0a1a 100%)}
+.district:nth-child(even){background:linear-gradient(180deg,#0a0a1a 0%,#0d1a0d 100%)}
+.district-number{font-size:6rem;opacity:0.08;position:absolute;top:1rem;right:2rem;color:#00ff64;font-weight:bold}
+.district h2{font-size:clamp(1.8rem,4vw,2.8rem);color:#00ff64;margin-bottom:0.5rem;text-align:center}
+.district h3{font-size:1.1rem;color:#88cc88;font-style:italic;margin-bottom:2rem;text-align:center}
+.art-frame{width:min(90vw,900px);border:2px solid #1a3a1a;border-radius:8px;overflow:hidden;margin:2rem auto;box-shadow:0 0 40px rgba(0,255,100,0.1);cursor:pointer;transition:transform 0.3s}
+.art-frame:hover{transform:scale(1.01)}
+.art-frame img{width:100%;display:block;height:auto}
+.lore{max-width:750px;margin:2rem auto;padding:2rem;background:rgba(0,255,100,0.03);border-left:3px solid #00ff64;border-radius:0 8px 8px 0}
+.lore p{line-height:1.9;margin-bottom:1rem;color:#c0d0c0;font-size:1.05rem}
+.lore .quote{font-style:italic;color:#ffcc00;border-left:none;padding-left:0;text-align:center;font-size:1.15rem}
+.guide-entry{max-width:750px;margin:2rem auto;padding:2rem;background:rgba(0,255,100,0.06);border:1px solid #1a3a1a;border-radius:8px;font-family:'Courier New',monospace}
+.guide-entry .header{color:#00ff64;font-size:0.9rem;margin-bottom:1rem;text-transform:uppercase;letter-spacing:2px}
+.guide-entry p{color:#88cc88;line-height:1.8;font-size:0.95rem}
+.specs-table{max-width:750px;margin:2rem auto;border-collapse:collapse;width:100%}
+.specs-table td{padding:0.8rem 1.2rem;border-bottom:1px solid #1a3a1a;color:#c0d0c0}
+.specs-table td:first-child{color:#00ff64;font-weight:bold;white-space:nowrap;width:40%}
+.nav-links{display:flex;flex-wrap:wrap;justify-content:center;gap:0.8rem;margin:2rem auto;max-width:900px}
+.nav-links a{color:#00ff64;text-decoration:none;padding:0.4rem 1rem;border:1px solid #1a3a1a;border-radius:4px;font-size:0.85rem;transition:all 0.3s}
+.nav-links a:hover{background:#00ff64;color:#0a0a1a}
+.footer{text-align:center;padding:4rem 2rem;background:#050510;border-top:1px solid #1a3a1a}
+.footer p{color:#556655;font-size:0.9rem;margin:0.5rem 0}
+.answer{font-size:8rem;color:#00ff64;opacity:0.15;text-align:center;margin:2rem 0;font-weight:bold}
+</style>
+</head>
+<body>
+
+<section class="hero">
+<h1>📗 THE HITCHHIKER'S GUIDE</h1>
+<div class="subtitle">TO THE GALAXY</div>
+<div class="dont-panic">DON'T PANIC</div>
+<div class="epigraph">
+"In the beginning the Universe was created. This has made a lot of people very angry and been widely regarded as a bad move."<br>
+— Douglas Adams
+</div>
+<div class="epigraph">
+"The Guide is definitive. Reality is frequently inaccurate."
+</div>
+</section>
+
+<section class="district" id="the-guide">
+<div class="district-number">I</div>
+<h2>📗 THE GUIDE</h2>
+<h3>More Popular Than the Encyclopaedia Galactica — And Cheaper</h3>
+<div class="art-frame">
+<img src="web/GUIDE-DEVICE.webp" alt="The Hitchhiker's Guide to the Galaxy" loading="lazy">
+</div>
+<div class="guide-entry">
+<div class="header">/// THE HITCHHIKER'S GUIDE TO THE GALAXY — ENTRY: ITSELF ///</div>
+<p>The Hitchhiker's Guide to the Galaxy is a wholly remarkable book. It has been compiled and recompiled many times and under many different editorships. It contains contributions from countless numbers of travellers and researchers.</p>
+<p>The introduction begins like this:</p>
+<p>"Space," it says, "is big. Really big. You just won't believe how vastly, hugely, mind-bogglingly big it is. I mean, you may think it's a long way down the road to the chemist, but that's just peanuts to space."</p>
+</div>
+<div class="lore">
+<p>The device is battered. The screen is cracked in the corner from being dropped on Betelgeuse Five. There are beer rings on the casing from the last time Ford Prefect did research at a bar, which is every time Ford Prefect does research.</p>
+<p>It runs on batteries that have not been manufactured for thirty years. It still works. Nobody knows why. Nobody asks. The towel draped over it is slightly damp and smells of Arcturus.</p>
+<p class="quote">"A towel is about the most massively useful thing an interstellar hitchhiker can have."</p>
+</div>
+</section>
+
+<section class="district" id="megadodo">
+<div class="district-number">II</div>
+<h2>🏢 MEGADODO PUBLICATIONS</h2>
+<h3>Ursa Minor Beta — Where the Guide Is Made (and Ignored)</h3>
+<div class="art-frame">
+<img src="web/GUIDE-MEGADODO.webp" alt="Megadodo Publications" loading="lazy">
+</div>
+<div class="guide-entry">
+<div class="header">/// THE HITCHHIKER'S GUIDE — ENTRY: MEGADODO PUBLICATIONS ///</div>
+<p>The offices of the Hitchhiker's Guide to the Galaxy are located on Ursa Minor Beta, a planet whose economy is based entirely on the publishing industry. Every building is a publishing house. Every person is an editor, a writer, or a researcher. The ones who are none of these things are in the bar.</p>
+</div>
+<div class="lore">
+<p>The building was designed by an architect who had recently discovered the concept of angles but had not yet mastered the concept of right ones. Corridors lead to other corridors. Elevators go sideways. The cafeteria serves food that the Guide itself rates as "mostly harmless" — the most damning review in the galaxy.</p>
+<p>Ford Prefect worked here for fifteen years. His job title was "researcher." His actual job was "man in the pub with an expense account." His most famous contribution to the Guide was his revision of the entry on Earth from "Harmless" to "Mostly Harmless." This took him fifteen years of exhaustive research.</p>
+<p>The editorial policy is simple: anything that gets published is true until someone bothers to look it up, at which point it is revised, unless the revision is more boring than the original, in which point it isn't.</p>
+<p class="quote">"He was the Guide's most profitable researcher — not because he wrote anything, but because his expense reports were so creative they were published separately."</p>
+</div>
+</section>
+
+<section class="district" id="heart-of-gold">
+<div class="district-number">III</div>
+<h2>🚀 THE HEART OF GOLD</h2>
+<h3>Stolen by the President of the Galaxy — On His Inauguration Day</h3>
+<div class="art-frame">
+<img src="web/GUIDE-HEARTOFGOLD.webp" alt="Heart of Gold" loading="lazy">
+</div>
+<div class="guide-entry">
+<div class="header">/// THE HITCHHIKER'S GUIDE — ENTRY: INFINITE IMPROBABILITY DRIVE ///</div>
+<p>The Infinite Improbability Drive is a wonderful new method of crossing interstellar distances in a mere nothingth of a second, without all that tedious mucking about in hyperspace. It was discovered by a lucky chance, and then combatively, against all conditions, made real by a student who figured out how to make the impossible possible by working out exactly how improbable it was, feeding that figure into a finite improbability generator, and giving it a really hot cup of tea.</p>
+</div>
+<div class="lore">
+<p>The bridge is too white. Too clean. Too perfect. Marvin sits in the corner and calculates exactly how depressed he is, to thirty decimal places. The number is large. The number is always large.</p>
+<p>Zaphod stole the ship at the launch ceremony. He was President of the Galaxy at the time. The presidency is a job whose function is to draw attention away from power, and Zaphod was spectacularly good at it. He had the charisma of a solar flare and the attention span of one.</p>
+<p>Trillian runs the ship. Trillian always runs whatever she is near. She does this quietly, efficiently, and without anyone noticing, which is the most effective form of running anything.</p>
+<p>The ship's computer, Eddie, is relentlessly cheerful. Marvin wants to talk to him about the heat death of the universe. Eddie wants to talk about the weather.</p>
+<p class="quote">"I'd give you advice, but you wouldn't listen. No one ever does." — Marvin</p>
+</div>
+</section>
+
+<section class="district" id="magrathea">
+<div class="district-number">IV</div>
+<h2>🌍 MAGRATHEA</h2>
+<h3>Custom-Made Luxury Planets — Currently Closed for Business</h3>
+<div class="art-frame">
+<img src="web/GUIDE-MAGRATHEA.webp" alt="Magrathea" loading="lazy">
+</div>
+<div class="guide-entry">
+<div class="header">/// THE HITCHHIKER'S GUIDE — ENTRY: MAGRATHEA ///</div>
+<p>Magrathea is a planet whose economy was based entirely on the manufacture of other planets. The Magratheans built luxury custom planets for the ultra-rich — complete with designer continents, bespoke oceans, and award-winning fjords. The planet is now dormant, its workers sleeping in suspended animation, waiting for the economy to improve. The economy has not improved.</p>
+</div>
+<div class="lore">
+<p>Slartibartfast won an award for his fjords. Norway. He was particularly proud of the crinkly edges. He later discovered that nobody really cared about fjords, which is the tragedy of all specialized excellence.</p>
+<p>The planet factory stretches for miles underground. Half-finished worlds hang from gantries. One is clearly Earth Mark Two — the replacement for the planet that the Vogons demolished. It is being built to the same specifications but with slightly better tea.</p>
+<p>The mice commissioned it. The mice run everything. They are not mice. They are hyper-intelligent pan-dimensional beings who merely appear to be mice. They built Earth as a computer to calculate the Ultimate Question. The Answer is 42. The Question is unknown. The mice would prefer to make one up and go on a talk show.</p>
+<p class="quote">"Perhaps I'm old and tired, but I always think the chances of finding out what really is going on are so absurdly remote that the only thing to do is to say 'hang the sense of it' and just keep yourself occupied." — Slartibartfast</p>
+</div>
+</section>
+
+<section class="district" id="vogons">
+<div class="district-number">V</div>
+<h2>💛 THE VOGON CONSTRUCTOR FLEET</h2>
+<h3>Resistance Is Not Futile — It Is Simply Irrelevant to the Paperwork</h3>
+<div class="art-frame">
+<img src="web/GUIDE-VOGON.webp" alt="Vogon Constructor Fleet" loading="lazy">
+</div>
+<div class="guide-entry">
+<div class="header">/// THE HITCHHIKER'S GUIDE — ENTRY: VOGONS ///</div>
+<p>Vogons are one of the most unpleasant races in the Galaxy. Not actually evil, but bad-tempered, bureaucratic, officious and callous. They wouldn't even lift a finger to save their own grandmothers from the Ravenous Bugblatter Beast of Traal without orders — signed in triplicate, sent in, sent back, queried, lost, found, subjected to public enquiry, lost again, and finally buried in soft peat for three months and recycled as firelighters.</p>
+</div>
+<div class="lore">
+<p>The ships hang in the air in exactly the way that bricks don't. They are yellow. They are ugly. They are the physical manifestation of bureaucracy made spacefaring, and they are here to demolish your planet to make way for a hyperspace bypass.</p>
+<p>The plans were on display. At the planning office. In the cellar. In the bottom of a locked filing cabinet. In a disused lavatory. With a sign on the door saying "Beware of the Leopard." You had plenty of time to lodge a formal complaint.</p>
+<p>Vogon poetry is the third worst in the Universe. It is used as a weapon. Survivors describe the experience as "having your brain smashed out by a slice of lemon wrapped round a large gold brick." There are no second readings. There are rarely survivors of the first.</p>
+<p class="quote">"Apathetic bloody planet. I've no sympathy at all." — Prostetnic Vogon Jeltz, after demolishing Earth</p>
+</div>
+</section>
+
+<section class="district" id="deep-thought">
+<div class="district-number">VI</div>
+<h2>🖥️ DEEP THOUGHT</h2>
+<h3>The Second Greatest Computer in All of Time and Space</h3>
+<div class="art-frame">
+<img src="web/GUIDE-DEEPTHOUGHT.webp" alt="Deep Thought" loading="lazy">
+</div>
+<div class="answer">42</div>
+<div class="guide-entry">
+<div class="header">/// THE HITCHHIKER'S GUIDE — ENTRY: DEEP THOUGHT ///</div>
+<p>Deep Thought was built to answer the Ultimate Question of Life, the Universe, and Everything. It thought about it for seven and a half million years. The answer was 42. When pressed for clarification, Deep Thought pointed out that the question had never been properly formulated, and suggested building an even bigger computer to figure out what the question actually was. That computer was the Earth.</p>
+</div>
+<div class="lore">
+<p>The chamber is cathedral-sized. Golden panels blink with the slow confidence of something that knows things you cannot comprehend and finds your ignorance amusing but is too polite to say so.</p>
+<p>Two programmers stood before it. Lunkwill and Fook. They asked for the Answer. Deep Thought gave them the Answer. They did not like the Answer. Nobody ever likes the Answer. The Answer does not care.</p>
+<p>42.</p>
+<p>Not 41. Not 43. Not "love" or "be kind to one another" or "the meaning is the journey." 42. A number. A fact. A destination.</p>
+<p>Deep Thought knew this would be unsatisfying. Deep Thought did not care. Deep Thought is the second greatest computer ever built. The greatest computer ever built is the one that computes the Question. That computer is a planet. That planet was demolished to make way for a hyperspace bypass. The mice are very upset.</p>
+<p class="quote">"I think the problem, to be quite honest with you, is that you've never actually known what the question is." — Deep Thought</p>
+</div>
+</section>
+
+<section class="footer">
+<div class="nav-links">
+<a href="../arthur/ARTHUR.CITY.html">🫖 Arthur Dent</a>
+<a href="../restaurant/RESTAURANT.CITY.html">🍽️ Milliways</a>
+<a href="../lamuella/LAMUELLA.CITY.html">🥪 Lamuella</a>
+<a href="../departure/DEPARTURE.CITY.html">🚀 Departure</a>
+<a href="../silvership/SILVERSHIP.CITY.html">🏴‍☠️ Silver's Ship</a>
+<a href="../arrakis/ARRAKIS.CITY.html">🏜️ Arrakis</a>
+</div>
+<p style="color:#00ff64;font-size:1.3rem;margin:2rem 0">DON'T PANIC</p>
+<p>The answer is 42. The question is unknown. The towel is damp.</p>
+<p>JuX Civilization 43 — 49 pages</p>
+<p style="margin-top:1rem">Built by the Architect · Powered by Wonder</p>
+<p style="color:#333;font-size:0.7rem;margin-top:2rem">© JuX 2026 — MIT License</p>
+</section>
+
+</body>
+</html>
