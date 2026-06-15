@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏹 ARCHERS DIVISION — The Rain Before the Storm</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1008;color:#e8d5b0;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#0d0a04 0%,#2a1a08 50%,#1a1008 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(180,120,40,0.15) 0%,transparent 70%)}
+.hero h1{font-size:clamp(2.5rem,7vw,5.5rem);color:#c8941e;text-shadow:0 0 60px rgba(200,148,30,0.4);letter-spacing:0.12em;z-index:1}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.6rem);color:#a08050;margin-top:1rem;font-style:italic;z-index:1}
+.hero .arrow-rain{position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(175deg,transparent,transparent 98px,rgba(180,140,60,0.03) 100px);animation:rain 8s linear infinite}
+@keyframes rain{0%{transform:translateY(-100px)}100%{transform:translateY(100px)}}
+.section{max-width:1100px;margin:0 auto;padding:6rem 2rem}
+.art-card{margin-bottom:6rem;opacity:0;transform:translateY(40px);transition:all 0.8s ease}
+.art-card.visible{opacity:1;transform:translateY(0)}
+.art-card img{width:100%;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,0.6);cursor:pointer;transition:transform 0.3s ease}
+.art-card img:hover{transform:scale(1.02)}
+.art-card h2{font-size:clamp(1.4rem,3vw,2rem);color:#c8941e;margin:2rem 0 0.5rem;letter-spacing:0.08em}
+.art-card .designation{color:#8a7040;font-size:0.9rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem}
+.art-card .quote{font-style:italic;color:#a08050;font-size:1.05rem;line-height:1.7;border-left:2px solid #c8941e;padding-left:1.5rem;margin:1.5rem 0}
+.art-card .specs{color:#8a7040;font-size:0.85rem;line-height:1.8;margin-top:1rem}
+.art-card .specs strong{color:#a89060}
+.divider{text-align:center;padding:2rem 0;color:#c8941e;font-size:1.5rem;letter-spacing:1em;opacity:0.3}
+.stats{background:linear-gradient(135deg,#0d0a04,#1a1208);border:1px solid #3a2a10;border-radius:8px;padding:3rem;margin:4rem auto;max-width:900px}
+.stats h2{color:#c8941e;text-align:center;margin-bottom:2rem;font-size:1.6rem;letter-spacing:0.1em}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.stat{text-align:center;padding:1rem}
+.stat .number{font-size:2.2rem;color:#c8941e;font-weight:bold}
+.stat .label{color:#8a7040;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.3rem}
+.oath{text-align:center;padding:4rem 2rem;max-width:800px;margin:0 auto}
+.oath blockquote{font-size:clamp(1.1rem,2.5vw,1.5rem);color:#c8941e;font-style:italic;line-height:1.8}
+.oath .attribution{color:#8a7040;margin-top:1.5rem;font-size:0.9rem;letter-spacing:0.1em}
+footer{text-align:center;padding:4rem 2rem;color:#5a4a2a;font-size:0.8rem;letter-spacing:0.1em}
+footer a{color:#c8941e;text-decoration:none}
+footer a:hover{text-decoration:underline}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;cursor:pointer;justify-content:center;align-items:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="arrow-rain"></div>
+  <div>
+    <h1>🏹 ARCHERS DIVISION</h1>
+    <div class="subtitle">The Rain Before the Storm — Umayyad Caliphate, Damascus</div>
+  </div>
+</div>
+
+<div class="section">
+
+  <div class="art-card">
+    <img src="web/ARCHERS-TRAINING.webp" alt="The Training Ground" loading="lazy" onclick="openLightbox(this)">
+    <div class="designation">District I — The Killing Field</div>
+    <h2>THE TRAINING GROUND</h2>
+    <div class="quote">"An arrow does not care about your opinion. It goes where your body told it to go. Your mind was not consulted. Train the body. The mind will follow or the mind will be silent. Either is acceptable."</div>
+    <div class="specs">
+      <strong>Capacity:</strong> 800 archers drilling simultaneously · <strong>Ranges:</strong> 50m (recruit), 150m (regular), 300m (elite), 450m (impossible — 3 men can hit it) · <strong>Schedule:</strong> Dawn to dusk, six days · <strong>Rest day:</strong> Friday — prayer and maintenance · <strong>Dropout rate:</strong> 60% in first month · <strong>Graduation:</strong> 10 arrows, 10 hits, under 30 seconds, at 200m
+    </div>
+  </div>
+
+  <div class="divider">🏹 · 🏹 · 🏹</div>
+
+  <div class="art-card">
+    <img src="web/ARCHERS-ARSENAL.webp" alt="The Arsenal" loading="lazy" onclick="openLightbox(this)">
+    <div class="designation">District II — The Bowyer's Domain</div>
+    <h2>THE ARSENAL</h2>
+    <div class="quote">"A bow is not a weapon. It is four animals and a tree who agreed to become one thing. Horn for compression. Sinew for tension. Wood for memory. Hide glue to hold the argument together. The tree is the spine. You are merely the hand."</div>
+    <div class="specs">
+      <strong>Inventory:</strong> 4,200 composite bows · <strong>Arrow production:</strong> 2,000/day · <strong>Types:</strong> Broadhead (flesh), Bodkin (armor), Incendiary (siege), Whistling (signal), Crescent (rope-cutting) · <strong>Master bowyers:</strong> 14 (7 Arab, 4 Persian, 2 Turkish, 1 who will not say) · <strong>Build time per bow:</strong> 2 years (curing alone is 18 months)
+    </div>
+  </div>
+
+  <div class="divider">🏹 · 🏹 · 🏹</div>
+
+  <div class="art-card">
+    <img src="web/ARCHERS-TOWER.webp" alt="The Commander's Tower" loading="lazy" onclick="openLightbox(this)">
+    <div class="designation">District III — The Eagle's Perch</div>
+    <h2>THE COMMANDER'S TOWER</h2>
+    <div class="quote">"The commander does not shoot. The commander decides who does not come home. Every arrow he orders released is a letter of condolence he has already written in his head. The bow on his wall has not been drawn in seven years. It is still strung. He wants it to know he has not forgotten."</div>
+    <div class="specs">
+      <strong>Commander:</strong> Qais ibn Sa'd — 34 years, 22 campaigns, 0 defeats, 1 eye (the other he calls "the price of looking too closely") · <strong>Staff:</strong> 4 range officers, 2 scouts, 1 calligrapher (battle reports are literature) · <strong>The bow on the wall:</strong> 120lb draw weight — only 3 men alive can pull it — Qais is one
+    </div>
+  </div>
+
+  <div class="divider">🏹 · 🏹 · 🏹</div>
+
+  <div class="art-card">
+    <img src="web/ARCHERS-FORMATION.webp" alt="Battle Formation" loading="lazy" onclick="openLightbox(this)">
+    <div class="designation">District IV — The Three Ranks</div>
+    <h2>THE BATTLE FORMATION</h2>
+    <div class="quote">"First rank kneels. Second rank stands. Third rank is elevated. When the drum beats once, the first rank fires. When it beats twice, the second. Three beats, the third. Then the first rank has reloaded. There is no pause. There is no silence. There is only rain. The enemy does not fight men. The enemy fights weather."</div>
+    <div class="specs">
+      <strong>Standard formation:</strong> 3 ranks × 200 archers = 600 bows · <strong>Volley rate:</strong> 1,800 arrows in 10 seconds · <strong>Effective range:</strong> 250m (massed volley) · <strong>Maximum range:</strong> 450m (harassing fire) · <strong>Signal system:</strong> Drum (fire), Horn (advance), Flag (cease) · <strong>The math:</strong> At full volley, the sky darkens. This is not poetry. This is geometry.
+    </div>
+  </div>
+
+  <div class="divider">🏹 · 🏹 · 🏹</div>
+
+  <div class="art-card">
+    <img src="web/ARCHERS-FIREARROW.webp" alt="The Fire Arrow Chamber" loading="lazy" onclick="openLightbox(this)">
+    <div class="designation">District V — The Burning Room</div>
+    <h2>THE FIRE ARROW CHAMBER</h2>
+    <div class="quote">"Fire arrows are not for killing. Swords kill. Spears kill. Fire arrows are for the moment before. The moment when the enemy looks up and sees the sky is on fire and understands — with perfect clarity — that they are standing in the wrong place."</div>
+    <div class="specs">
+      <strong>Composition:</strong> Naphtha-soaked linen + pitch + beeswax seal · <strong>Burn time:</strong> 45 seconds per arrow · <strong>Effective siege range:</strong> 200m · <strong>Storage:</strong> Underground, stone-lined, sand floor — no wood permitted · <strong>Safety record:</strong> Two incidents in 40 years (both survived, one promoted, one retired to farming with no regrets) · <strong>Preparation crew:</strong> 6 specialists — all missing eyebrows
+    </div>
+  </div>
+
+  <div class="divider">🏹 · 🏹 · 🏹</div>
+
+  <div class="art-card">
+    <img src="web/ARCHERS-MOUNTED.webp" alt="Mounted Archery" loading="lazy" onclick="openLightbox(this)">
+    <div class="designation">District VI — The Parthian Shot</div>
+    <h2>THE MOUNTED COURSE</h2>
+    <div class="quote">"The horse does not aim. The rider does not steer. For three seconds between the gallop's beats, horse and rider are one animal with four legs and two arms and no fear. In those three seconds, the arrow flies. If you are thinking, you are too late. If you are aiming, you have already missed. The Parthian shot is not archery. It is trust."</div>
+    <div class="specs">
+      <strong>Course length:</strong> 400m with 12 obstacles · <strong>Targets:</strong> 6 (2 static, 2 moving, 2 behind the rider) · <strong>Qualifying time:</strong> Under 40 seconds, 4 of 6 hits · <strong>Horses:</strong> Arabian — bred for the course from birth · <strong>The backwards shot:</strong> Full twist in the saddle at gallop, firing behind — the move that broke Rome · <strong>Current record:</strong> 6 of 6, 31 seconds — held by a 17-year-old who will not give his name
+    </div>
+  </div>
+
+</div>
+
+<div class="stats">
+  <h2>⚔️ DIVISION STRENGTH</h2>
+  <div class="stats-grid">
+    <div class="stat"><div class="number">2,400</div><div class="label">Active Archers</div></div>
+    <div class="stat"><div class="number">600</div><div class="label">Mounted Archers</div></div>
+    <div class="stat"><div class="number">4,200</div><div class="label">Composite Bows</div></div>
+    <div class="stat"><div class="number">14</div><div class="label">Master Bowyers</div></div>
+    <div class="stat"><div class="number">2,000</div><div class="label">Arrows / Day</div></div>
+    <div class="stat"><div class="number">0</div><div class="label">Battles Lost</div></div>
+  </div>
+</div>
+
+<div class="oath">
+  <blockquote>"I do not loose until commanded. I do not miss when I loose. I do not stop until the drum is silent. I am not the sword. I am not the spear. I am the sky falling. I am the rain that does not stop."</blockquote>
+  <div class="attribution">— Oath of the Archers Division, Umayyad Caliphate</div>
+</div>
+
+<footer>
+  <p>🏹 ARCHERS DIVISION — THE RAIN BEFORE THE STORM</p>
+  <p>Umayyad Caliphate · Damascus · 661–750 CE</p>
+  <p style="margin-top:1rem"><a href="../omayyadcastle/OMAYYADCASTLE.CITY.html">← The Omayyad Castle</a> · <a href="../shami/DAMASCUS.CITY.html">Damascus</a></p>
+  <p style="margin-top:1rem">JuX — NAME / FACT / TARGET</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(img){const lb=document.getElementById('lightbox');const li=document.getElementById('lightbox-img');li.src=img.src.replace('/web/','/../');lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.art-card').forEach(c=>observer.observe(c));
+</script>
+
+</body>
+</html>
