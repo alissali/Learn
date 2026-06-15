@@ -1,0 +1,180 @@
+<script src="three.min.js"></script>
+<script>
+// ==================== SCENE ====================
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x000511);
+scene.fog=new THREE.Fog(0x000511,40,120);
+const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,0.5,200);
+camera.position.set(0,18,30);
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;
+document.body.appendChild(renderer.domElement);
+
+// Lights
+scene.add(new THREE.AmbientLight(0x112233,2));
+const dl=new THREE.DirectionalLight(0x0f0,2);dl.position.set(20,30,20);scene.add(dl);
+const pl=new THREE.PointLight(0xf69,2,30);pl.position.set(0,5,0);scene.add(pl);
+
+// Grid
+scene.add(new THREE.PolarGridHelper(50,40,30,128,0x003300,0x003300));
+
+// Stars
+const sv=[];for(let i=0;i<800;i++)sv.push((Math.random()-0.5)*160,20+Math.random()*80,(Math.random()-0.5)*160);
+const sg=new THREE.BufferGeometry();sg.setAttribute('position',new THREE.Float32BufferAttribute(sv,3));
+scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:0.2})));
+
+// ==================== MATERIALS ====================
+const bofMat=new THREE.MeshStandardMaterial({color:0x00ff88,emissive:0x004422,roughness:0.3});
+const bofHeadMat=new THREE.MeshStandardMaterial({color:0xffffff,emissive:0x004422,roughness:0.2});
+const truthMat=new THREE.MeshStandardMaterial({color:0xffdd44,emissive:0x443300,roughness:0.2});
+const enemyMat=new THREE.MeshStandardMaterial({color:0xff4444,emissive:0x440000});
+const bossMat=new THREE.MeshStandardMaterial({color:0xff0000,emissive:0x440000,roughness:0.2,metalness:0.3});
+const skinMat=new THREE.MeshStandardMaterial({color:0x335533,emissive:0x001100,transparent:true,opacity:0.4});
+const projMat=new THREE.MeshStandardMaterial({color:0xff6699,emissive:0x440022});
+
+// ==================== BOF ====================
+const bof=[];
+for(let i=0;i<5;i++){
+    const s=new THREE.Mesh(new THREE.SphereGeometry(1.4-i*0.1,8,6),i===0?bofHeadMat:bofMat);
+    s.position.set(0,2,-i*2);s.castShadow=true;scene.add(s);bof.push(s);
+}
+let bx=0,bz=0,angle=0,speed=0.3;
+
+// ==================== GAME STATE ====================
+const truths=[],enemies=[],skins=[],projectiles=[],particles=[];
+let truthCount=0,lives=3,level=0,gameRunning=false;
+let moltCooldown=0,moltCharges=3;
+let bossActive=false,boss=null,bossMesh=null;
+let keys={};
+const LEVELS=['UOVO','SERPENTE','CACCIATORE','ORACOLO','DIAMANTE'];
+
+// ==================== SPAWN ====================
+function spawnTruths(n){for(let i=0;i<n;i++){const t=new THREE.Mesh(new THREE.SphereGeometry(0.6,8,6),truthMat);t.position.set((Math.random()-0.5)*44,2+Math.random()*5,(Math.random()-0.5)*44);t.userData={p:Math.random()*Math.PI*2};scene.add(t);truths.push(t)}}
+function spawnEnemies(n){for(let i=0;i<n;i++){const e=new THREE.Mesh(new THREE.IcosahedronGeometry(1,0),enemyMat);e.position.set((Math.random()-0.5)*44,1.5,(Math.random()-0.5)*44);e.userData={s:0.07+Math.random()*0.1,hp:1};scene.add(e);enemies.push(e)}}
+function spawnParticles(x,y,z,color,n){for(let i=0;i<n;i++){const p=new THREE.Mesh(new THREE.SphereGeometry(0.2,4,3),new THREE.MeshBasicMaterial({color}));p.position.set(x,y,z);p.userData={vx:(Math.random()-0.5)*1.5,vy:Math.random()*2,vz:(Math.random()-0.5)*1.5,life:25+Math.random()*15};scene.add(p);particles.push(p)}}
+function spawnProjectile(x,y,z,vx,vy,vz,color=0xff6699){const p=new THREE.Mesh(new THREE.SphereGeometry(0.4,6,4),projMat);p.position.set(x,y,z);p.userData={vx,vy,vz,life:150};scene.add(p);projectiles.push(p)}
+
+// ==================== MOLT ====================
+function molt(){
+    if(moltCooldown>0||moltCharges<=0)return;
+    moltCooldown=25;moltCharges--;
+    const s=new THREE.Mesh(new THREE.SphereGeometry(2.5,8,6),skinMat);
+    s.position.copy(bof[0].position);scene.add(s);skins.push(s);
+    if(skins.length>20){const old=skins.shift();scene.remove(old)}
+    spawnParticles(bof[0].position.x,bof[0].position.y,bof[0].position.z,0x00ff88,20);
+    for(let i=enemies.length-1;i>=0;i--){
+        if(bof[0].position.distanceTo(enemies[i].position)<12){
+            if(enemies[i]===bossMesh&&boss){boss.hp-=2;spawnParticles(enemies[i].position.x,enemies[i].position.y,enemies[i].position.z,0xffdd44,15)}
+            else{spawnParticles(enemies[i].position.x,enemies[i].position.y,enemies[i].position.z,0x00ff88,8);scene.remove(enemies[i]);enemies.splice(i,1);truthCount++}
+        }
+    }
+}
+
+// ==================== TONGUE ====================
+function tongueStrike(){
+    const dx=Math.sin(angle)*10,dz=Math.cos(angle)*10;
+    const tx=bof[0].position.x+dx,tz=bof[0].position.z+dz;
+    spawnParticles(tx,bof[0].position.y,tz,0xff6699,15);
+    for(let i=enemies.length-1;i>=0;i--){
+        if(new THREE.Vector3(tx,bof[0].position.y,tz).distanceTo(enemies[i].position)<5){
+            if(enemies[i]===bossMesh&&boss){boss.hp--;spawnParticles(enemies[i].position.x,enemies[i].position.y,enemies[i].position.z,0xffdd44,10)}
+            else{scene.remove(enemies[i]);enemies.splice(i,1);truthCount+=2}
+        }
+    }
+    for(let i=truths.length-1;i>=0;i--){
+        if(new THREE.Vector3(tx,bof[0].position.y,tz).distanceTo(truths[i].position)<6){scene.remove(truths[i]);truths.splice(i,1);truthCount++}
+    }
+}
+
+// ==================== BOSS ====================
+function spawnBoss(){
+    bossActive=true;
+    bossMesh=new THREE.Mesh(new THREE.IcosahedronGeometry(5,2),bossMat);
+    bossMesh.position.set(0,8,-40);scene.add(bossMesh);
+    boss={hp:15,maxHp:15,timer:0};enemies.push(bossMesh);
+}
+
+// ==================== GAME LOOP ====================
+function step(){
+    if(!gameRunning)return;
+    let mx=0,mz=0;
+    if(keys['w']||keys['arrowup'])mz=-1;if(keys['s']||keys['arrowdown'])mz=1;
+    if(keys['a']||keys['arrowleft'])mx=-1;if(keys['d']||keys['arrowright'])mx=1;
+    if(mx||mz){angle=Math.atan2(mx,mz);bx+=mx*speed;bz+=mz*speed}
+    bx=Math.max(-22,Math.min(22,bx));bz=Math.max(-22,Math.min(22,bz));
+    
+    const h=bof[0];h.position.x+=(bx-h.position.x)*0.3;h.position.z+=(bz-h.position.z)*0.3;
+    h.position.y=2+Math.sin(Date.now()*0.005)*0.3;
+    for(let i=1;i<bof.length;i++){const p=bof[i-1];bof[i].position.x+=(p.position.x-bof[i].position.x)*0.4;bof[i].position.z+=(p.position.z-bof[i].position.z)*0.4;bof[i].position.y=1.5+Math.sin(Date.now()*0.005+i*0.4)*0.2}
+    
+    camera.position.x+=(h.position.x-camera.position.x)*0.04;camera.position.z+=(h.position.z+30-camera.position.z)*0.04;
+    camera.position.y+=(18-camera.position.y)*0.03;camera.lookAt(h.position);
+    
+    // Truths
+    for(let i=truths.length-1;i>=0;i--){truths[i].userData.p+=0.04;truths[i].position.y=2+Math.sin(truths[i].userData.p)*1.5;truths[i].rotation.y+=0.03;if(h.position.distanceTo(truths[i].position)<3){spawnParticles(truths[i].position.x,truths[i].position.y,truths[i].position.z,0xffdd44,5);scene.remove(truths[i]);truths.splice(i,1);truthCount++}}
+    
+    // Enemies
+    for(let e of enemies){const d=h.position.distanceTo(e.position)||1;e.position.x+=(h.position.x-e.position.x)/d*(e.userData.s||0.08);e.position.z+=(h.position.z-e.position.z)/d*(e.userData.s||0.08);e.position.y=1.5+Math.sin(Date.now()*0.003)*0.3;if(e!==bossMesh&&d<2.3)loseLife()}
+    
+    // Boss
+    if(bossActive&&bossMesh){boss.timer++;bossMesh.position.x+=Math.sin(boss.timer*0.02)*0.3;bossMesh.position.z=-35+Math.sin(boss.timer*0.015)*5;bossMesh.rotation.y+=0.02;bossMesh.rotation.x+=0.01;if(boss.timer%25===0)spawnProjectile(bossMesh.position.x,bossMesh.position.y,bossMesh.position.z,(h.position.x-bossMesh.position.x)*0.025,(h.position.y-bossMesh.position.y)*0.025,(h.position.z-bossMesh.position.z)*0.025,0xff0000);if(h.position.distanceTo(bossMesh.position)<7)loseLife();if(boss.hp<=0){spawnParticles(bossMesh.position.x,bossMesh.position.y,bossMesh.position.z,0xffdd44,60);scene.remove(bossMesh);enemies=enemies.filter(e=>e!==bossMesh);bossActive=false;bossMesh=null;boss=null;truthCount+=20}}
+    
+    // Projectiles
+    for(let i=projectiles.length-1;i>=0;i--){projectiles[i].position.x+=projectiles[i].userData.vx;projectiles[i].position.y+=projectiles[i].userData.vy;projectiles[i].position.z+=projectiles[i].userData.vz;projectiles[i].userData.life--;if(projectiles[i].userData.life<=0||projectiles[i].position.y<0){scene.remove(projectiles[i]);projectiles.splice(i,1);continue}if(h.position.distanceTo(projectiles[i].position)<2.5){scene.remove(projectiles[i]);projectiles.splice(i,1);loseLife()}}
+    
+    // Particles
+    for(let i=particles.length-1;i>=0;i--){particles[i].position.x+=particles[i].userData.vx;particles[i].position.y+=particles[i].userData.vy;particles[i].position.z+=particles[i].userData.vz;particles[i].userData.life--;if(particles[i].userData.life<=0){scene.remove(particles[i]);particles.splice(i,1)}}
+    
+    if(moltCooldown>0)moltCooldown--;
+    const nl=truthCount>=80?4:truthCount>=60?3:truthCount>=40?2:truthCount>=20?1:0;
+    if(nl>level){level=nl;moltCharges=Math.min(moltCharges+1,3)}
+    if(truthCount>=100&&!bossActive)spawnBoss();
+    if(truths.length<20&&Math.random()<0.1)spawnTruths(1);
+    if(enemies.filter(e=>e!==bossMesh).length<4+level&&Math.random()<0.03)spawnEnemies(1);
+    
+    updateHUD();
+}
+
+function loseLife(){
+    lives--;spawnParticles(bof[0].position.x,bof[0].position.y,bof[0].position.z,0xff4444,30);
+    if(lives<=0)endGame();
+}
+
+function endGame(){
+    gameRunning=false;
+    document.getElementById('start').style.display='block';
+    document.getElementById('start').innerHTML='GAME OVER<br><small style="font-size:0.5em">Truths: '+truthCount+' | Level: '+LEVELS[level]+'</small><br><small style="font-size:0.5em;color:#ff0">CLICK TO RESTART</small>';
+}
+
+function updateHUD(){
+    document.getElementById('sk').textContent='🦴'.repeat(Math.max(0,lives))+'💀'.repeat(Math.max(0,3-lives));
+    document.getElementById('ts').textContent=truthCount;
+    document.getElementById('lv').textContent=LEVELS[Math.min(level,4)]+(bossActive?' ⚠BOSS':'');
+}
+
+// ==================== INPUT ====================
+document.addEventListener('keydown',e=>{
+    keys[e.key.toLowerCase()]=true;
+    if(e.key===' '){e.preventDefault();if(!gameRunning)startGame();else tongueStrike()}
+    if(e.key==='e'&&gameRunning){e.preventDefault();molt()}
+});
+document.addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=false});
+
+function startGame(){
+    [...truths,...enemies,...skins,...projectiles,...particles].forEach(m=>scene.remove(m));
+    truths.length=enemies.length=skins.length=projectiles.length=particles.length=0;
+    truthCount=0;lives=3;level=0;moltCooldown=0;moltCharges=3;
+    bossActive=false;bossMesh=null;boss=null;
+    bx=0;bz=0;angle=0;bof[0].position.set(0,2,0);
+    for(let i=1;i<bof.length;i++)bof[i].position.set(0,1.5,-i*2);
+    spawnTruths(25);spawnEnemies(4);
+    document.getElementById('start').style.display='none';
+    gameRunning=true;updateHUD();
+}
+
+document.getElementById('start').addEventListener('click',startGame);
+
+function loop(){step();renderer.render(scene,camera);requestAnimationFrame(loop)}
+loop();
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script>
