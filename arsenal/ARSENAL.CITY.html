@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚔️ The Omayyad Arsenal — Damascus Steel</title>
+<link rel="stylesheet" href="https://juxitt.com/jux.css">
+<style>
+:root{--ars-dark:#1a0f07;--ars-forge:#8b4513;--ars-gold:#c4963a;--ars-steel:#b0c4de;--ars-fire:#e25822}
+body{margin:0;background:var(--ars-dark);color:var(--ars-steel);font-family:Georgia,serif}
+.hero{text-align:center;padding:4em 1em 2em;background:linear-gradient(180deg,#1a0f07 0%,#3d1f0a 100%)}
+.hero h1{font-size:2.8em;color:var(--ars-gold);margin:0;text-shadow:0 2px 20px rgba(196,150,58,0.4)}
+.hero .subtitle{font-size:1.2em;color:var(--ars-steel);margin-top:0.5em;opacity:0.85}
+.stats-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:2em;padding:1.5em;background:rgba(139,69,19,0.3);border-top:1px solid var(--ars-gold);border-bottom:1px solid var(--ars-gold)}
+.stat{text-align:center}.stat .num{font-size:2em;color:var(--ars-gold);font-weight:bold}.stat .label{font-size:0.8em;color:var(--ars-steel);opacity:0.7}
+.district{max-width:900px;margin:2em auto;padding:0 1em}
+.district h2{color:var(--ars-gold);font-size:1.8em;border-bottom:2px solid var(--ars-forge);padding-bottom:0.3em}
+.district .img-wrap{width:100%;cursor:pointer;overflow:hidden;border-radius:8px;border:2px solid var(--ars-forge);margin:1em 0}
+.district .img-wrap img{width:100%;display:block;transition:transform 0.3s}
+.district .img-wrap img:hover{transform:scale(1.02)}
+.district .quote{font-style:italic;color:var(--ars-gold);border-left:3px solid var(--ars-fire);padding-left:1em;margin:1em 0}
+.district .detail{color:var(--ars-steel);line-height:1.7;opacity:0.9}
+.specs-table{width:100%;border-collapse:collapse;margin:1em 0}
+.specs-table td{padding:0.5em 1em;border-bottom:1px solid var(--ars-forge)}
+.specs-table td:first-child{color:var(--ars-gold);font-weight:bold;width:40%}
+.nav-back{text-align:center;padding:2em;margin-top:2em;border-top:1px solid var(--ars-forge)}
+.nav-back a{color:var(--ars-gold);text-decoration:none;font-size:1.1em}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:1000;cursor:pointer;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal-overlay img{max-width:95%;max-height:95%;object-fit:contain}
+footer{text-align:center;padding:2em 1em;color:var(--ars-steel);opacity:0.4;font-size:0.8em}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<h1>⚔️ THE OMAYYAD ARSENAL</h1>
+<div class="subtitle">Damascus Steel · Where Every Blade Is Born and Every Shield Is Named</div>
+</div>
+
+<div class="stats-bar">
+<div class="stat"><div class="num">3,000</div><div class="label">SWORDS / MONTH</div></div>
+<div class="stat"><div class="num">12,000</div><div class="label">SHIELDS / YEAR</div></div>
+<div class="stat"><div class="num">2,400</div><div class="label">ARCHERS EQUIPPED</div></div>
+<div class="stat"><div class="num">800</div><div class="label">CAVALRY SETS</div></div>
+<div class="stat"><div class="num">1</div><div class="label">SECRET: DAMASCUS STEEL</div></div>
+</div>
+
+<div class="district">
+<h2>🏛️ 1. THE ARSENAL</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/ARSENAL-EXTERIOR.webp" alt="Arsenal Exterior" loading="lazy"></div>
+<div class="quote">"The Arsenal does not sleep. The forges cool and the night shift lights them again. War does not take holidays."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>LOCATION</td><td>Southeast Damascus · fortified compound · 400m × 300m · 12 workshops</td></tr>
+<tr><td>WORKFORCE</td><td>2,200 smiths, armorers, carpenters, leather-workers, engineers</td></tr>
+<tr><td>SECURITY</td><td>4 watchtowers · garrison of 200 guards · entry by seal only</td></tr>
+<tr><td>OUTPUT</td><td>Full equipment for 10,000 soldiers per year — sword, shield, armor, helmet, boots</td></tr>
+<tr><td>MASTER</td><td>Khalid al-Hadid — "Khalid the Iron" — 40 years at the forge · has never held a blade in anger</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>⚒️ 2. THE SWORD FORGE</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/ARSENAL-SWORDFORGE.webp" alt="Sword Forge" loading="lazy"></div>
+<div class="quote">"Damascus steel is not made. It is persuaded. You fold the metal until it forgets it was ever ore. Then you fold it again until it remembers."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>THE PROCESS</td><td>Wootz ingots from India · 200+ folds · the watered pattern appears only when the steel agrees</td></tr>
+<tr><td>HEAT</td><td>1,300°C · charcoal from specific oak · bellows operated by two men in rotation</td></tr>
+<tr><td>THE TEST</td><td>A finished blade must cut a falling silk scarf. If it catches, it is reforged. If it tears, it is melted.</td></tr>
+<tr><td>QUENCHING</td><td>Oil, not water. The composition of the oil is a family secret. Three families know. They do not speak to each other.</td></tr>
+<tr><td>DAILY OUTPUT</td><td>100 swords · 200 daggers · 50 spearheads — each marked with the smith's personal stamp</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>🛡️ 3. THE ARMOR HALL</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/ARSENAL-ARMOR.webp" alt="Armor Hall" loading="lazy"></div>
+<div class="quote">"Chainmail is patience made physical. 40,000 rings per hauberk. Each ring riveted by hand. Each ring is a promise that the man inside will come home."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>CHAINMAIL</td><td>40,000 riveted rings per shirt · 15 kg · build time: 3 months per hauberk</td></tr>
+<tr><td>LAMELLAR</td><td>Overlapping steel plates laced with leather · lighter · used by cavalry</td></tr>
+<tr><td>HELMETS</td><td>Spangenhelm with nose guard · aventail of mail protecting neck and face</td></tr>
+<tr><td>SHIELDS</td><td>Round · 80cm diameter · layered wood + leather + steel boss · weighs 4 kg</td></tr>
+<tr><td>THE FITTING</td><td>Every officer's armor is fitted individually. A loose ring is a dead man's ring.</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>🏗️ 4. THE SIEGE WORKSHOP</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/ARSENAL-SIEGE.webp" alt="Siege Workshop" loading="lazy"></div>
+<div class="quote">"A wall is an opinion. A trebuchet is a counterargument."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>TREBUCHETS</td><td>Counterweight type · range: 300m · 150 kg projectiles · disassembles for transport on 8 camels</td></tr>
+<tr><td>MANGONELS</td><td>Torsion-powered · lighter · faster rate of fire · used for suppression</td></tr>
+<tr><td>BATTERING RAMS</td><td>Iron-capped cedar log · wheeled housing with wet hide roof · crew of 40</td></tr>
+<tr><td>SIEGE TOWERS</td><td>4 stories · wheeled · drawbridge at top · carries 100 soldiers to wall height</td></tr>
+<tr><td>ENGINEERS</td><td>200 specialist siege engineers · trained in mathematics and physics · the only soldiers who read</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>🐎 5. THE CAVALRY HALL</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/ARSENAL-CAVALRY.webp" alt="Cavalry Hall" loading="lazy"></div>
+<div class="quote">"The horse does not wear armor because it is afraid. The horse wears armor because the rider is not finished yet."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>ARABIAN HORSES</td><td>800 warhorses stabled · bred for endurance, not size · the desert made them</td></tr>
+<tr><td>BARDING</td><td>Chainmail + leather · covers chest, neck, flanks · weight: 25 kg · the horse does not notice</td></tr>
+<tr><td>LANCES</td><td>3.5m ash wood · steel tip · single-use on impact · racks hold 2,000</td></tr>
+<tr><td>CAVALRY SWORDS</td><td>Lighter than infantry · curved · optimized for mounted slashing · the ancestor of the scimitar</td></tr>
+<tr><td>SADDLES</td><td>High cantle · deep seat · stirrups (the innovation that changed cavalry forever) · leather + wood frame</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>🗡️ 6. THE VAULT OF DAMASCUS STEEL</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/ARSENAL-VAULT.webp" alt="The Vault" loading="lazy"></div>
+<div class="quote">"These blades are not stored. They are remembered. Each one has a name. Each name is a battle. Each battle is a man who came home because of what he carried."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>THE COLLECTION</td><td>47 named blades · each displayed on velvet · each with Arabic calligraphy nameplate</td></tr>
+<tr><td>THE CALIPH'S SWORD</td><td>Center pedestal · "Al-Samsama" · the watered pattern forms a verse from the Quran · nobody planned this</td></tr>
+<tr><td>AL-BATTAR</td><td>The Cutter · 400 years old · belonged to 7 generals · outlived them all</td></tr>
+<tr><td>SECURITY</td><td>Iron bars · 4 guards · the vault key is held by the Caliph personally</td></tr>
+<tr><td>THE SECRET</td><td>Damascus steel's exact recipe died with the last master in 1750. The blades in this vault are irreplaceable. Every one of them is the last of its kind.</td></tr>
+</table>
+</div>
+</div>
+
+<div class="nav-back">
+<a href="../omayyadcastle/OMAYYADCASTLE.CITY.html">🏰 The Omayyad Castle</a> ·
+<a href="../archers/ARCHERS.CITY.html">🏹 The Archers Division</a> ·
+<a href="NAVY.CITY.html">⚓ The Omayyad Navy</a> ·
+<a href="../shami/DAMASCUS.CITY.html">🕌 Damascus</a>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="this.classList.remove('active')">
+<img id="modalImg" src="" alt="Full view">
+</div>
+
+<script>
+function openModal(el){const m=document.getElementById('modal');document.getElementById('modalImg').src=el.querySelector('img').src;m.classList.add('active')}
+</script>
+
+<footer>JuX · The Omayyad Arsenal · NAME / FACT / TARGET</footer>
+</body>
+</html>

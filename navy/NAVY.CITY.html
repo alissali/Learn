@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚓ The Omayyad Navy — Masters of the Mediterranean</title>
+<link rel="stylesheet" href="https://juxitt.com/jux.css">
+<style>
+:root{--navy-deep:#0a1628;--navy-blue:#1a3a5c;--navy-gold:#c4963a;--navy-foam:#d4e6f1;--navy-fire:#e67e22}
+body{margin:0;background:var(--navy-deep);color:var(--navy-foam);font-family:Georgia,serif}
+.hero{text-align:center;padding:4em 1em 2em;background:linear-gradient(180deg,#0a1628 0%,#1a3a5c 100%)}
+.hero h1{font-size:2.8em;color:var(--navy-gold);margin:0;text-shadow:0 2px 20px rgba(196,150,58,0.4)}
+.hero .subtitle{font-size:1.2em;color:var(--navy-foam);margin-top:0.5em;opacity:0.85}
+.stats-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:2em;padding:1.5em;background:rgba(26,58,92,0.6);border-top:1px solid var(--navy-gold);border-bottom:1px solid var(--navy-gold)}
+.stat{text-align:center}.stat .num{font-size:2em;color:var(--navy-gold);font-weight:bold}.stat .label{font-size:0.8em;color:var(--navy-foam);opacity:0.7}
+.district{max-width:900px;margin:2em auto;padding:0 1em}
+.district h2{color:var(--navy-gold);font-size:1.8em;border-bottom:2px solid var(--navy-blue);padding-bottom:0.3em}
+.district .img-wrap{width:100%;cursor:pointer;overflow:hidden;border-radius:8px;border:2px solid var(--navy-blue);margin:1em 0}
+.district .img-wrap img{width:100%;display:block;transition:transform 0.3s}
+.district .img-wrap img:hover{transform:scale(1.02)}
+.district .quote{font-style:italic;color:var(--navy-gold);border-left:3px solid var(--navy-fire);padding-left:1em;margin:1em 0}
+.district .detail{color:var(--navy-foam);line-height:1.7;opacity:0.9}
+.specs-table{width:100%;border-collapse:collapse;margin:1em 0}
+.specs-table td{padding:0.5em 1em;border-bottom:1px solid var(--navy-blue)}
+.specs-table td:first-child{color:var(--navy-gold);font-weight:bold;width:40%}
+.nav-back{text-align:center;padding:2em;margin-top:2em;border-top:1px solid var(--navy-blue)}
+.nav-back a{color:var(--navy-gold);text-decoration:none;font-size:1.1em}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:1000;cursor:pointer;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal-overlay img{max-width:95%;max-height:95%;object-fit:contain}
+footer{text-align:center;padding:2em 1em;color:var(--navy-foam);opacity:0.4;font-size:0.8em}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<h1>⚓ THE OMAYYAD NAVY</h1>
+<div class="subtitle">Masters of the Mediterranean · 649–750 CE</div>
+</div>
+
+<div class="stats-bar">
+<div class="stat"><div class="num">1,800</div><div class="label">WAR GALLEYS</div></div>
+<div class="stat"><div class="num">7</div><div class="label">NAVAL BASES</div></div>
+<div class="stat"><div class="num">3</div><div class="label">SEAS CONTROLLED</div></div>
+<div class="stat"><div class="num">674</div><div class="label">SIEGE OF CONSTANTINOPLE</div></div>
+<div class="stat"><div class="num">∞</div><div class="label">GREEK FIRE</div></div>
+</div>
+
+<div class="district">
+<h2>⚓ 1. THE FLEET</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/NAVY-FLEET.webp" alt="The Omayyad Fleet" loading="lazy"></div>
+<div class="quote">"Mu'awiya looked at the sea and said: 'The Romans own it.' Then he built a fleet. In three years, the Romans did not own it."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>FLAGSHIP — AL-BURAQ</td><td>Triple-masted dromon · 60m · 300 oarsmen · bronze ram · 12 Greek fire siphons</td></tr>
+<tr><td>HEAVY GALLEYS</td><td>200 vessels · 40m · 150 oarsmen · battering ram + boarding towers</td></tr>
+<tr><td>LIGHT SCOUTS</td><td>400 fast shalandi · 25m · single-masted · 50 oarsmen · pursuit and patrol</td></tr>
+<tr><td>TRANSPORT FLEET</td><td>600 cargo galleys · horses, siege engines, 10,000 troops per wave</td></tr>
+<tr><td>FIRE SHIPS</td><td>Expendable · packed with naphtha and pitch · sailed unmanned into enemy formations</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>🔨 2. THE SHIPYARD</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/NAVY-SHIPYARD.webp" alt="The Shipyard" loading="lazy"></div>
+<div class="quote">"A ship is not built. A ship is grown. Wood must be cut green, seasoned two years, bent to shape over steam, and only then does it agree to float."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>LOCATION</td><td>Acre · Tyre · Alexandria · Tunis — four yards building simultaneously</td></tr>
+<tr><td>TIMBER</td><td>Lebanese cedar for hulls · Syrian oak for keels · Egyptian acacia for ribs</td></tr>
+<tr><td>BUILD RATE</td><td>One war galley per 18 days · peak output: 100 ships/year</td></tr>
+<tr><td>WORKFORCE</td><td>4,000 shipwrights · 2,000 rope-makers · 800 sailmakers · 600 smiths</td></tr>
+<tr><td>INNOVATION</td><td>Lateen sail — triangular rig allowing sailing closer to the wind than any Roman square rig</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>🚢 3. THE FLAGSHIP — AL-BURAQ</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/NAVY-FLAGSHIP.webp" alt="The Flagship Interior" loading="lazy"></div>
+<div class="quote">"The drum beats once per second. 300 oars strike as one. The sound alone has made cities surrender before the ram touched their harbor chains."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>COMMAND DECK</td><td>Raised stern platform · navigation table · signal flags · horn array for fleet orders</td></tr>
+<tr><td>OAR DECKS</td><td>Three tiers · 300 oarsmen · free men, not slaves — Mu'awiya's rule</td></tr>
+<tr><td>WEAPONS</td><td>12 Greek fire siphons · 40 archers on elevated platforms · javelin racks · grappling chains</td></tr>
+<tr><td>CREW</td><td>450 total: 300 oarsmen + 80 marines + 40 archers + 20 fire crews + 10 officers</td></tr>
+<tr><td>SPEED</td><td>7 knots under oar · 12 knots under full sail · ramming speed: 15 knots for 200m</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>⚔️ 4. THE BATTLE OF THE MASTS</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/NAVY-BATTLE.webp" alt="Naval Battle" loading="lazy"></div>
+<div class="quote">"They tied the ships together with chains. Mast to mast. And then it was not a sea battle. It was a land battle that happened to be wet."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>DATE</td><td>655 CE — Battle of the Masts (Dhat al-Sawari)</td></tr>
+<tr><td>ENEMY</td><td>Byzantine Emperor Constans II — personally commanding — 500 ships</td></tr>
+<tr><td>TACTIC</td><td>Lash ships together → turn naval combat into hand-to-hand boarding → Arab advantage</td></tr>
+<tr><td>RESULT</td><td>Total Umayyad victory · Byzantine naval supremacy broken · Emperor fled disguised as a common sailor</td></tr>
+<tr><td>CONSEQUENCE</td><td>Mediterranean opened · North Africa, Sicily, Cyprus, Rhodes — all within reach</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>🗺️ 5. THE ADMIRAL'S WAR ROOM</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/NAVY-WARROOM.webp" alt="War Room" loading="lazy"></div>
+<div class="quote">"The Mediterranean is not a sea. It is a corridor. Control the corridor and you control everything that moves through it. Everything moves through it."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>THE MAP</td><td>Carved relief of entire Mediterranean · ship models mark fleet positions · updated daily by pigeon post</td></tr>
+<tr><td>INTELLIGENCE</td><td>Network of merchant spies in every major port · coded messages in cargo manifests</td></tr>
+<tr><td>STRATEGY</td><td>Seasonal campaigns: spring launch → summer combat → autumn resupply → winter refit</td></tr>
+<tr><td>COMMUNICATIONS</td><td>Signal fires along the coast · carrier pigeons · fast scout shalandi relay ships</td></tr>
+<tr><td>ADMIRALS</td><td>Abu al-A'war · Junada ibn Abi Umayya · the tradition Mu'awiya built from nothing</td></tr>
+</table>
+</div>
+</div>
+
+<div class="district">
+<h2>🔥 6. THE GREEK FIRE LABORATORY</h2>
+<div class="img-wrap" onclick="openModal(this)"><img src="web/NAVY-GREEKFIRE.webp" alt="Greek Fire Lab" loading="lazy"></div>
+<div class="quote">"It burns on water. It burns on sand. It burns on stone. It does not burn on truth — but truth does not fight naval battles."</div>
+<div class="detail">
+<table class="specs-table">
+<tr><td>COMPOSITION</td><td>Secret — naphtha + quicklime + sulfur + pine resin + unknown catalyst. Recipe: 3 men, each knows 1/3. They have never met.</td></tr>
+<tr><td>DELIVERY</td><td>Bronze siphons mounted on ship bows · pressurized copper tanks · range: 15m · burns on water</td></tr>
+<tr><td>VARIANTS</td><td>Liquid (siphon-sprayed) · Ceramic grenades (hand-thrown) · Fire pots (catapult-launched)</td></tr>
+<tr><td>SECURITY</td><td>Laboratory location changes yearly · workers are volunteers · families compensated if "incidents"</td></tr>
+<tr><td>COUNTERMEASURE</td><td>None. Vinegar slows it. Sand contains it. Water feeds it. Best countermeasure: do not be near it.</td></tr>
+</table>
+</div>
+</div>
+
+<div class="nav-back">
+<a href="OMAYYADCASTLE.CITY.html">🏰 Return to the Omayyad Castle</a> ·
+<a href="../archers/ARCHERS.CITY.html">🏹 The Archers Division</a> ·
+<a href="../shami/DAMASCUS.CITY.html">🕌 Damascus</a>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="this.classList.remove('active')">
+<img id="modalImg" src="" alt="Full view">
+</div>
+
+<script>
+function openModal(el){const m=document.getElementById('modal');document.getElementById('modalImg').src=el.querySelector('img').src;m.classList.add('active')}
+</script>
+
+<footer>JuX · The Omayyad Navy · NAME / FACT / TARGET</footer>
+</body>
+</html>
