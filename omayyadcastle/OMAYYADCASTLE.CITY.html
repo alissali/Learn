@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE OMAYYAD CASTLE — Where Damascus Ruled the World</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='28' font-size='28'>🏰</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0806;color:#d4a456;font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#0a0806 0%,#1a1208 40%,#2a1c0e 70%,#3a2815 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 80%,rgba(212,164,86,0.12) 0%,transparent 60%);pointer-events:none}
+.hero h1{font-size:clamp(2.5rem,8vw,6rem);font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:#d4a456;text-shadow:0 0 60px rgba(212,164,86,0.3)}
+.hero .subtitle{font-size:clamp(0.9rem,2.5vw,1.3rem);margin-top:1rem;color:#8a6a30;letter-spacing:0.3em;font-style:italic}
+.hero .era{font-size:clamp(0.8rem,2vw,1rem);margin-top:0.5rem;color:#5a4a20;letter-spacing:0.4em}
+.separator{text-align:center;padding:2rem 0;font-size:1.5rem;color:#3a2815}
+section{max-width:1200px;margin:0 auto;padding:4rem 2rem}
+.card{margin-bottom:5rem;position:relative}
+.card-title{font-size:clamp(1.3rem,3.5vw,2rem);color:#d4a456;margin-bottom:0.5rem;letter-spacing:0.1em;text-transform:uppercase}
+.card-subtitle{font-size:0.9rem;color:#6a5020;margin-bottom:1.5rem;font-style:italic;letter-spacing:0.05em}
+.card img{width:100%;border-radius:4px;cursor:pointer;transition:transform 0.3s ease;border:1px solid #2a1c0e}
+.card img:hover{transform:scale(1.02)}
+.card-text{margin-top:1.5rem;font-size:1.05rem;line-height:1.8;color:#b08840}
+.card-quote{margin-top:1rem;padding:1rem 1.5rem;border-left:3px solid #3a2815;font-style:italic;color:#8a6a30;font-size:0.95rem}
+.dynasty{background:#120e08;border:1px solid #2a1c0e;border-radius:6px;padding:2.5rem;margin:2rem auto;max-width:900px}
+.dynasty h2{text-align:center;font-size:1.8rem;color:#d4a456;margin-bottom:2rem;letter-spacing:0.15em}
+.dynasty table{width:100%;border-collapse:collapse}
+.dynasty td{padding:0.6rem 1rem;border-bottom:1px solid #1a1208;font-size:0.95rem}
+.dynasty td:first-child{color:#6a5020;width:35%;font-style:italic}
+.dynasty td:last-child{color:#d4a456}
+.specs{background:#120e08;border:1px solid #2a1c0e;border-radius:6px;padding:2.5rem;margin:2rem auto;max-width:900px}
+.specs h2{text-align:center;font-size:1.8rem;color:#d4a456;margin-bottom:2rem;letter-spacing:0.15em}
+.specs table{width:100%;border-collapse:collapse}
+.specs td{padding:0.6rem 1rem;border-bottom:1px solid #1a1208;font-size:0.95rem}
+.specs td:first-child{color:#6a5020;width:40%;font-style:italic}
+.specs td:last-child{color:#d4a456}
+.footer{text-align:center;padding:4rem 2rem;color:#3a2815;font-size:0.85rem;letter-spacing:0.1em}
+.footer a{color:#6a5020;text-decoration:none;border-bottom:1px solid #3a2815;transition:color 0.3s}
+.footer a:hover{color:#d4a456}
+.nav-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:1rem}
+.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;cursor:pointer;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:4px}
+@media(max-width:768px){section{padding:2rem 1rem}.card{margin-bottom:3rem}.specs{padding:1.5rem}.dynasty{padding:1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div>
+<h1>The Omayyad Castle</h1>
+<div class="subtitle">Where Damascus Ruled the World</div>
+<div class="era">661 — 750 CE · The First Dynasty · The Golden Caliphate</div>
+</div>
+</div>
+
+<div class="separator">🏰 · ☪ · 🏰</div>
+
+<section>
+
+<div class="card">
+<div class="card-title">I. The Castle</div>
+<div class="card-subtitle">The walls that held an empire from the Atlantic to the Indus</div>
+<img src="web/CASTLE-EXTERIOR.webp" loading="lazy" alt="The Omayyad Castle" onclick="openLightbox(this)">
+<div class="card-text">It does not look like the center of the world. That is because the center of the world does not need to announce itself. The golden limestone was quarried from the same hills that watched Abraham pass. The Roman foundations — because nothing in Damascus starts from scratch — hold Umayyad towers that hold the sky. Mu'awiya chose this hill not for defense. Defense is what you need when you are afraid. He chose it for the view. From here you can see the Barada River, the minarets, the orchards of Ghouta, and — if you squint with the right kind of ambition — Spain. The bronze gates have not been closed in forty years. There is nothing to close them against. Everything that matters is already inside.</div>
+<div class="card-quote">"I do not sit on a throne. I sit on Damascus. Damascus sits on Rome. Rome sits on the bones of everyone who thought they were permanent. I do not think I am permanent. I think I am next."<br>— Mu'awiya ibn Abi Sufyan</div>
+</div>
+
+<div class="card">
+<div class="card-title">II. The Throne Room</div>
+<div class="card-subtitle">Byzantine mosaics for an Arab king — the world remade in glass and gold</div>
+<img src="web/CASTLE-THRONE.webp" loading="lazy" alt="The Throne Room" onclick="openLightbox(this)">
+<div class="card-text">The Byzantine craftsmen who made the mosaics were paid in gold and sent home alive. This surprised them. They had expected to be killed after — artisans who have seen the palace usually are. Mu'awiya said: why would I kill the men who proved that my enemies make beautiful things? The mosaic behind the throne shows rivers that flow into gardens that flow into cities that flow into paradise. There is no border between the earthly and the divine. That is the Umayyad thesis: heaven is not above. Heaven is what you build when you stop waiting for it. The throne itself is modest — carved walnut, ivory inlay, no jewels. The Caliph's power is not in the chair. It is in the fact that everyone in the room is standing.</div>
+<div class="card-quote">"The throne is wood. The power is in the room. The room is stone. The power is in the city. The city is dust. The power is in the idea. Ideas do not sit."<br>— Walid ibn Abd al-Malik</div>
+</div>
+
+<div class="card">
+<div class="card-title">III. The Courtyard Garden</div>
+<div class="card-subtitle">Where the Caliph walks barefoot — because even God rested on the seventh day</div>
+<img src="web/CASTLE-COURTYARD.webp" loading="lazy" alt="The Courtyard Garden" onclick="openLightbox(this)">
+<div class="card-text">The fountain was designed by a Persian engineer who wept when it worked. He had spent three years on the hydraulics and two minutes watching the water rise, and in those two minutes he understood that engineering is not about pipes — it is about the moment a child sees the water and laughs. The orange trees are grafted from Seville stock — the Umayyads brought them east when they lost the west. The jasmine was planted by a Caliph's wife whose name the historians forgot but whose garden the gardeners remember. The courtyard is the only place in the castle where no business is conducted. This is not a rule. It is an understanding. Even empire needs a place where the only sound is water.</div>
+<div class="card-quote">"The fountain does not care who is Caliph. It was here before us. It will be here after. We are the ones who pass. The water stays."</div>
+</div>
+
+<div class="card">
+<div class="card-title">IV. The War Council</div>
+<div class="card-subtitle">From this table — Spain fell, Sindh was taken, Constantinople was besieged</div>
+<img src="web/CASTLE-WARROOM.webp" loading="lazy" alt="The War Council" onclick="openLightbox(this)">
+<div class="card-text">The table is a map. The map is an empire. The empire stretches from the Atlantic coast where Tariq burned his boats to the Indus River where Muhammad bin Qasim planted the flag at seventeen. Every general who sat here left a mark in the wood — a knife scratch for each campaign. Some left many marks. Some left one. The captured banners on the walls are not trophies. They are receipts. The Byzantine eagle. The Visigothic cross. The Sassanid lion. Each one is a civilization that said "you cannot" and learned that the Umayyads do not hear that word. The oil lamps are kept low. Strategy does not need to be bright. It needs to be precise.</div>
+<div class="card-quote">"Tariq burned the boats. I did not order him to. I would have. But he did not wait for the order. That is why he is Tariq and the mountain bears his name."<br>— Walid I, on the conquest of Al-Andalus</div>
+</div>
+
+<div class="card">
+<div class="card-title">V. The Library</div>
+<div class="card-subtitle">Greek, Persian, Indian, Roman — every empire's knowledge in one room</div>
+<img src="web/CASTLE-LIBRARY.webp" loading="lazy" alt="The Library" onclick="openLightbox(this)">
+<div class="card-text">The Umayyads did not burn libraries. They read them. Greek philosophy arrived in camel-loads from Alexandria. Persian astronomy came with the engineers who built the irrigation. Indian mathematics — the zero, the numerals that Europe would later call "Arabic" — came through trade routes that moved numbers faster than silk. The scholars here do not translate word for word. They translate idea for idea. Aristotle in Arabic does not sound like Aristotle in Greek. He sounds better. He sounds like someone who has been waiting for a language that can hold him. The Quran sits at the center. Not because it is the only book. Because it is the book that said: Read. The first word. Before prayer. Before law. Read.</div>
+<div class="card-quote">"The ink of the scholar is holier than the blood of the martyr. We have both. We prefer the ink."</div>
+</div>
+
+<div class="card">
+<div class="card-title">VI. The Hammam</div>
+<div class="card-subtitle">Where the Caliph is naked and equal to the steam</div>
+<img src="web/CASTLE-HAMMAM.webp" loading="lazy" alt="The Hammam" onclick="openLightbox(this)">
+<div class="card-text">The star-shaped openings in the dome let in light but not eyes. Privacy here is sacred — more sacred than in the mosque, because in the mosque you are clothed in God's presence, but in the hammam you are clothed in nothing and the steam does not judge. The heated marble is veined with blue — lapis lazuli dust mixed into the stone by a craftsman who understood that luxury is not what you see but what you feel under bare skin. The water comes from the Barada, heated through Roman-era hypocausts that the Umayyads found, repaired, and improved. The lion-head fountains were cast by a coppersmith who made one mistake — the left lion smiles. Nobody has fixed it. The Caliph likes the asymmetry. Perfection is suspicious. A smiling lion is honest.</div>
+<div class="card-quote">"In the hammam, I am not the Commander of the Faithful. I am a man with hot water and silence. These are the two things that no conquest can provide and no treasury can buy."</div>
+</div>
+
+</section>
+
+<div class="dynasty">
+<h2>☪ The Umayyad Dynasty — Damascus</h2>
+<table>
+<tr><td>Mu'awiya I</td><td>661–680 · Founded the dynasty · Moved the capital to Damascus · "I do not use the sword where the whip suffices, nor the whip where the tongue suffices"</td></tr>
+<tr><td>Yazid I</td><td>680–683 · The contested heir · Karbala</td></tr>
+<tr><td>Abd al-Malik</td><td>685–705 · Built the Dome of the Rock · Arabized the administration · Made Arabic the language of empire</td></tr>
+<tr><td>Walid I</td><td>705–715 · Maximum expansion — Spain to Sindh · Built the Great Mosque of Damascus</td></tr>
+<tr><td>Umar II</td><td>717–720 · The pious one · Reduced taxes · "The best of you to God is the best of you to the people"</td></tr>
+<tr><td>Hisham</td><td>724–743 · Administrator · The empire's last stable hand</td></tr>
+<tr><td>Marwan II</td><td>744–750 · The last · Fell at the Zab · The Abbasids came · Damascus lost the throne</td></tr>
+</table>
+</div>
+
+<div class="specs">
+<h2>🏰 Castle Specifications</h2>
+<table>
+<tr><td>Location</td><td>Damascus — Mount Qasiyoun's foothills — where Abraham looked down and chose not to enter paradise because it was already here</td></tr>
+<tr><td>Founded</td><td>661 CE — on Roman and Aramean foundations older than memory</td></tr>
+<tr><td>Empire span</td><td>Atlantic Ocean to Indus River — 11.1 million km² — largest empire the world had seen</td></tr>
+<tr><td>Official language</td><td>Arabic (from 686 CE — before that, Greek for taxes, Persian for administration)</td></tr>
+<tr><td>Currency</td><td>Gold dinar — first Islamic coins — replaced Byzantine and Sassanid currency</td></tr>
+<tr><td>Architecture</td><td>Roman engineering + Byzantine art + Persian luxury + Arab simplicity = the Umayyad synthesis</td></tr>
+<tr><td>The Great Mosque</td><td>Built by Walid I — 715 CE — still standing — the fourth holiest site in Islam</td></tr>
+<tr><td>Fell</td><td>750 CE — Battle of the Zab — the Abbasids took everything except Al-Andalus</td></tr>
+<tr><td>Legacy</td><td>The Arabic language. The gold dinar. The Dome of the Rock. The Alhambra. The idea that an empire can be built on a book that begins with "Read."</td></tr>
+</table>
+</div>
+
+<div class="footer">
+<p>🏰 THE OMAYYAD CASTLE — Damascus held the world. Not by the sword alone. By the fountain. By the ink. By the smiling lion. 🏰</p>
+<div class="nav-links">
+<a href="../omayyad/OMAYYAD.CITY.html">🕌 Omayyad Mosque</a>
+<a href="../shami/DAMASCUS.CITY.html">☀️ Damascus</a>
+<a href="../yabroud/YABROUD.CITY.html">🏛️ Yabroud</a>
+<a href="../palmyra/PALMYRA.CITY.html">🏛️ Palmyra</a>
+<a href="../joullaq/JOULLAQ.CITY.html">🏘️ Joullaq</a>
+<a href="../daphne/DAPHNE.CITY.html">🌿 Daphne</a>
+</div>
+<p style="margin-top:2rem;color:#2a1c0e">JuX — NAME / FACT / TARGET</p>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<img id="lightbox-img" src="" alt="Full view">
+</div>
+
+<script>
+function openLightbox(img){const lb=document.getElementById('lightbox');const lbImg=document.getElementById('lightbox-img');lbImg.src=img.src.replace('/web/','/').replace('.webp','.png');lb.classList.add('active')}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+</script>
+</body>
+</html>
