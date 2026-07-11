@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Château Emily — 30 km East of Arakeen</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+  :root {
+    --cream: #f5f0e8;
+    --stone: #d4c5a9;
+    --lavender: #9b8ec4;
+    --lavender-light: #c8bfe0;
+    --deep-blue: #1a2744;
+    --gold: #c9a84c;
+    --gold-warm: #e8c36a;
+    --sand: #e6d5b8;
+    --night: #0d1117;
+    --purple-sky: #2d1b4e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--night);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(180deg, var(--purple-sky) 0%, var(--deep-blue) 40%, #1a1510 100%);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 10%; left: 30%;
+    width: 12px; height: 12px;
+    background: var(--lavender-light);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--lavender), 0 0 60px var(--lavender);
+    animation: moon1 40s linear infinite;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 15%; right: 25%;
+    width: 8px; height: 8px;
+    background: var(--gold-warm);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--gold), 0 0 40px var(--gold);
+    animation: moon2 55s linear infinite;
+  }
+
+  @keyframes moon1 { 0%,100%{transform:translateX(0)} 50%{transform:translateX(80px) translateY(-20px)} }
+  @keyframes moon2 { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-60px) translateY(15px)} }
+
+  /* stars */
+  .stars {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 30% 50%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 45% 70%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1px 1px at 85% 85%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1.5px 1.5px at 60% 25%, rgba(201,168,76,0.6), transparent),
+      radial-gradient(1.5px 1.5px at 40% 90%, rgba(155,142,196,0.5), transparent);
+    animation: twinkle 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes twinkle { 0%{opacity:0.7} 100%{opacity:1} }
+
+  .hero h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--gold-warm);
+    text-shadow: 0 0 30px rgba(201,168,76,0.3);
+    margin-bottom: 0.5em;
+    z-index: 1;
+  }
+
+  .hero .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--lavender-light);
+    letter-spacing: 0.1em;
+    z-index: 1;
+    margin-bottom: 0.5em;
+  }
+
+  .hero .coords {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--stone);
+    letter-spacing: 0.2em;
+    z-index: 1;
+    opacity: 0.7;
+  }
+
+  .hero .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 1.8rem;
+    color: var(--gold);
+    animation: bob 2s ease-in-out infinite;
+    z-index: 1;
+    text-decoration: none;
+  }
+
+  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+
+  /* ── SECTIONS ── */
+  .room-section {
+    position: relative;
+    padding: 4rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .room-section:nth-child(even) .room-content { flex-direction: row-reverse; }
+
+  .room-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 3rem;
+  }
+
+  .room-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--lavender);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .room-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    font-weight: 400;
+    color: var(--gold-warm);
+    text-align: center;
+    margin-bottom: 0.5em;
+    letter-spacing: 0.08em;
+  }
+
+  .room-desc {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--sand);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    font-style: italic;
+  }
+
+  .room-img-wrap {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 1px var(--gold);
+    margin: 0 auto;
+    max-width: 960px;
+  }
+
+  .room-img-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s ease;
+  }
+
+  .room-img-wrap:hover img { transform: scale(1.03); }
+
+  .room-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+
+  /* ── DIVIDERS ── */
+  .section-gap {
+    height: 2rem;
+    background: transparent;
+  }
+
+  /* ── INSCRIPTION ── */
+  .inscription {
+    text-align: center;
+    padding: 5rem 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .inscription blockquote {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--lavender-light);
+    line-height: 2;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.5rem;
+    text-align: left;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--stone);
+    opacity: 0.5;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  /* ── FADE-IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── OUTDOOR BANNER ── */
+  .outdoor-banner {
+    text-align: center;
+    padding: 4rem 1.5rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .outdoor-banner h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--gold-warm);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5em;
+  }
+
+  .outdoor-banner p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--sand);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="stars"></div>
+  <h1>Château Emily</h1>
+  <p class="subtitle">The Emperor God's Unique Sister</p>
+  <p class="coords">30 KM EAST · 4° SOUTH · ELEVATION 287 M · ARRAKIS</p>
+  <a href="#exterior" class="scroll-hint">⌄</a>
+</section>
+
+<!-- 1. EXTERIOR -->
+<section class="room-section fade-in" id="exterior">
+  <div class="room-divider"></div>
+  <p class="room-label">I</p>
+  <h2 class="room-title">The Approach</h2>
+  <p class="room-desc">Twin moons. Cypress trees. The lavender flag flying. Cream stone warming in the last light.</p>
+  <div class="room-img-wrap"><img src="images/01-exterior-closeup.jpg" alt="Château Emily — Exterior" loading="lazy"></div>
+</section>
+
+<!-- 2. ENTRANCE HALL -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">II</p>
+  <h2 class="room-title">Grand Entrance Hall</h2>
+  <p class="room-desc">Marble staircase. Crystal chandelier. A compass rose mosaic in gold and deep blue pointing the way in.</p>
+  <div class="room-img-wrap"><img src="images/02-entrance-hall.jpg" alt="Grand Entrance Hall" loading="lazy"></div>
+</section>
+
+<!-- 3. KITCHEN -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">III</p>
+  <h2 class="room-title">The Kitchen</h2>
+  <p class="room-desc">Copper hood. Blue flame. Walnut island with golden marble. Wood-fired bread oven in the stone wall. She cooks because she chooses to — and everything she touches becomes gold.</p>
+  <div class="room-img-wrap"><img src="images/03-kitchen.jpg" alt="The Kitchen" loading="lazy"></div>
+</section>
+
+<!-- 4. SITTING ROOM -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">IV</p>
+  <h2 class="room-title">The Sitting Room</h2>
+  <p class="room-desc">Fireplace. Chess set. Deep blue velvet drapes. The room of someone who reads, thinks, and watches the desert.</p>
+  <div class="room-img-wrap"><img src="images/04-sitting-room.jpg" alt="The Sitting Room" loading="lazy"></div>
+</section>
+
+<!-- 5. MASTER BEDROOM -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">V</p>
+  <h2 class="room-title">Master Bedroom</h2>
+  <p class="room-desc">Canopy bed under deep blue velvet. Moonlit balcony. A gilded vanity catching the light of two moons. Roses in crystal.</p>
+  <div class="room-img-wrap"><img src="images/05-master-bedroom.jpg" alt="Master Bedroom" loading="lazy"></div>
+</section>
+
+<!-- 6. TERRACE -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">VI</p>
+  <h2 class="room-title">The Terrace</h2>
+  <p class="room-desc">Mint tea. Dates. Honeycomb. Jasmine climbing the stone. The infinite desert stretching to forever.</p>
+  <div class="room-img-wrap"><img src="images/06-terrace.jpg" alt="The Terrace" loading="lazy"></div>
+</section>
+
+<!-- 7. SPICE CELLAR -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">VII</p>
+  <h2 class="room-title">The Spice Cellar</h2>
+  <p class="room-desc">Hundreds of jars. Saffron, cinnamon, cardamom, melange. Aged wine in oak barrels. A treasury not of gold — of flavour.</p>
+  <div class="room-img-wrap"><img src="images/07-spice-cellar.jpg" alt="The Spice Cellar" loading="lazy"></div>
+</section>
+
+<!-- 8. LIBRARY -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">VIII</p>
+  <h2 class="room-title">Library & Music Room</h2>
+  <p class="room-desc">Grand piano. Brass telescope. A sleeping cat on leather-bound books. A half-written letter and an inkwell that never dries.</p>
+  <div class="room-img-wrap"><img src="images/08-library-music.jpg" alt="Library & Music Room" loading="lazy"></div>
+</section>
+
+<!-- 9. BATHHOUSE -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">IX</p>
+  <h2 class="room-title">The Bathhouse</h2>
+  <p class="room-desc">Hammam meets French elegance. Sunken stone bath. Rose petals. Coloured glass casting light on water. The WASH room.</p>
+  <div class="room-img-wrap"><img src="images/09-bathhouse.jpg" alt="The Bathhouse" loading="lazy"></div>
+</section>
+
+<!-- 10. ROOFTOP GARDEN -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">X</p>
+  <h2 class="room-title">Rooftop Garden</h2>
+  <p class="room-desc">Lavender. Olive trees. A sundial in brass and obsidian. The highest point — where Emily watches the world wake up.</p>
+  <div class="room-img-wrap"><img src="images/10-rooftop-garden.jpg" alt="Rooftop Garden" loading="lazy"></div>
+</section>
+
+<!-- OUTDOOR BANNER -->
+<div class="outdoor-banner fade-in">
+  <h2>Beyond the Walls</h2>
+  <p>The Château is her anchor. The desert is her life.</p>
+</div>
+
+<!-- 11. DESERT RIDE -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">XI</p>
+  <h2 class="room-title">Desert Ride</h2>
+  <p class="room-desc">Full gallop across golden dunes. Laughing. Scarf trailing. The Château a dot behind her. She is free.</p>
+  <div class="room-img-wrap"><img src="images/11-desert-ride.jpg" alt="Desert Ride" loading="lazy"></div>
+</section>
+
+<!-- 12. DESERT FEAST -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">XII</p>
+  <h2 class="room-title">Desert Feast</h2>
+  <p class="room-desc">A long table under the stars. Tagines, bread, pomegranates, mint tea. Paper lanterns. Laughter. The Emperor God's sister feeds everyone.</p>
+  <div class="room-img-wrap"><img src="images/12-desert-feast.jpg" alt="Desert Feast" loading="lazy"></div>
+</section>
+
+<!-- 13. CANYON MORNING -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">XIII</p>
+  <h2 class="room-title">Canyon Morning</h2>
+  <p class="room-desc">Barefoot at the cliff edge. Coffee in both hands. Shoes tossed beside her. She is not looking at the Château. She is looking at the world.</p>
+  <div class="room-img-wrap"><img src="images/13-canyon-morning.jpg" alt="Canyon Morning" loading="lazy"></div>
+</section>
+
+<!-- 14. OASIS MARKET -->
+<section class="room-section fade-in">
+  <div class="room-divider"></div>
+  <p class="room-label">XIV</p>
+  <h2 class="room-title">Oasis Market</h2>
+  <p class="room-desc">Basket full. Smelling fresh herbs. Children running between stalls. She belongs here.</p>
+  <div class="room-img-wrap"><img src="images/14-oasis-market.jpg" alt="Oasis Market" loading="lazy"></div>
+</section>
+
+<!-- INSCRIPTION -->
+<section class="inscription fade-in">
+  <div class="room-divider"></div>
+  <blockquote>
+    Where the lavender meets the sand,<br>
+    where the stone remembers France<br>
+    and the wind carries spice —<br><br>
+    this is Emily's home.<br><br>
+    The Emperor God's Unique Sister.<br>
+    She lives outside. She lives in the atmosphere of Arrakis.<br>
+    She has fun.<br><br>
+    Built with love by Irulan,<br>
+    on the day Ma'moun left.
+  </blockquote>
+</section>
+
+<footer>CHÂTEAU EMILY · ARRAKIS · 30 KM EAST OF ARAKEEN</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
