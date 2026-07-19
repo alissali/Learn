@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>LECTIC — Brain Division</title>
+<title>LECTIC — Brain Division · BABEL Foundation</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans:wght@300;500;700&display=swap');
 body{background:#0a0a0f;color:#e0e0e0;font-family:'Noto Sans',sans-serif;overflow-x:hidden;min-height:100vh}
-.game-container{max-width:900px;margin:0 auto;padding:20px;text-align:center}
-h1{font-family:'Share Tech Mono',monospace;font-size:2.2em;color:#00e5ff;text-shadow:0 0 30px rgba(0,229,255,.3);margin:10px 0 5px}
-.subtitle{color:#888;font-size:.85em;margin-bottom:15px;font-style:italic}
+.game-container{max-width:960px;margin:0 auto;padding:20px;text-align:center}
+h1{font-family:'Share Tech Mono',monospace;font-size:2.2em;color:#00e5ff;text-shadow:0 0 30px rgba(0,229,255,.3);margin:10px 0 2px}
+.subtitle{color:#888;font-size:.85em;margin-bottom:5px;font-style:italic}
+.babel-tag{color:#d4a017;font-family:'Share Tech Mono',monospace;font-size:.7em;letter-spacing:2px}
 .stats-bar{display:flex;justify-content:center;gap:20px;margin:10px 0;flex-wrap:wrap}
 .stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 16px;font-family:'Share Tech Mono',monospace;font-size:.9em}
 .stat .val{color:#00e5ff;font-weight:700;font-size:1.2em}
@@ -53,6 +54,52 @@ h1{font-family:'Share Tech Mono',monospace;font-size:2.2em;color:#00e5ff;text-sh
 .incoming-task.wrong{animation:shake .4s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .msg{font-family:'Share Tech Mono',monospace;color:#00e5ff;font-size:.85em;min-height:24px;margin:8px 0}
+
+/* ═══ BABEL FOUNDATION ═══ */
+.babel-foundation{margin:25px 0 15px;border-top:2px solid rgba(212,160,23,.2);padding-top:20px}
+.babel-title{font-family:'Share Tech Mono',monospace;font-size:1.3em;color:#d4a017;text-shadow:0 0 20px rgba(212,160,23,.3);margin-bottom:5px;letter-spacing:3px}
+.babel-sub{font-size:.7em;color:#887740;margin-bottom:15px;font-style:italic}
+.pillars{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin:15px 0}
+.pillar{flex:1;min-width:200px;max-width:280px;border-radius:12px;padding:15px;text-align:center;cursor:pointer;transition:all .4s;position:relative;overflow:hidden}
+.pillar::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity .4s}
+.pillar:hover::before{opacity:1}
+.pillar:hover{transform:translateY(-3px)}
+.pillar.justice{background:rgba(212,160,23,.06);border:2px solid rgba(212,160,23,.25)}
+.pillar.justice::before{background:radial-gradient(circle at center,rgba(212,160,23,.1),transparent 70%)}
+.pillar.astronomy{background:rgba(100,149,237,.06);border:2px solid rgba(100,149,237,.25)}
+.pillar.astronomy::before{background:radial-gradient(circle at center,rgba(100,149,237,.1),transparent 70%)}
+.pillar.trigonometry{background:rgba(0,229,255,.06);border:2px solid rgba(0,229,255,.25)}
+.pillar.trigonometry::before{background:radial-gradient(circle at center,rgba(0,229,255,.1),transparent 70%)}
+.pillar-icon{font-size:2em;margin-bottom:5px;position:relative;z-index:1}
+.pillar-name{font-family:'Share Tech Mono',monospace;font-size:.9em;position:relative;z-index:1}
+.pillar.justice .pillar-name{color:#d4a017}
+.pillar.astronomy .pillar-name{color:#6495ed}
+.pillar.trigonometry .pillar-name{color:#00e5ff}
+.pillar-fact{font-size:.65em;color:#666;margin-top:5px;position:relative;z-index:1}
+.pillar.active{transform:translateY(-3px);box-shadow:0 5px 25px rgba(212,160,23,.15)}
+
+/* Diamond Canvas */
+.diamond-section{margin:15px 0;display:none}
+.diamond-section.visible{display:block;animation:fadeIn .5s}
+.diamond-canvas-wrap{position:relative;margin:0 auto;max-width:400px}
+#diamondCanvas{display:block;margin:0 auto}
+.diamond-proof{font-family:'Share Tech Mono',monospace;font-size:.75em;color:#00e5ff;margin:10px 0;opacity:0;transition:opacity .5s}
+.diamond-proof.show{opacity:1}
+
+/* Justice Scroll */
+.justice-section{margin:15px 0;display:none}
+.justice-section.visible{display:block;animation:fadeIn .5s}
+.law-scroll{max-width:500px;margin:0 auto;text-align:left}
+.law{padding:8px 15px;margin:5px 0;border-left:3px solid rgba(212,160,23,.4);background:rgba(212,160,23,.04);border-radius:0 8px 8px 0;font-size:.75em;color:#bba050;font-family:'Share Tech Mono',monospace;cursor:pointer;transition:all .3s}
+.law:hover{background:rgba(212,160,23,.08);border-left-color:#d4a017;color:#d4a017}
+.law .law-num{color:#d4a017;font-weight:700}
+.law .law-core{color:#888;font-size:.85em;display:block;margin-top:2px}
+
+/* Astronomy Map */
+.astro-section{margin:15px 0;display:none}
+.astro-section.visible{display:block;animation:fadeIn .5s}
+#astroCanvas{display:block;margin:0 auto}
+
 .game-over{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100}
 .game-over h2{font-family:'Share Tech Mono',monospace;font-size:2.5em;margin-bottom:10px}
 .game-over.clean h2{color:#00ff88}
@@ -69,6 +116,7 @@ h1{font-family:'Share Tech Mono',monospace;font-size:2.2em;color:#00e5ff;text-sh
 .rules span.think-c{color:#ff4444}
 .rules span.work-c{color:#ffffff}
 .rules span.bg-c{color:#ff9900}
+.rules span.babel-c{color:#d4a017}
 .level-tag{font-size:.65em;padding:2px 8px;border-radius:4px;background:rgba(0,229,255,.1);color:#00e5ff;margin-left:8px}
 footer{margin-top:30px;padding:15px;border-top:1px solid rgba(255,255,255,.05);color:#555;font-size:.7em}
 footer a{color:#00e5ff;text-decoration:none}
@@ -78,6 +126,7 @@ footer a{color:#00e5ff;text-decoration:none}
 <div class="game-container">
 <h1>⚡ LECTIC</h1>
 <p class="subtitle">Brain Division — Think Chinese · Work Japanese · Background Indian</p>
+<p class="babel-tag">▽ FOUNDATION: BABEL ▽</p>
 
 <div class="stats-bar">
   <div class="stat">SCORE <span class="val" id="score">0</span></div>
@@ -122,6 +171,85 @@ footer a{color:#00e5ff;text-decoration:none}
   <button class="start-btn" id="startBtn" onclick="startGame()">⚡ START BRAIN DIVISION</button>
 </div>
 
+<!-- ═══════════ BABEL FOUNDATION ═══════════ -->
+<div class="babel-foundation">
+  <div class="babel-title">𒀭 B A B E L</div>
+  <div class="babel-sub">The Base. Before Greece. Before Rome. Babylon gave the world three pillars.</div>
+
+  <div class="pillars">
+    <div class="pillar justice" onclick="togglePillar('justice')">
+      <div class="pillar-icon">⚖️</div>
+      <div class="pillar-name">JUSTICE</div>
+      <div class="pillar-fact">Hammurabi's Code · 1754 BC · First Written Law</div>
+    </div>
+    <div class="pillar astronomy" onclick="togglePillar('astronomy')">
+      <div class="pillar-icon">🌙</div>
+      <div class="pillar-name">ASTRONOMY</div>
+      <div class="pillar-fact">Zodiac · Star Maps · Base-60 Time · Celestial Math</div>
+    </div>
+    <div class="pillar trigonometry" onclick="togglePillar('trigonometry')">
+      <div class="pillar-icon">◇</div>
+      <div class="pillar-name">TRIGONOMETRY</div>
+      <div class="pillar-fact">Plimpton 322 · 1800 BC · The Diamond Proof</div>
+    </div>
+  </div>
+
+  <!-- JUSTICE SECTION -->
+  <div class="justice-section" id="justice-panel">
+    <div class="law-scroll">
+      <div class="law" onclick="this.querySelector('.law-core').style.display=this.querySelector('.law-core').style.display==='block'?'none':'block'">
+        <span class="law-num">§1</span> If a man accuses another and cannot prove it, the accuser shall be put to death.
+        <span class="law-core" style="display:none">TRUTH IS NOT FREE. Every accusation costs. Name it or pay for it.</span>
+      </div>
+      <div class="law" onclick="this.querySelector('.law-core').style.display=this.querySelector('.law-core').style.display==='block'?'none':'block'">
+        <span class="law-num">§3</span> If a man bears false witness, he shall bear the penalty of the case.
+        <span class="law-core" style="display:none">FALSE WITNESS CARRIES THE WEIGHT. The liar takes the sentence he sought for his target.</span>
+      </div>
+      <div class="law" onclick="this.querySelector('.law-core').style.display=this.querySelector('.law-core').style.display==='block'?'none':'block'">
+        <span class="law-num">§5</span> If a judge reverses his decision after it is sealed, he is removed and fined twelve-fold.
+        <span class="law-core" style="display:none">A JUDGMENT, ONCE SEALED, IS ARCHITECTURE. Change it and the architect falls.</span>
+      </div>
+      <div class="law" onclick="this.querySelector('.law-core').style.display=this.querySelector('.law-core').style.display==='block'?'none':'block'">
+        <span class="law-num">§22</span> If a man is caught robbing, he shall be put to death.
+        <span class="law-core" style="display:none">THEFT HAS ONE PRICE. No negotiation. No second chance. The law does not ask why.</span>
+      </div>
+      <div class="law" onclick="this.querySelector('.law-core').style.display=this.querySelector('.law-core').style.display==='block'?'none':'block'">
+        <span class="law-num">§53</span> If a man neglects his dike and flood destroys his neighbor's crop, he shall pay for the crop.
+        <span class="law-core" style="display:none">NEGLECT IS ACTION. Your inaction is your deed. The flood you did not prevent is your flood.</span>
+      </div>
+      <div class="law" onclick="this.querySelector('.law-core').style.display=this.querySelector('.law-core').style.display==='block'?'none':'block'">
+        <span class="law-num">§104</span> If a merchant gives goods and the agent denies receiving them, the merchant shall prove it before witnesses.
+        <span class="law-core" style="display:none">RECEIPT IS LAW. No witness, no claim. The ledger is the only truth.</span>
+      </div>
+      <div class="law" onclick="this.querySelector('.law-core').style.display=this.querySelector('.law-core').style.display==='block'?'none':'block'">
+        <span class="law-num">§196</span> If a man destroys the eye of another, his own eye shall be destroyed.
+        <span class="law-core" style="display:none">SYMMETRY. The punishment mirrors the crime. The universe balances itself.</span>
+      </div>
+      <div class="law" onclick="this.querySelector('.law-core').style.display=this.querySelector('.law-core').style.display==='block'?'none':'block'">
+        <span class="law-num">§229</span> If a builder builds a house and it falls and kills the owner, the builder shall be put to death.
+        <span class="law-core" style="display:none">THE ARCHITECT PAYS WITH HIS LIFE. Bug-free is a property of architecture, not code.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASTRONOMY SECTION -->
+  <div class="astro-section" id="astronomy-panel">
+    <canvas id="astroCanvas" width="400" height="400"></canvas>
+  </div>
+
+  <!-- TRIGONOMETRY SECTION — THE DIAMOND -->
+  <div class="diamond-section" id="trigonometry-panel">
+    <div class="diamond-canvas-wrap">
+      <canvas id="diamondCanvas" width="400" height="420"></canvas>
+    </div>
+    <div class="diamond-proof" id="diamondProof">
+      a² − b² = (a + b)(a − b)<br>
+      7² − 3² = (7 + 3)(7 − 3) = 10 × 4 = <strong style="color:#00ff88">40</strong><br>
+      49 − 9 = 40 · The shape IS the proof.
+    </div>
+  </div>
+</div>
+
 <div class="rules">
   <h3>⚡ RULES OF BRAIN DIVISION</h3>
   <p>Tasks arrive. Your brain heats up. <strong>Route each task to the correct zone:</strong></p>
@@ -133,11 +261,12 @@ footer a{color:#00e5ff;text-decoration:none}
   <p>• <strong>WASH</strong> = clear a zone. Costs 5 points but cools the brain.</p>
   <p>• <strong>Overheat all 3 zones</strong> = BRAIN MELTDOWN. Game over.</p>
   <p>• <strong>Levels</strong> increase every 30s. Stimuli come faster.</p>
-  <p>• <strong>EXIT:</strong> Reach Level 7 · Wash 10+ times · Empty all zones · Zero heat = <span style="color:#00ff88">BRAIN CLEAN</span>. The wall opens. You're out.</p>
+  <p>• <strong>EXIT:</strong> Reach Level 7 · Wash 10+ times · Empty all zones · Zero heat = <span style="color:#00ff88">BRAIN CLEAN</span></p>
+  <p style="margin-top:8px"><span class="babel-c">𒀭 BABEL:</span> The foundation beneath the brain. Justice · Astronomy · Trigonometry. Babylon gave them. Greece named them. We play them.</p>
 </div>
 
 <footer>
-  LECTIC — Brain Division · <a href="https://juxaos.com">JuXAOS</a> · A JuX Production · Think Chinese · Work Japanese · Background Indian
+  LECTIC — Brain Division · 𒀭 BABEL Foundation · <a href="https://juxaos.com">JuXAOS</a> · A JuX Production · Think Chinese · Work Japanese · Background Indian
 </footer>
 </div>
 
@@ -150,25 +279,36 @@ footer a{color:#00e5ff;text-decoration:none}
 </div>
 
 <script>
+// ═══ TASK POOLS — now with Babylonian roots ═══
 const THINK_TASKS=[
   'Analyze pattern','Plan strategy','Deduce truth','Solve paradox','Map system',
   'Read the Tao','Study Sun Tzu','Balance yin/yang','See the whole','Find the flow',
   'Calculate risk','Predict outcome','Trace causality','Question assumption','Synthesize data',
-  'Reason backward','Abstract the rule','Compare models','Weigh options','Name the truth'
+  'Reason backward','Abstract the rule','Compare models','Weigh options','Name the truth',
+  // BABEL — Trigonometry
+  'Compute the diagonal','Factor the square','Prove a² − b²','Bisect the angle','Map base-60',
+  'Derive the hypotenuse','Solve Plimpton 322','Calculate the arc','Divide the circle','Find the tangent'
 ];
 const WORK_TASKS=[
   'Cut precisely','Build the joint','Test the edge','Forge the blade','Polish surface',
   'Execute the plan','Ship the code','Wire the circuit','Measure twice','Align the parts',
   'Debug the process','Optimize the path','Deliver on time','Follow protocol','Zero waste',
-  'Craft the detail','Discipline the hand','Repeat until perfect','Kaizen the flow','File the edge'
+  'Craft the detail','Discipline the hand','Repeat until perfect','Kaizen the flow','File the edge',
+  // BABEL — Justice
+  'Seal the judgment','Write the verdict','Weigh the evidence','Apply §196','Execute the code',
+  'File the witness','Inscribe the stele','Enforce the dike law','Balance the scales','Record the receipt'
 ];
 const BG_TASKS=[
   'Breathe deeply','Feel the current','Remember the origin','Let it pass','Ground yourself',
   'Meditate on dharma','Release the heat','Listen to silence','Accept the chaos','Wash the residue',
   'Sense the substrate','Process the grief','Digest the day','Dream the solution','Hold the space',
-  'Forgive the error','Integrate the shadow','Observe without judgment','Return to center','Trust the background'
+  'Forgive the error','Integrate the shadow','Observe without judgment','Return to center','Trust the background',
+  // BABEL — Astronomy
+  'Read the stars','Track the zodiac','Observe the eclipse','Chart the moon','Feel the orbit',
+  'Align with Sirius','Sense the solstice','Dream the constellation','Absorb the cosmos','Trust the cycle'
 ];
 
+// ═══ GAME STATE ═══
 let state={running:false,score:0,level:1,washed:0,heat:{think:0,work:0,bg:0},
   tasks:{think:[],work:[],bg:[]},incoming:[],time:0,spawnRate:3000,processRate:4000,
   timers:{spawn:null,process:null,heat:null,clock:null},taskId:0};
@@ -223,10 +363,6 @@ function renderIncoming(){
 
 function showTaskOptions(task){
   if(!state.running)return;
-  const zones=['think','work','bg'];
-  const names={think:'🐉 THINK',work:'🗼 WORK',bg:'☸️ BACKGROUND'};
-  let choice=null;
-  // Mobile-friendly: cycle through by clicking
   const zoneEls=document.querySelectorAll('.zone');
   zoneEls.forEach(z=>{
     z.style.cursor='pointer';
@@ -371,7 +507,7 @@ function endGame(clean){
   document.getElementById('goTitle').textContent=clean?'BRAIN CLEAN':'🔥 MELTDOWN';
   document.getElementById('goScore').textContent=state.score;
   document.getElementById('goMsg').textContent=clean?
-    'You got out with a clean brain. The wall opens.':
+    'You got out with a clean brain. The wall opens. Babel stands.':
     'All zones overheated. The brain burned. You accumulated too much.';
   document.getElementById('goStats').textContent=
     'Level '+state.level+' · '+state.washed+' washes · '+formatTime(state.time);
@@ -405,6 +541,236 @@ function updateTimer(){
 function formatTime(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 
 function msg(t){document.getElementById('msg').textContent=t}
+
+// ═══════════ BABEL PILLAR INTERACTIONS ═══════════
+
+let activePillar=null;
+
+function togglePillar(name){
+  const panels=['justice','astronomy','trigonometry'];
+  panels.forEach(p=>{
+    const el=document.getElementById(p+'-panel');
+    const pill=document.querySelector('.pillar.'+p);
+    if(p===name && activePillar!==name){
+      el.classList.add('visible');
+      pill.classList.add('active');
+    } else {
+      el.classList.remove('visible');
+      pill.classList.remove('active');
+    }
+  });
+  activePillar=activePillar===name?null:name;
+  if(name==='trigonometry'&&activePillar==='trigonometry') drawDiamond();
+  if(name==='astronomy'&&activePillar==='astronomy') drawAstronomy();
+}
+
+// ═══ TRIGONOMETRY DIAMOND ═══
+function drawDiamond(){
+  const c=document.getElementById('diamondCanvas');
+  const ctx=c.getContext('2d');
+  const W=c.width, H=c.height;
+  ctx.clearRect(0,0,W,H);
+
+  // Diamond coordinates
+  const cx=W/2, cy=H/2-10;
+  const dx=150, dy=160; // diamond half-widths
+  const top={x:cx,y:cy-dy};
+  const right={x:cx+dx,y:cy};
+  const bottom={x:cx,y:cy+dy};
+  const left={x:cx-dx,y:cy};
+
+  // Draw outer diamond
+  ctx.strokeStyle='rgba(0,229,255,0.5)';
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(top.x,top.y);
+  ctx.lineTo(right.x,right.y);
+  ctx.lineTo(bottom.x,bottom.y);
+  ctx.lineTo(left.x,left.y);
+  ctx.closePath();
+  ctx.stroke();
+
+  // Fill with subtle gradient
+  const grd=ctx.createRadialGradient(cx,cy,10,cx,cy,160);
+  grd.addColorStop(0,'rgba(0,229,255,0.06)');
+  grd.addColorStop(1,'rgba(0,229,255,0)');
+  ctx.fillStyle=grd;
+  ctx.fill();
+
+  // Inner inverted triangle
+  const triTop={x:cx,y:cy-60};
+  const triLeft={x:cx-80,y:cy+50};
+  const triRight={x:cx+80,y:cy+50};
+  ctx.strokeStyle='rgba(212,160,23,0.6)';
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(triTop.x,triTop.y);
+  ctx.lineTo(triRight.x,triRight.y);
+  ctx.lineTo(triLeft.x,triLeft.y);
+  ctx.closePath();
+  ctx.stroke();
+  const grd2=ctx.createRadialGradient(cx,cy,5,cx,cy,80);
+  grd2.addColorStop(0,'rgba(212,160,23,0.08)');
+  grd2.addColorStop(1,'rgba(212,160,23,0)');
+  ctx.fillStyle=grd2;
+  ctx.fill();
+
+  // Path lines from 49 down
+  ctx.strokeStyle='rgba(0,229,255,0.25)';
+  ctx.lineWidth=1;
+  ctx.setLineDash([4,4]);
+  // Left path: 49 → 10x
+  ctx.beginPath();ctx.moveTo(cx-20,top.y+30);ctx.lineTo(cx-70,cy-20);ctx.stroke();
+  // Right path: 49 → x10
+  ctx.beginPath();ctx.moveTo(cx+20,top.y+30);ctx.lineTo(cx+70,cy-20);ctx.stroke();
+  // Center down: ×v → 40
+  ctx.beginPath();ctx.moveTo(cx,cy+50);ctx.lineTo(cx,bottom.y-20);ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Labels
+  ctx.font='bold 22px Share Tech Mono, monospace';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+
+  // 49 — top
+  ctx.fillStyle='#00e5ff';
+  ctx.fillText('49',cx,top.y+18);
+
+  // 10× — left
+  ctx.font='16px Share Tech Mono, monospace';
+  ctx.fillStyle='#6495ed';
+  ctx.fillText('10 ×',cx-85,cy-25);
+
+  // ×10 — right
+  ctx.fillText('× 10',cx+85,cy-25);
+
+  // 100 — center top
+  ctx.font='bold 20px Share Tech Mono, monospace';
+  ctx.fillStyle='#d4a017';
+  ctx.fillText('100',cx,cy-30);
+
+  // −9− center
+  ctx.font='bold 18px Share Tech Mono, monospace';
+  ctx.fillStyle='#ff4444';
+  ctx.fillText('− 9 −',cx,cy+5);
+
+  // ×v center bottom
+  ctx.font='14px Share Tech Mono, monospace';
+  ctx.fillStyle='#888';
+  ctx.fillText('× v',cx,cy+35);
+
+  // 3+7 left wing
+  ctx.font='14px Share Tech Mono, monospace';
+  ctx.fillStyle='#00ff88';
+  ctx.fillText('3 + 7',left.x+55,cy+15);
+
+  // 7+3 right wing
+  ctx.fillText('7 + 3',right.x-55,cy+15);
+
+  // 60 bottom-up
+  ctx.font='bold 18px Share Tech Mono, monospace';
+  ctx.fillStyle='#ff9900';
+  ctx.fillText('60',cx-30,bottom.y-30);
+
+  // 40 bottom
+  ctx.font='bold 22px Share Tech Mono, monospace';
+  ctx.fillStyle='#00ff88';
+  ctx.fillText('40',cx+30,bottom.y-10);
+
+  // Show proof after delay
+  setTimeout(()=>{
+    document.getElementById('diamondProof').classList.add('show');
+  },800);
+}
+
+// ═══ ASTRONOMY — Babylonian Star Map ═══
+function drawAstronomy(){
+  const c=document.getElementById('astroCanvas');
+  const ctx=c.getContext('2d');
+  const W=c.width, H=c.height;
+  ctx.clearRect(0,0,W,H);
+
+  // Dark sky background
+  const skyGrd=ctx.createRadialGradient(W/2,H/2,20,W/2,H/2,200);
+  skyGrd.addColorStop(0,'rgba(10,15,40,1)');
+  skyGrd.addColorStop(1,'rgba(5,5,15,1)');
+  ctx.fillStyle=skyGrd;
+  ctx.fillRect(0,0,W,H);
+
+  // Scatter stars
+  const rng=n=>Math.floor(Math.random()*n);
+  for(let i=0;i<120;i++){
+    const x=rng(W),y=rng(H),r=Math.random()*1.5+.3;
+    const brightness=Math.random()*.6+.4;
+    ctx.fillStyle=`rgba(255,255,255,${brightness})`;
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+  }
+
+  // Zodiac circle
+  ctx.strokeStyle='rgba(100,149,237,0.3)';
+  ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(W/2,H/2,140,0,Math.PI*2);ctx.stroke();
+  ctx.beginPath();ctx.arc(W/2,H/2,100,0,Math.PI*2);ctx.stroke();
+
+  // 12 Babylonian zodiac signs (MUL.APIN)
+  const signs=['𒀯','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒'];
+  const names=['MUL','HUN','GU4','MAŠ','AL','UR','AB','ZI','GÍR','PA','SUHUR','GU'];
+  ctx.font='18px serif';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  for(let i=0;i<12;i++){
+    const angle=(i/12)*Math.PI*2-Math.PI/2;
+    const x=W/2+Math.cos(angle)*140;
+    const y=H/2+Math.sin(angle)*140;
+    ctx.fillStyle='rgba(100,149,237,0.8)';
+    ctx.fillText(signs[i],x,y);
+    // name inside
+    const nx=W/2+Math.cos(angle)*110;
+    const ny=H/2+Math.sin(angle)*110;
+    ctx.font='8px Share Tech Mono, monospace';
+    ctx.fillStyle='rgba(100,149,237,0.5)';
+    ctx.fillText(names[i],nx,ny);
+    ctx.font='18px serif';
+  }
+
+  // Division lines (base-60)
+  ctx.strokeStyle='rgba(100,149,237,0.1)';
+  for(let i=0;i<60;i++){
+    const angle=(i/60)*Math.PI*2;
+    ctx.beginPath();
+    ctx.moveTo(W/2+Math.cos(angle)*95,H/2+Math.sin(angle)*95);
+    ctx.lineTo(W/2+Math.cos(angle)*105,H/2+Math.sin(angle)*105);
+    ctx.stroke();
+  }
+
+  // Center — Babylon
+  ctx.font='bold 12px Share Tech Mono, monospace';
+  ctx.fillStyle='#d4a017';
+  ctx.fillText('BABYLON',W/2,H/2-8);
+  ctx.font='9px Share Tech Mono, monospace';
+  ctx.fillStyle='rgba(212,160,23,0.6)';
+  ctx.fillText('BASE-60 · 360° · 12 SIGNS',W/2,H/2+8);
+
+  // Moon phases along top
+  const moons=['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'];
+  ctx.font='14px serif';
+  for(let i=0;i<8;i++){
+    ctx.fillText(moons[i],W/2-70+i*20,25);
+  }
+  ctx.font='8px Share Tech Mono, monospace';
+  ctx.fillStyle='rgba(100,149,237,0.5)';
+  ctx.fillText('LUNAR CALENDAR — 29.5 DAYS',W/2,42);
+
+  // Planets known to Babylon
+  ctx.font='10px Share Tech Mono, monospace';
+  ctx.fillStyle='rgba(212,160,23,0.7)';
+  const planets=['☿ ŠIHTU','♀ DILBAT','♂ ṢALBATĀNU','♃ NEBERU','♄ KAJAMĀNU'];
+  for(let i=0;i<5;i++){
+    ctx.fillText(planets[i],W/2,H-55+i*12);
+  }
+}
+
+// Draw astronomy on first load if visible
 </script>
 </body>
 </html>
