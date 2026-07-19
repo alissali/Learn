@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP — 49 Civilizations | JuX</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#f5f5f5;font-family:Georgia,'Times New Roman',serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-x:hidden}
+.screen{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:640px;padding:2rem;text-align:center;animation:fadeIn .6s ease}
+.screen.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes shakeNo{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-12px)}40%,80%{transform:translateX(12px)}}
+@keyframes prizeReveal{from{opacity:0;transform:scale(.3) rotateY(90deg)}to{opacity:1;transform:scale(1) rotateY(0deg)}}
+@keyframes hintReveal{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(230,126,34,.3)}50%{box-shadow:0 0 40px rgba(230,126,34,.6)}}
+h1{font-size:2.5rem;color:#e67e22;margin-bottom:.5rem;letter-spacing:2px}
+h2{font-size:1.8rem;color:#e67e22;margin-bottom:.3rem}
+.subtitle{color:#888;font-size:1rem;margin-bottom:2rem;font-style:italic}
+.step-counter{font-size:.9rem;color:#555;margin-bottom:1rem;letter-spacing:4px;text-transform:uppercase}
+.icon{font-size:5rem;margin-bottom:1rem;filter:drop-shadow(0 0 20px rgba(230,126,34,.3))}
+.civ-name{font-size:1.4rem;color:#e67e22;margin-bottom:1.5rem;letter-spacing:2px}
+.question{font-size:1.3rem;line-height:1.6;margin-bottom:2rem;padding:0 1rem;min-height:3.2em}
+.q-label{font-size:.75rem;color:#555;letter-spacing:3px;margin-bottom:.5rem;text-transform:uppercase}
+.btn-row{display:flex;gap:1.5rem;margin-bottom:1.5rem}
+.btn{padding:1rem 3rem;font-size:1.3rem;font-family:Georgia,serif;border:2px solid #e67e22;background:transparent;color:#e67e22;cursor:pointer;transition:all .3s;letter-spacing:2px}
+.btn:hover{background:#e67e22;color:#0a0a0a}
+.btn.no{border-color:#c0392b;color:#c0392b}
+.btn.no:hover{background:#c0392b;color:#fff}
+.btn.next{border-color:#555;color:#888;padding:.8rem 2.5rem;font-size:1rem}
+.btn.next:hover{border-color:#e67e22;color:#e67e22}
+.btn.start{padding:1.2rem 4rem;font-size:1.5rem;animation:pulse 2s infinite}
+.result-box{background:#111;border:1px solid #222;padding:1.5rem;margin-bottom:1rem;width:100%;text-align:left;line-height:1.8}
+.result-box .verdict{font-size:1.4rem;margin-bottom:.5rem}
+.result-box .fact{color:#aaa;font-size:.95rem}
+.result-box .quote{color:#e67e22;font-style:italic;font-size:.95rem;margin-top:.5rem;display:block}
+.hint-box{background:#1a1200;border:1px solid #e67e22;padding:1.2rem;margin-bottom:1.2rem;width:100%;text-align:center;animation:hintReveal .5s ease;line-height:1.6}
+.hint-label{color:#e67e22;font-size:.8rem;letter-spacing:3px;margin-bottom:.5rem;text-transform:uppercase}
+.hint-text{color:#daa520;font-size:1.1rem;font-style:italic}
+.prize-container{width:100%;margin-bottom:1rem;text-align:center}
+.prize-img{max-width:320px;width:100%;border:2px solid #e67e22;animation:prizeReveal .8s ease;display:block;margin:0 auto}
+.prize-label{color:#e67e22;font-size:.85rem;margin-top:.5rem;letter-spacing:2px}
+.prize-locked{color:#333;font-size:.85rem;margin-top:.5rem;letter-spacing:2px}
+.score-bar{width:100%;height:6px;background:#222;margin-bottom:.5rem;position:relative}
+.score-fill{height:100%;background:#e67e22;transition:width .5s ease}
+.score-text{color:#555;font-size:.85rem;margin-bottom:.5rem}
+.prizes-text{color:#e67e22;font-size:.85rem;margin-bottom:1rem}
+.final-icon{font-size:6rem;margin-bottom:1rem}
+.final-score{font-size:3rem;color:#e67e22;margin-bottom:.5rem}
+.final-tier{font-size:1.5rem;color:#f5f5f5;margin-bottom:.5rem}
+.final-quote{color:#888;font-style:italic;font-size:1.1rem;margin-bottom:1.5rem;line-height:1.6;padding:0 1rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;width:100%;margin-bottom:1.5rem}
+.gallery img{width:100%;aspect-ratio:1;object-fit:cover;border:1px solid #222;opacity:1;transition:transform .2s}
+.gallery img:hover{transform:scale(1.1);z-index:2}
+.gallery .locked{width:100%;aspect-ratio:1;background:#111;border:1px solid #1a1a1a;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#222}
+.tier-list{text-align:left;color:#555;font-size:.85rem;line-height:2;margin-bottom:1.5rem}
+.tier-list .current{color:#e67e22}
+.orange-note{color:#e67e22;font-size:.8rem;margin-top:1rem}
+.correct-flash{animation:pulse .4s ease}
+.wrong-flash{animation:shakeNo .4s ease}
+.second-chance{color:#daa520;font-size:.9rem;margin-bottom:.5rem;letter-spacing:1px}
+footer{color:#333;font-size:.7rem;margin-top:2rem}
+footer a{color:#555;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="screen active" id="intro">
+<h1>STEP</h1>
+<p class="subtitle">49 Civilizations. 49 Questions. 49 Prizes.</p>
+<div style="font-size:2.5rem;margin:1rem 0;line-height:1.6">🌌🏛️🕌☀️☸️🐉🏛️🦅❄️🛡️⚡👑🗽✈️🗼🔥🚀🪱🏰🍽️🫖🎸🌿🌙⛏️☀️🏴‍☠️🚀🏜️🏛️🏟️🌿🏘️🕌🌙🥪🛸🏭📗🏺⛵🏰🏹⚔️⚓🐉🗡️🌊🔮</div>
+<p style="color:#888;margin-bottom:2rem;line-height:1.8">From the first song painted on rock<br>to the last ship burning orange in orbit.<br><br>Each step: a question. Yes or No.<br>Wrong? A hint — and a second chance.<br>The desert teaches twice.</p>
+<button class="btn start" onclick="startGame()">STEP IN</button>
+<p class="orange-note">The Orange is free. The prizes are earned.</p>
+</div>
+
+<div class="screen" id="question">
+<div class="score-bar"><div class="score-fill" id="scoreFill"></div></div>
+<div class="score-text"><span id="scoreText">0 / 28</span></div>
+<div class="prizes-text">🏆 <span id="prizesText">0</span> prizes unlocked</div>
+<div class="step-counter" id="stepCounter">STEP 1 OF 28</div>
+<div class="icon" id="civIcon">🌌</div>
+<div class="civ-name" id="civName">ABORIGINAL</div>
+<div class="q-label" id="qLabel">QUESTION 1</div>
+<div class="question" id="questionText">Question here?</div>
+<div class="btn-row" id="btnRow">
+<button class="btn" onclick="answer(true)">YES</button>
+<button class="btn no" onclick="answer(false)">NO</button>
+</div>
+<div class="hint-box" id="hintBox" style="display:none">
+<div class="hint-label">💡 HINT</div>
+<div class="hint-text" id="hintText"></div>
+</div>
+<div class="result-box" id="resultBox" style="display:none">
+<div class="verdict" id="verdict"></div>
+<div class="fact" id="factText"></div>
+<span class="quote" id="quoteText"></span>
+</div>
+<div class="prize-container" id="prizeContainer" style="display:none"></div>
+<button class="btn next" id="nextBtn" style="display:none" onclick="nextStep()">NEXT STEP →</button>
+</div>
+
+<div class="screen" id="final">
+<div class="final-icon" id="finalIcon">🦅</div>
+<div class="final-score" id="finalScore">28 / 28</div>
+<div class="final-tier" id="finalTier">WONDER BOY</div>
+<div class="final-quote" id="finalQuote"></div>
+<p style="color:#888;margin-bottom:1rem;font-size:.95rem" id="galleryTitle">Your Collection:</p>
+<div class="gallery" id="gallery"></div>
+<div class="tier-list" id="tierList"></div>
+<button class="btn start" onclick="startGame()">STEP AGAIN</button>
+<footer>STEP — JuX · <a href="https://juxaos.com">juxaos.com</a></footer>
+</div>
+
+<script>
+const BASE='https://raw.githack.com/alissali/Learn/main/step/prizes/';
+const steps=[
+{icon:'🌌',civ:'ABORIGINAL',
+ q1:'Did Aboriginal Dreaming begin over 65,000 years ago?',a1:true,
+ hint:'The oldest continuous civilization. Before Egypt. Before Sumer. Before everything.',
+ q2:'Is Aboriginal Dreaming the oldest continuous cultural tradition on Earth?',a2:true,
+ fact:'65,000 years. The songs are the maps. The land remembers what the people sing.',
+ quote:'"The land remembers what the people sing."',img:'PRIZE-01-ABORIGINAL.webp'},
+{icon:'🏛️',civ:'YABROUD',
+ q1:'Is Yabroud located in Lebanon?',a1:false,
+ hint:'It is in the same country as Damascus. 40 km north of the capital.',
+ q2:'Is Yabroud located in Syria?',a2:true,
+ fact:'Yabroud is in Syria. 40 km north of Damascus. Stone tools older than memory.',
+ quote:'"Before the name, there was the stone."',img:'PRIZE-02-YABROUD.webp'},
+{icon:'🕌',civ:'DAMASCUS',
+ q1:'Is Damascus the oldest continuously inhabited capital city?',a1:true,
+ hint:'Over 11,000 years. Jasmine grows between the stones. The Umayyad Mosque still calls.',
+ q2:'Has Damascus been continuously inhabited for over 10,000 years?',a2:true,
+ fact:'Over 11,000 years. Jasmine and steel. The Umayyad Mosque still stands.',
+ quote:'"The jasmine grows where the sword fell."',img:'PRIZE-03-DAMASCUS.webp'},
+{icon:'☀️',civ:'EGYPT',
+ q1:'Did the Great Pyramid take 200 years to build?',a1:false,
+ hint:'It was faster than you think. One pharaoh, one reign, one impossible dream.',
+ q2:'Was the Great Pyramid built in approximately 20 years?',a2:true,
+ fact:'About 20 years. 2.3 million blocks. 100,000 workers. One dream.',
+ quote:'"The sun does not set on what was built in its name."',img:'PRIZE-04-EGYPT.webp'},
+{icon:'☸️',civ:'INDIA',
+ q1:'Is the Ganges considered sacred in Hinduism?',a1:true,
+ hint:'Mother Ganga. One river. A billion prayers. It carries everything to the sea.',
+ q2:'Does the Ganges flow through more than one country?',a2:true,
+ fact:'India and Bangladesh. Mother Ganga carries a billion prayers to the Bay of Bengal.',
+ quote:'"The river does not judge what it carries."',img:'PRIZE-05-INDIA.webp'},
+{icon:'🐉',civ:'CHINA',
+ q1:'Was the Great Wall built in a single dynasty?',a1:false,
+ hint:'Multiple dynasties. Over 2,000 years. It is not one wall — it is a thousand arguments in stone.',
+ q2:'Were there multiple Great Walls built by different dynasties?',a2:true,
+ fact:'Multiple dynasties over 2,000 years. A thousand arguments in stone.',
+ quote:'"The wall was never finished. That was the point."',img:'PRIZE-06-CHINA.webp'},
+{icon:'🏛️',civ:'GREECE',
+ q1:'Did Athens invent democracy?',a1:true,
+ hint:'508 BC. A man named Cleisthenes. Not perfect — but the word was born.',
+ q2:'Was Athenian democracy established in the 6th century BC?',a2:true,
+ fact:'508 BC. Cleisthenes. Not perfect — women and slaves excluded. But the word was born.',
+ quote:'"They voted to kill Socrates. Democracy works."',img:'PRIZE-07-GREECE.webp'},
+{icon:'🦅',civ:'AZTEC',
+ q1:'Did the Aztecs build Tenochtitlan on a lake?',a1:true,
+ hint:'Lake Texcoco. A city on water. Mexico City sits on its bones today.',
+ q2:'Is Mexico City built on the ruins of Tenochtitlan?',a2:true,
+ fact:'Lake Texcoco. Causeways and canals. Mexico City sits on its bones.',
+ quote:'"The eagle landed on the cactus. The empire followed."',img:'PRIZE-08-AZTEC.webp'},
+{icon:'❄️',civ:'INUIT',
+ q1:'Do the Inuit really have 50 words for snow?',a1:false,
+ hint:'A persistent myth. Every culture names what surrounds it. The Inuit have rich vocabulary — not a magic number.',
+ q2:'Is the "50 words for snow" claim considered a linguistic myth?',a2:true,
+ fact:'A persistent myth. Rich vocabulary, yes. Magic number, no.',
+ quote:'"The ice does not need a name to hold you."',img:'PRIZE-09-INUIT.webp'},
+{icon:'🛡️',civ:'ZULU',
+ q1:'Did Shaka Zulu invent the short stabbing spear?',a1:true,
+ hint:'The iklwa. Named after the sound it makes. Close combat changed everything.',
+ q2:'Is the Zulu short spear called the iklwa?',a2:true,
+ fact:'The iklwa. Changed warfare. Close combat. The sound it makes entering is its name.',
+ quote:'"The warrior does not throw his weapon. He keeps it."',img:'PRIZE-10-ZULU.webp'},
+{icon:'⚡',civ:'VIKING',
+ q1:'Did Vikings wear horned helmets?',a1:false,
+ hint:'19th century opera. Costume designers. The real helmets were practical. The myth is louder.',
+ q2:'Were horned Viking helmets invented by 19th century artists?',a2:true,
+ fact:'Never horned. A 19th century opera invention. The myth is louder than the truth.',
+ quote:'"The saga does not need horns. The axe is enough."',img:'PRIZE-11-VIKING.webp'},
+{icon:'👑',civ:'LONDON',
+ q1:'Is Big Ben the name of the clock tower?',a1:false,
+ hint:'Big Ben is inside the tower. The tower has a different name. Elizabeth would know.',
+ q2:'Is Big Ben actually the name of the bell inside the tower?',a2:true,
+ fact:'Big Ben is the bell. The tower is Elizabeth Tower. Everyone gets this wrong.',
+ quote:'"The bell rings. Nobody remembers the tower\'s name."',img:'PRIZE-12-LONDON.webp'},
+{icon:'🗽',civ:'NEW YORK',
+ q1:'Was Manhattan purchased for $24 worth of goods?',a1:true,
+ hint:'1626. Peter Minuit. 60 guilders. The Lenape had a different concept of land.',
+ q2:'Was Peter Minuit the man who purchased Manhattan?',a2:true,
+ fact:'1626. Peter Minuit. 60 guilders. The most famous real estate deal in history.',
+ quote:'"They bought the island. The island didn\'t know it was sold."',img:'PRIZE-13-NEWYORK.webp'},
+{icon:'✈️',civ:'BRASÍLIA',
+ q1:'Was Brasilia built in the 1950s and inaugurated in 1960?',a1:true,
+ hint:'41 months. From nothing. Oscar Niemeyer designed the future.',
+ q2:'Did Oscar Niemeyer design the main buildings of Brasilia?',a2:true,
+ fact:'Built from nothing in 41 months. Niemeyer designed the future. The future showed up.',
+ quote:'"They built a capital in the middle of nowhere. Now nowhere is the center."',img:'PRIZE-14-BRASILIA.webp'},
+{icon:'🗼',civ:'TOKYO',
+ q1:'Is Tokyo the most populous metropolitan area on Earth?',a1:true,
+ hint:'37+ million. More people than most countries. The trains are always on time.',
+ q2:'Does the Tokyo metropolitan area have more than 30 million people?',a2:true,
+ fact:'37+ million. More people than most countries. The trains are on time. Every single one.',
+ quote:'"37 million people. The silence on the train is deafening."',img:'PRIZE-15-TOKYO.webp'},
+{icon:'🔥',civ:'MORDOR',
+ q1:'Can one simply walk into Mordor?',a1:false,
+ hint:'Boromir said it at the Council. He was right. But two hobbits did it anyway.',
+ q2:'Did two hobbits walk into Mordor despite Boromir\'s warning?',a2:true,
+ fact:'One does not simply walk into Mordor. Boromir was right. Two hobbits did it anyway.',
+ quote:'"One does not simply. Two hobbits simply did."',img:'PRIZE-16-MORDOR.webp'},
+{icon:'🚀',civ:'DEPARTURE',
+ q1:'Is 42 the answer to life, the universe, and everything?',a1:true,
+ hint:'Deep Thought. 7.5 million years of computation. The answer is simple. The question is not.',
+ q2:'Did the computer Deep Thought calculate the answer as 42?',a2:true,
+ fact:'Deep Thought computed for 7.5 million years. The answer is 42. The question is unknown.',
+ quote:'"The answer was always 42. The question was always wrong."',img:'PRIZE-17-DEPARTURE.webp'},
+{icon:'🪱',civ:'ARRAKIS',
+ q1:'Is water the most precious resource on Arrakis?',a1:true,
+ hint:'A man\'s flesh is his own. The water belongs to the tribe. The dead are rendered for moisture.',
+ q2:'Do the Fremen reclaim water from their dead?',a2:true,
+ fact:'Water is life. The spice is power. The dead are rendered for their moisture.',
+ quote:'"The spice must flow. The water must not."',img:'PRIZE-18-ARRAKIS.webp'},
+{icon:'🏰',civ:'THE CASTLE',
+ q1:'Does K. ever reach the Castle in Kafka\'s novel?',a1:false,
+ hint:'The novel was never finished. The bureaucracy is the architecture. The door was always open.',
+ q2:'Was Kafka\'s novel "The Castle" left unfinished?',a2:true,
+ fact:'He never arrives. The novel was never finished. The door was open the whole time.',
+ quote:'"The door was open the whole time. That is the cruelty."',img:'PRIZE-19-CASTLE.webp'},
+{icon:'🍽️',civ:'MILLIWAYS',
+ q1:'Does the Restaurant at the End of the Universe serve a dish that wants to be eaten?',a1:true,
+ hint:'The Dish of the Day introduces itself. It recommends its own cuts. Arthur orders salad.',
+ q2:'Does Arthur Dent order a green salad at Milliways?',a2:true,
+ fact:'The Dish of the Day recommends its own cuts. Arthur is horrified. Zaphod orders the steak.',
+ quote:'"I\'ll just have a green salad, said Arthur."',img:'PRIZE-20-MILLIWAYS.webp'},
+{icon:'🫖',civ:'ARTHUR DENT',
+ q1:'Does Arthur Dent always know where his towel is?',a1:true,
+ hint:'A towel is the most massively useful thing an interstellar hitchhiker can have.',
+ q2:'Is a towel considered the most important item for a hitchhiker?',a2:true,
+ fact:'A towel is the most massively useful thing. Arthur keeps his. Ford insisted.',
+ quote:'"Don\'t panic. Bring a towel."',img:'PRIZE-21-ARTHUR.webp'},
+{icon:'🎸',civ:'ROCK PARTY',
+ q1:'Is rock and roll dead?',a1:false,
+ hint:'Rock and roll was never alive in the biological sense. It is a frequency.',
+ q2:'Is rock and roll a frequency at 6.66 MHz?',a2:true,
+ fact:'Rock and roll cannot die. It was never alive. It is a frequency. 6.66 MHz.',
+ quote:'"If you have to ask, you weren\'t invited."',img:'PRIZE-22-ROCKPARTY.webp'},
+{icon:'🌿',civ:'THE SHIRE',
+ q1:'Do Hobbits eat second breakfast?',a1:true,
+ hint:'Seven meals a day. The Shire is perfect. Pippin would never skip one.',
+ q2:'Do Hobbits eat seven meals a day?',a2:true,
+ fact:'Breakfast. Second breakfast. Elevenses. Luncheon. Afternoon tea. Dinner. Supper. Seven.',
+ quote:'"What about second breakfast?"',img:'PRIZE-23-SHIRE.webp'},
+{icon:'🌙',civ:'ELVEN',
+ q1:'Do Elves die of old age in Tolkien\'s world?',a1:false,
+ hint:'They are immortal. They can die of grief or violence. But not of age. They go West.',
+ q2:'Can Elves die of grief in Tolkien\'s world?',a2:true,
+ fact:'Elves are immortal. They can die of grief or violence, but not of age. They go West.',
+ quote:'"The light does not die. It goes where you cannot follow."',img:'PRIZE-24-ELVEN.webp'},
+{icon:'⛏️',civ:'MORIA',
+ q1:'Did the Dwarves of Moria delve too deep?',a1:true,
+ hint:'They dug for mithril. They found something older than Sauron sleeping in the dark.',
+ q2:'Did the Dwarves awaken a Balrog in Moria?',a2:true,
+ fact:'They dug for mithril. They found Durin\'s Bane. A Balrog of Morgoth.',
+ quote:'"They delved too greedily and too deep."',img:'PRIZE-25-MORIA.webp'},
+{icon:'☀️',civ:'SOUTHRONS',
+ q1:'Did Sam Gamgee wonder about the dead Southron soldier\'s home?',a1:true,
+ hint:'The most human moment in the war. A young face. Peaceful. Far from home.',
+ q2:'Was the Southron soldier described as young and peaceful in death?',a2:true,
+ fact:'Sam looked at the young face. Wondered where he came from. The most human moment in the war.',
+ quote:'"He was young. And peaceful. And far from home."',img:'PRIZE-26-SOUTHRONS.webp'},
+{icon:'🏴‍☠️',civ:"SILVER'S INTERIOR",
+ q1:"Was Long John Silver the ship's captain?",a1:false,
+ hint:'He was below deck. In the galley. With a parrot. The captain just had a hat.',
+ q2:'Was Long John Silver the ship\'s cook?',a2:true,
+ fact:'He was the cook. THE COOK. Silver ran the ship from the galley.',
+ quote:'"The cook was the real captain."',img:'PRIZE-27-SILVER.webp'},
+{icon:'🚀',civ:"SILVER'S SHIP",
+ q1:"Does the Hispaniola's engine core burn orange in orbit?",a1:true,
+ hint:'Silver changed the fuel mix on Day 3. Nobody asked why. The parrot knows.',
+ q2:'Did Silver change the fuel mix on Day 3?',a2:true,
+ fact:'Melange-Deuterium fuel. The core burns orange. Nobody asked. The parrot knows.',
+ quote:'"Core burns orange. Nobody asked why."',img:'PRIZE-28-SILVERSHIP.webp'},
+{icon:'🏜️',civ:'FREMEN',
+ q1:'Do the Fremen use stillsuits to survive the desert?',a1:true,
+ hint:'Every drop of moisture is sacred. The suit recycles everything. The desert teaches discipline.',
+ q2:'Does a stillsuit recycle the body\'s moisture for drinking?',a2:true,
+ fact:'The stillsuit recycles all moisture. Sweat, breath, urine. The desert wastes nothing.',
+ quote:'"The desert teaches discipline. The stillsuit proves it."',img:'PRIZE-29-FREMEN.webp'},
+{icon:'🏛️',civ:'PALMYRA',
+ q1:'Was Palmyra located on the Silk Road?',a1:true,
+ hint:'A city in the Syrian desert. Halfway between Rome and Persia. Queen Zenobia defied an empire.',
+ q2:'Did Queen Zenobia rule Palmyra and challenge Rome?',a2:true,
+ fact:'Palmyra. Silk Road jewel. Zenobia defied Rome from the desert. The columns still stand.',
+ quote:'"The queen stood where the empires met."',img:'PRIZE-30-PALMYRA.webp'},
+{icon:'🏟️',civ:'ANTAKIA',
+ q1:'Was Antioch one of the four great cities of the Roman Empire?',a1:true,
+ hint:'Rome, Alexandria, Constantinople, and one more. On the Orontes river. The Christians were first named here.',
+ q2:'Were followers of Jesus first called Christians in Antioch?',a2:true,
+ fact:'Antioch on the Orontes. Fourth great city of Rome. Christians were first named here.',
+ quote:'"The name was born where the river meets the mountain."',img:'PRIZE-31-ANTAKIA.webp'},
+{icon:'🌿',civ:'DAPHNE',
+ q1:'Is Daphne a suburb of ancient Antioch known for its gardens?',a1:true,
+ hint:'A grove sacred to Apollo. Springs and cypress trees. The pleasure gardens of the ancient world.',
+ q2:'Was Daphne sacred to Apollo in Greek mythology?',a2:true,
+ fact:'Daphne. Sacred grove of Apollo near Antioch. Springs, cypress, and ancient pleasure.',
+ quote:'"The garden remembers what the city forgot."',img:'PRIZE-32-DAPHNE.webp'},
+{icon:'🏘️',civ:'JOULLAQ',
+ q1:'Is Joullaq a neighborhood in Damascus?',a1:true,
+ hint:'Inside the old city walls. Where the jasmine grows thickest. Where the stories begin.',
+ q2:'Is Joullaq located inside the Old City of Damascus?',a2:true,
+ fact:'Joullaq. Inside the walls of Damascus. The jasmine grows thick. The stories never stop.',
+ quote:'"The street is narrow. The memory is wide."',img:'PRIZE-33-JOULLAQ.webp'},
+{icon:'🕌',civ:'OMAYYAD',
+ q1:'Is the Umayyad Mosque in Damascus one of the oldest mosques in the world?',a1:true,
+ hint:'Built on a temple of Jupiter. Before that, an Aramean temple. Layer upon layer.',
+ q2:'Was the Umayyad Mosque built on the site of a Roman temple of Jupiter?',a2:true,
+ fact:'Aramean temple. Roman Jupiter. Christian church. Umayyad Mosque. Layer upon layer upon layer.',
+ quote:'"Every god prayed here. The stone remembers them all."',img:'PRIZE-34-OMAYYAD.webp'},
+{icon:'🌙',civ:'PARTY',
+ q1:'Is the party over?',a1:false,
+ hint:'The party is never over. It changes venue. It changes music. But it never stops.',
+ q2:'Does the party continue in a different form?',a2:true,
+ fact:'The party is never over. It moves. It transforms. The music changes. The dance does not.',
+ quote:'"The party moved. You stayed. That is why you think it ended."',img:'PRIZE-35-PARTY.webp'},
+{icon:'🥪',civ:'LAMUELLA',
+ q1:'Is Lamuella the planet where Arthur Dent became a sandwich maker?',a1:true,
+ hint:'After everything — the Vogons, the mice, the dolphins — Arthur made sandwiches. And was happy.',
+ q2:'Was Arthur Dent happy making sandwiches on Lamuella?',a2:true,
+ fact:'Lamuella. Arthur became the Sandwich Maker. The most important person in the village.',
+ quote:'"After the universe, he made sandwiches. And was finally happy."',img:'PRIZE-36-LAMUELLA.webp'},
+{icon:'🛸',civ:'PORT NOWHERE',
+ q1:'Is Port Nowhere a space station?',a1:true,
+ hint:'Between the stars. Where ships refuel and stories begin. Every port is nowhere until you arrive.',
+ q2:'Is every port nowhere until someone arrives?',a2:true,
+ fact:'Port Nowhere. Between the stars. Where ships dock and stories begin. Nowhere is somewhere.',
+ quote:'"Every port is nowhere. Until the ship arrives."',img:'PRIZE-37-PORTNOWHERE.webp'},
+{icon:'🏭',civ:'SAURON\'S FACTORY',
+ q1:'Did Sauron create the One Ring in the fires of Mount Doom?',a1:true,
+ hint:'One Ring to rule them all. Forged in Orodruin. The factory that built the weapon that built the war.',
+ q2:'Is Mount Doom also called Orodruin?',a2:true,
+ fact:'Orodruin. Mount Doom. The factory that forged the One Ring. The fire that would end it.',
+ quote:'"The fire that made it was the only fire that could unmake it."',img:'PRIZE-38-FACTORY.webp'},
+{icon:'📗',civ:'HITCHHIKER\'S GUIDE',
+ q1:'Does the cover of the Hitchhiker\\'s Guide say DON\\'T PANIC?',a1:true,
+ hint:'Large, friendly letters. The most important advice in the galaxy.',
+ q2:'Are the words DON\\'T PANIC written in large, friendly letters?',a2:true,
+ fact:'DON\\'T PANIC. Large, friendly letters. The most reassuring thing in the universe.',
+ quote:'"Don\\'t Panic. It won\\'t help, but at least you\\'ll feel better."',img:'PRIZE-39-HITCHHIKER.webp'},
+{icon:'🏺',civ:'ALI BABA\'S CAVERN',
+ q1:'Does the phrase Open Sesame unlock Ali Baba\\'s cave?',a1:true,
+ hint:'A woodcutter. Forty thieves. A cave full of gold. One word opens everything.',
+ q2:'Were there forty thieves in the story of Ali Baba?',a2:true,
+ fact:'Open Sesame. Forty thieves. One cave. All the gold in the world behind one word.',
+ quote:'"The word is the key. The cave is the architecture."',img:'PRIZE-40-ALIBABA.webp'},
+{icon:'⛵',civ:'SINDBAD\'S STORE',
+ q1:'Did Sindbad the Sailor make seven voyages?',a1:true,
+ hint:'Seven voyages. Each one worse than the last. Each one richer than the one before.',
+ q2:'Did Sindbad return wealthier after each voyage?',a2:true,
+ fact:'Seven voyages. Each disaster brought fortune. Each fortune brought another voyage.',
+ quote:'"The sea takes everything. And gives it back double."',img:'PRIZE-41-SINDBAD.webp'},
+{icon:'🏰',civ:'OMAYYAD CASTLE',
+ q1:'Were Umayyad desert castles used as retreats by the caliphs?',a1:true,
+ hint:'Not military forts. Pleasure palaces. Hunting lodges. Bath houses in the desert.',
+ q2:'Did Umayyad desert castles feature elaborate bath houses?',a2:true,
+ fact:'Desert castles. Not for war. For pleasure. For hunting. For bathing. The caliphs knew how to rest.',
+ quote:'"The castle in the desert is not for defense. It is for dreaming."',img:'PRIZE-42-OMAYYADCASTLE.webp'},
+{icon:'🏹',civ:'ARCHERS DIVISION',
+ q1:'Did archers change the outcome of the Battle of Agincourt?',a1:true,
+ hint:'English longbowmen against French knights. Mud, rain, and arrows. 1415.',
+ q2:'Was the Battle of Agincourt fought in 1415?',a2:true,
+ fact:'Agincourt. 1415. English longbowmen destroyed French cavalry. The arrow changed warfare.',
+ quote:'"The arrow does not care about your armor."',img:'PRIZE-43-ARCHERS.webp'},
+{icon:'⚔️',civ:'ARSENAL',
+ q1:'Was the Venice Arsenal the largest industrial complex in pre-modern Europe?',a1:true,
+ hint:'Assembly line before Ford. One ship per day. The word arsenal comes from here.',
+ q2:'Did the Venice Arsenal produce one ship per day at its peak?',a2:true,
+ fact:'Venice Arsenal. One ship per day. Assembly line 400 years before Ford. The word itself was born here.',
+ quote:'"The factory that named all factories."',img:'PRIZE-44-ARSENAL.webp'},
+{icon:'⚓',civ:'NAVY',
+ q1:'Did Admiral Zheng He command the largest fleet in pre-modern history?',a1:true,
+ hint:'Chinese treasure fleet. 300 ships. 28,000 men. 1405. Columbus had three ships.',
+ q2:'Did Zheng He\\'s voyages begin in 1405, nearly a century before Columbus?',a2:true,
+ fact:'Zheng He. 300 ships. 28,000 men. 1405. Columbus sailed with 3 ships in 1492.',
+ quote:'"300 ships sailed 87 years before 3 ships changed the world."',img:'PRIZE-45-NAVY.webp'},
+{icon:'🗼',civ:'BARAD-DUR',
+ q1:'Is Barad-dur the tallest structure in Middle-earth?',a1:true,
+ hint:'The Dark Tower. Built with the power of the One Ring. It fell when the Ring was destroyed.',
+ q2:'Did Barad-dur collapse when the One Ring was destroyed?',a2:true,
+ fact:'Barad-dur. The Dark Tower. Built by the Ring. Destroyed by the Ring. Architecture follows power.',
+ quote:'"The tower fell because the ring fell. Architecture follows power."',img:'PRIZE-46-BARADDUR.webp'},
+{icon:'🗡️',civ:'DAMASCUS STEEL',
+ q1:'Was Damascus steel famous for its distinctive wavy pattern?',a1:true,
+ hint:'The blades that could cut silk in mid-air. The secret was lost for centuries.',
+ q2:'Was the original technique for making Damascus steel lost?',a2:true,
+ fact:'Damascus steel. Wavy patterns. Cut silk in mid-air. The secret was lost. And found. And lost again.',
+ quote:'"The blade remembers what the smith forgot."',img:'PRIZE-47-DAMASCUSSTEEL.webp'},
+{icon:'🌊',civ:'PHOENICIA',
+ q1:'Did the Phoenicians invent the alphabet?',a1:true,
+ hint:'From the coast of Lebanon. The letters that became Greek, then Latin, then yours.',
+ q2:'Is the Latin alphabet descended from the Phoenician alphabet?',a2:true,
+ fact:'Phoenicia. The alphabet. Every letter you read descends from their coast.',
+ quote:'"They gave the world letters. The world wrote them out of history."',img:'PRIZE-48-PHOENICIA.webp'},
+{icon:'🔮',civ:'SPICE',
+ q1:'Does the spice melange extend life?',a1:true,
+ hint:'The spice must flow. It is the most valuable substance in the universe. Found only on Arrakis.',
+ q2:'Is melange found only on the planet Arrakis?',a2:true,
+ fact:'Melange. Extends life. Expands consciousness. Found only on Arrakis. The spice must flow.',
+ quote:'"He who controls the spice controls the universe."',img:'PRIZE-49-SPICE.webp'}
+];
+
+let current=0,score=0,unlocked=[],phase='q1'; // phase: 'q1','hint','q2','done'
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const el=document.getElementById(id);el.classList.remove('active');void el.offsetWidth;el.classList.add('active')}
+
+function startGame(){current=0;score=0;unlocked=new Array(49).fill(false);phase='q1';renderStep();show('question')}
+
+function renderStep(){
+const s=steps[current];
+document.getElementById('stepCounter').textContent='STEP '+(current+1)+' OF 49';
+document.getElementById('civIcon').textContent=s.icon;
+document.getElementById('civName').textContent=s.civ;
+document.getElementById('qLabel').textContent='QUESTION 1';
+document.getElementById('questionText').textContent=s.q1;
+document.getElementById('btnRow').style.display='flex';
+document.getElementById('resultBox').style.display='none';
+document.getElementById('hintBox').style.display='none';
+document.getElementById('prizeContainer').style.display='none';
+document.getElementById('prizeContainer').innerHTML='';
+document.getElementById('nextBtn').style.display='none';
+document.getElementById('nextBtn').textContent=current<48?'NEXT STEP →':'SEE COLLECTION →';
+updateScoreBar();
+phase='q1';
+}
+
+function updateScoreBar(){
+document.getElementById('scoreFill').style.width=(score/49*100)+'%';
+document.getElementById('scoreText').textContent=score+' / 49';
+document.getElementById('prizesText').textContent=unlocked.filter(Boolean).length;
+}
+
+function answer(yn){
+const s=steps[current];
+
+if(phase==='q1'){
+  const correct=yn===s.a1;
+  const qEl=document.getElementById('questionText');
+  qEl.classList.remove('correct-flash','wrong-flash');
+  void qEl.offsetWidth;
+
+  if(correct){
+    // Q1 correct — prize unlocked
+    qEl.classList.add('correct-flash');
+    score++;unlocked[current]=true;
+    document.getElementById('btnRow').style.display='none';
+    showResult(true,s);
+    showPrize(s);
+    document.getElementById('nextBtn').style.display='inline-block';
+    phase='done';
+  } else {
+    // Q1 wrong — show hint + Q2
+    qEl.classList.add('wrong-flash');
+    document.getElementById('btnRow').style.display='none';
+    // Show hint
+    document.getElementById('hintBox').style.display='block';
+    document.getElementById('hintText').textContent=s.hint;
+    // After short delay, show Q2
+    setTimeout(()=>{
+      document.getElementById('qLabel').textContent='SECOND CHANCE';
+      document.getElementById('questionText').textContent=s.q2;
+      document.getElementById('questionText').classList.remove('wrong-flash');
+      document.getElementById('btnRow').style.display='flex';
+      phase='q2';
+    },1500);
+  }
+} else if(phase==='q2'){
+  const correct=yn===s.a2;
+  const qEl=document.getElementById('questionText');
+  qEl.classList.remove('correct-flash','wrong-flash');
+  void qEl.offsetWidth;
+  qEl.classList.add(correct?'correct-flash':'wrong-flash');
+
+  document.getElementById('btnRow').style.display='none';
+
+  if(correct){
+    score++;unlocked[current]=true;
+    showResult(true,s);
+    showPrize(s);
+  } else {
+    showResult(false,s);
+    showLocked(s);
+  }
+  document.getElementById('nextBtn').style.display='inline-block';
+  phase='done';
+}
+updateScoreBar();
+}
+
+function showResult(correct,s){
+const rb=document.getElementById('resultBox');
+rb.style.display='block';
+document.getElementById('verdict').innerHTML=correct
+  ?'✅ <span style="color:#27ae60">ARTIFACT UNLOCKED</span>'
+  :'❌ <span style="color:#c0392b">LOCKED</span> — The answer was <strong>'+(s.a2?'YES':'NO')+'</strong>';
+document.getElementById('factText').textContent=s.fact;
+document.getElementById('quoteText').textContent=s.quote;
+}
+
+function showPrize(s){
+const pc=document.getElementById('prizeContainer');
+pc.style.display='block';
+pc.innerHTML='<img class="prize-img" src="'+BASE+s.img+'" alt="'+s.civ+'"><div class="prize-label">🏆 '+s.civ+' ARTIFACT UNLOCKED</div>';
+}
+
+function showLocked(s){
+const pc=document.getElementById('prizeContainer');
+pc.style.display='block';
+pc.innerHTML='<div style="width:200px;height:200px;background:#111;border:1px solid #1a1a1a;display:flex;align-items:center;justify-content:center;font-size:4rem;color:#222;margin:0 auto">🔒</div><div class="prize-locked">'+s.civ+' artifact remains locked</div>';
+}
+
+function nextStep(){
+current++;
+if(current>=49){showFinal();return}
+renderStep();
+const qScreen=document.getElementById('question');
+qScreen.classList.remove('active');void qScreen.offsetWidth;qScreen.classList.add('active');
+}
+
+function showFinal(){
+const tiers=[
+{min:0,max:12,icon:'🐚',name:'TOURIST',quote:'You passed through. The civilizations barely noticed. Most artifacts remain locked.'},
+{min:13,max:24,icon:'🧭',name:'EXPLORER',quote:'You found the path. Not the treasure. Not yet. Half the collection waits.'},
+{min:25,max:36,icon:'🗺️',name:'NAVIGATOR',quote:'You read the maps. The maps began to read you back. The collection grows.'},
+{min:37,max:42,icon:'🏗️',name:'ARCHITECT',quote:'You see the structure. The structure sees you. The 42nd answer was always the real one.'},
+{min:43,max:48,icon:'🌟',name:'MASTER',quote:'Almost perfect. The universe is nearly yours. One step remains.'},
+{min:49,max:49,icon:'🦅',name:'WONDER BOY',quote:'49 out of 49. Every question answered. Every artifact unlocked. The complete collection. You were always Wonder Boy.'}
+];
+let tier=tiers[0];
+for(const t of tiers){if(score>=t.min&&score<=t.max)tier=t}
+document.getElementById('finalIcon').textContent=tier.icon;
+document.getElementById('finalScore').textContent=score+' / 49';
+document.getElementById('finalTier').textContent=tier.name;
+document.getElementById('finalQuote').textContent=tier.quote;
+
+const g=document.getElementById('gallery');
+g.innerHTML='';
+const uCount=unlocked.filter(Boolean).length;
+document.getElementById('galleryTitle').textContent='Your Collection: '+uCount+' / 49 artifacts';
+for(let i=0;i<49;i++){
+if(unlocked[i]){
+const img=document.createElement('img');
+img.src=BASE+steps[i].img;
+img.alt=steps[i].civ;
+img.title=steps[i].civ;
+g.appendChild(img);
+}else{
+const d=document.createElement('div');
+d.className='locked';
+d.textContent='🔒';
+d.title=steps[i].civ+' — locked';
+g.appendChild(d);
+}}
+
+let tl='';
+for(const t of tiers){
+const isCurrent=score>=t.min&&score<=t.max;
+tl+='<div'+(isCurrent?' class="current"':'')+'>'+(isCurrent?'→ ':'')+t.icon+' '+t.name+' ('+t.min+(t.min!==t.max?'–'+t.max:'')+'/49)</div>';
+}
+document.getElementById('tierList').innerHTML=tl;
+show('final');
+}
+</script>
+</body>
+</html>
