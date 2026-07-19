@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta property="og:title" content="JuX ARCADE — 6 Games · 48 Prizes">
-    <meta property="og:description" content="MONOPOLY · DUNE TAROT · SNAKE · JuXYams · HOLD'EM — Play free, win prizes, fight for territory. Built by Mamoun Alissali.">
+    <meta property="og:title" content="JuX ARCADE — 7 Games · 55 Prizes">
+    <meta property="og:description" content="MONOPOLY · DUNE TAROT · SNAKE · JuXYams · HOLD'EM · LECTIC — Play free, win prizes, fight for territory. Built by Mamoun Alissali.">
     <meta property="og:url" content="https://raw.githack.com/alissali/Learn/main/ARCADE.html">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="JuX ARCADE — 6 Games · 48 Prizes">
-    <meta name="twitter:description" content="MONOPOLY · DUNE TAROT · SNAKE · JuXYams · HOLD'EM — Play free, win prizes, fight for territory. Built by Mamoun Alissali.">
-    <meta name="description" content="MONOPOLY · DUNE TAROT · SNAKE · JuXYams · HOLD'EM — Play free, win prizes, fight for territory. Built by Mamoun Alissali.">
+    <meta name="twitter:title" content="JuX ARCADE — 7 Games · 55 Prizes">
+    <meta name="twitter:description" content="MONOPOLY · DUNE TAROT · SNAKE · JuXYams · HOLD'EM · LECTIC — Play free, win prizes, fight for territory. Built by Mamoun Alissali.">
+    <meta name="description" content="MONOPOLY · DUNE TAROT · SNAKE · JuXYams · HOLD'EM · LECTIC — Play free, win prizes, fight for territory. Built by Mamoun Alissali.">
 <title>🎰 JuX ARCADE — All Games. One Desert.</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
@@ -66,6 +66,7 @@ body{background:#0a0a12;color:#e8d5c0;font-family:'IBM Plex Mono',monospace;min-
 .card-tarot{--glow:rgba(180,40,20,0.06)}.card-tarot::before{background:#b42814}.card-tarot h2{color:#b42814}.card-tarot .play-btn{border-color:rgba(180,40,20,0.4);color:#b42814}.card-tarot .badge{border-color:rgba(180,40,20,0.3);color:#b42814}
 .card-holdem{--glow:rgba(123,79,166,0.06)}.card-holdem::before{background:#7b4fa6}.card-holdem h2{color:#7b4fa6}.card-holdem .play-btn{border-color:rgba(123,79,166,0.4);color:#7b4fa6}.card-holdem .badge{border-color:rgba(123,79,166,0.3);color:#7b4fa6}
 .card-porn{--glow:rgba(180,40,20,0.06)}.card-porn::before{background:#b42814}.card-porn h2{color:#b42814}.card-porn .play-btn{border-color:rgba(180,40,20,0.4);color:#b42814}.card-porn .badge{border-color:rgba(180,40,20,0.3);color:#b42814}
+.card-lectic{--glow:rgba(0,229,255,0.06)}.card-lectic::before{background:#00e5ff}.card-lectic h2{color:#00e5ff}.card-lectic .play-btn{border-color:rgba(0,229,255,0.4);color:#00e5ff}.card-lectic .badge{border-color:rgba(0,229,255,0.3);color:#00e5ff}
 
 /* Literary section */
 .literary{max-width:1100px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;position:relative;z-index:1}
@@ -149,7 +150,7 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
     s.style.animationDelay=(0.3+i*0.12)+'s';
     el.appendChild(s);
   });
-  const logs=['> INITIALIZING JuX ARCADE SYSTEM...','> LOADING 6 GAMES...','> 48 PRIZES DETECTED','> 79 TAROT CARDS IN DECK','> 24 STREETS MAPPED','> AUDIO SYSTEM: READY','> ALL SYSTEMS NOMINAL','> '];
+  const logs=['> INITIALIZING JuX ARCADE SYSTEM...','> LOADING 7 GAMES...','> 48 PRIZES DETECTED','> 79 TAROT CARDS IN DECK','> 24 STREETS MAPPED','> AUDIO SYSTEM: READY','> ALL SYSTEMS NOMINAL','> '];
   const logEl=document.getElementById('bootLog');
   logs.forEach((l,i)=>{
     setTimeout(()=>{logEl.textContent=l},800+i*200);
@@ -176,7 +177,7 @@ function skipBoot(){
   <div class="tagline">All Games. One Desert. No Limits.</div>
   <div class="sig">born 6/6/66 · deployed 12 June 2026</div>
   <div class="stats">
-    <div class="stat"><span class="num">6</span><span class="lbl">Games</span></div>
+    <div class="stat"><span class="num">7</span><span class="lbl">Games</span></div>
     <div class="stat"><span class="num">48</span><span class="lbl">Prizes</span></div>
     <div class="stat"><span class="num">24</span><span class="lbl">Streets</span></div>
     <div class="stat"><span class="num">79</span><span class="lbl">Cards</span></div>
@@ -281,6 +282,17 @@ function skipBoot(){
     <p>Nothing hidden. Nothing ashamed. The PORN GAME. Truth in perpetual operation. بِسْمِ ٱللَّهِ — Do you believe?</p>
     <span class="play-btn">ENTER</span>
     <span class="sub-btn" onclick="event.preventDefault();event.stopPropagation();window.open('https://buy.stripe.com/cNi9AVcqXcoi4D58N81wY0n')">🔄 €1/mo</span>
+  </a>
+
+  <a class="game-card card-lectic" href="https://raw.githack.com/alissali/Learn/main/LECTIC.html">
+    <span class="icon">🧠</span>
+    <h2>LECTIC</h2>
+    <div class="meta">
+      <span class="badge">BRAIN GAME</span>
+      <span class="badge">7 LEVELS</span>
+    </div>
+    <p>Brain Division. Partition your mind into THINK, WORK, and BACKGROUND. Wash the accumulation. Clean brain to win. MELTDOWN is the only way to lose.</p>
+    <span class="play-btn">PLAY NOW</span>
   </a>
 
 </div>
