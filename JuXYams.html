@@ -18,24 +18,24 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap');
 
 :root {
-  --bg:             #f4f6f9;
-  --surface:        #ffffff;
-  --text:           #1a1a2e;
-  --muted:          #667788;
+  --bg:             #0a0a14;
+  --surface:        #12121e;
+  --text:           #e0e0e8;
+  --muted:          #778899;
   --teal:           #2ec4b6;
-  --teal-light:     #e0f7f5;
+  --teal-light:     rgba(46,196,182,0.12);
   --amber:          #e8a045;
-  --amber-light:    #fff3e0;
-  --violet:         #7b4fa6;
-  --border:         #dde2ea;
+  --amber-light:    rgba(232,160,69,0.12);
+  --violet:         #9b6fc6;
+  --border:         #2a2a3a;
   --danger:         #d94f4f;
-  --held-bg:        #d6f4f1;
+  --held-bg:        rgba(46,196,182,0.15);
   --held-border:    #2ec4b6;
-  --sel-bg:         #fff3e0;
+  --sel-bg:         rgba(232,160,69,0.15);
   --sel-border:     #e8a045;
-  --done-bg:        #f0f0f4;
-  --done-text:      #999aab;
-  --bonus-bg:       #f0e8fc;
+  --done-bg:        rgba(20,20,30,0.8);
+  --done-text:      #555566;
+  --bonus-bg:       rgba(123,79,166,0.12);
   --mono:           'IBM Plex Mono', 'Courier New', monospace;
   --sans:           'IBM Plex Sans', 'Segoe UI', sans-serif;
 }
@@ -52,7 +52,7 @@ body {
 /* ── HEADER ── */
 header {
   background: var(--surface);
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
   padding: 14px 28px;
   display: flex;
   align-items: center;
@@ -136,7 +136,7 @@ main {
   transition: all 0.15s ease;
   line-height: 1;
 }
-.die:hover { border-color: var(--teal); background: var(--teal-light); }
+.die:hover { border-color: var(--teal); background: rgba(46,196,182,0.15); }
 .die.held {
   border-color: var(--held-border);
   background: var(--held-bg);
@@ -221,7 +221,7 @@ thead th {
   letter-spacing: 0.1em;
   color: var(--muted);
   padding: 6px 8px;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
   text-align: center;
 }
 thead th:first-child { text-align: left; }
@@ -283,7 +283,7 @@ td.current-player {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(26,26,46,0.7);
+  background: rgba(0,0,0,0.8);
   z-index: 100;
   align-items: center;
   justify-content: center;
@@ -322,7 +322,7 @@ td.current-player {
 .prize-badge .icon{font-size:1.3em;display:block;margin-bottom:2px}
 #toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--amber);color:white;padding:12px 24px;border-radius:8px;font-family:var(--mono);font-size:0.85rem;z-index:200;transition:transform 0.4s ease;box-shadow:0 4px 20px rgba(232,160,69,0.4)}
 #toast.show{transform:translateX(-50%) translateY(0)}
-.stripe-bar{text-align:center;padding:16px 28px;border-top:2px solid var(--border);margin-top:10px;background:var(--surface)}
+.stripe-bar{text-align:center;padding:16px 28px;border-top:1px solid var(--border);margin-top:10px;background:var(--bg)}
 .stripe-bar a{display:inline-block;margin:0 8px;padding:8px 18px;border:1.5px solid var(--amber);border-radius:6px;color:var(--amber);text-decoration:none;font-family:var(--mono);font-size:0.8rem;transition:all 0.2s}
 .stripe-bar a:hover{background:var(--amber);color:white}
 .prize-counter{font-family:var(--mono);font-size:0.8rem;color:var(--muted);text-align:center;margin:4px 0}
@@ -342,7 +342,7 @@ a:focus,button:focus{outline:2px solid #ff6600;outline-offset:2px}
 <link rel="canonical" href="https://raw.githack.com/alissali/Learn/main/JuXYams.html">
 </head>
 <body>
-<a href="#main" class="skip-link" style="position:absolute;top:-40px;left:0;background:#ff6600;color:#0a0a0f;padding:8px;z-index:9999;font-family:monospace;text-decoration:none;transition:top .3s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to content</a>
+<a href="#main" class="skip-link" style="position:absolute;top:-40px;left:0;background:#ff6600;color:#fff;padding:8px;z-index:9999;font-family:monospace;text-decoration:none;transition:top .3s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to content</a>
 
 <header>
   <div>
@@ -820,9 +820,9 @@ yRender();
 <a href="https://buy.stripe.com/fZu14pez5gEy6Ldfbw1wY0b">🏆 MOGUL €22</a>
 <a href="https://buy.stripe.com/fZucN71Mj73YedFd3o1wY0c">🎰 FULL ARCADE €66</a>
 </div>
-<div style="text-align:center;padding:8px;font-family:monospace;font-size:.7em;border-top:1px solid #222;margin-top:10px">
-<a href="https://juxaos.com/privacy.html" style="color:#666;text-decoration:none">Privacy</a> ·
-<a href="https://juxaos.com/terms.html" style="color:#666;text-decoration:none">Terms</a> ·
+<div style="text-align:center;padding:8px;font-family:monospace;font-size:.7em;border-top:1px solid var(--border);margin-top:10px">
+<a href="https://juxaos.com/privacy.html" style="color:var(--muted);text-decoration:none">Privacy</a> ·
+<a href="https://juxaos.com/terms.html" style="color:var(--muted);text-decoration:none">Terms</a> ·
 © JuX ITT</div>
 </body>
 </html>
